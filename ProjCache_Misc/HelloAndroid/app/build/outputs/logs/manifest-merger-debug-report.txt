@@ -1,0 +1,157 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/31916f33573f10588353b5c288191ef8/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/seagle/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/85c81768435410c5b50a84879439b41c/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/6040251784cc948a5ebbd7b046afd89d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/8f082667f21b67f2b76c3504d2108ff5/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/c77b6946a6d643b176b613fcbc9725f0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/012f70e7d1619828ddc1776ce6d38dd3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/3f321f1b80a51807431bbbdd9a282169/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/52a1f83374f279d3c30cd23cb109a142/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/24cf11e672242466b8b347674f31db70/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/2aa257cad163e502d9fef812316ac4c9/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/e1a0444b52a49160ef9564bfd5175700/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/0824da924bf3902620bd25882727dc90/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/267155dc1f14854e189b3acb5ac79bda/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/a4de27cee048c55f67ee0987d5398f22/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/937ed66991c6a3b8d4817cd6a3f8f04d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/8919de4a753a1a61a0c323c712586dee/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/4e27db7b95eedfc41936f96fb9c24b2a/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/cbbc5034c698bd17db7e72d2904d4c20/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/11d4acd76be44066ab4ebe23d7f09320/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/6aa185ffcbc6ff3795a8bee45bcca833/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/e418d7c746610d9ff9da4520a9d82c8e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/50c8472df8920932e3c2bf269f3e81d6/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/e9ada35468e51bbdd5ac71ac1501d2b9/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/ec1c797346f0d87cd9ebba444febf212/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/5370adea9d3c8f1e2216afc1c02e97b8/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/528501f6bdf83d3aa665fa2087863807/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/8bd20ef5aa851647a51afe87bdb6afe4/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+	package
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:3:11-49
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:1-21:12
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:5:5-19:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/seagle/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/85c81768435410c5b50a84879439b41c/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/seagle/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/85c81768435410c5b50a84879439b41c/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/4e27db7b95eedfc41936f96fb9c24b2a/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/4e27db7b95eedfc41936f96fb9c24b2a/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:10:13-39
+	android:label
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:8:13-45
+	android:roundIcon
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:9:13-58
+	android:icon
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:7:13-47
+	android:allowBackup
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:6:13-39
+	android:theme
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:11:13-55
+activity#com.zero.seagle.helloandroid.MainActivity
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:12:9-18:20
+	android:name
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:12:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:13:13-17:29
+action#android.intent.action.MAIN
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:14:17-68
+	android:name
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:14:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:16:17-76
+	android:name
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml:16:27-74
+uses-sdk
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/31916f33573f10588353b5c288191ef8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/31916f33573f10588353b5c288191ef8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/seagle/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/85c81768435410c5b50a84879439b41c/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/seagle/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/85c81768435410c5b50a84879439b41c/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/6040251784cc948a5ebbd7b046afd89d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/6040251784cc948a5ebbd7b046afd89d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/8f082667f21b67f2b76c3504d2108ff5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/8f082667f21b67f2b76c3504d2108ff5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/c77b6946a6d643b176b613fcbc9725f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/c77b6946a6d643b176b613fcbc9725f0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/012f70e7d1619828ddc1776ce6d38dd3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/012f70e7d1619828ddc1776ce6d38dd3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/3f321f1b80a51807431bbbdd9a282169/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/3f321f1b80a51807431bbbdd9a282169/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/52a1f83374f279d3c30cd23cb109a142/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/52a1f83374f279d3c30cd23cb109a142/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/24cf11e672242466b8b347674f31db70/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/24cf11e672242466b8b347674f31db70/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/2aa257cad163e502d9fef812316ac4c9/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/2aa257cad163e502d9fef812316ac4c9/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/e1a0444b52a49160ef9564bfd5175700/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/e1a0444b52a49160ef9564bfd5175700/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/0824da924bf3902620bd25882727dc90/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/0824da924bf3902620bd25882727dc90/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/267155dc1f14854e189b3acb5ac79bda/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/267155dc1f14854e189b3acb5ac79bda/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/a4de27cee048c55f67ee0987d5398f22/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/a4de27cee048c55f67ee0987d5398f22/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/937ed66991c6a3b8d4817cd6a3f8f04d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/937ed66991c6a3b8d4817cd6a3f8f04d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/8919de4a753a1a61a0c323c712586dee/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/8919de4a753a1a61a0c323c712586dee/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/ec33a72944828f545b8688dd23ebae5c/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/4e27db7b95eedfc41936f96fb9c24b2a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/4e27db7b95eedfc41936f96fb9c24b2a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/cbbc5034c698bd17db7e72d2904d4c20/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/cbbc5034c698bd17db7e72d2904d4c20/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/11d4acd76be44066ab4ebe23d7f09320/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/11d4acd76be44066ab4ebe23d7f09320/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/6aa185ffcbc6ff3795a8bee45bcca833/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/6aa185ffcbc6ff3795a8bee45bcca833/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/e418d7c746610d9ff9da4520a9d82c8e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/e418d7c746610d9ff9da4520a9d82c8e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/50c8472df8920932e3c2bf269f3e81d6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/50c8472df8920932e3c2bf269f3e81d6/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/e9ada35468e51bbdd5ac71ac1501d2b9/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/e9ada35468e51bbdd5ac71ac1501d2b9/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/ec1c797346f0d87cd9ebba444febf212/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/ec1c797346f0d87cd9ebba444febf212/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/5370adea9d3c8f1e2216afc1c02e97b8/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/5370adea9d3c8f1e2216afc1c02e97b8/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/528501f6bdf83d3aa665fa2087863807/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/seagle/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/528501f6bdf83d3aa665fa2087863807/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/8bd20ef5aa851647a51afe87bdb6afe4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/seagle/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/8bd20ef5aa851647a51afe87bdb6afe4/AndroidManifest.xml:20:5-44
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		ADDED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/seagle/Projects/Android/HelloAndroid/app/src/main/AndroidManifest.xml
