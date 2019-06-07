@@ -1,8 +1,10 @@
 package com.ordinary.projectcache.projectcache;
 
+import android.animation.ArgbEvaluator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,8 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ViewPager viewPagerCore;
+    AdapterCoreModel adapterCoreModel;
+    List<CoreModel> coreModels;
+    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +50,40 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //-- Core implementation ----------------------------------------------------------- START *
+        coreModels = new ArrayList<>();
+
+        //** Hard code some card for development ***************************************************
+        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_share, "Zero flay"));
+        //** Hard code some card for developemnt FINISH ********************************************
+
+        adapterCoreModel = new AdapterCoreModel(coreModels, this);
+
+        viewPagerCore = findViewById(R.id.core_viewPager);
+        viewPagerCore.setAdapter(adapterCoreModel);
+        viewPagerCore.setPadding(20, 0, 20, 0);
+
+        viewPagerCore.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        //-- Core implementation ---------------------------------------------------------- FINISH *
+
     }
 
     @Override
@@ -80,18 +124,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nav_events) {
+            //** add, delete, modify events here
+        } else if (id == R.id.nav_about) {
+            //** put our link here "https://www.ordinary.com
+        } else if (id == R.id.nav_account) {
+            //** for login account
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
