@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -37,10 +38,17 @@ public class AdapterCoreModel extends PagerAdapter {
         layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.core_item, container, false);
 
+        // set image for the core image button
         ImageButton imageButtonCore;
         imageButtonCore = view.findViewById(R.id.core_imageButton);
         imageButtonCore.setImageResource(coreModels.get(position).getImage());
 
+        // set text info for the current core card
+        TextView textViewCore;
+        textViewCore = view.findViewById(R.id.core_textView);
+        textViewCore.setText(coreModels.get(position).getText());
+
+        // add the view to container
         container.addView(view, 0);
 
         return view;

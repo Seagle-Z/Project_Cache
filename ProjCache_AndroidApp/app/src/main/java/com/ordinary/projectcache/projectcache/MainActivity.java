@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity
         coreModels = new ArrayList<>();
 
         //** Hard code some card for development ***************************************************
-        coreModels.add(new CoreModel(R.drawable.ic_menu_camera));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_send));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_share));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_share, "Zero flay"));
         //** Hard code some card for developemnt FINISH ********************************************
 
         adapterCoreModel = new AdapterCoreModel(coreModels, this);

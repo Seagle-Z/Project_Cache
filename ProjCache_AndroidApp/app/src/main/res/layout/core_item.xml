@@ -7,8 +7,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -18,8 +17,18 @@
                 android:id="@+id/core_imageButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="40dp"
                 app:srcCompat="@drawable/ic_launcher_foreground"
                 android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/core_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="current core info"
+                android:textSize="25dp"/>
 
         </RelativeLayout>
 
