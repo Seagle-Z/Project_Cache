@@ -8,4 +8,24 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" >
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:id="@+id/core_viewPager"
+            android:layout_centerInParent="true"
+            android:overScrollMode="never"
+            android:clipToPadding="false">
+
+
+
+        </android.support.v4.view.ViewPager>
+
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
