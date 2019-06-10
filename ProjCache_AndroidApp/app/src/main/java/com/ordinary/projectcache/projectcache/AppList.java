@@ -1,5 +1,6 @@
 package com.ordinary.projectcache.projectcache;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -26,7 +27,6 @@ import java.util.List;
 public class AppList extends AppCompatActivity {
     private List<InstalledAppInfo> apps;
     private ListView list;
-    private int appCode = 1;
     private static String appDomain = "";
     //private static Bitmap appIcon;
     private static Drawable appIcon;
@@ -40,22 +40,27 @@ public class AppList extends AppCompatActivity {
         list = (ListView) findViewById(R.id.app_list);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         list.setTextFilterEnabled(true);
+        //pull down can refresh the app list
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshIt();
+                refreshIt(); //fresh the UI when user requests
             }
         });
+
+        //get the app information, pack and send back to main activity
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
-                appDomain = app.info.packageName;
 
-                appIcon = app.info.loadIcon(getPackageManager());
+                //Check where does the user click on
+                InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(); //Create a new intent object to for data returning use.
+                intent.putExtra("SelectedApp", app.getLabel());
                 //appIcon = drawableToBitmap(app.info.loadIcon(getPackageManager()));
-                Log.d("", appDomain);
-                finish();
+                setResult(Activity.RESULT_OK, intent);
+                finish(); //End of Activity.
             }
         });
     }
@@ -72,42 +77,6 @@ public class AppList extends AppCompatActivity {
         loadAppInfoTask.execute(PackageManager.GET_META_DATA);
     }
 
-    public static String getDomain()
-    {
-        return appDomain;
-    }
-
-//    public static Bitmap getAppIcon()
-//    {
-//        return appIcon;
-//    }
-    public static Drawable getAppIcon()
-    {
-        return appIcon;
-    }
-
-    public Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        // We ask for the bounds if they have been set as they would be most
-        // correct, then we check we are  > 0
-        final int width = !drawable.getBounds().isEmpty() ?
-                drawable.getBounds().width() : drawable.getIntrinsicWidth();
-
-        final int height = !drawable.getBounds().isEmpty() ?
-                drawable.getBounds().height() : drawable.getIntrinsicHeight();
-
-        // Now we check we are > 0
-        final Bitmap bitmap = Bitmap.createBitmap(width <= 0 ? 1 : width, height <= 0 ? 1 : height,
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
 
     class LoadAppInfoTask extends AsyncTask<Integer, Integer, List<InstalledAppInfo>> {
         @Override
@@ -116,10 +85,14 @@ public class AppList extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
         }
 
+        /*Start collecting application information via packageManager. Then creating small
+          installed Application object, check InstalledAppInfo for more information. Insert app objects
+          into the List then return to the listView for viewing use.
+        */
         @Override
         protected List<InstalledAppInfo> doInBackground(Integer... params) {
-            List<InstalledAppInfo> apps = new ArrayList<>();
-            PackageManager pm = getPackageManager();
+            List<InstalledAppInfo> apps = new ArrayList<>(); //Create InstalledAppinfo List for listview use
+            PackageManager pm = getPackageManager(); //Use Android built-in packagemanage to collect app information
 
             List<ApplicationInfo> infos = pm.getInstalledApplications(params[0]);
             Intent i;
@@ -129,16 +102,18 @@ public class AppList extends AppCompatActivity {
                     continue;
                 }
                 InstalledAppInfo app = new InstalledAppInfo();
-                app.info = packageInfo;
-                app.label = packageInfo.loadLabel(pm).toString();
+                app.setInfo(packageInfo);
+                app.setLabel(packageInfo.loadLabel(pm).toString());
                 apps.add(app);
             }
 
-            Collections.sort(apps, new appComparator());
+            Collections.sort(apps, new appComparator()); //Sort the List before returning.
             return apps;
             //return null;
         }
 
+
+        //After executing the loading process, show the user how many app is loaded.
         @Override
         protected void onPostExecute(List<InstalledAppInfo> appInfos) {
             super.onPostExecute(appInfos);
@@ -147,17 +122,18 @@ public class AppList extends AppCompatActivity {
             Snackbar.make(list, appInfos.size() + "applications loaded", Snackbar.LENGTH_LONG).show();
         }
 
+        //Sort the application based on label, if label doesn't exist, sort by package name
         private class appComparator implements Comparator<InstalledAppInfo> {
             @Override
             public int compare(InstalledAppInfo X, InstalledAppInfo Y) {
-                CharSequence x = X.label;
-                CharSequence y = Y.label;
+                CharSequence x = X.getLabel();
+                CharSequence y = Y.getLabel();
 
                 if (x == null) {
-                    x = X.info.packageName;
+                    x = X.getInfo().packageName;
                 }
                 if (y == null) {
-                    y = Y.info.packageName;
+                    y = Y.getInfo().packageName;
                 }
                 return Collator.getInstance().compare(x.toString(), y.toString());
             }

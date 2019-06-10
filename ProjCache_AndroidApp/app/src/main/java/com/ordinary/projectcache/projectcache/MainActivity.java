@@ -1,6 +1,7 @@
 package com.ordinary.projectcache.projectcache;
 
 import android.animation.ArgbEvaluator;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private int REQUEST_APP_LIST_CODE = 1001;
     ViewPager viewPagerCore;
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent applistActivity = new Intent(MainActivity.this, AppList.class);
-                startActivityForResult(applistActivity, 123);
+                startActivityForResult(applistActivity, REQUEST_APP_LIST_CODE);
             }
         });
 
@@ -144,12 +146,15 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 123)
+        if(requestCode == REQUEST_APP_LIST_CODE &&resultCode == Activity.RESULT_OK)
         {
-            //t.setText(AppList.getDomain());
-            //coreModels.get(0).setImage(data.);
-            Log.d("", AppList.getDomain());
+            Log.d("Original", coreModels.get(0).getText()); //debug for original Text label
+            String s = data.getStringExtra("SelectedApp");
+            coreModels.get(0).setText(s);
+            Log.d("After", coreModels.get(0).getText()); //debug for retrieved app label
+            //coreModels.add(new CoreModel(R.drawable.ic_menu_gallery, s));
         }
     }
 }

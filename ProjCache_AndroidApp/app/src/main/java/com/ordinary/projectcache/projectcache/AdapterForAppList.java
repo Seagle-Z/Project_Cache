@@ -16,9 +16,9 @@ import android.widget.TextView;
 import java.util.List;
 
 public class AdapterForAppList extends ArrayAdapter<InstalledAppInfo> {
-    LayoutInflater inflater;
-    PackageManager pm;
-    List<InstalledAppInfo> apps;
+    private LayoutInflater inflater;
+    private PackageManager pm;
+    private List<InstalledAppInfo> apps;
 
     public AdapterForAppList(Context context, List<InstalledAppInfo> apps)
     {
@@ -34,37 +34,30 @@ public class AdapterForAppList extends ArrayAdapter<InstalledAppInfo> {
     {
         InstalledAppInfo current = apps.get(position);
         View view = ConvertView;
+        
         if(view == null)
         {
+            /* With this inflater, the list would expand dynamically based on the number of object from
+             * the List<InstalledAppInfo> apps
+             */
             view = inflater.inflate(R.layout.app_list_layout, parent, false);
-
         }
 
+        //Get the title and set the app label to it
         TextView textviewTitle = (TextView)view.findViewById(R.id.titleTextView);
-        textviewTitle.setText(current.label);
+        textviewTitle.setText(current.getLabel());
 
-        try{
-            PackageInfo packageInfo = pm.getPackageInfo(current.info.packageName, 0);
-//            if(!TextUtils.isEmpty(packageInfo.versionName))
-//            {
-//                String versionInfo = String.format("%s", packageInfo.versionName);
-//                TextView textVersion = (TextView) view.findViewById(R.id.versionID);
-//                textVersion.setText(versionInfo);
-//            }
+//        try{
+//            PackageInfo packageInfo = pm.getPackageInfo(current.getInfo().packageName, 0);
+//        }
+//        catch (PackageManager.NameNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
 
-//            if(!TextUtils.isEmpty(current.info.packageName))
-//            {
-//                TextView textSub = (TextView)view.findViewById(R.id.subTitle);
-//                textSub.setText(current.info.packageName);
-//            }
-        }
-        catch (PackageManager.NameNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
+        //Get the App Icon and set to the image
         ImageView imageView = (ImageView) view.findViewById(R.id.iconImage);
-        Drawable background = current.info.loadIcon(pm);
+        Drawable background = current.getInfo().loadIcon(pm);
         imageView.setBackground(background);
         return view;
     }
