@@ -3,12 +3,8 @@ package com.ordinary.projectcache.projectcache;
 import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,9 @@ public class MainActivity extends AppCompatActivity
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
     ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+
+    // Declare the events info storage csv file
+    private static final String EVENTS_FILE_NAME = "events.csv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,58 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //-- Initialize csv file for events ------------------------------------------------ START *
+        File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+        if (!eventsFile.exists() || eventsFile.isDirectory()) {
+            FileOutputStream fos = null;
+            try {
+                fos = openFileOutput(EVENTS_FILE_NAME, MODE_PRIVATE);
+                String csvTitle = "eventID, eventName, createDate, createTime, priorityLevel, " +
+                        "triggerMethods, triggerValues, tasksTypeStart, tasksValueStart, " +
+                        "tasksTypeEnd, tasksValueEnd, " +
+                        "selfResetEvent, oneTimeEvent, isActivated, " +
+                        "eventCategory, executedTimes\n";
+                fos.write(csvTitle.getBytes());
+
+                //** for debugging
+                Toast.makeText(this, "csv created, and Title saved to " + getFilesDir()
+                        + "/" + EVENTS_FILE_NAME, Toast.LENGTH_LONG).show();
+
+                //** Hard code some event for development ******************************************
+                String testEvent1 = "10, Dunkin' Donuts, 2019-6-1, 10:16, -1, " +
+                        "CLOSE_ON_GEO_STORE, Dunkin' Dounts, START_APP, Dunkin' Donuts, " +
+                        "NULL, NULL, " +
+                        "false, false, true, " +
+                        "NULL, 0\n";
+                String testEvent2 = "14, Parking QRCode, 2019-5-12, 16:02, 0, " +
+                        "CLOSE_ON_GEO_LL, 41.938093&-87.644257, SHOW_QR_CODE, testing_qrcode.png, " +
+                        "NULL, NULL, " +
+                        "false, false, true, " +
+                        "NULL, 0\n";
+                fos.write(testEvent1.getBytes());
+                fos.write(testEvent2.getBytes());
+                //** Hard code some event for development FINISH ***********************************
+            }
+            catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //-- Initialize csv file for events ----------------------------------------------- FINISH *
+
+        // Create Events Object for store events.csv 's data in it
+        Events events = new Events(this, eventsFile);
+
+
+
+
+
+
+
+
+
         //-- Core implementation ----------------------------------------------------------- START *
         coreModels = new ArrayList<>();
 
@@ -67,6 +124,8 @@ public class MainActivity extends AppCompatActivity
         coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
         coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
         coreModels.add(new CoreModel(R.drawable.ic_menu_share, "Zero flay"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
+        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
         //** Hard code some card for developemnt FINISH ********************************************
 
         adapterCoreModel = new AdapterCoreModel(coreModels, this);
