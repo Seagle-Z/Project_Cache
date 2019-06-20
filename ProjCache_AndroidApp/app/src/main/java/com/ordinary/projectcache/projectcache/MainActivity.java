@@ -72,9 +72,11 @@ public class MainActivity extends AppCompatActivity
             try {
                 fos = openFileOutput(EVENTS_FILE_NAME, MODE_PRIVATE);
                 String csvTitle = "eventID, eventName, createDate, createTime, priorityLevel, " +
+                        "triggerableDay, triggerableTime, " +
                         "triggerMethods, triggerValues, tasksTypeStart, tasksValueStart, " +
                         "tasksTypeEnd, tasksValueEnd, " +
-                        "selfResetEvent, oneTimeEvent, isActivated, " +
+                        "selfResetEvent, oneTimeEvent, " +
+                        "autoTrigger, isActivated, " +
                         "eventCategory, executedTimes\n";
                 fos.write(csvTitle.getBytes());
 
@@ -84,14 +86,18 @@ public class MainActivity extends AppCompatActivity
 
                 //** Hard code some event for development ******************************************
                 String testEvent1 = "10, Dunkin' Donuts, 2019-6-1, 10:16, -1, " +
+                        "NULL, NULL, " +
                         "CLOSE_ON_GEO_STORE, Dunkin' Dounts, START_APP, Dunkin' Donuts, " +
                         "NULL, NULL, " +
-                        "false, false, true, " +
+                        "false, false, " +
+                        "false, true, " +
                         "NULL, 0\n";
                 String testEvent2 = "14, Parking QRCode, 2019-5-12, 16:02, 0, " +
+                        "NULL, NULL, " +
                         "CLOSE_ON_GEO_LL, 41.938093&-87.644257, SHOW_QR_CODE, testing_qrcode.png, " +
                         "NULL, NULL, " +
-                        "false, false, true, " +
+                        "false, false, " +
+                        "false, true, " +
                         "NULL, 0\n";
                 fos.write(testEvent1.getBytes());
                 fos.write(testEvent2.getBytes());

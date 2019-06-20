@@ -33,7 +33,7 @@ public class Events {
             Log.d("", line);
             while ((line = br.readLine()) != null) {
                 Log.d("", line);
-                parseEventData(line); //** 这个function有问题，要检查那里出问题了
+                parseEventData(line);
             }
         }
         catch (FileNotFoundException e) {
@@ -55,40 +55,49 @@ public class Events {
         String tCreateTime = data[3];
         Integer tPriorityLevel = Integer.parseInt(data[4]);
 
-        String[] tTriggerMethodsStart = data[5].split("|");
-        String[] tTriggerValuesStart = data[6].split("|");
-        String[] tTasksTypeStart = data[7].split("|");
-        String[] tTasksValueStart = data[8].split("|");
+        String tTriggerableDay = data[5];
+        String tTriggerableTime = data[6];
 
+        String[] tTriggerMethodsStart = data[7].split("|");
+        String[] tTriggerValuesStart = data[8].split("|");
+        String[] tTasksTypeStart = data[9].split("|");
+        String[] tTasksValueStart = data[10].split("|");
 
-        String[] tTasksTypeEnd = data[9].split("|");
-        String[] tTasksValueEnd = data[10].split("|");
+        String[] tTasksTypeEnd = data[11].split("|");
+        String[] tTasksValueEnd = data[12].split("|");
 
-        Boolean tSelfResetEvent, tOneTimeEvent, tIsActivated;
-        if (data[11].equalsIgnoreCase("true"))
+        Boolean tSelfResetEvent, tOneTimeEvent, tAutoTrigger, tIsActivated;
+        if (data[13].equalsIgnoreCase("true"))
             tSelfResetEvent = true;
         else
             tSelfResetEvent = false;
 
-        if (data[12].equalsIgnoreCase("true"))
+        if (data[14].equalsIgnoreCase("true"))
             tOneTimeEvent = true;
         else
             tOneTimeEvent = false;
 
-        if (data[13].equalsIgnoreCase("true"))
+        if (data[15].equalsIgnoreCase("true"))
+            tAutoTrigger = true;
+        else
+            tAutoTrigger = false;
+
+        if (data[16].equalsIgnoreCase("true"))
             tIsActivated = true;
         else
             tIsActivated = false;
 
-        String tEventCategory = data[14];
-        Integer tExecutedTimes = Integer.parseInt(data[15]);
+        String tEventCategory = data[17];
+        Integer tExecutedTimes = Integer.parseInt(data[18]);
 
         events.add(new Event(tEventID, tEventName, tCreateData,
                 tCreateTime, tPriorityLevel,
+                tTriggerableDay, tTriggerableTime,
                 tTriggerMethodsStart, tTriggerValuesStart,
                 tTasksTypeStart, tTasksValueStart,
                 tTasksTypeEnd, tTasksValueEnd,
-                tSelfResetEvent, tOneTimeEvent, tIsActivated,
+                tSelfResetEvent, tOneTimeEvent,
+                tAutoTrigger, tIsActivated,
                 tEventCategory, tExecutedTimes));
 
         System.out.println(events.get(0).eventID + " " + events.get(0).eventName + " " + events.get(0).oneTimeEvent);
@@ -119,7 +128,7 @@ public class Events {
         return null;
     }
 
-    public Event getEventByName(String seekingEventName) {
+    public ArrayList<Event> getEventByName(String seekingEventName) {
 
 
         return null;
@@ -137,6 +146,9 @@ class Event {
     String createTime;
     Integer priorityLevel;          // Normal is 0, bigger is higher priority level
 
+    String triggerableDay;
+    String triggerableTime;
+
     String[] triggerMethods;        // The methods for start this event
     String[] triggerValues;         // The value for the match method for start this event
 
@@ -148,6 +160,7 @@ class Event {
 
     Boolean selfResetEvent;         // if true, when event ends, all settings will reset
     Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
+    Boolean autoTrigger;            // if true, this event will start without need to click button
     Boolean isActivated;            // if false, the event will not happen although the trigger conditions match
 
     String eventCategory;           // for future usage
@@ -160,10 +173,12 @@ class Event {
 
     public Event(Integer eventID, String eventName, String createDate,
                  String createTime, Integer priorityLevel,
+                 String triggerableDay, String triggerableTime,
                  String[] triggerMethodsStart, String[] triggerValuesStart,
                  String[] tasksTypeStart, String[] tasksValueStart,
                  String[] tasksTypeEnd, String[] tasksValueEnd,
-                 Boolean selfResetEvent, Boolean oneTimeEvent, Boolean isActivated,
+                 Boolean selfResetEvent, Boolean oneTimeEvent,
+                 Boolean autoTrigger, Boolean isActivated,
                  String eventCategory, Integer executedTimes) {
 
         this.eventID = eventID;
@@ -171,6 +186,9 @@ class Event {
         this.createDate = createDate;
         this.createTime = createTime;
         this.priorityLevel = priorityLevel;
+
+        this.triggerableDay = triggerableDay;
+        this.triggerableTime = triggerableTime;
 
         this.triggerMethods = triggerMethodsStart;
         this.triggerValues = triggerValuesStart;
@@ -182,6 +200,7 @@ class Event {
 
         this.selfResetEvent = selfResetEvent;
         this.oneTimeEvent = oneTimeEvent;
+        this.autoTrigger = autoTrigger;
         this.isActivated = isActivated;
 
         this.eventCategory = eventCategory;
