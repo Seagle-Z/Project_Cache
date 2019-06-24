@@ -1,11 +1,11 @@
 package com.ordinary.projectcache.projectcache;
 
-import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,15 +16,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,8 @@ public class MainActivity extends AppCompatActivity
     ViewPager viewPagerCore;
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
-    ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+
+    static Events events;
 
     // Declare the events info storage csv file
     private static final String EVENTS_FILE_NAME = "events.csv";
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         //-- Initialize csv file for events ----------------------------------------------- FINISH *
 
         // Create Events Object for store events.csv 's data in it
-        Events events = new Events(this, eventsFile);
+        /*Events*/ events = new Events(this, eventsFile);
 
 
 
@@ -125,6 +124,7 @@ public class MainActivity extends AppCompatActivity
 
         //-- Core implementation ----------------------------------------------------------- START *
         coreModels = new ArrayList<>();
+
 
         //** Hard code some card for development ***************************************************
         coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
@@ -156,7 +156,12 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+
+
         //-- Core implementation ---------------------------------------------------------- FINISH *
+
+
 
     }
 

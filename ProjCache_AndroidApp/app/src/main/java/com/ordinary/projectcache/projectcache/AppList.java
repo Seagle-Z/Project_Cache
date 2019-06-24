@@ -63,6 +63,11 @@ public class AppList extends AppCompatActivity {
                 finish(); //End of Activity.
             }
         });
+
+        //**
+        //Events evnets = new Events();
+
+        //**
     }
 
     @Override

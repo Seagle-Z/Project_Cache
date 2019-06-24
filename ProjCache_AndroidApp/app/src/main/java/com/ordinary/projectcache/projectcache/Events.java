@@ -19,6 +19,7 @@ public class Events {
     private List<Event> events;
 
     public Events(Context context, File eventsFile) {
+        // context is the mainActivity, eventsFile is the CSV File
 
         events = new ArrayList<>();
 
@@ -100,23 +101,27 @@ public class Events {
                 tAutoTrigger, tIsActivated,
                 tEventCategory, tExecutedTimes));
 
-        System.out.println(events.get(0).eventID + " " + events.get(0).eventName + " " + events.get(0).oneTimeEvent);
     }
 
-    public boolean addEvent() {
+    public boolean addEvent(Event newEvent) {
+
+        for (Event e : events) {
+            if (e.eventName.equals(newEvent.eventName)) {
+                return false;   // return false if the eventName existed
+            }
+        }
+
+        events.add(newEvent);   // add the event to events, and return true;
+        return true;
+    }
+
+    public boolean deleteEventById(Integer deleteEventID) {
 
 
         return false;
     }
 
-    public boolean deleteEvent(Integer deleteEventID) {
-
-
-
-        return false;
-    }
-
-    public boolean modifyEvent() {
+    public boolean modifyEvent(Integer modifyEventID) {
 
 
         return false;
@@ -124,14 +129,24 @@ public class Events {
 
     public Event getEventByID(Integer seekingEventID) {
 
+        for (Event e : events) {
+            if (e.eventID == seekingEventID) {
+                return e;
+            }
+        }
 
-        return null;
+        return null;    // if did not find a event match the ID, return null
     }
 
-    public ArrayList<Event> getEventByName(String seekingEventName) {
+    public Event getEventByName(String seekingEventName) {
 
+        for (Event e : events) {
+            if (e.eventName.equals(seekingEventName)) {
+                return e;
+            }
+        }
 
-        return null;
+        return null;    // if did not find a event match the name, return null
     }
 
 
@@ -146,8 +161,8 @@ class Event {
     String createTime;
     Integer priorityLevel;          // Normal is 0, bigger is higher priority level
 
-    String triggerableDay;
-    String triggerableTime;
+    String triggerableDay;          // the day that the event be able to trigger
+    String triggerableTime;         // the time period that the event be able to trigger
 
     String[] triggerMethods;        // The methods for start this event
     String[] triggerValues;         // The value for the match method for start this event
@@ -174,7 +189,7 @@ class Event {
     public Event(Integer eventID, String eventName, String createDate,
                  String createTime, Integer priorityLevel,
                  String triggerableDay, String triggerableTime,
-                 String[] triggerMethodsStart, String[] triggerValuesStart,
+                 String[] triggerMethods, String[] triggerValues,
                  String[] tasksTypeStart, String[] tasksValueStart,
                  String[] tasksTypeEnd, String[] tasksValueEnd,
                  Boolean selfResetEvent, Boolean oneTimeEvent,
@@ -190,8 +205,8 @@ class Event {
         this.triggerableDay = triggerableDay;
         this.triggerableTime = triggerableTime;
 
-        this.triggerMethods = triggerMethodsStart;
-        this.triggerValues = triggerValuesStart;
+        this.triggerMethods = triggerMethods;
+        this.triggerValues = triggerValues;
         this.tasksTypeStart = tasksTypeStart;
         this.tasksValueStart = tasksValueStart;
 
@@ -205,6 +220,34 @@ class Event {
 
         this.eventCategory = eventCategory;
         this.executedTimes = executedTimes;
+
+    }
+
+    public Event(Event e) {
+        this.eventID = e.eventID;
+        this.eventName = e.eventName;
+        this.createDate = e.createDate;
+        this.createTime = e.createTime;
+        this.priorityLevel = e.priorityLevel;
+
+        this.triggerableDay = e.triggerableDay;
+        this.triggerableTime = e.triggerableTime;
+
+        this.triggerMethods = e.triggerMethods;
+        this.triggerValues = e.triggerValues;
+        this.tasksTypeStart = e.tasksTypeStart;
+        this.tasksValueStart = e.tasksValueStart;
+
+        this.tasksTypeEnd = e.tasksTypeEnd;
+        this.tasksValueEnd = e.tasksValueEnd;
+
+        this.selfResetEvent = e.selfResetEvent;
+        this.oneTimeEvent = e.oneTimeEvent;
+        this.autoTrigger = e.autoTrigger;
+        this.isActivated = e.isActivated;
+
+        this.eventCategory = e.eventCategory;
+        this.executedTimes = e.executedTimes;
 
     }
 

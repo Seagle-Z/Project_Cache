@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/core_CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -13,8 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="450dp">
 
-            <ImageButton
-                android:id="@+id/core_imageButton"
+            <ImageView
+                android:id="@+id/core_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="40dp"
