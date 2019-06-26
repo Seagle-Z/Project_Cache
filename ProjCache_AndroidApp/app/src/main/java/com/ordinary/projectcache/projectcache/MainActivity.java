@@ -1,9 +1,23 @@
 package com.ordinary.projectcache.projectcache;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.AdaptiveIconDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -17,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -30,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int REQUEST_APP_LIST_CODE = 1001;
+    private int STORAGE_PERMISSON_CODE = 1010;
     ViewPager viewPagerCore;
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
@@ -45,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        checkPermissionStatus();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_event);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,22 +133,13 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-
-
-
-
         //-- Core implementation ----------------------------------------------------------- START *
         coreModels = new ArrayList<>();
-
-
         //** Hard code some card for development ***************************************************
-        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_share, "Zero flay"));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
-        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
+//        coreModels.add(new CoreModel(R.drawable.ic_menu_camera, "QR Code"));
+//        coreModels.add(new CoreModel(R.drawable.ic_menu_send, "UIC"));
+        coreModels.add(new CoreModel(this.getResources().getDrawable(R.drawable.ic_menu_camera, null),  "QR Code"));
+        coreModels.add(new CoreModel(this.getResources().getDrawable(R.drawable.ic_menu_send, null), "test"));
         //** Hard code some card for developemnt FINISH ********************************************
 
         adapterCoreModel = new AdapterCoreModel(coreModels, this);
@@ -156,13 +164,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
-
         //-- Core implementation ---------------------------------------------------------- FINISH *
-
-
-
     }
 
     @Override
@@ -218,13 +220,63 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_APP_LIST_CODE &&resultCode == Activity.RESULT_OK)
-        {
-            Log.d("Original", coreModels.get(0).getText()); //debug for original Text label
-            String s = data.getStringExtra("SelectedApp");
-            coreModels.get(0).setText(s);
-            Log.d("After", coreModels.get(0).getText()); //debug for retrieved app label
-            //coreModels.add(new CoreModel(R.drawable.ic_menu_gallery, s));
+        if (requestCode == REQUEST_APP_LIST_CODE && resultCode == Activity.RESULT_OK) {
+//            Log.d("Original", coreModels.get(0).getText()); //debug for original Text label
+//            String s = data.getStringExtra("SelectedApp");
+//            coreModels.get(0).setText(s);
+//            Log.d("After", coreModels.get(0).getText()); //debug for retrieved app label
+//            coreModels.add(new CoreModel(R.drawable.ic_menu_manage, "Test"));
+//            adapterCoreModel.notifyDataSetChanged();
+            InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
+            coreModels.get(0).setText(app.getLabel());
+            PackageManager pm = getPackageManager();
+            Drawable d = ToolFunctions.ButtonIconProcessing(this, pm, app);
+            coreModels.get(0).setDrawable(d);
+            adapterCoreModel.notifyDataSetChanged();
+        }
+    }
+
+
+    private void checkPermissionStatus() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            Toast.makeText(MainActivity.this, "You have already granted this permission!", Toast.LENGTH_LONG).show();
+        else {
+            requestStoragePermission();
+        }
+    }
+
+    private void requestStoragePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Permission needed")
+                    .setMessage("This Permission is needed")
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSON_CODE);
+                        }
+                    })
+                    .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSON_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == STORAGE_PERMISSON_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

@@ -55,9 +55,10 @@ public class AppList extends AppCompatActivity {
 
                 //Check where does the user click on
                 InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
-
                 Intent intent = new Intent(); //Create a new intent object to for data returning use.
-                intent.putExtra("SelectedApp", app.getLabel());
+                intent.putExtra("App", app);
+                //intent.putExtra("SelectedApp", app.getLabel());
+                //intent.putExtra("PackageIcon", app.getInfo().loadIcon(getPackageManager()).);
                 //appIcon = drawableToBitmap(app.info.loadIcon(getPackageManager()));
                 setResult(Activity.RESULT_OK, intent);
                 finish(); //End of Activity.
@@ -107,8 +108,9 @@ public class AppList extends AppCompatActivity {
                     continue;
                 }
                 InstalledAppInfo app = new InstalledAppInfo();
-                app.setInfo(packageInfo);
+                app.setPackageName(packageInfo.packageName);
                 app.setLabel(packageInfo.loadLabel(pm).toString());
+                app.setDrawable(packageInfo.loadIcon(pm));
                 apps.add(app);
             }
 
@@ -135,10 +137,10 @@ public class AppList extends AppCompatActivity {
                 CharSequence y = Y.getLabel();
 
                 if (x == null) {
-                    x = X.getInfo().packageName;
+                    x = X.getPackageName();
                 }
                 if (y == null) {
-                    y = Y.getInfo().packageName;
+                    y = Y.getPackageName();
                 }
                 return Collator.getInstance().compare(x.toString(), y.toString());
             }

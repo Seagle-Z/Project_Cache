@@ -42,7 +42,7 @@ public class AdapterCoreModel extends PagerAdapter {
         // set image for the core image button
         ImageView imageViewCore;
         imageViewCore = view.findViewById(R.id.core_imageView);
-        imageViewCore.setImageResource(coreModels.get(position).getImage());
+        imageViewCore.setForeground(coreModels.get(position).getDrawable());
 
         // set text info for the current core card
         TextView textViewCore;

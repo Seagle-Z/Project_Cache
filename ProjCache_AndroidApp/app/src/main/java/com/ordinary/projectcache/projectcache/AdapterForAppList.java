@@ -57,7 +57,7 @@ public class AdapterForAppList extends ArrayAdapter<InstalledAppInfo> {
 
         //Get the App Icon and set to the image
         ImageView imageView = (ImageView) view.findViewById(R.id.iconImage);
-        Drawable background = current.getInfo().loadIcon(pm);
+        Drawable background = current.getPackageIcon();
         imageView.setBackground(background);
         return view;
     }
