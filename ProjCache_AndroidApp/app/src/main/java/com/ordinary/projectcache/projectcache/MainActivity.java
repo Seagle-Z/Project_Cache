@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
 
-    Events events;
+    private Events events;
 
     // Declare the events info storage csv file
     private static final String EVENTS_FILE_NAME = "events.csv";
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent applistActivity = new Intent(MainActivity.this, UserSetupActivity.class);
+                Intent applistActivity = new Intent(MainActivity.this, AppList.class);
                 startActivityForResult(applistActivity, REQUEST_SETUP_CODE);
             }
         });
@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity
         File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
         // Create Events Object for all events operations
         events = new Events(this, eventsFile);
+
+
+
+
+
 
         //-- Core implementation ----------------------------------------------------------- START *
         coreModels = new ArrayList<>();
@@ -117,15 +122,6 @@ public class MainActivity extends AppCompatActivity
 
 
         //-- Core implementation ---------------------------------------------------------- FINISH *
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK) {
-            Event event = (Event) data.getSerializableExtra("Event");
-            events.addEvent(event);
-        }
     }
 
     @Override
@@ -188,6 +184,7 @@ public class MainActivity extends AppCompatActivity
             System.out.println(events.addEvent(event));
         }
     }
+
 
     private void checkPermissionStatus() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)

@@ -27,6 +27,10 @@ import java.util.List;
 public class AppList extends AppCompatActivity {
     private List<InstalledAppInfo> apps;
     private ListView list;
+    private static String appDomain = "";
+    //private static Bitmap appIcon;
+    private static Drawable appIcon;
+
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
