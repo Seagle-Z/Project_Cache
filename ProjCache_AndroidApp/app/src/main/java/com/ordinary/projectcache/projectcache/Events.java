@@ -348,6 +348,5 @@ class Event implements Serializable {
 
         this.eventCategory = e.eventCategory;
         this.executedTimes = e.executedTimes;
-
     }
 }

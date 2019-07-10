@@ -38,9 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     private final int REQUEST_SETUP_CODE = 1002;
     private final int STORAGE_PERMISSON_CODE = 1010;
-
     ViewPager coreViewPager;
-
     AdapterCoreModel adapterCoreModel;
     List<CoreModel> coreModels;
 
@@ -79,7 +77,6 @@ public class MainActivity extends AppCompatActivity
         File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
         // Create Events Object for all events operations
         events = new Events(this, eventsFile);
-
 
         //-- Core implementation ----------------------------------------------------------- START *
         coreModels = new ArrayList<>();
@@ -180,6 +177,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK)
+        {
+            Event event = (Event) data.getSerializableExtra("Event");
+            System.out.println(events.addEvent(event));
+        }
     }
 
     private void checkPermissionStatus() {
