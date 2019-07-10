@@ -10,39 +10,36 @@ import android.widget.ImageButton;
 
 public class CoreModel {
 
-    private int image;
+    private Intent intent;
     private String text;
     private Drawable drawable;
 
-//    public CoreModel(int image, String text) {
-//        this.image = image;
-//        this.text = text;
-//    }
-//
-//    public int getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(int image) {
-//        this.image = image;
-//    }
-
-    public CoreModel(Drawable drawable, String text)
+    public CoreModel(Intent intent, Drawable drawable, String text)
     {
+        this.intent = intent;
         this.drawable = drawable;
         this.text = text;
+
     }
+
+    public Intent getIntent() {
+        return intent;
+    }
+
+    public void setIntent(Intent intent) {
+        this.intent = intent;
+    }
+
 
     public Drawable getDrawable()
     {
         return drawable;
     }
 
-    public void setDrawable(Drawable D)
+    public void setDrawable(Drawable drawable)
     {
-        drawable = D;
+        this.drawable = drawable;
     }
-
 
     public String getText() {
         return text;
