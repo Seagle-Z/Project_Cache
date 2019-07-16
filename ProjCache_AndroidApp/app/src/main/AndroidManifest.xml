@@ -24,7 +24,9 @@
         </activity>
         <activity android:name=".AppList" />
         <activity android:name=".UserSetupActivity" />
-        <activity android:name=".start_end_tasks_activity"></activity>
+        <activity android:name=".start_end_tasks_activity" />
+        <activity android:name=".condition_list_activity" />
+        <activity android:name=".Date_Time_Picker"></activity>
     </application>
 
 </manifest>

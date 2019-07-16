@@ -61,7 +61,6 @@ public class AdapterCoreModel extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 context.startActivity(coreModels.get(pos).getIntent());
-
             }
         });
 

@@ -25,6 +25,7 @@ public class Page2Fragment extends Fragment {
     ViewPager viewPager;
     Button startAction, endAction;
     FloatingActionButton forward, previous;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class Page2Fragment extends Fragment {
             }
         });
 
-        previous = (FloatingActionButton) view. findViewById(R.id.page2Previous);
+        previous = (FloatingActionButton) view.findViewById(R.id.page2Previous);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,23 +75,22 @@ public class Page2Fragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_TASK_ACTION_CODE && resultCode == Activity.RESULT_OK) {
-            if(data.hasExtra("Application")) {
-                InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
-                PackageManager pm = getActivity().getPackageManager();
-                ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
-                startAction.setText("Open Application: " + app.getLabel());
-                AppPackageName = app.getPackageName();
-            }
-
-            else if (data.hasExtra("QR"))
-            {
-                //Waiting for implementation
+            try {
+                if (data.hasExtra("Application")) {
+                    InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
+                    PackageManager pm = getActivity().getPackageManager();
+                    ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
+                    startAction.setText("Open Application: " + app.getLabel());
+                    AppPackageName = app.getPackageName();
+                } else if (data.hasExtra("QR")) {
+                    //Waiting for implementation
+                }
+            } catch (NullPointerException e) {
             }
         }
     }
 
-    public String getAppPackageName()
-    {
+    public String getAppPackageName() {
         return AppPackageName;
     }
 }

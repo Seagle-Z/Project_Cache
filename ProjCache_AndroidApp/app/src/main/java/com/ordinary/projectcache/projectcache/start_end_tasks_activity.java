@@ -19,11 +19,12 @@ public class start_end_tasks_activity extends AppCompatActivity {
     Boolean QR = false;
     Button openApp;
     ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_end_tasks_activity);
-        viewPager = (ViewPager)findViewById(R.id.setup_viewPager);
+        viewPager = (ViewPager) findViewById(R.id.setup_viewPager);
         System.out.println(viewPager);
         openApp = (Button) findViewById(R.id.open_app);
         openApp.setOnClickListener(new View.OnClickListener() {
@@ -35,15 +36,16 @@ public class start_end_tasks_activity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(app) {
-            data.putExtra("Application", "");
-
-        }
-        else if(QR)
-        {
-            data.putExtra("QR","");
+        if (app) {
+            try {
+                data.putExtra("Application", "");
+            } catch (NullPointerException e) {
+            }
+        } else if (QR) {
+            data.putExtra("QR", "");
         }
 
         setResult(RESULT_OK, data);
