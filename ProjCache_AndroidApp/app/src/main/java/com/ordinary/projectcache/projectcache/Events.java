@@ -163,6 +163,8 @@ public class Events {
 
     public boolean addEvent(Event newEvent) {
 
+        // TODO: 要自动生成 eventID ，去掉Event的constructor里的 event ID
+
         for (Event e : events) {
             if (e.eventName.equals(newEvent.eventName)) {
                 return false;   // return false if the eventName existed
@@ -203,7 +205,10 @@ public class Events {
     }
 
     private String stringArrayToString(String[] arr) {
-        if(arr.length == 0 || arr == null) {
+        if (arr == null) {
+            return "NULL";
+        }
+        if (arr.length == 0) {
             return "NULL";
         }
 
@@ -307,9 +312,9 @@ class Event implements Serializable {
 
         this.triggerMethods = triggerMethods;
         this.triggerValues = triggerValues;
+
         this.tasksTypeStart = tasksTypeStart;
         this.tasksValueStart = tasksValueStart;
-
         this.tasksTypeEnd = tasksTypeEnd;
         this.tasksValueEnd = tasksValueEnd;
 
@@ -332,12 +337,11 @@ class Event implements Serializable {
 
         this.triggerableDay = e.triggerableDay;
         this.triggerableTime = e.triggerableTime;
-
         this.triggerMethods = e.triggerMethods;
         this.triggerValues = e.triggerValues;
+
         this.tasksTypeStart = e.tasksTypeStart;
         this.tasksValueStart = e.tasksValueStart;
-
         this.tasksTypeEnd = e.tasksTypeEnd;
         this.tasksValueEnd = e.tasksValueEnd;
 
