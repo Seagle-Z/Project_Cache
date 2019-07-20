@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Events {
 
     private List<Event> events;
@@ -71,11 +70,9 @@ public class Events {
                 Toast.makeText(context, "csv created, and Title saved to " +
                         context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
                 //** for debugging ********************************************************** FINISH
-            }
-            catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -93,11 +90,9 @@ public class Events {
                 Log.d("", line);
                 events.add(parseEventData(line));
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -183,7 +178,7 @@ public class Events {
             fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
 
             String eventText = newEvent.eventID.toString() + ", " + newEvent.eventName + ", " +
-                    newEvent.createDate + ", " + newEvent.createTime + ", " + newEvent.priorityLevel.toString()  + ", " +
+                    newEvent.createDate + ", " + newEvent.createTime + ", " + newEvent.priorityLevel.toString() + ", " +
                     stringArrayToString(newEvent.triggerableDay) + ", " + stringArrayToString(newEvent.triggerableTime) + ", " +
                     stringArrayToString(newEvent.triggerMethods) + ", " + stringArrayToString(newEvent.triggerValues) + ", " +
                     stringArrayToString(newEvent.tasksTypeStart) + ", " + stringArrayToString(newEvent.tasksValueStart) + ", " +
@@ -195,11 +190,9 @@ public class Events {
             fos.write(eventText.getBytes());
 
             fos.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -309,7 +302,6 @@ class Event implements Serializable {
 
         this.triggerableDay = triggerableDay;
         this.triggerableTime = triggerableTime;
-
         this.triggerMethods = triggerMethods;
         this.triggerValues = triggerValues;
 

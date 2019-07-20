@@ -4,100 +4,67 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="500dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/page2_title"
+                android:id="@+id/date_time_picker_activity"
                 android:layout_width="match_parent"
                 android:layout_height="35sp"
                 android:paddingLeft="5sp"
                 android:paddingTop="5sp"
-                android:text="Actions"
+                android:text="Time Picker"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/Start_action"
+                android:id="@+id/time_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10sp"
                 android:paddingTop="5sp"
-                android:text="When start"
+                android:text="Please select a time to trigger the event"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
-
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isScrollContainer="false"/>
-
             <Button
-                android:id="@+id/add_startAction"
+                android:id="@+id/add_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="20dp"
-                android:text="+ Select a start action"
+                android:text="+ Add time"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
             <TextView
-                android:id="@+id/end_action"
+                android:id="@+id/date_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10sp"
                 android:paddingTop="5sp"
-                android:text="When end"
+                android:text="Please select a date to trigger the event"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
             <Button
-                android:id="@+id/add_endAction"
+                android:id="@+id/add_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="20sp"
-                android:text="+ Select an end action"
+                android:text="+ Add date"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
+            <Button
+                android:id="@+id/date_time_complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complete" />
+
         </LinearLayout>
-
-    </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/page2Previous"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_previous" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/page2Forward"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_play" />
-
 
 </RelativeLayout>

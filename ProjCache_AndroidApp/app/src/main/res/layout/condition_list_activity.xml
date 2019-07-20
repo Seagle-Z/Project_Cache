@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".condition_list_activity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/condition_option_layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:paddingLeft="5sp"
+        android:paddingTop="5sp"
+        android:text="Select a trigger method"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/condition_types"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

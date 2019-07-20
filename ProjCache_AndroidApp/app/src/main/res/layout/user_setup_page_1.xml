@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="512dp"
-        android:orientation="vertical">
+        android:layout_height="500dp">
 
-        <TextView
-            android:id="@+id/page1_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:text="Add method to trigger the the event"
-            android:paddingTop="5sp"
-            android:paddingLeft="5sp"
-            android:textColor="@color/colorAccent"
-            android:textSize="20dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/add_condition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15sp"
-            android:text="+ Select a condition"
-            android:textAlignment="textStart"
-            android:background="?selectableItemBackground"/>
+            <TextView
+                android:id="@+id/page1_title"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:paddingLeft="5sp"
+                android:paddingTop="5sp"
+                android:text="Add method to trigger the the event"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+            <ListView
+                android:id="@+id/condition_list"
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/add_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:background="?selectableItemBackground"
+                android:paddingLeft="15sp"
+                android:text="+ Select a condition"
+                android:textAlignment="textStart" />
+        </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/page1Foward"
