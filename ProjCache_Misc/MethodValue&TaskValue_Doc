@@ -1,0 +1,52 @@
+triggerMethod keywords:
+
+TIME
+A time that correct to minute, only in this minute that the event will be
+triggered. If want a time range. Normally, TIME_RANGE is better.
+
+TIME_RANGE
+A time range that correct to minute, only in this time range that the event will
+be triggered.
+
+DAY
+A single day that the event will be triggered all day. The better way to use
+this is to use is with TIME or TIME_RANGE
+
+BLUETOOTH
+If the device connected to a Bluetooth device, then triggered this event. finish
+this event when the bluetooth connection disconnect.
+
+LOCATION
+If the device in a specific location, then trigger the event. Finish this event
+when the device leave this location.
+
+
+
+TriggerValues rules that match triggerMethod keywords
+
+TIME
+Use HH:MM format.
+Use 24 hours per day format.
+Use "|" without space to separate each time
+E.g.    "08:02"
+        “14:28|17:50"
+
+TIME_RANGE
+Use HH:MM-HH:MM format.
+Use 24 hours per day format.
+Use "|" without space to separate each time range
+E.g.    "08:15-09:40"
+        “08:30-10:48|17:50-19:30|22:00-23:36"
+
+DAY
+Use the first 3 characters of day name indicate the day.
+Use "|" without space to separate days.
+All days should follow the order of Monday to Sunday.
+E.g. "MON|TUE|FRI|SAT"
+Use "WKD" for weekdays that is Monday to Friday.
+Use "WKN" for weekend that is Saturday and Sunday.
+
+BLUETOOTH
+Use "|" without space to separate each Bluetooth device's name
+E.g.    "WH-1000Xm3"
+        "WH-1000Xm3|WH-1000Xm2|WH-1000XM1"
