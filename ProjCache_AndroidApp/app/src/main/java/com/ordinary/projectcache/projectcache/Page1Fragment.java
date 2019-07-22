@@ -54,6 +54,8 @@ public class Page1Fragment extends Fragment {
         conditionList.setAdapter(adapter);
         registerForContextMenu(conditionList);
         addCondition = (Button) view.findViewById(R.id.add_condition);
+
+
         addCondition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

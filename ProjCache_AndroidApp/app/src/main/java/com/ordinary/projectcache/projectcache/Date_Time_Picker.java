@@ -12,21 +12,23 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-public class Date_Time_Picker extends AppCompatActivity implements TrigConditionInit, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class Date_Time_Picker extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    Button time, date, complete;
+    Button timeButton, date, complete;
 
     private int hour, minutes, Year, Month, day;
+    private boolean selectedHour, selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date__time__picker_activity);
 
-        time = (Button) findViewById(R.id.add_time);
+        timeButton = (Button) findViewById(R.id.add_time);
         date = (Button) findViewById(R.id.add_date);
         complete = (Button) findViewById(R.id.date_time_complete);
-        time.setOnClickListener(new View.OnClickListener() {
+
+        timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment timepicker = new TimePickerFragment();
@@ -47,7 +49,7 @@ public class Date_Time_Picker extends AppCompatActivity implements TrigCondition
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent();
-                    intent.putExtra("Time", getTriggerValue());
+                    intent.putExtra("Time", hour + ":" + minutes);
                     intent.putExtra("Date", Month + "/" + day + "/" + Year);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
@@ -56,24 +58,13 @@ public class Date_Time_Picker extends AppCompatActivity implements TrigCondition
                 {}
             }
         });
-
-    }
-
-    @Override
-    public String getTriggerMethod() {
-        return null;
-    }
-
-    @Override
-    public String getTriggerValue() {
-        return hour + ":" + minutes;
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         hour = hourOfDay;
         minutes = minute;
-        time.setText("Tigger time: " + getTriggerValue());
+        timeButton.setText("Tigger timeButton: " + hour + ":" + minutes);
     }
 
     @Override

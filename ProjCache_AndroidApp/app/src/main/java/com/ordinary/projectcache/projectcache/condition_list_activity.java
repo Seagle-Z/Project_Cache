@@ -1,6 +1,8 @@
 package com.ordinary.projectcache.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class condition_list_activity extends AppCompatActivity {
@@ -32,6 +35,7 @@ public class condition_list_activity extends AppCompatActivity {
         conditions.add("Bluetooth");
         conditions.add("WIFI");
         conditions.add("Time");
+        conditions.add("When App Launching");
 
         adapter = new ArrayAdapter<String>(this, R.layout.condition_options_layout, R.id.condition_type, conditions);
         conditionList.setAdapter(adapter);
@@ -41,6 +45,7 @@ public class condition_list_activity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
+                        condition_Type = "GPS";
                         break;
                     case 1:
                         break;
@@ -50,6 +55,9 @@ public class condition_list_activity extends AppCompatActivity {
                         condition_Type = "Time";
                         Intent intent = new Intent(condition_list_activity.this, Date_Time_Picker.class);
                         startActivityForResult(intent, 10);
+                        break;
+                    case 4:
+                        condition_Type = "WAL";
                         break;
                     default:
                         Log.d("","No Item selected");

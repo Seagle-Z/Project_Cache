@@ -55,7 +55,6 @@ public class Page2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), start_end_tasks_activity.class);
-                //startActivity(intent);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -64,7 +63,6 @@ public class Page2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), start_end_tasks_activity.class);
-                //startActivity(intent);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });

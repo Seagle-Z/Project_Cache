@@ -261,7 +261,7 @@ class Event implements Serializable {
     Integer priorityLevel;          // Normal is 0, bigger is higher priority level
 
     String[] triggerableDay;          // the day that the event be able to trigger
-    String[] triggerableTime;         // the time period that the event be able to trigger
+    String[] triggerableTime;         // the timeButton period that the event be able to trigger
 
     String[] triggerMethods;        // The methods for start this event
     String[] triggerValues;         // The value for the match method for start this event

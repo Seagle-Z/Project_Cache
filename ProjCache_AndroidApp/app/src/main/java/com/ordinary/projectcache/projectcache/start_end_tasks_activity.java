@@ -25,7 +25,6 @@ public class start_end_tasks_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_end_tasks_activity);
         viewPager = (ViewPager) findViewById(R.id.setup_viewPager);
-        System.out.println(viewPager);
         openApp = (Button) findViewById(R.id.open_app);
         openApp.setOnClickListener(new View.OnClickListener() {
             @Override

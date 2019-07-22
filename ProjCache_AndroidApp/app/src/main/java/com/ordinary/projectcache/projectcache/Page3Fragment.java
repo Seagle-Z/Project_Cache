@@ -18,7 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 public class Page3Fragment extends Fragment {
 
@@ -28,6 +31,8 @@ public class Page3Fragment extends Fragment {
     EditText eventName;
     Button complete;
     SectionsPageAdapter adapter;
+    Switch AutoT, OneTime;
+    private boolean autoTrigger, oneTimeEvent = false;
 
     @Nullable
     @Override
@@ -35,8 +40,12 @@ public class Page3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.user_setup_page_3, container, false);
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
         adapter = (SectionsPageAdapter) viewPager.getAdapter();
-
         previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);
+        eventName = (EditText) view.findViewById(R.id.event_name);
+        complete = (Button) view.findViewById(R.id.complete);
+        AutoT = (Switch) view.findViewById(R.id.autotrigger_switch);
+        OneTime = (Switch) view.findViewById(R.id.OneTimeEvent_switch);
+
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,8 +53,6 @@ public class Page3Fragment extends Fragment {
             }
         });
 
-        eventName = (EditText) view.findViewById(R.id.event_name);
-        complete = (Button) view.findViewById(R.id.complete);
         complete.setEnabled(true);
 
         eventName.addTextChangedListener(new TextWatcher() {
@@ -63,6 +70,34 @@ public class Page3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+            }
+        });
+
+        AutoT.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    autoTrigger = true;
+                    Toast.makeText(getContext(), "Auto Trigger Event is on", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    autoTrigger = false;
+                    Toast.makeText(getContext(), "Auto Trigger Event is off", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        OneTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    oneTimeEvent = true;
+                    Toast.makeText(getContext(), "One Time Event is on", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(), "One Time Event is off", Toast.LENGTH_SHORT).show();
+                    oneTimeEvent = false;
+                }
             }
         });
 
@@ -85,7 +120,7 @@ public class Page3Fragment extends Fragment {
                         null, null,
                         null, null,
                         null, null,
-                        Boolean.TRUE, Boolean.TRUE,
+                        autoTrigger, oneTimeEvent,
                         Boolean.TRUE, Boolean.TRUE,
                         "ASDFASDF", 10101);
                 Intent intent = new Intent();
