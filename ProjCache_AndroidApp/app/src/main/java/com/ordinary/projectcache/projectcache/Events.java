@@ -158,8 +158,6 @@ public class Events {
 
     public boolean addEvent(Event newEvent) {
 
-        // TODO: 要自动生成 eventID ，去掉Event的constructor里的 event ID
-
         for (Event e : events) {
             if (e.eventName.equals(newEvent.eventName)) {
                 return false;   // return false if the eventName existed
@@ -278,7 +276,7 @@ class Event implements Serializable {
     Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
 
     Boolean autoTrigger;            // if true, this event will start without need to click button
-    Boolean isActivated;            // if false, the event will not happen although the trigger conditions match
+    Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
 
     String eventCategory;           // for future usage
     Integer executedTimes;          // How many times did this event has been used
@@ -329,11 +327,12 @@ class Event implements Serializable {
 
         this.triggerableDay = e.triggerableDay;
         this.triggerableTime = e.triggerableTime;
+
         this.triggerMethods = e.triggerMethods;
         this.triggerValues = e.triggerValues;
-
         this.tasksTypeStart = e.tasksTypeStart;
         this.tasksValueStart = e.tasksValueStart;
+
         this.tasksTypeEnd = e.tasksTypeEnd;
         this.tasksValueEnd = e.tasksValueEnd;
 

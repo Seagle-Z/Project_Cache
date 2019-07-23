@@ -14,7 +14,7 @@ import android.widget.TimePicker;
 
 public class Date_Time_Picker extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    Button timeButton, date, complete;
+    Button timeButton, dateButton, completeButton;
 
     private int hour, minutes, Year, Month, day;
     private boolean selectedHour, selectedDate;
@@ -25,8 +25,8 @@ public class Date_Time_Picker extends AppCompatActivity implements TimePickerDia
         setContentView(R.layout.date__time__picker_activity);
 
         timeButton = (Button) findViewById(R.id.add_time);
-        date = (Button) findViewById(R.id.add_date);
-        complete = (Button) findViewById(R.id.date_time_complete);
+        dateButton = (Button) findViewById(R.id.add_date);
+        completeButton = (Button) findViewById(R.id.date_time_complete);
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,7 +36,7 @@ public class Date_Time_Picker extends AppCompatActivity implements TimePickerDia
             }
         });
 
-        date.setOnClickListener(new View.OnClickListener() {
+        dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment datepicker = new DatePickerFragment();
@@ -44,7 +44,7 @@ public class Date_Time_Picker extends AppCompatActivity implements TimePickerDia
             }
         });
 
-        complete.setOnClickListener(new View.OnClickListener() {
+        completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -72,6 +72,6 @@ public class Date_Time_Picker extends AppCompatActivity implements TimePickerDia
         Year = year;
         Month = month;
         day = dayOfMonth;
-        date.setText("Tigger Date: " + Month + "/" + day + "/" + Year);
+        dateButton.setText("Tigger Date: " + Month + "/" + day + "/" + Year);
     }
 }

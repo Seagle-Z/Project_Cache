@@ -7,10 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,7 +28,7 @@ public class Page3Fragment extends Fragment {
     EditText eventName;
     Button complete;
     SectionsPageAdapter adapter;
-    Switch AutoT, OneTime;
+    Switch AutoTriggerSwitch, OneTimeEventSwitch;
     private boolean autoTrigger, oneTimeEvent = false;
 
     @Nullable
@@ -43,8 +40,8 @@ public class Page3Fragment extends Fragment {
         previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);
         eventName = (EditText) view.findViewById(R.id.event_name);
         complete = (Button) view.findViewById(R.id.complete);
-        AutoT = (Switch) view.findViewById(R.id.autotrigger_switch);
-        OneTime = (Switch) view.findViewById(R.id.OneTimeEvent_switch);
+        AutoTriggerSwitch = (Switch) view.findViewById(R.id.autotrigger_switch);
+        OneTimeEventSwitch = (Switch) view.findViewById(R.id.OneTimeEvent_switch);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +70,7 @@ public class Page3Fragment extends Fragment {
             }
         });
 
-        AutoT.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        AutoTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
@@ -87,7 +84,7 @@ public class Page3Fragment extends Fragment {
             }
         });
 
-        OneTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        OneTimeEventSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {

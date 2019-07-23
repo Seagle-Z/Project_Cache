@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,27 +19,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Page1Fragment extends Fragment {
     private final String TAG = "Page1Fragment";
     ViewPager viewPager;
-    Button addCondition;
+    Button addConditionButton;
     FloatingActionButton forward;
     private final int REQUEST_CONDITION_CODE = 1001;
     private String triggerCondition = "";
-    ListView conditionList;
-    ArrayList<String> conditions = new ArrayList<>();
+    ListView conditionListView;
+    ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     View view;
-    ViewGroup vg;
-
 
     @Nullable
     @Override
@@ -48,15 +41,15 @@ public class Page1Fragment extends Fragment {
         view = inflater.inflate(R.layout.user_setup_page_1, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
-        conditionList = (ListView) view.findViewById(R.id.condition_list);
-        conditionList.setTextFilterEnabled(true);
-        adapter = new ArrayAdapter<String>(getContext(), R.layout.condition_list_layout, R.id.condition_name, conditions);
-        conditionList.setAdapter(adapter);
-        registerForContextMenu(conditionList);
-        addCondition = (Button) view.findViewById(R.id.add_condition);
+        conditionListView = (ListView) view.findViewById(R.id.condition_list);
+        conditionListView.setTextFilterEnabled(true);
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.condition_list_layout, R.id.condition_name, conditionsArrList);
+        conditionListView.setAdapter(adapter);
+        registerForContextMenu(conditionListView);
+        addConditionButton = (Button) view.findViewById(R.id.add_condition);
 
 
-        addCondition.setOnClickListener(new View.OnClickListener() {
+        addConditionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), condition_list_activity.class);
@@ -67,7 +60,7 @@ public class Page1Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!addCondition.getText().toString().contains("Select"))
+//                if (!addConditionButton.getText().toString().contains("Select"))
 //                    viewPager.setCurrentItem(1);
 //                else {
 //                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
@@ -125,10 +118,10 @@ public class Page1Fragment extends Fragment {
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
                 if(data.hasExtra("GivenTime")) {
-                    conditions.add("Time: " + data.getStringExtra("Time") + " | Date: " + data.getStringExtra("Date"));
-                    int i = conditions.size();
+                    conditionsArrList.add("Time: " + data.getStringExtra("Time") + " | Date: " + data.getStringExtra("Date"));
+                    int i = conditionsArrList.size();
                     adapter.notifyDataSetChanged();
-                    setListViewHeightBasedOnChildren(conditionList);
+                    setListViewHeightBasedOnChildren(conditionListView);
                 }
             }
         } catch (NullPointerException e) {
@@ -177,9 +170,9 @@ public class Page1Fragment extends Fragment {
                 adb.setNegativeButton("No no", null);
                 adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        conditions.remove(info.position);
+                        conditionsArrList.remove(info.position);
                         adapter.notifyDataSetChanged();
-                        setListViewHeightBasedOnChildren(conditionList);
+                        setListViewHeightBasedOnChildren(conditionListView);
                     }
                 });
                 adb.show();
