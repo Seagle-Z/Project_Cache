@@ -109,16 +109,16 @@ public class Events {
         String tCreateTime = data[3];
         Integer tPriorityLevel = Integer.parseInt(data[4]);
 
-        String[] tTriggerableDay = data[5].split("|");
-        String[] tTriggerableTime = data[6].split("|");
+        String[] tTriggerableDay = data[5].split("\\|");
+        String[] tTriggerableTime = data[6].split("\\|");
 
-        String[] tTriggerMethodsStart = data[7].split("|");
-        String[] tTriggerValuesStart = data[8].split("|");
-        String[] tTasksTypeStart = data[9].split("|");
-        String[] tTasksValueStart = data[10].split("|");
+        String[] tTriggerMethodsStart = data[7].split("\\|");
+        String[] tTriggerValuesStart = data[8].split("\\|");
+        String[] tTasksTypeStart = data[9].split("\\|");
+        String[] tTasksValueStart = data[10].split("\\|");
 
-        String[] tTasksTypeEnd = data[11].split("|");
-        String[] tTasksValueEnd = data[12].split("|");
+        String[] tTasksTypeEnd = data[11].split("\\|");
+        String[] tTasksValueEnd = data[12].split("\\|");
 
         Boolean tSelfResetEvent, tOneTimeEvent, tAutoTrigger, tIsActivated;
         if (data[13].equalsIgnoreCase("true"))
