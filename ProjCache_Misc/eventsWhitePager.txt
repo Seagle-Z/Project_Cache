@@ -1,3 +1,7 @@
+General separator rules:
+L1 separator logically is "and"
+L2 separator logically is "or"
+
 1.
 eventID
 Integer
@@ -34,6 +38,7 @@ triggerableDay
 String
 Use the first 3 characters of day name indicate the day.
 Use "|" without space to separate days.
+Be careful!! Use "\\|" when parse due to Java's syntax.
 All days should follow the order of Monday to Sunday.
 E.g. "MON|TUE|FRI|SAT"
 Use "WKD" for weekdays that is Monday to Friday.
@@ -43,8 +48,9 @@ If triggerableDay is "NULL", it means it will available all the day.
 7. 暂时弃用，全都写 "NULL"
 triggerableTime
 String
-HH:MM-HH:MM|HH:MM-HH:MM
-Use "|" without space to separate each time range.
+HH:MM-HH:MM###HH:MM-HH:MM
+Use "|" without space to separate days.
+Be careful!! Use "\\|" when parse due to Java's syntax.
 E.g. “16:59-17:50|18:20-22:25”
 Time should not have superposition.
 The constructor will automatically convert it to no superposition.
@@ -55,19 +61,19 @@ E.g. If input is "14:00-16:00|15:00-17:00|20:00-21:00",
 8 & 9
 triggerMethod & triggerValues
 String
-Use “|” to separate without space
+Use “|” without space as L1 separator to separate each triggerMethod
 The first position triggerValues match the first position triggerMethod
-E.g. triggerMethod          triggerValues
-     “TIME_RANGE|BLUETOOTH”       "20:00-22:30|WH-1000Xm3"
+E.g. triggerMethod            triggerValues
+     “TIME|BLUETOOTH”         "20:00-22:30#23:00-23:30|WH-1000Xm3"
 Explanation: Trigger this event if:
-                1. time is in 20:00-22:30
+                1. time is in 20:00-22:30 or in 23:00-23:30
                 2. Bluetooth connected to WH-1000Xm3
 The explanation of keywords will be in MethodValue&TaskValue Documentation.
 
 10 & 11
 tasksTypeStart & taskValueStart
 String
-Use “|” to separate without space
+Use “|” without space as L1 separator to separate each taskTypeStart
 The first position tasksTypeStart match the first position taskValueStart
 E.g. tasksTypeStart             taskValueStart
      OPEN_APP|VOLUME|MODE       tv.danmuku.bili|50|DO_NOT_DISTRIBUTE
