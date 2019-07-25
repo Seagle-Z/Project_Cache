@@ -34,6 +34,7 @@ public class Page1Fragment extends Fragment {
     ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     View view;
+    ToolFunctions TF = new ToolFunctions();
 
     @Nullable
     @Override
@@ -43,7 +44,7 @@ public class Page1Fragment extends Fragment {
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionListView = (ListView) view.findViewById(R.id.condition_list);
         conditionListView.setTextFilterEnabled(true);
-        adapter = new ArrayAdapter<String>(getContext(), R.layout.condition_list_layout, R.id.condition_name, conditionsArrList);
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.general_list_layout, R.id.condition_name, conditionsArrList);
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
@@ -121,31 +122,11 @@ public class Page1Fragment extends Fragment {
                     conditionsArrList.add("Time: " + data.getStringExtra("Time") + " | Date: " + data.getStringExtra("Date"));
                     int i = conditionsArrList.size();
                     adapter.notifyDataSetChanged();
-                    setListViewHeightBasedOnChildren(conditionListView);
+                    TF.setListViewHeightBasedOnChildren(adapter,conditionListView);
                 }
             }
         } catch (NullPointerException e) {
         }
-    }
-
-    public void setListViewHeightBasedOnChildren(ListView listView) {
-        if (this.adapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
     }
 
     @Override
@@ -161,7 +142,7 @@ public class Page1Fragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.edit:
-                Toast.makeText(getContext(), "Edit", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.delete:
                 Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
@@ -172,7 +153,7 @@ public class Page1Fragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         conditionsArrList.remove(info.position);
                         adapter.notifyDataSetChanged();
-                        setListViewHeightBasedOnChildren(conditionListView);
+                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
                     }
                 });
                 adb.show();
