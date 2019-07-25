@@ -17,12 +17,11 @@
 
             <ImageView
                 android:id="@+id/core_imageView"
-                android:background="?selectableItemBackgroundBorderless"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="40dp"
                 app:srcCompat="@drawable/ic_launcher_foreground"
-
+                android:background="?android:selectableItemBackgroundBorderless"
                 android:scaleType="fitCenter"/>
 
             <TextView

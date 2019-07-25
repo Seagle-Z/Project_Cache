@@ -48,17 +48,19 @@
                 android:id="@+id/test"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:paddingTop="10sp"
+                android:paddingLeft="10sp"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
                 android:text="Auto Trigger" />
 
             <Switch
                 android:id="@+id/autotrigger_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="10sp"
-                android:paddingTop="20sp"
+                android:paddingTop="10sp"
                 android:paddingBottom="10sp"
-                android:textSize="15sp" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,17 +72,19 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:paddingTop="10sp"
+                android:paddingLeft="10sp"
+                android:textSize="20sp"
                 android:text="One Time Event" />
 
             <Switch
                 android:id="@+id/OneTimeEvent_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="10sp"
-                android:paddingTop="20sp"
+                android:paddingTop="10sp"
                 android:paddingBottom="10sp"
-                android:textSize="15sp" />
+                android:layout_weight="1" />
         </LinearLayout>
 
     </LinearLayout>

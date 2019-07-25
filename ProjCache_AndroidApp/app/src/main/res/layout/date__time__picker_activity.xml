@@ -29,6 +29,12 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
+            <ListView
+                android:id="@+id/date_time_list"
+                android:paddingLeft="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <Button
                 android:id="@+id/add_time"
                 android:layout_width="match_parent"
@@ -60,7 +66,7 @@
                 android:textAllCaps="false" />
 
             <Button
-                android:id="@+id/date_time_complete"
+                android:id="@+id/date_time_picker_activity_complete_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Complete" />

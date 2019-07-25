@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Time_Selector_Activity">
+
+    <TextView
+        android:id="@+id/date_time_picker_activity"
+        android:layout_width="match_parent"
+        android:layout_height="35sp"
+        android:paddingLeft="5sp"
+        android:paddingTop="5sp"
+        android:text="Time Picker"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/timeRangeOnOffTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="Time Range Required?"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/time_range_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingTop="10sp"
+            android:paddingBottom="10sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/start_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10sp"
+        android:paddingTop="30sp"
+        android:text="Choose a start time"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/pick_start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:paddingLeft="20dp"
+        android:text="+ Add starting time"
+        android:textAlignment="textStart"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/end_time_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10sp"
+        android:paddingTop="20sp"
+        android:text="Choose an end time"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/pick_end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:paddingLeft="20dp"
+        android:text="+ Add ending time"
+        android:textAlignment="textStart"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/time_selector_activity_layout_complete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add To List" />
+
+</LinearLayout>
