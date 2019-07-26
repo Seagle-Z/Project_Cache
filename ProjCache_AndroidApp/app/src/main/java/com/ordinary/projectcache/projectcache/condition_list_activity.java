@@ -12,13 +12,15 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class condition_list_activity extends AppCompatActivity {
-
+public class Condition_List_Activity extends AppCompatActivity {
 
     ListView conditionListView;
     ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapterForConditionListView;
     private String condition_Type = "";
+    private final int REQUEST_TIME_INFORMATION_CODE = 1001;
+    private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +52,13 @@ public class condition_list_activity extends AppCompatActivity {
                         break;
                     case 3:
                         condition_Type = "Time";
-                        Intent intent = new Intent(condition_list_activity.this, Date_Time_Picker.class);
-                        startActivityForResult(intent, 10);
+                        Intent timeMode = new Intent(Condition_List_Activity.this, Date_Time_Picker_Activity.class);
+                        startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case 4:
                         condition_Type = "WAL";
+                        Intent AppLaunching  = new Intent(Condition_List_Activity.this, Applist_Activity.class);
+                        startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:
                         Log.d("","No Item selected");

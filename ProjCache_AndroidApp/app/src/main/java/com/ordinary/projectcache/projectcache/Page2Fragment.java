@@ -52,7 +52,7 @@ public class Page2Fragment extends Fragment {
         startActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), start_end_tasks_activity.class);
+                Intent intent = new Intent(getContext(), Start_End_Tasks_Activity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -60,7 +60,7 @@ public class Page2Fragment extends Fragment {
         endActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), start_end_tasks_activity.class);
+                Intent intent = new Intent(getContext(), Start_End_Tasks_Activity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });

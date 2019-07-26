@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -163,7 +162,7 @@ public class Time_Selector_Activity extends AppCompatActivity implements TimePic
                 if (timeRangeDivider[0].trim().equals(beginHour + ":" + beginMintue) && timeRangeDivider[1].trim().equals(endHour + ":" + endMinute))
                     unchangedWarningWindow(WarningDialog);
                 if (!timeRangeDivider[0].trim().equals(beginHour + ":" + beginMintue) || !timeRangeDivider[1].trim().equals(endHour + ":" + endMinute)) {
-                    getIntent(beginHour + ":" + beginMintue + " - " + endHour + ":" + endMinute);
+                    getIntent(beginHour + ":" + beginMintue + "-" + endHour + ":" + endMinute);
                     finish();
                 }
             }
@@ -197,7 +196,7 @@ public class Time_Selector_Activity extends AppCompatActivity implements TimePic
                     });
                     WarningDialog.show();
                 } else if (!addBeginTimeButton.getText().toString().contains("Add") && !addEndTimeButton.getText().toString().contains("Add")) {
-                    getIntent(beginHour + ":" + beginMintue + " - " + endHour + ":" + endMinute);
+                    getIntent(beginHour + ":" + beginMintue + "-" + endHour + ":" + endMinute);
                     finish();
                 }
             }

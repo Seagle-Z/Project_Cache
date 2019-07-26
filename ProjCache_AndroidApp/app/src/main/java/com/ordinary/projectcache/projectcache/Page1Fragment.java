@@ -53,7 +53,7 @@ public class Page1Fragment extends Fragment {
         addConditionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), condition_list_activity.class);
+                Intent intent = new Intent(getContext(), Condition_List_Activity.class);
                 startActivityForResult(intent, REQUEST_CONDITION_CODE);
             }
         });
@@ -61,12 +61,11 @@ public class Page1Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!addConditionButton.getText().toString().contains("Select"))
-//                    viewPager.setCurrentItem(1);
-//                else {
-//                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
-//                }
-                viewPager.setCurrentItem(1);
+                if (!conditionsArrList.isEmpty())
+                    viewPager.setCurrentItem(1);
+                else {
+                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -119,8 +118,8 @@ public class Page1Fragment extends Fragment {
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
                 if(data.hasExtra("GivenTime")) {
-                    conditionsArrList.add("Time: " + data.getStringExtra("Time") + " | Date: " + data.getStringExtra("Date"));
-                    int i = conditionsArrList.size();
+                    conditionsArrList.add("Added trigger method: Time");
+
                     adapter.notifyDataSetChanged();
                     TF.setListViewHeightBasedOnChildren(adapter,conditionListView);
                 }

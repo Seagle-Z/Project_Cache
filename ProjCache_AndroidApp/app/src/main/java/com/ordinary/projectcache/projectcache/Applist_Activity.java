@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AppList extends AppCompatActivity {
+public class Applist_Activity extends AppCompatActivity {
     private List<InstalledAppInfo> apps;
     private ListView list;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -120,7 +115,7 @@ public class AppList extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<InstalledAppInfo> appInfos) {
             super.onPostExecute(appInfos);
-            list.setAdapter(new AdapterForAppList(AppList.this, appInfos));
+            list.setAdapter(new AdapterForAppList(Applist_Activity.this, appInfos));
             swipeRefreshLayout.setRefreshing(false);
             Snackbar.make(list, appInfos.size() + "applications loaded", Snackbar.LENGTH_LONG).show();
         }

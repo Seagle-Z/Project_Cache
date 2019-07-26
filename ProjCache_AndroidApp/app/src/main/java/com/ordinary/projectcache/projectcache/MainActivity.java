@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         coreModels = new ArrayList<>();
         //** Hard code some card for development ***************************************************
 
-        Intent testIntent1 = new Intent(MainActivity.this, AppList.class);
+        Intent testIntent1 = new Intent(MainActivity.this, Applist_Activity.class);
 
         String url = "http://www.example.com";
         Intent testIntent2 = new Intent(Intent.ACTION_VIEW);

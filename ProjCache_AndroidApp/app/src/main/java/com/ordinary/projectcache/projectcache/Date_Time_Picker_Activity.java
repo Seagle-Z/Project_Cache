@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,16 +22,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import javax.xml.transform.Templates;
-
-public class Date_Time_Picker extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class Date_Time_Picker_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button timeButton, dateButton, completeButton;
     private final int TIME_PICKING_CODE = 1013;
     Context date_time_picker_Context;
     private int Year, Month, day, selectedEditPosition;
     private String returnedTime = "";
-    private boolean selectedHour, selectedDate, editMode;
+    private boolean editMode;
     ListView timeListView;
     ArrayList<String> selectedTimeArrList = new ArrayList<>();
     ArrayAdapter<String> adapterFortimeListView;
@@ -42,7 +39,7 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.date__time__picker_activity);
-        date_time_picker_Context = Date_Time_Picker.this;
+        date_time_picker_Context = Date_Time_Picker_Activity.this;
         timeButton = (Button) findViewById(R.id.add_time);
         dateButton = (Button) findViewById(R.id.add_date);
         completeButton = (Button) findViewById(R.id.date_time_picker_activity_complete_button);
@@ -50,7 +47,7 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
 
         timeListView = (ListView) findViewById(R.id.date_time_list);
         timeListView.setTextFilterEnabled(true);
-        adapterFortimeListView = new ArrayAdapter<String>(Date_Time_Picker.this, R.layout.general_list_layout, R.id.condition_name, selectedTimeArrList);
+        adapterFortimeListView = new ArrayAdapter<String>(Date_Time_Picker_Activity.this, R.layout.general_list_layout, R.id.condition_name, selectedTimeArrList);
         timeListView.setAdapter(adapterFortimeListView);
         registerForContextMenu(timeListView);
 
@@ -58,7 +55,7 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Date_Time_Picker.this, Time_Selector_Activity.class);
+                Intent intent = new Intent(Date_Time_Picker_Activity.this, Time_Selector_Activity.class);
                 startActivityForResult(intent, TIME_PICKING_CODE);
             }
         });
@@ -75,14 +72,34 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(View v) {
                 try {
-//                    Intent intent = new Intent();
-//                    intent.putExtra("Time", hour + ":" + minutes);
-//                    intent.putExtra("Date", Month + "/" + day + "/" + Year);
-//                    setResult(Activity.RESULT_OK, intent);
-//                    finish();
+                    if (!selectedTimeArrList.isEmpty()) {
+                        String[] result = parseResult(selectedTimeArrList);
+                        String intentResult = "";
+                        for (int i = 0; i < result.length; i++) {
+                            if (i != result.length - 1)
+                                intentResult = intentResult + result[i] + "#";
+                            else
+                                intentResult = intentResult + result[i];
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("Time", intentResult);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    } else {
+                        Context context = Date_Time_Picker_Activity.this;
+                        final AlertDialog.Builder WarningDialog = new AlertDialog.Builder(context);
+                        WarningDialog.setTitle("Warning");
+                        WarningDialog.setMessage("Please add at least one occurring time for the event");
+                        WarningDialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        WarningDialog.show();
+                    }
+                } catch (NullPointerException e) {
                 }
-                catch (NullPointerException e)
-                {}
             }
         });
     }
@@ -91,24 +108,20 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == TIME_PICKING_CODE && resultCode == Activity.RESULT_OK) {
-                if(data.hasExtra("Time")) {
-                    if(!editMode) {
+                if (data.hasExtra("Time")) {
+                    if (!editMode) {
                         returnedTime = data.getStringExtra("Time");
-                        if(returnedTime.contains("-"))
-                        {
-                            selectedTimeArrList.add("- Event activate between: " + returnedTime);
+                        if (returnedTime.contains("-")) {
+                            selectedTimeArrList.add("- Event activates between: " + returnedTime);
+                            adapterFortimeListView.notifyDataSetChanged();
+                            TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                        } else {
+                            selectedTimeArrList.add("- Event activates at: " + returnedTime);
                             adapterFortimeListView.notifyDataSetChanged();
                             TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
                         }
-                        else {
-                            selectedTimeArrList.add("- Event activate at: " + returnedTime);
-                            adapterFortimeListView.notifyDataSetChanged();
-                            TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
-                        }
-                    }
-                    else
-                    {
-                        selectedTimeArrList.set(selectedEditPosition, "- Event activate at: " + data.getStringExtra("Time"));
+                    } else {
+                        selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + data.getStringExtra("Time"));
                         editMode = false;
                         adapterFortimeListView.notifyDataSetChanged();
                     }
@@ -140,7 +153,7 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
         switch (item.getItemId()) {
             case R.id.edit:
                 Toast.makeText(date_time_picker_Context, "Edit", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Date_Time_Picker.this, Time_Selector_Activity.class);
+                Intent intent = new Intent(Date_Time_Picker_Activity.this, Time_Selector_Activity.class);
                 intent.putExtra("RETRIEVE", returnedTime);
                 startActivityForResult(intent, TIME_PICKING_CODE);
                 editMode = true;
@@ -164,5 +177,20 @@ public class Date_Time_Picker extends AppCompatActivity implements DatePickerDia
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public String[] parseResult(ArrayList<String> timeList) {
+        String[] result = new String[timeList.size()];
+        String s = "";
+        for (int i = 0; i < result.length; i++) {
+            s = timeList.get(i);
+            if (timeList.get(i).contains("- Event activates between: ")) {
+                s = s.replace("- Event activates between: ", "");
+            } else if (s.contains("- Event activates at: ")) {
+                s = s.replace("- Event activates at: ", "");
+            }
+            result[i] = s;
+        }
+        return result;
     }
 }
