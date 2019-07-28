@@ -18,7 +18,7 @@ public class ActionTaskSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start_end_tasks_activity);
+        setContentView(R.layout.activity_action_task_selection);
         viewPager = (ViewPager) findViewById(R.id.setup_viewPager);
         openApp = (Button) findViewById(R.id.open_app);
         openApp.setOnClickListener(new View.OnClickListener() {

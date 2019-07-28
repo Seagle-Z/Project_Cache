@@ -39,12 +39,12 @@ public class EventSetupPage1Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.user_setup_page_1, container, false);
+        view = inflater.inflate(R.layout.fragment_event_setup_page1, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionListView = (ListView) view.findViewById(R.id.condition_list);
         conditionListView.setTextFilterEnabled(true);
-        adapter = new ArrayAdapter<String>(getContext(), R.layout.general_list_layout, R.id.condition_name, conditionsArrList);
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);

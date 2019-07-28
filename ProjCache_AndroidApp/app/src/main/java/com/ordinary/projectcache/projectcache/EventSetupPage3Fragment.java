@@ -34,7 +34,7 @@ public class EventSetupPage3Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.user_setup_page_3, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_setup_page3, container, false);
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
         adapter = (SectionsPageAdapter) viewPager.getAdapter();
         previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);

@@ -36,7 +36,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.app__launch__method_activity);
+        setContentView(R.layout.activity_trigger_method_app_launch);
         app_picker_context = TriggerMethodAppLaunchActivity.this;
         addAppButton = (Button) findViewById(R.id.add_app);
         completeButton = (Button) findViewById(R.id.application_picker_activity_complete_button);
@@ -44,7 +44,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         pm = TriggerMethodAppLaunchActivity.this.getPackageManager();
 
         selectedAppListView.setTextFilterEnabled(true);
-//        adapterFortimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.app_list_layout, R.id.condition_name, selectedAppArrList);
+//        adapterFortimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
         appListAdapterView = new AppListAdapter(app_picker_context, selectedAppArrList);
         selectedAppListView.setAdapter(appListAdapterView);
         registerForContextMenu(selectedAppListView);
