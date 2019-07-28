@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Time_Selector_Activity">
+    tools:context=".TimeSelectorActivity">
 
     <TextView
         android:id="@+id/date_time_picker_activity"
