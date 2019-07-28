@@ -28,7 +28,7 @@ public class AppListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_list_view);
+        setContentView(R.layout.listview_app_list);
         list = (ListView) findViewById(R.id.app_list);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         list.setTextFilterEnabled(true);

@@ -25,7 +25,7 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.condition_list_activity);
+        setContentView(R.layout.activity_trigger_method_selection);
 
         conditionListView = (ListView) findViewById(R.id.condition_types);
         conditionListView.setTextFilterEnabled(true);
@@ -36,7 +36,7 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionsArrList.add("Time");
         conditionsArrList.add("When App Launching");
 
-        adapterForConditionListView = new ArrayAdapter<String>(this, R.layout.condition_options_layout, R.id.condition_type, conditionsArrList);
+        adapterForConditionListView = new ArrayAdapter<String>(this, R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
         conditionListView.setAdapter(adapterForConditionListView);
 
         conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,7 +52,7 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
                         break;
                     case 3:
                         conditionTypeID = 3;
-                        Intent timeMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodDataTimeActivity.class);
+                        Intent timeMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodDateTimeActivity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case 4:

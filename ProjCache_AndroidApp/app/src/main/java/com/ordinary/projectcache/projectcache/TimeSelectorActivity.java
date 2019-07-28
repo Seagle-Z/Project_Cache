@@ -29,7 +29,7 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.time_selector_activity_layout);
+        setContentView(R.layout.activity_time_selector);
 
         addBeginTimeButton = (Button) findViewById(R.id.pick_start_time);
         addEndTimeButton = (Button) findViewById(R.id.pick_end_time);

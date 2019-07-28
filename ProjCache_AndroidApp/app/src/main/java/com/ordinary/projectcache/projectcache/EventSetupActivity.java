@@ -16,7 +16,7 @@ public class EventSetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_setup_layout);
+        setContentView(R.layout.activity_event_setup);
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.setup_viewPager);

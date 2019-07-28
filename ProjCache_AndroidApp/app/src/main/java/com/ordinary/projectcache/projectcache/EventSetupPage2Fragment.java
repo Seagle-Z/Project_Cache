@@ -27,7 +27,7 @@ public class EventSetupPage2Fragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.user_setup_page_2, container, false);
+        View view = inflater.inflate(R.layout.fragment_event_setup_page2, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page2Forward);
         viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
         startActionButton = (Button) view.findViewById(R.id.add_startAction);

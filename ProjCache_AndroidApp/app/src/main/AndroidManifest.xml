@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TriggerMethodAppLaunchActivity"></activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -27,8 +27,9 @@
         <activity android:name=".EventSetupActivity" />
         <activity android:name=".ActionTaskSelectionActivity" />
         <activity android:name=".TriggerMethodSelectionActivity" />
-        <activity android:name=".TriggerMethodDataTimeActivity" />
+        <activity android:name=".TriggerMethodDateTimeActivity" />
         <activity android:name=".TimeSelectorActivity" />
+        <activity android:name=".TriggerMethodAppLaunchActivity" />
     </application>
 
 </manifest>

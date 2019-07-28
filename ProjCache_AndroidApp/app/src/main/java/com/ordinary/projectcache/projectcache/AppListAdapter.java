@@ -1,7 +1,6 @@
 package com.ordinary.projectcache.projectcache;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -22,7 +21,7 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
 
     public AppListAdapter(Context context, List<InstalledAppInfo> apps)
     {
-        super(context, R.layout.app_list_layout, apps);
+        super(context, R.layout.layout_app_list, apps);
         inflater = LayoutInflater.from(context);
         pm = context.getPackageManager();
         this.apps = apps;
@@ -39,7 +38,7 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
             /* With this inflater, the list would expand dynamically based on the number of object from
              * the List<InstalledAppInfo> apps
              */
-            view = inflater.inflate(R.layout.app_list_layout, parent, false);
+            view = inflater.inflate(R.layout.layout_app_list, parent, false);
         }
 
         //Get the title and set the app label to it

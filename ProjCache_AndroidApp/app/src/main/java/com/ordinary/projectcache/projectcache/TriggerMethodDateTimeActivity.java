@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class TriggerMethodDataTimeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class TriggerMethodDateTimeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button timeButton, dateButton, completeButton;
     private final int TIME_PICKING_CODE = 1013;
@@ -38,8 +38,8 @@ public class TriggerMethodDataTimeActivity extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.date__time__picker_activity);
-        date_time_picker_Context = TriggerMethodDataTimeActivity.this;
+        setContentView(R.layout.activity_trigger_method_date_time);
+        date_time_picker_Context = TriggerMethodDateTimeActivity.this;
         timeButton = (Button) findViewById(R.id.add_time);
         dateButton = (Button) findViewById(R.id.add_date);
         completeButton = (Button) findViewById(R.id.date_time_picker_activity_complete_button);
@@ -47,7 +47,7 @@ public class TriggerMethodDataTimeActivity extends AppCompatActivity implements 
 
         timeListView = (ListView) findViewById(R.id.date_time_list);
         timeListView.setTextFilterEnabled(true);
-        adapterFortimeListView = new ArrayAdapter<String>(date_time_picker_Context, R.layout.general_list_layout, R.id.condition_name, selectedTimeArrList);
+        adapterFortimeListView = new ArrayAdapter<String>(date_time_picker_Context, R.layout.layout_general_list, R.id.condition_name, selectedTimeArrList);
         timeListView.setAdapter(adapterFortimeListView);
         registerForContextMenu(timeListView);
 
@@ -87,7 +87,7 @@ public class TriggerMethodDataTimeActivity extends AppCompatActivity implements 
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     } else {
-                        Context context = TriggerMethodDataTimeActivity.this;
+                        Context context = TriggerMethodDateTimeActivity.this;
                         final AlertDialog.Builder WarningDialog = new AlertDialog.Builder(context);
                         WarningDialog.setTitle("Warning");
                         WarningDialog.setMessage("Please add at least one occurring time for the event");
@@ -155,7 +155,7 @@ public class TriggerMethodDataTimeActivity extends AppCompatActivity implements 
         switch (item.getItemId()) {
             case R.id.edit:
                 Toast.makeText(date_time_picker_Context, "Edit", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(TriggerMethodDataTimeActivity.this, TimeSelectorActivity.class);
+                Intent intent = new Intent(TriggerMethodDateTimeActivity.this, TimeSelectorActivity.class);
                 intent.putExtra("RETRIEVE", returnedTime);
                 startActivityForResult(intent, TIME_PICKING_CODE);
                 editMode = true;
