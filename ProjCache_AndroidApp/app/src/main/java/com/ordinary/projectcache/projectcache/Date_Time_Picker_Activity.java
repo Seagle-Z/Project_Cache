@@ -47,7 +47,7 @@ public class Date_Time_Picker_Activity extends AppCompatActivity implements Date
 
         timeListView = (ListView) findViewById(R.id.date_time_list);
         timeListView.setTextFilterEnabled(true);
-        adapterFortimeListView = new ArrayAdapter<String>(Date_Time_Picker_Activity.this, R.layout.general_list_layout, R.id.condition_name, selectedTimeArrList);
+        adapterFortimeListView = new ArrayAdapter<String>(date_time_picker_Context, R.layout.general_list_layout, R.id.condition_name, selectedTimeArrList);
         timeListView.setAdapter(adapterFortimeListView);
         registerForContextMenu(timeListView);
 
@@ -55,7 +55,7 @@ public class Date_Time_Picker_Activity extends AppCompatActivity implements Date
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Date_Time_Picker_Activity.this, Time_Selector_Activity.class);
+                Intent intent = new Intent(date_time_picker_Context, Time_Selector_Activity.class);
                 startActivityForResult(intent, TIME_PICKING_CODE);
             }
         });
@@ -161,15 +161,16 @@ public class Date_Time_Picker_Activity extends AppCompatActivity implements Date
                 return true;
 
             case R.id.delete:
-                Toast.makeText(date_time_picker_Context, "Delete", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder adb = new AlertDialog.Builder(date_time_picker_Context);
                 adb.setTitle("Delete");
                 adb.setNegativeButton("No no", null);
                 adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(date_time_picker_Context, "Deleting", Toast.LENGTH_SHORT).show();
                         selectedTimeArrList.remove(info.position);
                         adapterFortimeListView.notifyDataSetChanged();
                         TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                        Toast.makeText(date_time_picker_Context, "Deleted", Toast.LENGTH_SHORT).show();
                     }
                 });
                 adb.show();

@@ -23,7 +23,6 @@ public class AdapterForAppList extends ArrayAdapter<InstalledAppInfo> {
     public AdapterForAppList(Context context, List<InstalledAppInfo> apps)
     {
         super(context, R.layout.app_list_layout, apps);
-        //super(context, R.layout.app_list_layout, apps);
         inflater = LayoutInflater.from(context);
         pm = context.getPackageManager();
         this.apps = apps;
@@ -47,15 +46,7 @@ public class AdapterForAppList extends ArrayAdapter<InstalledAppInfo> {
         TextView textviewTitle = (TextView)view.findViewById(R.id.titleTextView);
         textviewTitle.setText(current.getLabel());
 
-//        try{
-//            PackageInfo packageInfo = pm.getPackageInfo(current.getInfo().packageName, 0);
-//        }
-//        catch (PackageManager.NameNotFoundException e)
-//        {
-//            e.printStackTrace();
-//        }
 
-        //Get the App Icon and set to the image
         ImageView imageView = (ImageView) view.findViewById(R.id.iconImage);
         Drawable background = current.getPackageIcon();
         imageView.setBackground(background);

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".start_end_tasks_activity">
+    tools:context=".Start_End_Tasks_Activity">
 
     <Button
         android:id="@+id/open_app"

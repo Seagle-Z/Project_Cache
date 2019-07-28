@@ -22,6 +22,7 @@ import java.util.List;
 public class Applist_Activity extends AppCompatActivity {
     private List<InstalledAppInfo> apps;
     private ListView list;
+    private boolean editMode;
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -32,6 +33,16 @@ public class Applist_Activity extends AppCompatActivity {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         list.setTextFilterEnabled(true);
         //pull down can refresh the app list
+
+        Intent intent = getIntent();
+        try {
+            if (intent.hasExtra("RETRIEVE")) {
+                editMode = true;
+            }
+        } catch (NullPointerException e) {
+        }
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -48,18 +59,10 @@ public class Applist_Activity extends AppCompatActivity {
                 InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
                 Intent intent = new Intent(); //Create a new intent object to for data returning use.
                 intent.putExtra("App", app);
-                //intent.putExtra("SelectedApp", app.getLabel());
-                //intent.putExtra("PackageIcon", app.getInfo().loadIcon(getPackageManager()).);
-                //appIcon = drawableToBitmap(app.info.loadIcon(getPackageManager()));
                 setResult(Activity.RESULT_OK, intent);
                 finish(); //End of Activity.
             }
         });
-
-        //**
-        //Events evnets = new Events();
-
-        //**
     }
 
     @Override

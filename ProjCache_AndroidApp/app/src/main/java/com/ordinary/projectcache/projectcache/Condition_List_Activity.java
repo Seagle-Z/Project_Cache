@@ -17,7 +17,7 @@ public class Condition_List_Activity extends AppCompatActivity {
     ListView conditionListView;
     ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapterForConditionListView;
-    private String condition_Type = "";
+    private int conditionTypeID;
     private final int REQUEST_TIME_INFORMATION_CODE = 1001;
     private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
 
@@ -44,20 +44,20 @@ public class Condition_List_Activity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        condition_Type = "GPS";
+                        conditionTypeID = 1;
                         break;
                     case 1:
                         break;
                     case 2:
                         break;
                     case 3:
-                        condition_Type = "Time";
+                        conditionTypeID = 3;
                         Intent timeMode = new Intent(Condition_List_Activity.this, Date_Time_Picker_Activity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case 4:
-                        condition_Type = "WAL";
-                        Intent AppLaunching  = new Intent(Condition_List_Activity.this, Applist_Activity.class);
+                        conditionTypeID = 4;
+                        Intent AppLaunching  = new Intent(Condition_List_Activity.this, App_Launch_Method_Activity.class);
                         startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:
@@ -69,15 +69,26 @@ public class Condition_List_Activity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (condition_Type.equals("Time")) {
+        if (conditionTypeID == 3) {
             try {
                 //data.putExtra("Time", "");
                 data.putExtra("GivenTime", "");
+                setResult(Activity.RESULT_OK, data);
+                finish();
                 //System.out.println(data.getStringExtra("Time"));
             } catch (NullPointerException e) {
             }
         }
-        setResult(Activity.RESULT_OK, data);
-        finish();
+        if(conditionTypeID == 4)
+        {
+            try {
+                //data.putExtra("Time", "");
+                data.putExtra("GivenApp", "");
+                setResult(Activity.RESULT_OK, data);
+                finish();
+                //System.out.println(data.getStringExtra("Time"));
+            } catch (NullPointerException e) {
+            }
+        }
     }
 }

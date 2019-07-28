@@ -83,7 +83,7 @@ public class ToolFunctions {
         }
     }
 
-    public void setListViewHeightBasedOnChildren(ArrayAdapter<String> arrayAdapter, ListView listView) {
+    public void setListViewHeightBasedOnChildren(ArrayAdapter<?> arrayAdapter, ListView listView) {
         if (arrayAdapter == null) {
             // pre-condition
             return;
