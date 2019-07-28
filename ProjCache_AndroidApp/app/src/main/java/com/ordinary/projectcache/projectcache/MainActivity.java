@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     private final int REQUEST_SETUP_CODE = 1002;
     private final int STORAGE_PERMISSON_CODE = 1010;
     ViewPager coreViewPager;
-    AdapterCoreModel adapterCoreModel;
+    CoreModelAdapter coreModelAdapter;
     List<CoreModel> coreModels;
 
     Events events;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent applistActivity = new Intent(MainActivity.this, UserSetupActivity.class);
+                Intent applistActivity = new Intent(MainActivity.this, EventSetupActivity.class);
                 startActivityForResult(applistActivity, REQUEST_SETUP_CODE);
             }
         });
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         coreModels = new ArrayList<>();
         //** Hard code some card for development ***************************************************
 
-        Intent testIntent1 = new Intent(MainActivity.this, Applist_Activity.class);
+        Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
 
         String url = "http://www.example.com";
         Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
@@ -88,10 +88,10 @@ public class MainActivity extends AppCompatActivity
         coreModels.add(new CoreModel(testIntent2, this.getResources().getDrawable(R.drawable.ic_menu_send, null), "test"));
         //** Hard code some card for developemnt FINISH ********************************************
 
-        adapterCoreModel = new AdapterCoreModel(this, coreModels);
+        coreModelAdapter = new CoreModelAdapter(this, coreModels);
 
         coreViewPager = findViewById(R.id.core_viewPager);
-        coreViewPager.setAdapter(adapterCoreModel);
+        coreViewPager.setAdapter(coreModelAdapter);
         coreViewPager.setPadding(20, 0, 20, 0);
 
         coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
