@@ -30,6 +30,7 @@
         <activity android:name=".TriggerMethodDateTimeActivity" />
         <activity android:name=".TimeSelectorActivity" />
         <activity android:name=".TriggerMethodAppLaunchActivity" />
+
     </application>
 
 </manifest>
