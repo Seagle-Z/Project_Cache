@@ -1,4 +1,4 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

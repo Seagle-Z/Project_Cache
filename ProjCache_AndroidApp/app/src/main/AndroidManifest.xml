@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ordinary.projectcache.projectcache">
+    package="com.ordinary.android.projectcache">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.ordinary.android.projectcache.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,13 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppListActivity" />
-        <activity android:name=".EventSetupActivity" />
-        <activity android:name=".ActionTaskSelectionActivity" />
-        <activity android:name=".TriggerMethodSelectionActivity" />
-        <activity android:name=".TriggerMethodDateTimeActivity" />
-        <activity android:name=".TimeSelectorActivity" />
-        <activity android:name=".TriggerMethodAppLaunchActivity" />
+        <activity android:name="com.ordinary.android.projectcache.AppListActivity" />
+        <activity android:name="com.ordinary.android.projectcache.EventSetupActivity" />
+        <activity android:name="com.ordinary.android.projectcache.ActionTaskSelectionActivity" />
+        <activity android:name="com.ordinary.android.projectcache.TriggerMethodSelectionActivity" />
+        <activity android:name="com.ordinary.android.projectcache.TriggerMethodDateTimeActivity" />
+        <activity android:name="com.ordinary.android.projectcache.TimeSelectorActivity" />
+        <activity android:name="com.ordinary.android.projectcache.TriggerMethodAppLaunchActivity" />
 
     </application>
 

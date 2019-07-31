@@ -1,6 +1,5 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
-import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
