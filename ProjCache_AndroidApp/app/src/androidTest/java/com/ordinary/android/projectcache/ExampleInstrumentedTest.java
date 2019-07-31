@@ -1,4 +1,4 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

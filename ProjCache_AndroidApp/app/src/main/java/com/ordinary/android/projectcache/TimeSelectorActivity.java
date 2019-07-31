@@ -1,4 +1,4 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +23,9 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
     private boolean timeRangeOn, editMode, buttonPress;
     TextView BeginTimeTextView, EndTimeTextView;
     private String[] timeRangeDivider;
-    private String hour = "", minutes = "", retrieveTime = "",
-            beginHour = "", beginMintue = "", endHour = "", endMinute = "";
+    private String hour = null, minutes = null, retrieveTime = null,
+            beginHour = null, beginMinute = null, endHour = null, endMinute = null;
+    private AlertDialog.Builder WarningDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,8 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
         EndTimeTextView = (TextView) findViewById(R.id.end_time_title);
         addEndTimeButton.setVisibility(View.INVISIBLE);
         EndTimeTextView.setVisibility(View.INVISIBLE);
+        WarningDialog = new AlertDialog.Builder(TimeSelectorActivity.this);
+        WarningDialog.setTitle("Warning");
 
         Intent intent = getIntent();
         try {
@@ -53,7 +56,7 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                     addEndTimeButton.setEnabled(true);
                     addEndTimeButton.setVisibility(View.VISIBLE);
                     EndTimeTextView.setVisibility(View.VISIBLE);
-                    addBeginTimeButton.setText("Event activate at: " + beginHour + ":" + beginMintue);
+                    addBeginTimeButton.setText("Event activate at: " + beginHour + ":" + beginMinute);
                     addEndTimeButton.setText("Event stops at: " + endHour + ":" + endMinute);
                 } else {
                     addBeginTimeButton.setText("Event activate at: " + retrieveTime);
@@ -128,13 +131,22 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
             minutes = Integer.toString(minute);
 
         if (buttonPress) {
-            addBeginTimeButton.setText("Event activate at: " + hour + ":" + minutes);
-            beginHour = hour;
-            beginMintue = minutes;
+            if (hour == endHour && minutes == endMinute)
+                unchangedWarningWindow(WarningDialog, 0);
+            else {
+                addBeginTimeButton.setText("Event activates at: " + hour + ":" + minutes);
+                beginHour = hour;
+                beginMinute = minutes;
+            }
+
         } else {
-            addEndTimeButton.setText("Trigger end at: " + hour + ":" + minutes);
-            endHour = hour;
-            endMinute = minutes;
+            if (hour == beginHour && minutes == beginMinute)
+                unchangedWarningWindow(WarningDialog, 0);
+            else {
+                addEndTimeButton.setText("Event ends at: " + hour + ":" + minutes);
+                endHour = hour;
+                endMinute = minutes;
+            }
         }
     }
 
@@ -146,23 +158,27 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
 
 
     private void checkResult() {
-        final AlertDialog.Builder WarningDialog = new AlertDialog.Builder(TimeSelectorActivity.this);
 
         if (editMode) {
             if (!timeRangeOn) {
-                if (retrieveTime.equals(hour + ":" + minutes))
-                    unchangedWarningWindow(WarningDialog);
 
-                if (!retrieveTime.equals(hour + ":" + minutes)) {
+                if (retrieveTime.equals(hour + ":" + minutes))
+                    unchangedWarningWindow(WarningDialog, 2);
+                if (!retrieveTime.equals(hour + ":" + minutes) && hour != null && minutes != null) {
                     getIntent(hour + ":" + minutes);
                     finish();
                 }
-            } else {
+                if(hour == null && minutes == null)
+                {
+                    getIntent(timeRangeDivider[0]);
+                    finish();
+                }
 
-                if (timeRangeDivider[0].trim().equals(beginHour + ":" + beginMintue) && timeRangeDivider[1].trim().equals(endHour + ":" + endMinute))
-                    unchangedWarningWindow(WarningDialog);
-                if (!timeRangeDivider[0].trim().equals(beginHour + ":" + beginMintue) || !timeRangeDivider[1].trim().equals(endHour + ":" + endMinute)) {
-                    getIntent(beginHour + ":" + beginMintue + "-" + endHour + ":" + endMinute);
+            } else {
+                if (timeRangeDivider[0].trim().equals(beginHour + ":" + beginMinute) && timeRangeDivider[1].trim().equals(endHour + ":" + endMinute))
+                    unchangedWarningWindow(WarningDialog, 1);
+                if (!timeRangeDivider[0].trim().equals(beginHour + ":" + beginMinute) || !timeRangeDivider[1].trim().equals(endHour + ":" + endMinute)) {
+                    getIntent(beginHour + ":" + beginMinute + "-" + endHour + ":" + endMinute);
                     finish();
                 }
             }
@@ -196,7 +212,7 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                     });
                     WarningDialog.show();
                 } else if (!addBeginTimeButton.getText().toString().contains("Add") && !addEndTimeButton.getText().toString().contains("Add")) {
-                    getIntent(beginHour + ":" + beginMintue + "-" + endHour + ":" + endMinute);
+                    getIntent(beginHour + ":" + beginMinute + "-" + endHour + ":" + endMinute);
                     finish();
                 }
             }
@@ -216,26 +232,40 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
         String[] _tempBeginHour = tempBeginTime.split(":");
         String[] _tempEndhour = tempEndTime.split(":");
         beginHour = _tempBeginHour[0].trim();
-        beginMintue = _tempBeginHour[1].trim();
+        beginMinute = _tempBeginHour[1].trim();
         endHour = _tempEndhour[0].trim();
         endMinute = _tempEndhour[1].trim();
     }
 
-    public void unchangedWarningWindow(AlertDialog.Builder WarningDialog) {
-        WarningDialog.setTitle("Warning");
-        WarningDialog.setMessage("The selected hour is unchanged, are you sure to continue the process?");
-        WarningDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        WarningDialog.setPositiveButton("Yes", new AlertDialog.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                getIntent(retrieveTime);
-                finish();
-            }
-        });
-        WarningDialog.show();
+    public void unchangedWarningWindow(AlertDialog.Builder WarningDialog, int caseID) {
+        switch (caseID) {
+            case 0:
+                WarningDialog.setMessage("The selected hour cannot be the same.");
+                WarningDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                WarningDialog.show();
+                break;
+            case 1:
+                WarningDialog.setMessage("The selected hour is unchanged, are you sure to continue the process?");
+                WarningDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                WarningDialog.setPositiveButton("Yes", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        getIntent(retrieveTime);
+                        finish();
+                    }
+                });
+                WarningDialog.show();
+                break;
+            default:
+        }
     }
 }

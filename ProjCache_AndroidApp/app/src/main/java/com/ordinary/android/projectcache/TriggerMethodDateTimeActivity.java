@@ -1,4 +1,4 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,8 +32,10 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
     private boolean editMode;
     ListView timeListView;
     ArrayList<String> selectedTimeArrList = new ArrayList<>();
+    ArrayList<String> selectedTimeValue = new ArrayList<>();
     ArrayAdapter<String> adapterFortimeListView;
     private ToolFunctions TF = new ToolFunctions();
+    private AlertDialog.Builder warning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,9 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
         adapterFortimeListView = new ArrayAdapter<String>(date_time_picker_Context, R.layout.layout_general_list, R.id.condition_name, selectedTimeArrList);
         timeListView.setAdapter(adapterFortimeListView);
         registerForContextMenu(timeListView);
+
+
+        warning = new AlertDialog.Builder(date_time_picker_Context);
 
 
         timeButton.setOnClickListener(new View.OnClickListener() {
@@ -110,21 +115,39 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
         try {
             if (requestCode == TIME_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("Time")) {
-                    if (!editMode) {
-                        returnedTime = data.getStringExtra("Time");
-                        if (returnedTime.contains("-")) {
-                            selectedTimeArrList.add("- Event activates between: " + returnedTime);
-                            adapterFortimeListView.notifyDataSetChanged();
-                            TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                    returnedTime = data.getStringExtra("Time");
+
+
+                    // TODO: 2019-07-29 Merge time that is within the time range
+                    // TODO: 2019-07-29 return edited value already exists on the list checking
+                    if (!checkduplicate(returnedTime, selectedTimeValue)) {
+                        if (!editMode) {
+                            if (returnedTime.contains("-")) {
+                                selectedTimeArrList.add("- Event activates between: " + returnedTime);
+                                selectedTimeValue.add(returnedTime);
+                                adapterFortimeListView.notifyDataSetChanged();
+                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                            } else {
+                                selectedTimeArrList.add("- Event activates at: " + returnedTime);
+                                selectedTimeValue.add(returnedTime);
+                                adapterFortimeListView.notifyDataSetChanged();
+                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                            }
                         } else {
-                            selectedTimeArrList.add("- Event activates at: " + returnedTime);
+
+                            selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + returnedTime);
+                            editMode = false;
                             adapterFortimeListView.notifyDataSetChanged();
-                            TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
                         }
                     } else {
-                        selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + data.getStringExtra("Time"));
-                        editMode = false;
-                        adapterFortimeListView.notifyDataSetChanged();
+                        warning.setMessage("The selected hour is already existed on list.");
+                        warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        warning.show();
                     }
                 }
             }
@@ -163,19 +186,19 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
                 return true;
 
             case R.id.delete:
-                AlertDialog.Builder adb = new AlertDialog.Builder(date_time_picker_Context);
-                adb.setTitle("Delete");
-                adb.setNegativeButton("No no", null);
-                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                warning.setTitle("Delete");
+                warning.setNegativeButton("No no", null);
+                warning.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(date_time_picker_Context, "Deleting", Toast.LENGTH_SHORT).show();
                         selectedTimeArrList.remove(info.position);
+                        selectedTimeValue.remove(info.position);
                         adapterFortimeListView.notifyDataSetChanged();
                         TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
                         Toast.makeText(date_time_picker_Context, "Deleted", Toast.LENGTH_SHORT).show();
                     }
                 });
-                adb.show();
+                warning.show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -195,5 +218,17 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
             result[i] = s;
         }
         return result;
+    }
+
+    public boolean checkduplicate(String s, ArrayList<String> selectedTimeValue) {
+        if (selectedTimeValue.isEmpty())
+            return false;
+        else {
+            for (String string : selectedTimeValue) {
+                if (s.equals(string))
+                    return true;
+            }
+        }
+        return false;
     }
 }

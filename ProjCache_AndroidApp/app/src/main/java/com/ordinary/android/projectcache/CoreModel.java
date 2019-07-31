@@ -1,12 +1,7 @@
-package com.ordinary.projectcache.projectcache;
+package com.ordinary.android.projectcache;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.view.View;
-import android.widget.ImageButton;
 
 public class CoreModel {
 
