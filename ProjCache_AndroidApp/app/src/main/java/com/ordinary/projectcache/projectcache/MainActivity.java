@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.style.BulletSpan;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -34,17 +37,20 @@ public class MainActivity extends AppCompatActivity
 
     private final int REQUEST_SETUP_CODE = 1002;
     private final int STORAGE_PERMISSION_CODE = 1010;
-    ViewPager coreViewPager;
-    CoreModelAdapter coreModelAdapter;
-    List<CoreModel> coreModels;
+    private ViewPager coreViewPager;
+    private CoreModelAdapter coreModelAdapter;
+    private List<CoreModel> coreModels;
 
     // Declare the events info storage csv file
     private static final String EVENTS_FILE_NAME = "events.csv";
     // Declare the events object
-    Events events;
+    private Events events;
 
     // Declare the Core thread
-    CoreThread coreThread;
+    private CoreThread coreThread;
+
+    Button buttonStart;
+    Button buttonEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,8 @@ public class MainActivity extends AppCompatActivity
         events = new Events(this, eventsFile);
 
         //-- Core Construction ------------------------------------------------------------- START *
+
+
         coreModels = new ArrayList<>();
         //** Hard code some card for development ***************************************************
 
@@ -116,6 +124,30 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        buttonStart = findViewById(R.id.buttonTesting_start);
+        buttonEnd = findViewById(R.id.buttonTesting_stop);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                coreModels = new ArrayList<>();
+                Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
+
+                String url = "http://www.example.com";
+                Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
+                testIntent2.setData(Uri.parse(url));
+                coreModels.add(new CoreModel(testIntent1, MainActivity.this.getResources().getDrawable(R.drawable.ic_menu_gallery, null),  "blablabla"));
+                coreModels.add(new CoreModel(testIntent2, MainActivity.this.getResources().getDrawable(R.drawable.ic_menu_share, null), "hahahaha"));
+                coreModelAdapter = new CoreModelAdapter(MainActivity.this, coreModels);
+
+                coreViewPager = findViewById(R.id.core_viewPager);
+                coreViewPager.setAdapter(coreModelAdapter);
+                coreViewPager.setPadding(20, 0, 20, 0);
+            }
+        });
+
+        TextView testTextView = findViewById(R.id.textViewTesting);
+        coreThread = new CoreThread(this, testTextView, coreViewPager);
+        coreThread.start();
 
         //-- Core Construction ------------------------------------------------------------ FINISH *
     }
