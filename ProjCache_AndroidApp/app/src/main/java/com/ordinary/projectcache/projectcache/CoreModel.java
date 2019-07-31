@@ -31,6 +31,15 @@ public class CoreModel {
     }
 
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+
     public Drawable getDrawable()
     {
         return drawable;
@@ -39,14 +48,6 @@ public class CoreModel {
     public void setDrawable(Drawable drawable)
     {
         this.drawable = drawable;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
 }

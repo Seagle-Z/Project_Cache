@@ -33,15 +33,18 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final int REQUEST_SETUP_CODE = 1002;
-    private final int STORAGE_PERMISSON_CODE = 1010;
+    private final int STORAGE_PERMISSION_CODE = 1010;
     ViewPager coreViewPager;
     CoreModelAdapter coreModelAdapter;
     List<CoreModel> coreModels;
 
-    Events events;
-
     // Declare the events info storage csv file
     private static final String EVENTS_FILE_NAME = "events.csv";
+    // Declare the events object
+    Events events;
+
+    // Declare the Core thread
+    CoreThread coreThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         checkPermissionStatus();
 
+        // Floating Button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_event);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +64,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Drawer Menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         // Create Events Object for all events operations
         events = new Events(this, eventsFile);
 
-        //-- Core implementation ----------------------------------------------------------- START *
+        //-- Core Construction ------------------------------------------------------------- START *
         coreModels = new ArrayList<>();
         //** Hard code some card for development ***************************************************
 
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        //-- Core implementation ---------------------------------------------------------- FINISH *
+        //-- Core Construction ------------------------------------------------------------ FINISH *
     }
 
     @Override
@@ -191,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSON_CODE);
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -202,13 +207,13 @@ public class MainActivity extends AppCompatActivity
                     })
                     .create().show();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSON_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == STORAGE_PERMISSON_CODE) {
+        if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
 

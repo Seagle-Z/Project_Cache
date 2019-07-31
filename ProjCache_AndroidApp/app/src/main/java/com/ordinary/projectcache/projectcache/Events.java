@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 2019-07-28 自动生成 eventID
 
 public class Events {
 
