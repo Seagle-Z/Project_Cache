@@ -5,22 +5,27 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_events"
+            android:id="@+id/nav_manageEvents"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Events" />
+            android:title="Manage Events" />
+
+        <item
+            android:id="@+id/nav_createEvent"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Create Event" />
 
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/ic_menu_share"
-                android:title="About" />
-            <item
                 android:id="@+id/nav_account"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Account" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@android:drawable/radiobutton_off_background"
+                android:title="Ordinary" />
         </menu>
     </item>
 

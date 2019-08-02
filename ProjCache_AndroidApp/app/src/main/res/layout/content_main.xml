@@ -29,30 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/core_viewPager"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/buttonTesting_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="start" />
-
-            <TextView
-                android:id="@+id/textViewTesting"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="25dp"
-                android:text="" />
-
-            <Button
-                android:id="@+id/buttonTesting_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="stop" />
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
     </RelativeLayout>
 

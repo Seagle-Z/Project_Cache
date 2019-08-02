@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -37,40 +38,41 @@ public class MainActivity extends AppCompatActivity
 
     private final int REQUEST_SETUP_CODE = 1002;
     private final int STORAGE_PERMISSION_CODE = 1010;
-    private ViewPager coreViewPager;
-    private CoreModelAdapter coreModelAdapter;
-    private List<CoreModel> coreModels;
 
-    // Declare the events info storage csv file
+    public ViewPager coreViewPager;
+    CoreModelAdapter coreModelAdapter;
+    List<CoreModel> coreModels;
+
     private static final String EVENTS_FILE_NAME = "events.csv";
-    // Declare the events object
-    private Events events;
+    Events events;
 
-    // Declare the Core thread
-    private CoreThread coreThread;
+    //Handler mainHandler;
 
-    Button buttonStart;
-    Button buttonEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //- ToolBar -------------------------------------------------------------------------------*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         checkPermissionStatus();
 
-        // Floating Button
+
+        //- Floating Button -----------------------------------------------------------------------*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_event);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent applistActivity = new Intent(MainActivity.this, EventSetupActivity.class);
-                startActivityForResult(applistActivity, REQUEST_SETUP_CODE);
+                Intent startEventSetup =
+                        new Intent(MainActivity.this, EventSetupActivity.class);
+                startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
             }
         });
 
-        // Drawer Menu
+
+        //- Drawer Menu ---------------------------------------------------------------------------*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -80,76 +82,45 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // File object for hold the events.csv
+
+        //- Events Object -------------------------------------------------------------------------*
         File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
-        // Create Events Object for all events operations
         events = new Events(this, eventsFile);
 
-        //-- Core Construction ------------------------------------------------------------- START *
 
-
+        //- Core Construction ---------------------------------------------------------------------*
         coreModels = new ArrayList<>();
-        //** Hard code some card for development ***************************************************
 
+        // Put the Default event into coreViewPager
+        // TODO: 2019-08-01 Put the default event model into the coreModels
+
+        //** Hard code the Default event and another event for development *************************
         Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
+        coreModels.add(new CoreModel(
+                testIntent1,
+                this.getResources().getDrawable(R.drawable.ic_menu_camera, null),
+                "QR Code"));
+
 
         String url = "http://www.example.com";
         Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
         testIntent2.setData(Uri.parse(url));
-
-        coreModels.add(new CoreModel(testIntent1, this.getResources().getDrawable(R.drawable.ic_menu_camera, null),  "QR Code"));
-        coreModels.add(new CoreModel(testIntent2, this.getResources().getDrawable(R.drawable.ic_menu_send, null), "test"));
-        //** Hard code some card for developemnt FINISH ********************************************
+        coreModels.add(new CoreModel(
+                testIntent2,
+                this.getResources().getDrawable(R.drawable.ic_menu_send, null),
+                "test"));
+        //** Hard code FINISH **********************************************************************
 
         coreModelAdapter = new CoreModelAdapter(this, coreModels);
-
         coreViewPager = findViewById(R.id.core_viewPager);
         coreViewPager.setAdapter(coreModelAdapter);
         coreViewPager.setPadding(20, 0, 20, 0);
 
-        coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
+        // Start the handler thread for keep looping update the core cards
+        //mainHandler = new Handler();
+        CoreRunnable coreRunnable = new CoreRunnable(MainActivity.this, coreViewPager);
+        new Thread(coreRunnable).start();
 
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
-        buttonStart = findViewById(R.id.buttonTesting_start);
-        buttonEnd = findViewById(R.id.buttonTesting_stop);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                coreModels = new ArrayList<>();
-                Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
-
-                String url = "http://www.example.com";
-                Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
-                testIntent2.setData(Uri.parse(url));
-                coreModels.add(new CoreModel(testIntent1, MainActivity.this.getResources().getDrawable(R.drawable.ic_menu_gallery, null),  "blablabla"));
-                coreModels.add(new CoreModel(testIntent2, MainActivity.this.getResources().getDrawable(R.drawable.ic_menu_share, null), "hahahaha"));
-                coreModelAdapter = new CoreModelAdapter(MainActivity.this, coreModels);
-
-                coreViewPager = findViewById(R.id.core_viewPager);
-                coreViewPager.setAdapter(coreModelAdapter);
-                coreViewPager.setPadding(20, 0, 20, 0);
-            }
-        });
-
-        TextView testTextView = findViewById(R.id.textViewTesting);
-        coreThread = new CoreThread(this, testTextView, coreViewPager);
-        coreThread.start();
-
-        //-- Core Construction ------------------------------------------------------------ FINISH *
     }
 
     @Override
@@ -199,8 +170,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_events) {
+        if (id == R.id.nav_manageEvents) {
             //** add, delete, modify events here
+        } else if (id == R.id.nav_createEvent) {
+            Intent startEventSetup =
+                    new Intent(MainActivity.this, EventSetupActivity.class);
+            startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
         } else if (id == R.id.nav_about) {
             //** put our link here "https://www.ordinary.com
         } else if (id == R.id.nav_account) {
@@ -213,22 +188,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void checkPermissionStatus() {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            Toast.makeText(MainActivity.this, "You have already granted this permission!", Toast.LENGTH_LONG).show();
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            Toast.makeText(
+                    MainActivity.this,
+                    "You have already granted this permission!",
+                    Toast.LENGTH_LONG
+            ).show();
         else {
             requestStoragePermission();
         }
     }
 
     private void requestStoragePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             new AlertDialog.Builder(this)
                     .setTitle("Permission needed")
                     .setMessage("This Permission is needed")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+                            ActivityCompat.requestPermissions(
+                                    MainActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    STORAGE_PERMISSION_CODE
+                            );
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -239,12 +224,16 @@ public class MainActivity extends AppCompatActivity
                     })
                     .create().show();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    STORAGE_PERMISSION_CODE);
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
