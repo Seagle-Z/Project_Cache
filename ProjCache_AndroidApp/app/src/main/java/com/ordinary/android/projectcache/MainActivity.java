@@ -39,15 +39,11 @@ public class MainActivity extends AppCompatActivity
     private final int REQUEST_SETUP_CODE = 1002;
     private final int STORAGE_PERMISSION_CODE = 1010;
 
-    public ViewPager coreViewPager;
-    CoreModelAdapter coreModelAdapter;
-    List<CoreModel> coreModels;
+    private ViewPager coreViewPager;
+    private Thread coreThread;
 
     private static final String EVENTS_FILE_NAME = "events.csv";
-    Events events;
-
-    //Handler mainHandler;
-
+    private Events events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +85,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //- Core Construction ---------------------------------------------------------------------*
-        coreModels = new ArrayList<>();
+        List<CoreModel> coreModels = new ArrayList<>();
 
         // Put the Default event into coreViewPager
         // TODO: 2019-08-01 Put the default event model into the coreModels
@@ -111,15 +107,15 @@ public class MainActivity extends AppCompatActivity
                 "test"));
         //** Hard code FINISH **********************************************************************
 
-        coreModelAdapter = new CoreModelAdapter(this, coreModels);
+        CoreModelAdapter coreModelAdapter = new CoreModelAdapter(this, coreModels);
         coreViewPager = findViewById(R.id.core_viewPager);
         coreViewPager.setAdapter(coreModelAdapter);
         coreViewPager.setPadding(20, 0, 20, 0);
 
         // Start the handler thread for keep looping update the core cards
-        //mainHandler = new Handler();
-        CoreRunnable coreRunnable = new CoreRunnable(MainActivity.this, coreViewPager);
-        new Thread(coreRunnable).start();
+        CoreRunnable coreRunnable = new CoreRunnable(this, eventsFile, coreViewPager);
+        coreThread = new Thread(coreRunnable);
+        coreThread.start();
 
     }
 

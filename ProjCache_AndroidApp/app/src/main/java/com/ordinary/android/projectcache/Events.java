@@ -12,47 +12,38 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 2019-07-28 自动生成 eventID
-
 public class Events {
 
-    private List<Event> events;
+    private List<Event> eventsList;
     Context context;
     File eventsFile;
 
     public Events(Context inputContext, File inputEventsFile) {
 
-        events = new ArrayList<>();
+        eventsList = new ArrayList<>();
         context = inputContext;
         eventsFile = inputEventsFile;
 
-        // if the events.csv file does not exists, create one
+        // if the eventsList.csv file does not exists, create one
         if (!eventsFile.exists() || eventsFile.isDirectory()) {
-            FileOutputStream fos = null;
+            eventsCSVConstruct();
 
+            //** Hard code some event for development **************************************** START
             try {
+                FileOutputStream fos = null;
                 fos = context.openFileOutput(eventsFile.getName(), context.MODE_PRIVATE);
-                String csvTitle = "eventID, eventName, createDate, createTime, priorityLevel, " +
-                        "triggerableDay, triggerableTime, " +
-                        "triggerMethods, triggerValues, tasksTypeStart, tasksValueStart, " +
-                        "tasksTypeEnd, tasksValueEnd, " +
-                        "selfResetEvent, oneTimeEvent, " +
-                        "autoTrigger, isActivated, " +
-                        "eventCategory, executedTimes\n";
-                fos.write(csvTitle.getBytes());
-
-                //** Hard code some event for development ************************************ START
-                String testEvent1 = "10, Dunkin' Donuts, 2019-6-1, 10:16, -1, " +
+                String testEvent1 = "0, Dunkin' Donuts, 2019-6-1, 10:16, -1, " +
                         "NULL, NULL, " +
                         "CLOSE_ON_GEO_STORE, Dunkin' Dounts, START_APP, Dunkin' Donuts, " +
                         "NULL, NULL, " +
                         "false, false, " +
                         "false, true, " +
                         "NULL, 0\n";
-                String testEvent2 = "14, Parking QRCode, 2019-5-12, 16:02, 0, " +
+                String testEvent2 = "1, Parking QRCode, 2019-5-12, 16:02, 0, " +
                         "NULL, NULL, " +
                         "CLOSE_ON_GEO_LL, 41.938093&-87.644257, SHOW_QR_CODE, testing_qrcode.png, " +
                         "NULL, NULL, " +
@@ -61,20 +52,12 @@ public class Events {
                         "NULL, 0\n";
                 fos.write(testEvent1.getBytes());
                 fos.write(testEvent2.getBytes());
-                //Toast.makeText(this, "Hard code events created", Toast.LENGTH_LONG).show();
-                //** Hard code some event for development FINISH **************************** FINISH
-
                 fos.close();
-
-                //** for debugging *********************************************************** START
-                Toast.makeText(context, "csv created, and Title saved to " +
-                        context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
-                //** for debugging ********************************************************** FINISH
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                Toast.makeText(context, "Hard code eventsList created", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                System.out.println(e);
             }
+            //** Hard code some event for development FINISH ******************************** FINISH
         }
 
         FileInputStream fis = null;
@@ -88,7 +71,7 @@ public class Events {
             Log.d("", line);
             while ((line = br.readLine()) != null) {
                 Log.d("", line);
-                events.add(parseEventData(line));
+                eventsList.add(parseEventData(line));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -96,6 +79,127 @@ public class Events {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean addEvent(Event newEvent) {
+        for (Event e : eventsList) {
+            if (e.eventName.equals(newEvent.eventName)) {
+                return false;
+            }
+        }
+
+        newEvent.eventID = eventsList.size();
+        eventsList.add(newEvent);
+
+        return refreshEventsCSV();
+    }
+
+    public boolean deleteEventById(Integer eventID) {
+        if (eventID >= eventsList.size()) {
+            return false;
+        }
+
+        eventsList.remove(eventID);
+        for (int i = eventID; i < eventsList.size(); i++) {
+            eventsList.get(i).eventID--;
+        }
+
+        return refreshEventsCSV();
+    }
+
+    public boolean modifyEvent(Event e) {
+        if (e.eventID >= eventsList.size()) {
+            return false;
+        }
+
+        eventsList.set(e.eventID, e);
+
+        return refreshEventsCSV();
+    }
+
+    public Event getDefaultEvent() {
+        return eventsList.get(0);
+    }
+
+    public Event getEventByID(Integer seekingEventID) {
+        if (seekingEventID >= eventsList.size()) {
+            return null;
+        }
+
+        return eventsList.get(seekingEventID);
+    }
+
+    public Event getEventByName(String seekingEventName) {
+        for (Event e : eventsList) {
+            if (e.eventName.equals(seekingEventName)) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean refreshEventsCSV() {
+        boolean deleted = eventsFile.delete();
+        if (!deleted) {
+            return false;
+        }
+        eventsCSVConstruct();
+        for (Event e : eventsList) {
+            addEventToCSV(e);
+        }
+        return true;
+    }
+
+    private void eventsCSVConstruct() {
+        FileOutputStream fos = null;
+
+        try {
+            fos = context.openFileOutput(eventsFile.getName(), context.MODE_PRIVATE);
+            String csvTitle = "eventID, eventName, createDate, createTime, priorityLevel, " +
+                    "triggerableDay, triggerableTime, " +
+                    "triggerMethods, triggerValues, tasksTypeStart, tasksValueStart, " +
+                    "tasksTypeEnd, tasksValueEnd, " +
+                    "selfResetEvent, oneTimeEvent, " +
+                    "autoTrigger, isActivated, " +
+                    "eventCategory, executedTimes\n";
+            fos.write(csvTitle.getBytes());
+            fos.close();
+
+            //** for debugging *************************************************************** START
+            Toast.makeText(context, "csv created, and Title saved to " +
+                    context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
+            //** for debugging ************************************************************** FINISH
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addEventToCSV(Event newEvent) {
+        FileOutputStream fos = null;
+        try {
+            fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
+
+            String eventText = newEvent.eventID.toString() + ", " + newEvent.eventName + ", " +
+                    newEvent.createDate + ", " + newEvent.createTime + ", " + newEvent.priorityLevel.toString() + ", " +
+                    stringArrayToString(newEvent.triggerableDay) + ", " + stringArrayToString(newEvent.triggerableTime) + ", " +
+                    stringArrayToString(newEvent.triggerMethods) + ", " + stringArrayToString(newEvent.triggerValues) + ", " +
+                    stringArrayToString(newEvent.tasksTypeStart) + ", " + stringArrayToString(newEvent.tasksValueStart) + ", " +
+                    stringArrayToString(newEvent.tasksTypeEnd) + ", " + stringArrayToString(newEvent.tasksValueEnd) + ", " +
+                    newEvent.selfResetEvent.toString() + ", " + newEvent.oneTimeEvent.toString() + ", " +
+                    newEvent.autoTrigger.toString() + ", " + newEvent.isActivated.toString() + ", " +
+                    newEvent.eventCategory + ", " + newEvent.executedTimes.toString() + "\n";
+
+            fos.write(eventText.getBytes());
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Event parseEventData(String line) {
@@ -109,16 +213,16 @@ public class Events {
         String tCreateTime = data[3];
         Integer tPriorityLevel = Integer.parseInt(data[4]);
 
-        String[] tTriggerableDay = data[5].split("|");
-        String[] tTriggerableTime = data[6].split("|");
+        String[] tTriggerableDay = data[5].split("\\|");
+        String[] tTriggerableTime = data[6].split("\\|");
 
-        String[] tTriggerMethodsStart = data[7].split("|");
-        String[] tTriggerValuesStart = data[8].split("|");
-        String[] tTasksTypeStart = data[9].split("|");
-        String[] tTasksValueStart = data[10].split("|");
+        String[] tTriggerMethodsStart = data[7].split("\\|");
+        String[] tTriggerValuesStart = data[8].split("\\|");
+        String[] tTasksTypeStart = data[9].split("\\|");
+        String[] tTasksValueStart = data[10].split("\\|");
 
-        String[] tTasksTypeEnd = data[11].split("|");
-        String[] tTasksValueEnd = data[12].split("|");
+        String[] tTasksTypeEnd = data[11].split("\\|");
+        String[] tTasksValueEnd = data[12].split("\\|");
 
         Boolean tSelfResetEvent, tOneTimeEvent, tAutoTrigger, tIsActivated;
         if (data[13].equalsIgnoreCase("true"))
@@ -156,45 +260,6 @@ public class Events {
 
     }
 
-    public boolean addEvent(Event newEvent) {
-
-        for (Event e : events) {
-            if (e.eventName.equals(newEvent.eventName)) {
-                return false;   // return false if the eventName existed
-            }
-        }
-
-        addEventToCSV(newEvent);    // add the event to events.csv
-        events.add(newEvent);       // add the event to events
-
-        return true;
-    }
-
-    private void addEventToCSV(Event newEvent) {
-        FileOutputStream fos = null;
-        try {
-            fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
-
-            String eventText = newEvent.eventID.toString() + ", " + newEvent.eventName + ", " +
-                    newEvent.createDate + ", " + newEvent.createTime + ", " + newEvent.priorityLevel.toString() + ", " +
-                    stringArrayToString(newEvent.triggerableDay) + ", " + stringArrayToString(newEvent.triggerableTime) + ", " +
-                    stringArrayToString(newEvent.triggerMethods) + ", " + stringArrayToString(newEvent.triggerValues) + ", " +
-                    stringArrayToString(newEvent.tasksTypeStart) + ", " + stringArrayToString(newEvent.tasksValueStart) + ", " +
-                    stringArrayToString(newEvent.tasksTypeEnd) + ", " + stringArrayToString(newEvent.tasksValueEnd) + ", " +
-                    newEvent.selfResetEvent.toString() + ", " + newEvent.oneTimeEvent.toString() + ", " +
-                    newEvent.autoTrigger.toString() + ", " + newEvent.isActivated.toString() + ", " +
-                    newEvent.eventCategory + ", " + newEvent.executedTimes.toString() + "\n";
-
-            fos.write(eventText.getBytes());
-
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private String stringArrayToString(String[] arr) {
         if (arr == null) {
             return "NULL";
@@ -213,42 +278,6 @@ public class Events {
 
         return s;
     }
-
-    public boolean deleteEventById(Integer deleteEventID) {
-
-
-        return false;
-    }
-
-    public boolean modifyEvent(Event e) {
-
-
-        return false;
-    }
-
-    public Event getEventByID(Integer seekingEventID) {
-
-        for (Event e : events) {
-            if (e.eventID == seekingEventID) {
-                return e;
-            }
-        }
-
-        return null;    // if did not find a event match the ID, return null
-    }
-
-    public Event getEventByName(String seekingEventName) {
-
-        for (Event e : events) {
-            if (e.eventName.equals(seekingEventName)) {
-                return e;
-            }
-        }
-
-        return null;    // if did not find a event match the name, return null
-    }
-
-
 }
 
 class Event implements Serializable {
