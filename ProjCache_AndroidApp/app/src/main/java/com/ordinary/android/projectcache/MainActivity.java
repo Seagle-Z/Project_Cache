@@ -116,7 +116,6 @@ public class MainActivity extends AppCompatActivity
         CoreRunnable coreRunnable = new CoreRunnable(this, eventsFile, coreViewPager);
         coreThread = new Thread(coreRunnable);
         coreThread.start();
-
     }
 
     @Override

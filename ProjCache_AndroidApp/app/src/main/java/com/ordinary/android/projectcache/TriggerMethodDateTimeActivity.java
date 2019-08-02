@@ -20,14 +20,18 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TriggerMethodDateTimeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button timeButton, dateButton, completeButton;
     private final int TIME_PICKING_CODE = 1013;
     Context date_time_picker_Context;
-    private int Year, Month, day, selectedEditPosition;
+    private int Year, Month, day, selectedEditPosition, selectedTimeValueArrayPosition;
     private String returnedTime = "";
     private boolean editMode;
     ListView timeListView;
@@ -116,30 +120,50 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
             if (requestCode == TIME_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("Time")) {
                     returnedTime = data.getStringExtra("Time");
-
-
                     // TODO: 2019-07-29 Merge time that is within the time range
-                    // TODO: 2019-07-29 return edited value already exists on the list checking
-                    if (!checkduplicate(returnedTime, selectedTimeValue)) {
-                        if (!editMode) {
-                            if (returnedTime.contains("-")) {
-                                selectedTimeArrList.add("- Event activates between: " + returnedTime);
-                                selectedTimeValue.add(returnedTime);
-                                adapterFortimeListView.notifyDataSetChanged();
-                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
-                            } else {
-                                selectedTimeArrList.add("- Event activates at: " + returnedTime);
-                                selectedTimeValue.add(returnedTime);
-                                adapterFortimeListView.notifyDataSetChanged();
-                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
-                            }
-                        } else {
 
-                            selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + returnedTime);
-                            editMode = false;
-                            adapterFortimeListView.notifyDataSetChanged();
+                    if (!checkduplicate(returnedTime, selectedTimeValue)) {
+                        if(!isTimeInRange(returnedTime, selectedTimeValue)) {
+                            if (!editMode) {
+                                if (returnedTime.contains("-")) {
+                                    selectedTimeArrList.add("- Event activates between: " + returnedTime);
+                                    selectedTimeValue.add(returnedTime);
+                                    adapterFortimeListView.notifyDataSetChanged();
+                                    TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                                } else {
+                                    selectedTimeArrList.add("- Event activates at: " + returnedTime);
+                                    selectedTimeValue.add(returnedTime);
+                                    adapterFortimeListView.notifyDataSetChanged();
+                                    TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+                                }
+                            } else {
+                                if (returnedTime.contains("-")) {
+                                    selectedTimeArrList.set(selectedEditPosition, "- Event activates between " + returnedTime);
+                                    selectedTimeValue.set(selectedEditPosition, returnedTime);
+                                    editMode = false;
+                                    adapterFortimeListView.notifyDataSetChanged();
+                                } else {
+                                    selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + returnedTime);
+                                    selectedTimeValue.set(selectedEditPosition, returnedTime);
+                                    editMode = false;
+                                    adapterFortimeListView.notifyDataSetChanged();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            warning.setTitle("Reminder");
+                            warning.setMessage("The selected hour is in between time range " + selectedTimeValue.get(selectedTimeValueArrayPosition) + ", program automatically merged it for you");
+                            warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            warning.show();
                         }
                     } else {
+                        warning.setTitle("");
                         warning.setMessage("The selected hour is already existed on list.");
                         warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -228,6 +252,54 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
                 if (s.equals(string))
                     return true;
             }
+        }
+        return false;
+    }
+
+    public boolean isTimeInRange(String s, ArrayList<String> selectedTimeValue)
+    {
+        String startTime = null;
+        String endTime = null;
+        String temp = null;
+
+        for(int i = 0; i < selectedTimeValue.size(); i++)
+        {
+            if(selectedTimeValue.get(i).contains("-"))
+            {
+                String[]timeRangeDivider = selectedTimeValue.get(i).split("-");
+                startTime = timeRangeDivider[0];
+                endTime = timeRangeDivider[1].trim();
+                startTime = startTime + ":00";
+                endTime = endTime + ":00";
+                temp = s + ":00";
+                try {
+                    Date time1 = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+                    Calendar c1 = Calendar.getInstance();
+                    c1.setTime(time1);
+
+                    Date time2 = new SimpleDateFormat("HH:mm:ss").parse(endTime);
+                    Calendar c2 = Calendar.getInstance();
+                    c2.setTime(time2);
+                    //c2.add(Calendar.DATE, 1);
+
+                    Date time3 = new SimpleDateFormat("HH:mm:ss").parse(temp);
+                    Calendar c3 = Calendar.getInstance();
+                    c3.setTime(time3);
+                    //c3.add(Calendar.DATE, 1);
+
+                    Date x = c3.getTime();
+                    if(x.after(c1.getTime()) && x.before(c2.getTime()))
+                    {
+                        selectedTimeValueArrayPosition = i;
+                        return true;
+                    }
+                }
+                catch (ParseException e)
+                {}
+
+            }
+            else
+                continue;
         }
         return false;
     }
