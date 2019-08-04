@@ -29,7 +29,7 @@ public class CoreRunnable implements Runnable {
 
     @Override
     public void run() {
-        // TODO: 2019-08-01 User Looper instead of the for loop
+
         for (;;) {
             events = new Events(context, eventsFile);
             // TODO: 2019-08-01 Check if there is any event happen
