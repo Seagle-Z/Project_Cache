@@ -13,8 +13,9 @@ DAY
 A single day that the event will be triggered all day. The better way to use
 this is to use is with TIME or TIME_RANGE
 
-APP_LAUNCHING
-When a App opened by user, trigger this event
+APP_ON_SCREEN
+When a App opened by user and also displaying on screen by device, trigger this
+event
 
 BLUETOOTH
 If the device connected to a Bluetooth device, then triggered this event. Finish
@@ -49,7 +50,7 @@ E.g. "MON#TUE#FRI#SAT"
 Use "WKD" for weekdays that is Monday to Friday.
 Use "WKN" for weekend that is Saturday and Sunday.
 
-APP_LAUNCHING
+APP_ON_SCREEN
 Use "#" without space as L2 separator to separate each App
 E.g.    "tv.danmuku.bili"
         "tv.danmuku.bili#youtube.google.com"
@@ -70,7 +71,7 @@ About Task ---------------------------------------------------------------------
 
 tasksType's keywords:
 
-OPEN_APP
+LAUNCH_APP
 When the event triggered, open one or more App.
 
 QR_CODE
@@ -89,7 +90,7 @@ Change screen brightness.
 
 tasksValue's rules that match triggerMethod keywords
 
-OPEN_APP
+LAUNCH_APP
 Use "#" without space as L2 separator to separate each App
 E.g.    "tv.danmuku.bili"
         "tv.danmuku.bili#maps.google.com"

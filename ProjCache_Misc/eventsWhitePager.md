@@ -6,11 +6,13 @@ L2 separator logically is "or"
 eventID
 Integer
 Must unique
+eventID will be automatically generate by Events class when add the event
 eventsID is the nth event in events.csv and eventList in Events class, start from 0
 
 2.
 eventName
 String
+This is the first parameter in Event constructor
 All events in events.csv and eventList will be sorted by eventName
 
 3.
