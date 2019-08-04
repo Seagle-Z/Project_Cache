@@ -92,19 +92,19 @@ public class MainActivity extends AppCompatActivity
 
         //** Hard code the Default event and another event for development *************************
         Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
-        coreModels.add(new CoreModel(
-                testIntent1,
-                this.getResources().getDrawable(R.drawable.ic_menu_camera, null),
-                "QR Code"));
-
-
-        String url = "http://www.example.com";
-        Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
-        testIntent2.setData(Uri.parse(url));
-        coreModels.add(new CoreModel(
-                testIntent2,
-                this.getResources().getDrawable(R.drawable.ic_menu_send, null),
-                "test"));
+//        coreModels.add(new CoreModel(
+//                testIntent1,
+//                this.getResources().getDrawable(R.drawable.ic_menu_camera, null),
+//                "QR Code"));
+//
+//
+//        String url = "http://www.example.com";
+//        Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
+//        testIntent2.setData(Uri.parse(url));
+//        coreModels.add(new CoreModel(
+//                testIntent2,
+//                this.getResources().getDrawable(R.drawable.ic_menu_send, null),
+//                "test"));
         //** Hard code FINISH **********************************************************************
 
         CoreModelAdapter coreModelAdapter = new CoreModelAdapter(this, coreModels);
