@@ -120,25 +120,27 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (hourOfDay < 10) {
-            hour = "0" + Integer.toString(hourOfDay);
-        } else
-            hour = Integer.toString(hourOfDay);
-
-        if (minute < 10)
-            minutes = "0" + Integer.toString(minute);
-        else
-            minutes = Integer.toString(minute);
+//        if (hourOfDay < 10) {
+//            hour = "0" + Integer.toString(hourOfDay);
+//        } else
+//            hour = Integer.toString(hourOfDay);
+//
+//        if (minute < 10)
+//            minutes = "0" + Integer.toString(minute);
+//        else
+//            minutes = Integer.toString(minute);
+        hour = Integer.toString(hourOfDay);
+        minutes = Integer.toString(minute);
 
         if (buttonPress) {
-            if (hour.equals(endHour) && minutes.equals(endMinute))
-                unchangedWarningWindow(WarningDialog, 2);
-            else {
+            if (endHour != null && endMinute != null) {
+                if (hour.equals(endHour) && minutes.equals(endMinute))
+                    unchangedWarningWindow(WarningDialog, 2);
+            } else {
                 addBeginTimeButton.setText("Event activates at: " + hour + ":" + minutes);
                 beginHour = hour;
                 beginMinute = minutes;
             }
-
         } else {
             if (hour.equals(beginHour) && minutes.equals(beginMinute))
                 unchangedWarningWindow(WarningDialog, 2);
@@ -178,10 +180,9 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                 }
             } else {
                 if (!retrieveTime.contains("-")) {
-                    if(endHour == null && endMinute == null) {
+                    if (endHour == null && endMinute == null) {
                         unchangedWarningWindow(WarningDialog, 3);
-                    }
-                    else {
+                    } else {
                         getIntent(beginHour + ":" + beginMinute + "-" + endHour + ":" + endMinute);
                         finish();
                     }
@@ -195,9 +196,7 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                 }
 
             }
-        }
-
-        else{
+        } else {
             if (!timeRangeOn) {
                 if (addBeginTimeButton.getText().toString().contains("Add")) {
                     unchangedWarningWindow(WarningDialog, 4);

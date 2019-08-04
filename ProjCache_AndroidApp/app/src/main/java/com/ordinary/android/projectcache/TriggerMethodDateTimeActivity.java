@@ -23,20 +23,25 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class TriggerMethodDateTimeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     Button timeButton, dateButton, completeButton;
     private final int TIME_PICKING_CODE = 1013;
     Context date_time_picker_Context;
-    private int Year, Month, day, selectedEditPosition, selectedTimeValueArrayPosition;
+    private int Year, Month, day, selectedEditPosition;
     private String returnedTime = "";
-    private boolean editMode;
+    private boolean editMode, isAllTimeSlotFalse;
     ListView timeListView;
     ArrayList<String> selectedTimeArrList = new ArrayList<>();
     ArrayList<String> selectedTimeValue = new ArrayList<>();
+    List<Boolean> activatedHours = new ArrayList<Boolean>(Arrays.asList(new Boolean[1440]));
+
     ArrayAdapter<String> adapterFortimeListView;
     private ToolFunctions TF = new ToolFunctions();
     private AlertDialog.Builder warning;
@@ -56,7 +61,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
         adapterFortimeListView = new ArrayAdapter<String>(date_time_picker_Context, R.layout.layout_general_list, R.id.condition_name, selectedTimeArrList);
         timeListView.setAdapter(adapterFortimeListView);
         registerForContextMenu(timeListView);
-
+        Collections.fill(activatedHours, Boolean.FALSE);
 
         warning = new AlertDialog.Builder(date_time_picker_Context);
 
@@ -66,7 +71,6 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
             public void onClick(View v) {
                 Intent intent = new Intent(date_time_picker_Context, TimeSelectorActivity.class);
                 startActivityForResult(intent, TIME_PICKING_CODE);
-                timeButton.setEnabled(false);
             }
         });
 
@@ -121,61 +125,47 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
                 if (data.hasExtra("Time")) {
                     returnedTime = data.getStringExtra("Time");
                     // TODO: 2019-07-29 Merge time that is within the time range
-
-                    if (!checkduplicate(returnedTime, selectedTimeValue)) {
-                        if(!isTimeInRange(returnedTime, selectedTimeValue)) {
-                            if (!editMode) {
-                                if (returnedTime.contains("-")) {
-                                    selectedTimeArrList.add("- Event activates between: " + returnedTime);
-                                    selectedTimeValue.add(returnedTime);
-                                    adapterFortimeListView.notifyDataSetChanged();
-                                    TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
-                                } else {
-                                    selectedTimeArrList.add("- Event activates at: " + returnedTime);
-                                    selectedTimeValue.add(returnedTime);
-                                    adapterFortimeListView.notifyDataSetChanged();
-                                    TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
-                                }
-                            } else {
-                                if (returnedTime.contains("-")) {
-                                    selectedTimeArrList.set(selectedEditPosition, "- Event activates between " + returnedTime);
-                                    selectedTimeValue.set(selectedEditPosition, returnedTime);
-                                    editMode = false;
-                                    adapterFortimeListView.notifyDataSetChanged();
-                                } else {
-                                    selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + returnedTime);
-                                    selectedTimeValue.set(selectedEditPosition, returnedTime);
-                                    editMode = false;
-                                    adapterFortimeListView.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            warning.setTitle("Reminder");
-                            warning.setMessage("The selected hour is in between time range " + selectedTimeValue.get(selectedTimeValueArrayPosition) + ", program automatically merged it for you");
-                            warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            warning.show();
-                        }
-                    } else {
-                        warning.setTitle("");
-                        warning.setMessage("The selected hour is already existed on list.");
-                        warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        warning.show();
-                    }
+                    isTimeInRange(returnedTime, activatedHours);
+                    rebuildSelectedTimeArray();
+                    adapterFortimeListView.notifyDataSetChanged();
+                    TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+//                    if (!isTimeInRange(returnedTime, activatedHours)) {
+//                        rebuildSelectedTimeArray();
+//                        adapterFortimeListView.notifyDataSetChanged();
+//                        TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+////                        if (!editMode) {
+////                            if (returnedTime.contains("-")) {
+////                                selectedTimeArrList.add("- Event activates between: " + returnedTime);
+////                                //selectedTimeValue.add(returnedTime);
+////                                adapterFortimeListView.notifyDataSetChanged();
+////                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+////                            } else {
+////                                selectedTimeArrList.add("- Event activates at: " + returnedTime);
+////                                //selectedTimeValue.add(returnedTime);
+////                                adapterFortimeListView.notifyDataSetChanged();
+////                                TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+////                            }
+////                        } else {
+////                            if (returnedTime.contains("-")) {
+////                                selectedTimeArrList.set(selectedEditPosition, "- Event activates between " + returnedTime);
+////                                //selectedTimeValue.set(selectedEditPosition, returnedTime);
+////                                editMode = false;
+////                                adapterFortimeListView.notifyDataSetChanged();
+////                            } else {
+////                                selectedTimeArrList.set(selectedEditPosition, "- Event activates at: " + returnedTime);
+////                                //selectedTimeValue.set(selectedEditPosition, returnedTime);
+////                                editMode = false;
+////                                adapterFortimeListView.notifyDataSetChanged();
+////                            }
+////                        }
+//
+//                    } else {
+//                        rebuildSelectedTimeArray();
+//                        adapterFortimeListView.notifyDataSetChanged();
+//                        TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
+//                    }
                 }
             }
-            timeButton.setEnabled(true);
         } catch (NullPointerException e) {
         }
     }
@@ -216,7 +206,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(date_time_picker_Context, "Deleting", Toast.LENGTH_SHORT).show();
                         selectedTimeArrList.remove(info.position);
-                        selectedTimeValue.remove(info.position);
+                        //selectedTimeValue.remove(info.position);
                         adapterFortimeListView.notifyDataSetChanged();
                         TF.setListViewHeightBasedOnChildren(adapterFortimeListView, timeListView);
                         Toast.makeText(date_time_picker_Context, "Deleted", Toast.LENGTH_SHORT).show();
@@ -244,63 +234,126 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
         return result;
     }
 
-    public boolean checkduplicate(String s, ArrayList<String> selectedTimeValue) {
-        if (selectedTimeValue.isEmpty())
-            return false;
-        else {
-            for (String string : selectedTimeValue) {
-                if (s.equals(string))
+    public boolean isTimeInRange(String s, List<Boolean> activatedHours) {
+        if (!s.contains("-")) {
+            String[] timeSpliter = s.split(":");
+            int hour = Integer.parseInt(timeSpliter[0]);
+            int min = Integer.parseInt(timeSpliter[1]);
+            int timeSlot = hour * 60 + min;
+            if (activatedHours.get(timeSlot) == true)
+                return true;
+            else {
+                activatedHours.set(timeSlot,true);
+                return false;
+            }
+        } else {
+            String[] timeRangeDivider = s.split("-");
+            String tempBeginTime = timeRangeDivider[0].trim();
+            String tempEndTime = timeRangeDivider[1].trim();
+            String[] _tempBeginHour = tempBeginTime.split(":");
+            String[] _tempEndhour = tempEndTime.split(":");
+            int beginHour = Integer.parseInt(_tempBeginHour[0].trim());
+            int beginMinute = Integer.parseInt(_tempBeginHour[1].trim());
+            int timeSlot1 = beginHour * 60 + beginMinute;
+            int endHour = Integer.parseInt(_tempEndhour[0].trim());
+            int endMinute = Integer.parseInt(_tempEndhour[1].trim());
+            int timeSlot2 = endHour * 60 + endMinute;
+
+            //Scenario 1: if startTime is already in a range, but end time is out of range.
+            // E.g. Known 10AM-12PM, new time 11:30AM-01:00PM
+            if (activatedHours.get(timeSlot1)) {
+                if (activatedHours.get(timeSlot2)) {
                     return true;
+                } else {
+                    setTimeRangeTrue(timeSlot1, timeSlot2);
+                    return true;
+                }
+            }
+            //Scenario 2: if startTime is not in a range, but end time is.
+            //E.g. Known 10AM-12PM, new time 9AM-10:30
+            else if (!activatedHours.get(timeSlot1) && activatedHours.get(timeSlot2)) {
+                setTimeRangeTrue(timeSlot1, timeSlot2);
+                return true;
+            }
+
+            //Sencario 3: if both start time and end time is not any time range
+            //E.g. 10AM-12PM, new time 1PM-3PM
+            else if (!activatedHours.get(timeSlot1) && !activatedHours.get(timeSlot2)) {
+                setTimeRangeTrue(timeSlot1, timeSlot2);
+                return false;
             }
         }
         return false;
     }
 
-    public boolean isTimeInRange(String s, ArrayList<String> selectedTimeValue)
-    {
-        String startTime = null;
-        String endTime = null;
-        String temp = null;
+    public void setTimeRangeTrue(int timeSlot1, int timeSlot2) {
+        for (int i = timeSlot1; i <= timeSlot2; i++) {
+            activatedHours.set(i, true);
+        }
+    }
 
-        for(int i = 0; i < selectedTimeValue.size(); i++)
-        {
-            if(selectedTimeValue.get(i).contains("-"))
-            {
-                String[]timeRangeDivider = selectedTimeValue.get(i).split("-");
-                startTime = timeRangeDivider[0];
-                endTime = timeRangeDivider[1].trim();
-                startTime = startTime + ":00";
-                endTime = endTime + ":00";
-                temp = s + ":00";
-                try {
-                    Date time1 = new SimpleDateFormat("HH:mm:ss").parse(startTime);
-                    Calendar c1 = Calendar.getInstance();
-                    c1.setTime(time1);
-
-                    Date time2 = new SimpleDateFormat("HH:mm:ss").parse(endTime);
-                    Calendar c2 = Calendar.getInstance();
-                    c2.setTime(time2);
-                    //c2.add(Calendar.DATE, 1);
-
-                    Date time3 = new SimpleDateFormat("HH:mm:ss").parse(temp);
-                    Calendar c3 = Calendar.getInstance();
-                    c3.setTime(time3);
-                    //c3.add(Calendar.DATE, 1);
-
-                    Date x = c3.getTime();
-                    if(x.after(c1.getTime()) && x.before(c2.getTime()))
-                    {
-                        selectedTimeValueArrayPosition = i;
-                        return true;
+    public void rebuildSelectedTimeArray() {
+        selectedTimeArrList.clear();
+        int startTime = 0;
+        int endTime = 0;
+        int j = 0;
+        for (int i = 0; i < activatedHours.size(); i++) {
+            for (j = i + 1; j < activatedHours.size(); j++) {
+                if (activatedHours.get(i) && !activatedHours.get(j)) {
+                    selectedTimeArrList.add("- Event activates at: " + i / 60 + ":" + i % 60);
+                    i = j;
+                    break;
+                }
+                if (activatedHours.get(i) && activatedHours.get(j)) {
+                    startTime = i;
+                    endTime = j;
+                    if (j == activatedHours.size() - 1 || !activatedHours.get(j + 1)) {
+                        selectedTimeArrList.add("- Event activates between: " + startTime / 60 + ":" + startTime % 60 + "-" + endTime / 60 + ":" + endTime % 60);
+                        i = j;
+                        startTime = 0;
+                        endTime = 0;
+                        break;
                     }
                 }
-                catch (ParseException e)
-                {}
-
             }
-            else
-                continue;
         }
-        return false;
     }
 }
+
+//    public boolean checkduplicate(String s, ArrayList<String> selectedTimeValue) {
+//        if (selectedTimeValue.isEmpty())
+//            return false;
+//        else {
+//            for (String string : selectedTimeValue) {
+//                if (s.equals(string))
+//                    return true;
+//            }
+//        }
+//        return false;
+//    }
+
+//                        }else {
+//                        warning.setTitle("Reminder");
+//                        //warning.setMessage("The selected hour is in between time range " + selectedTimeValue.get(selectedTimeValueArrayPosition) + ", program automatically merged it for you");
+//                        warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                        warning.show();
+//                    } else {
+//                        warning.setTitle("");
+//                        warning.setMessage("The selected hour is already existed on list.");
+//                        warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                        warning.show();
+
+//10:23 - 10:40
+//0         1        ...... 10*60+23
+//1376/60 == 22  -> 1376-
+//"1376/60(小时)" + ":" + "1376%60"(分钟)
