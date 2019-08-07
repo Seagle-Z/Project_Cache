@@ -111,20 +111,20 @@ public class EventSetupPage3Fragment extends Fragment {
                 String[] test = {"lkajsldkfj", "kjashdkjahsdkalsjdfklasjkfj"};
                 String[] test2 = {"lkajsldkfj", "kjashdkjahsdkfj"};
                 //TODO: Check all input if it's valid
-                Event event = new Event(99, "ABC", "EFG",
-                        "jshdfkjashd", 101,
-                        test, test2,
-                        null, null,
-                        null, null,
-                        null, null,
-                        autoTrigger, oneTimeEvent,
-                        Boolean.TRUE, Boolean.TRUE,
-                        "ASDFASDF", 10101);
-                Intent intent = new Intent();
-                intent.putExtra("Event", event);
+//                Event event = new Event(99, "ABC", "EFG",
+//                        "jshdfkjashd", 101,
+//                        test, test2,
+//                        null, null,
+//                        null, null,
+//                        null, null,
+//                        autoTrigger, oneTimeEvent,
+//                        Boolean.TRUE, Boolean.TRUE,
+//                        "ASDFASDF", 10101);
+//                Intent intent = new Intent();
+//                intent.putExtra("Event", event);
 
-                getActivity().setResult(Activity.RESULT_OK, intent);
-                getActivity().finish();
+                //getActivity().setResult(Activity.RESULT_OK, intent);
+                //getActivity().finish();
             }
         });
 
