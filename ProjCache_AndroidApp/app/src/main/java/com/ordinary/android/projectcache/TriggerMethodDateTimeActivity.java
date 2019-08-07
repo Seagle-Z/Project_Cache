@@ -36,10 +36,9 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity implements 
     Context date_time_picker_Context;
     private int Year, Month, day, selectedEditPosition;
     private String returnedTime = "";
-    private boolean editMode, isAllTimeSlotFalse;
+    private boolean editMode;
     ListView timeListView;
     ArrayList<String> selectedTimeArrList = new ArrayList<>();
-    ArrayList<String> selectedTimeValue = new ArrayList<>();
     List<Boolean> activatedHours = new ArrayList<Boolean>(Arrays.asList(new Boolean[1440]));
 
     ArrayAdapter<String> adapterFortimeListView;

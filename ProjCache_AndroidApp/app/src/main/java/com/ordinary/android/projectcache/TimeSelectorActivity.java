@@ -5,9 +5,13 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.DragAndDropPermissions;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -15,6 +19,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TimeSelectorActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
@@ -75,7 +83,8 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                 if (isChecked) {
                     timeRangeOn = true;
                     Toast.makeText(TimeSelectorActivity.this, "Time Range Mode ON", Toast.LENGTH_SHORT).show();
-                    addEndTimeButton.setEnabled(true);
+                    addEndTimeButton.setEnabled(false);
+                    addEndTimeButton.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
                     addEndTimeButton.setVisibility(View.VISIBLE);
                     EndTimeTextView.setVisibility(View.VISIBLE);
                 } else {
@@ -131,20 +140,43 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
 //            minutes = Integer.toString(minute);
         hour = Integer.toString(hourOfDay);
         minutes = Integer.toString(minute);
-
+        SimpleDateFormat parser = new SimpleDateFormat("HH:mm");
+        Date input = null;
+        Date knownTime = null;
         if (buttonPress) {
             if (endHour != null && endMinute != null) {
-                if (hour.equals(endHour) && minutes.equals(endMinute))
+                try {
+                    input = parser.parse(hour + ":" + minutes);
+                    knownTime = parser.parse(endHour + ":" + endMinute);
+                } catch (ParseException e) {
+                }
+                if (knownTime.equals(input))
                     unchangedWarningWindow(WarningDialog, 2);
+                if (knownTime.before(input))
+                    unchangedWarningWindow(WarningDialog, 5);
             } else {
                 addBeginTimeButton.setText("Event activates at: " + hour + ":" + minutes);
                 beginHour = hour;
                 beginMinute = minutes;
+                addEndTimeButton.setEnabled(true);
+                addEndTimeButton.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
             }
         } else {
-            if (hour.equals(beginHour) && minutes.equals(beginMinute))
+            boolean flag = true;
+            try {
+                input = parser.parse(hour + ":" + minutes);
+                knownTime = parser.parse(beginHour + ":" + beginMinute);
+            } catch (ParseException e) {
+            }
+            if (knownTime.equals(input)) {
                 unchangedWarningWindow(WarningDialog, 2);
-            else {
+                flag = false;
+            }
+            if (knownTime.after(input)) {
+                unchangedWarningWindow(WarningDialog, 6);
+                flag = false;
+            }
+            if(flag) {
                 addEndTimeButton.setText("Event ends at: " + hour + ":" + minutes);
                 endHour = hour;
                 endMinute = minutes;
@@ -281,7 +313,26 @@ public class TimeSelectorActivity extends AppCompatActivity implements TimePicke
                 });
                 WarningDialog.show();
                 break;
-
+            case 5:
+                WarningDialog.setMessage("Starting time must occur before the ending time.");
+                WarningDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                WarningDialog.show();
+                break;
+            case 6:
+                WarningDialog.setMessage("Ending time must occur after the starting time.");
+                WarningDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                WarningDialog.show();
+                break;
             default:
         }
     }
