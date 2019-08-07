@@ -77,7 +77,7 @@ When the event triggered, open one or more App.
 QR_CODE
 Show a QR code.
 
-BROSE_URL
+BROWSE_URL
 Open url in web browser.
 
 VOLUME
@@ -99,7 +99,7 @@ QR_CODE
 Only one QR code could be Show
 Store the QR code picture's directory
 
-BROSE_URL
+BROWSE_URL
 For BROSE_URL, we do not store url in events.csv. Instead, we stroe urlID in event.csv
 If a event contains task about url, the event generator will automatically
 create urlID for the url, and store the url in urlStore.csv file.

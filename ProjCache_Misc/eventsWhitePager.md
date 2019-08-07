@@ -114,11 +114,21 @@ If true, this event is activated, and it can be triggered.
 If false, this event is not activated, it cannot be triggered.
 
 18.
+eventImage
+String
+Store the requirement information to create the Drawable object for the image
+
+19.
+eventColor
+Integer
+Hexadecimal integer to store the RGB value of the color
+
+20.
 eventCategory
 String
 The category of the event, used for classify events.
 
-19.
+21.
 executedTimes
 Integer
 How many times did this event executed.
