@@ -1,6 +1,7 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringJoiner;
+
+// TODO: 2019-08-04 增加 event 的 picture，例如开 App 就是 App 的logo
+// TODO: 2019-08-06 加入eventColor 特性
 
 public class Events {
 
@@ -34,6 +38,12 @@ public class Events {
         eventsFile = inputEventsFile;
 
         eventsList = new ArrayList<>();
+        activateEventsList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activateEventsList.add(e.eventID);
+            }
+        }
 
         // if the eventsList.csv file does not exists, create one
         if (!eventsFile.exists() || eventsFile.isDirectory()) {
@@ -140,9 +150,15 @@ public class Events {
         return null;
     }
 
-    public void updateActivedEventsList(int eventID, boolean activated) {
+    public boolean updateActivedEventsList(int eventID, boolean activated) {
         eventsList.get(eventID).isActivated = activated;
-        refreshEvents();
+        activateEventsList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activateEventsList.add(e.eventID);
+            }
+        }
+        return refreshEvents();
     }
 
     public void updateRunningEventsList() {
@@ -190,7 +206,7 @@ public class Events {
                     "tasksTypeEnd, tasksValueEnd, " +
                     "selfResetEvent, oneTimeEvent, " +
                     "autoTrigger, isActivated, " +
-                    "eventCategory, executedTimes\n";
+                    "eventImage, eventColor, eventCategory, executedTimes\n";
             fos.write(csvTitle.getBytes());
             fos.close();
 
@@ -218,6 +234,7 @@ public class Events {
                     strArrJoiner(newEvent.tasksTypeEnd) + ", " + strArrJoiner(newEvent.tasksValueEnd) + ", " +
                     newEvent.selfResetEvent.toString() + ", " + newEvent.oneTimeEvent.toString() + ", " +
                     newEvent.autoTrigger.toString() + ", " + newEvent.isActivated.toString() + ", " +
+                    newEvent.eventImage + ", " + newEvent.eventColor.toString() + ", " +
                     newEvent.eventCategory + ", " + newEvent.executedTimes.toString() + "\n";
 
             fos.write(eventText.getBytes());
@@ -294,8 +311,10 @@ public class Events {
         else
             tIsActivated = false;
 
-        String tEventCategory = data[17];
-        Integer tExecutedTimes = Integer.parseInt(data[18]);
+        String tEventImage = data[17];
+        Integer tEventColor = Integer.parseInt(data[18]);
+        String tEventCategory = data[19];
+        Integer tExecutedTimes = Integer.parseInt(data[20]);
 
         return new Event(tEventName, tCreateData,
                 tCreateTime, tPriorityLevel,
@@ -305,6 +324,7 @@ public class Events {
                 tTasksTypeEnd, tTasksValueEnd,
                 tSelfResetEvent, tOneTimeEvent,
                 tAutoTrigger, tIsActivated,
+                tEventImage, tEventColor,
                 tEventCategory, tExecutedTimes);
 
     }
@@ -326,8 +346,8 @@ public class Events {
     }
 
     private DefaultEvent firstTimeInitializeDemoDefaultEvent() {
-        String[] tasksType = {"Open_Web"};
-        String[] tasksValue = {"https://www.google.com"};   // change to App explanation page later
+        String[] tasksType = {"BROWSE_URL|LAUNCH_APP"};
+        String[] tasksValue = {"https://www.google.com|com.google.android.youtube"};
 
         return new DefaultEvent(tasksType, tasksValue);
     }
@@ -346,6 +366,7 @@ public class Events {
                 null, null,
                 false, false,
                 false, true,
+                null, 0x000000,
                 "NULL", 0);
 
 
@@ -360,6 +381,7 @@ public class Events {
                 null, null,
                 false, false,
                 false, true,
+                null, 0xffffff,
                 "NULL", 0);
 
 
@@ -407,10 +429,11 @@ class Event {
 
     Boolean selfResetEvent;         // if true, when event ends, all settings will reset
     Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
-
     Boolean autoTrigger;            // if true, this event will start without need to click button
     Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
 
+    String eventImage;
+    Integer eventColor;
     String eventCategory;           // for future usage
     Integer executedTimes;          // How many times did this event has been used
 
@@ -423,6 +446,7 @@ class Event {
                  String[] tasksTypeEnd, String[] tasksValueEnd,
                  Boolean selfResetEvent, Boolean oneTimeEvent,
                  Boolean autoTrigger, Boolean isActivated,
+                 String eventImage, Integer eventColor,
                  String eventCategory, Integer executedTimes) {
 
         this.eventName = eventName;
@@ -445,6 +469,8 @@ class Event {
         this.autoTrigger = autoTrigger;
         this.isActivated = isActivated;
 
+        this.eventImage = eventImage;
+        this.eventColor = eventColor;
         this.eventCategory = eventCategory;
         this.executedTimes = executedTimes;
 

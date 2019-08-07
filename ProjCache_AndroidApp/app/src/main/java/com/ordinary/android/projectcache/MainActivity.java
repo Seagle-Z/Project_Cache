@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
     private Thread coreThread;
 
     private static final String EVENTS_FILE_NAME = "events.csv";
-    private Events events;
+    public Events events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,22 +90,7 @@ public class MainActivity extends AppCompatActivity
         // Put the Default event into coreViewPager
         // TODO: 2019-08-01 Put the default event model into the coreModels
 
-        //** Hard code the Default event and another event for development *************************
-        Intent testIntent1 = new Intent(MainActivity.this, AppListActivity.class);
-//        coreModels.add(new CoreModel(
-//                testIntent1,
-//                this.getResources().getDrawable(R.drawable.ic_menu_camera, null),
-//                "QR Code"));
-//
-//
-//        String url = "http://www.example.com";
-//        Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
-//        testIntent2.setData(Uri.parse(url));
-//        coreModels.add(new CoreModel(
-//                testIntent2,
-//                this.getResources().getDrawable(R.drawable.ic_menu_send, null),
-//                "test"));
-        //** Hard code FINISH **********************************************************************
+
 
         CoreModelAdapter coreModelAdapter = new CoreModelAdapter(this, coreModels);
         coreViewPager = findViewById(R.id.core_viewPager);

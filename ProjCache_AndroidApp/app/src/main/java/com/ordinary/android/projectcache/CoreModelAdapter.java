@@ -1,6 +1,7 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -56,7 +58,22 @@ public class CoreModelAdapter extends PagerAdapter {
         coreCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(coreModels.get(pos).getIntent());
+                if (coreModels.get(pos).getIntents() == null) {
+                    /* Attention:
+                     * If the intent is null, mostly cause by there is not a key word in that match
+                     * the switch case statement in the method "convertTaskToIntent" of
+                     * "CoreTaskExecutor" class. Make sure add the key word whenever a new feature
+                     * added. otherwise, "convertTaskToIntent" will return null.
+                     */
+                    Toast.makeText(
+                            context,
+                            "Oh, no. This event cannot be triggered... T_T",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    for (Intent i : coreModels.get(pos).getIntents()) {
+                        context.startActivity(i);
+                    }
+                }
             }
         });
 

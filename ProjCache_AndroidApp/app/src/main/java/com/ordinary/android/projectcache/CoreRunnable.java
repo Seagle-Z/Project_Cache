@@ -2,11 +2,8 @@ package com.ordinary.android.projectcache;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,13 +22,62 @@ public class CoreRunnable implements Runnable {
         this.coreViewPager = coreViewPager;
         this.mainHandler = new Handler(context.getMainLooper());
         this.eventsFile = eventsFile;
+        this.events = new Events(context, eventsFile);
     }
 
     @Override
     public void run() {
+//        CoreTaskExecutor coreTaskExecutor =
+//                new CoreTaskExecutor(
+//                        context,
+//                        events.getDefaultEvent().tasksType,
+//                        events.getDefaultEvent().tasksValue
+//                );
+//
+//        Intent[] intents = coreTaskExecutor.tasksToDo();
+//
+//        final List<CoreModel> defaultEventModel = new ArrayList<>();
+//        defaultEventModel.add(new CoreModel(
+//                intents,
+//                context.getResources().getDrawable(R.drawable.ic_menu_send, null),
+//                "Default Event"
+//        ));
+//
+//        CoreModelAdapter coreModelAdapter =
+//                new CoreModelAdapter(context, defaultEventModel);
+//        coreViewPager.setAdapter(coreModelAdapter);
+
+        /* TODO: 2019-08-04
+         * 让 YSL 在每次 event 新的event设置完成后在internal storage加一个文件用于告知events class当前存在新的
+         * events变动需要更新。这样CoreRunnable就不需要一直读取csv文件了
+         */
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                CoreTaskExecutor coreTaskExecutor =
+                        new CoreTaskExecutor(
+                                context,
+                                events.getDefaultEvent().tasksType,
+                                events.getDefaultEvent().tasksValue
+                        );
+
+                Intent[] intents = coreTaskExecutor.tasksToDo();
+
+                final List<CoreModel> defaultEventModel = new ArrayList<>();
+                defaultEventModel.add(new CoreModel(
+                        intents,
+                        context.getResources().getDrawable(R.drawable.ic_menu_send, null),
+                        "Default Event"
+                ));
+
+                CoreModelAdapter coreModelAdapter =
+                        new CoreModelAdapter(context, defaultEventModel);
+                coreViewPager.setAdapter(coreModelAdapter);
+            }
+        });
 
         for (;;) {
-            events = new Events(context, eventsFile);
             // TODO: 2019-08-01 Check if there is any event happen
 
             runOnUiThread(new Runnable() {
@@ -42,22 +88,22 @@ public class CoreRunnable implements Runnable {
                     // TODO: 2019-08-01 Call the execute event function/method to execute event's task
 
                     // TODO: 2019-08-01 In case needed, change the OnPageChangeListener
-//                    coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//                        @Override
-//                        public void onPageScrolled(int i, float v, int i1) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onPageSelected(int i) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onPageScrollStateChanged(int i) {
-//
-//                        }
-//                    });
+                    coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int i, float v, int i1) {
+
+                        }
+
+                        @Override
+                        public void onPageSelected(int i) {
+                            coreViewPager.setBackgroundColor(0x444444);
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int i) {
+
+                        }
+                    });
                 }
             });
 
@@ -74,6 +120,10 @@ public class CoreRunnable implements Runnable {
     }
 
 
+
+
+
+
     // Hard Code for development and testing
 //    @Override
 //    public void run() {
@@ -86,9 +136,20 @@ public class CoreRunnable implements Runnable {
 //                        Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
 //                        testIntent2.setData(Uri.parse(url));
 //                        List<CoreModel> coreModels = new ArrayList<>();
-//                        coreModels.add(new CoreModel(testIntent2, context.getResources().getDrawable(R.drawable.ic_menu_gallery, null),  "abc"));
-//                        coreModels.add(new CoreModel(testIntent2, context.getResources().getDrawable(R.drawable.ic_menu_share, null), "def"));
-//                        CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, coreModels);
+//                        coreModels.add(new CoreModel(
+//                                testIntent2,
+//                                context.getResources().getDrawable(
+//                                        R.drawable.ic_menu_gallery, null),
+//                                "abc"
+//                        ));
+//                        coreModels.add(new CoreModel(
+//                                testIntent2,
+//                                context.getResources().getDrawable(
+//                                        R.drawable.ic_menu_share, null),
+//                                "def"
+//                        ));
+//                        CoreModelAdapter coreModelAdapter =
+//                                new CoreModelAdapter(context, coreModels);
 //                        coreViewPager.setAdapter(coreModelAdapter);
 //                        System.out.println("en...????");
 //                    }
@@ -102,10 +163,26 @@ public class CoreRunnable implements Runnable {
 //                        Intent testIntent2 = new Intent(Intent.ACTION_VIEW);
 //                        testIntent2.setData(Uri.parse(url));
 //                        List<CoreModel> coreModels = new ArrayList<>();
-//                        coreModels.add(new CoreModel(testIntent2, context.getResources().getDrawable(R.drawable.ic_menu_slideshow, null), "123"));
-//                        coreModels.add(new CoreModel(testIntent2, context.getResources().getDrawable(R.drawable.ic_menu_manage, null), "456"));
-//                        coreModels.add(new CoreModel(testIntent2, context.getResources().getDrawable(R.drawable.ic_menu_gallery, null),  "789"));
-//                        CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, coreModels);
+//                        coreModels.add(new CoreModel(
+//                                testIntent2,
+//                                context.getResources().getDrawable(
+//                                        R.drawable.ic_menu_slideshow, null),
+//                                "123"
+//                        ));
+//                        coreModels.add(new CoreModel(
+//                                testIntent2,
+//                                context.getResources().getDrawable(
+//                                        R.drawable.ic_menu_manage, null),
+//                                "456"
+//                        ));
+//                        coreModels.add(new CoreModel(
+//                                testIntent2,
+//                                context.getResources().getDrawable(
+//                                        R.drawable.ic_menu_gallery, null),
+//                                "789"
+//                        ));
+//                        CoreModelAdapter coreModelAdapter =
+//                                new CoreModelAdapter(context, coreModels);
 //                        coreViewPager.setAdapter(coreModelAdapter);
 //                        System.out.println("en...!!!!");
 //                    }

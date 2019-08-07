@@ -5,24 +5,24 @@ import android.graphics.drawable.Drawable;
 
 public class CoreModel {
 
-    private Intent intent;
+    private Intent[] intents;
     private String text;
     private Drawable drawable;
 
-    public CoreModel(Intent intent, Drawable drawable, String text)
+    public CoreModel(Intent[] intents, Drawable drawable, String text)
     {
-        this.intent = intent;
+        this.intents = intents;
         this.drawable = drawable;
         this.text = text;
 
     }
 
-    public Intent getIntent() {
-        return intent;
+    public Intent[] getIntents() {
+        return intents;
     }
 
-    public void setIntent(Intent intent) {
-        this.intent = intent;
+    public void setIntents(Intent[] intents) {
+        this.intents = intents;
     }
 
 

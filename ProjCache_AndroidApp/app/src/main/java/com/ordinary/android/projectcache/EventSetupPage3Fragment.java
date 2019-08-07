@@ -111,19 +111,20 @@ public class EventSetupPage3Fragment extends Fragment {
                 String[] test = {"lkajsldkfj", "kjashdkjahsdkalsjdfklasjkfj"};
                 String[] test2 = {"lkajsldkfj", "kjashdkjahsdkfj"};
                 //TODO: Check all input if it's valid
-                Event event = new Event(99, "ABC", "EFG",
-                        "jshdfkjashd", 101,
-                        test, test2,
-                        null, null,
-                        null, null,
-                        null, null,
-                        autoTrigger, oneTimeEvent,
-                        Boolean.TRUE, Boolean.TRUE,
-                        "ASDFASDF", 10101);
-                Intent intent = new Intent();
-                intent.putExtra("Event", event);
+                // TODO: 2019-08-06 要检查intent时候是null后才能返回，把event的constructor更是改正成正确的样子
+//                Event event = new Event("ABC", "EFG",
+//                        "jshdfkjashd", 101,
+//                        test, test2,
+//                        null, null,
+//                        null, null,
+//                        null, null,
+//                        autoTrigger, oneTimeEvent,
+//                        Boolean.TRUE, Boolean.TRUE,
+//                        "ASDFASDF", 10101);
+//                Intent intent = new Intent();
+//                intent.putExtra("Event", event);
 
-                getActivity().setResult(Activity.RESULT_OK, intent);
+                //getActivity().setResult(Activity.RESULT_OK, intent);
                 getActivity().finish();
             }
         });
