@@ -5,26 +5,23 @@ import android.graphics.drawable.Drawable;
 
 public class CoreModel {
 
-    private Intent[] intents;
+    private CoreTasksExecutor coreTasksExecutor;
     private String text;
     private Drawable drawable;
 
-    public CoreModel(Intent[] intents, Drawable drawable, String text)
-    {
-        this.intents = intents;
-        this.drawable = drawable;
+    public CoreModel(CoreTasksExecutor coreTasksExecutor, String text, Drawable drawable) {
+        this.coreTasksExecutor = coreTasksExecutor;
         this.text = text;
-
+        this.drawable = drawable;
     }
 
-    public Intent[] getIntents() {
-        return intents;
+    public CoreTasksExecutor getCoreTasksExecutor() {
+        return coreTasksExecutor;
     }
 
-    public void setIntents(Intent[] intents) {
-        this.intents = intents;
+    public void setCoreTasksExecutor(CoreTasksExecutor coreTasksExecutor) {
+        this.coreTasksExecutor = coreTasksExecutor;
     }
-
 
     public String getText() {
         return text;

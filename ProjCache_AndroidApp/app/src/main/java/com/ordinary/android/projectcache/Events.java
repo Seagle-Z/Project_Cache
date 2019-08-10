@@ -1,9 +1,7 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,9 +25,8 @@ public class Events {
     File eventsFile;
 
     private List<Event> eventsList;     // store all the events information
-    private DefaultEvent defaultEvent;
-    List<Integer> activateEventsList;   // store all eventID of activated events (switch is on)
-    List<Integer> runningEventsList;    // store the eventIDs that event is currently running
+    private Event defaultEvent;
+    List<Integer> activedEventsList;   // store all eventID of activated events (switch is on)
 
 
     public Events(Context inputContext, File inputEventsFile) {
@@ -38,10 +35,10 @@ public class Events {
         eventsFile = inputEventsFile;
 
         eventsList = new ArrayList<>();
-        activateEventsList = new ArrayList<>();
+        activedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activateEventsList.add(e.eventID);
+                activedEventsList.add(e.eventID);
             }
         }
 
@@ -50,11 +47,12 @@ public class Events {
             eventsCSVConstruct();
             // initialize the demo default event, put it into csv
             defaultEvent = firstTimeInitializeDemoDefaultEvent();
-            setDefaultEventToCSV(defaultEvent);
+            //defaultEvent.eventID = 0;
+            addEventToCSV(defaultEvent);
 
             //** Hard code some event for development **************************************** START
             hardCodeSomeTestingEventsForDevelopment();
-            //** Hard code some event for development FINISH ******************************** FINISH
+            //** Hard code some event for development *************************************** FINISH
         }
 
         FileInputStream fis = null;
@@ -68,16 +66,16 @@ public class Events {
 
             // ignore the first line which is title
             line = br.readLine();
-            Log.d("", line);
+            Log.d(" ", line);
 
             // parse defaultEvent
             line = br.readLine();
             Log.d(" ", line);
-            defaultEvent = parseDefaultEventData(line);
+            defaultEvent = parseEventData(line);
 
             // parse events to eventsList
             while ((line = br.readLine()) != null) {
-                Log.d("", line);
+                Log.d(" ", line);
                 eventsList.add(parseEventData(line));
             }
         } catch (FileNotFoundException e) {
@@ -95,7 +93,7 @@ public class Events {
             }
         }
 
-        newEvent.eventID = eventsList.size();
+        newEvent.eventID = eventsList.size() + 1;
         eventsList.add(newEvent);
 
         return refreshEvents();
@@ -124,11 +122,11 @@ public class Events {
         return refreshEvents();
     }
 
-    public void resetDefaultEvent(DefaultEvent e){
+    public void resetDefaultEvent(Event e){
         this.defaultEvent = e;
     }
 
-    public DefaultEvent getDefaultEvent() {
+    public Event getDefaultEvent() {
         return defaultEvent;
     }
 
@@ -150,19 +148,29 @@ public class Events {
         return null;
     }
 
-    public boolean updateActivedEventsList(int eventID, boolean activated) {
-        eventsList.get(eventID).isActivated = activated;
-        activateEventsList = new ArrayList<>();
+    public List<Event> getEventsList() {
+        return eventsList;
+    }
+
+    public boolean updateActivatedEventsList() {
+        activedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activateEventsList.add(e.eventID);
+                activedEventsList.add(e.eventID);
             }
         }
         return refreshEvents();
     }
 
-    public void updateRunningEventsList() {
-
+    public boolean changeEventActiveStatus(int eventID, boolean activated) {
+        eventsList.get(eventID).isActivated = activated;
+        activedEventsList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activedEventsList.add(e.eventID);
+            }
+        }
+        return refreshEvents();
     }
 
     private boolean refreshEvents() {
@@ -174,7 +182,7 @@ public class Events {
             }
         });
         for (int i = 0; i < eventsList.size(); i++) {
-            eventsList.get(i).eventID = i;
+            eventsList.get(i).eventID = i + 1;
         }
         return refreshEventsCSV();
     }
@@ -188,7 +196,8 @@ public class Events {
         // construct csv and put the default event
         eventsCSVConstruct();
         // put default into csv
-        setDefaultEventToCSV(defaultEvent);
+        //defaultEvent.eventID = 0;
+        addEventToCSV(defaultEvent);
         // put others event
         for (Event e : eventsList) {
             addEventToCSV(e);
@@ -204,15 +213,15 @@ public class Events {
                     "triggerableDay, triggerableTime, " +
                     "triggerMethods, triggerValues, tasksTypeStart, tasksValueStart, " +
                     "tasksTypeEnd, tasksValueEnd, " +
-                    "selfResetEvent, oneTimeEvent, " +
+                    "momentEvent, oneTimeEvent, " +
                     "autoTrigger, isActivated, " +
                     "eventImage, eventColor, eventCategory, executedTimes\n";
             fos.write(csvTitle.getBytes());
             fos.close();
 
             //** for debugging *************************************************************** START
-            Toast.makeText(context, "csv created, and Title saved to " +
-                    context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
+//            Toast.makeText(context, "csv created, and Title saved to " +
+//                    context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
             //** for debugging ************************************************************** FINISH
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -222,20 +231,21 @@ public class Events {
     }
 
     private void addEventToCSV(Event newEvent) {
+
         try {
             FileOutputStream fos = null;
             fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
 
-            String eventText = newEvent.eventID.toString() + ", " + newEvent.eventName + ", " +
-                    newEvent.createDate + ", " + newEvent.createTime + ", " + newEvent.priorityLevel.toString() + ", " +
+            String eventText = newEvent.eventID.toString() + ", " + nullOrString(newEvent.eventName) + ", " +
+                    nullOrString(newEvent.createDate) + ", " + nullOrString(newEvent.createTime) + ", " + nullOrString(newEvent.priorityLevel) + ", " +
                     strArrJoiner(newEvent.triggerableDay) + ", " + strArrJoiner(newEvent.triggerableTime) + ", " +
                     strArrJoiner(newEvent.triggerMethods) + ", " + strArrJoiner(newEvent.triggerValues) + ", " +
                     strArrJoiner(newEvent.tasksTypeStart) + ", " + strArrJoiner(newEvent.tasksValueStart) + ", " +
                     strArrJoiner(newEvent.tasksTypeEnd) + ", " + strArrJoiner(newEvent.tasksValueEnd) + ", " +
-                    newEvent.selfResetEvent.toString() + ", " + newEvent.oneTimeEvent.toString() + ", " +
-                    newEvent.autoTrigger.toString() + ", " + newEvent.isActivated.toString() + ", " +
-                    newEvent.eventImage + ", " + newEvent.eventColor.toString() + ", " +
-                    newEvent.eventCategory + ", " + newEvent.executedTimes.toString() + "\n";
+                    nullOrString(newEvent.momentEvent) + ", " + nullOrString(newEvent.oneTimeEvent) + ", " +
+                    nullOrString(newEvent.autoTrigger) + ", " + nullOrString(newEvent.isActivated) + ", " +
+                    nullOrString(newEvent.eventImage) + ", " + nullOrString(newEvent.eventColor) + ", " +
+                    nullOrString(newEvent.eventCategory) + ", " + nullOrString(newEvent.executedTimes) + "\n";
 
             fos.write(eventText.getBytes());
             fos.close();
@@ -246,26 +256,32 @@ public class Events {
         }
     }
 
-    private void setDefaultEventToCSV(DefaultEvent defaultEvent) {
-        try {
-            FileOutputStream fos = null;
-            fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
-            String eventText = strArrJoiner(defaultEvent.tasksType) + ", " +
-                    strArrJoiner(defaultEvent.tasksValue) + "\n";
-            fos.write(eventText.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private String nullOrString(String str) {
+        if (str == null) {
+            return "NULL";
+        } else {
+            return str;
         }
     }
 
-    private DefaultEvent parseDefaultEventData(String line) {
-        String[] data = line.split(", ");
-        String[] tTasksType = data[0].split("\\|");
-        String[] tTasksValue = data[1].split("\\|");
-        return new DefaultEvent(tTasksType, tTasksValue);
+    private String nullOrString(Integer integer) {
+        if (integer == null) {
+            return "NULL";
+        } else {
+            return integer.toString();
+        }
+    }
+
+    private String nullOrString(Boolean bool) {
+        if (bool == null) {
+            return "NULL";
+        } else {
+            if (bool == true) {
+                return "true";
+            } else {
+                return "false";
+            }
+        }
     }
 
     private Event parseEventData(String line) {
@@ -279,22 +295,21 @@ public class Events {
         String tCreateTime = data[3];
         Integer tPriorityLevel = Integer.parseInt(data[4]);
 
-        String[] tTriggerableDay = data[5].split("\\|");
-        String[] tTriggerableTime = data[6].split("\\|");
+        String[] tTriggerableDay = parseStringListPossibleNULL(data[5]);
+        String[] tTriggerableTime = parseStringListPossibleNULL(data[6]);
+        String[] tTriggerMethodsStart = parseStringListPossibleNULL(data[7]);
+        String[] tTriggerValuesStart = parseStringListPossibleNULL(data[8]);
 
-        String[] tTriggerMethodsStart = data[7].split("\\|");
-        String[] tTriggerValuesStart = data[8].split("\\|");
+        String[] tTasksTypeStart = parseStringListPossibleNULL(data[9]);
+        String[] tTasksValueStart = parseStringListPossibleNULL(data[10]);
+        String[] tTasksTypeEnd = parseStringListPossibleNULL(data[11]);
+        String[] tTasksValueEnd = parseStringListPossibleNULL(data[12]);
 
-        String[] tTasksTypeStart = data[9].split("\\|");
-        String[] tTasksValueStart = data[10].split("\\|");
-        String[] tTasksTypeEnd = data[11].split("\\|");
-        String[] tTasksValueEnd = data[12].split("\\|");
-
-        Boolean tSelfResetEvent, tOneTimeEvent, tAutoTrigger, tIsActivated;
+        Boolean tMomentEvent, tOneTimeEvent, tAutoTrigger, tIsActivated;
         if (data[13].equalsIgnoreCase("true"))
-            tSelfResetEvent = true;
+            tMomentEvent = true;
         else
-            tSelfResetEvent = false;
+            tMomentEvent = false;
 
         if (data[14].equalsIgnoreCase("true"))
             tOneTimeEvent = true;
@@ -311,22 +326,38 @@ public class Events {
         else
             tIsActivated = false;
 
-        String tEventImage = data[17];
-        Integer tEventColor = Integer.parseInt(data[18]);
+        String tEventImage = null;
+        if (!data[17].equals("NULL")) {
+            tEventImage = data[17];
+        }
+
+        Integer tEventColor = null;
+        if (!data[18].equals("NULL")) {
+            tEventColor = Integer.parseInt(data[18]);
+        }
+
         String tEventCategory = data[19];
         Integer tExecutedTimes = Integer.parseInt(data[20]);
 
-        return new Event(tEventName, tCreateData,
+        return new Event(tEventID, tEventName, tCreateData,
                 tCreateTime, tPriorityLevel,
                 tTriggerableDay, tTriggerableTime,
                 tTriggerMethodsStart, tTriggerValuesStart,
                 tTasksTypeStart, tTasksValueStart,
                 tTasksTypeEnd, tTasksValueEnd,
-                tSelfResetEvent, tOneTimeEvent,
+                tMomentEvent, tOneTimeEvent,
                 tAutoTrigger, tIsActivated,
                 tEventImage, tEventColor,
                 tEventCategory, tExecutedTimes);
 
+    }
+
+    private String[] parseStringListPossibleNULL(String data) {
+        if (data.equals("NULL")) {
+            return null;
+        } else {
+            return data.split("\\|");
+        }
     }
 
     private String strArrJoiner(String[] arr) {
@@ -345,11 +376,20 @@ public class Events {
         return joiner.toString();
     }
 
-    private DefaultEvent firstTimeInitializeDemoDefaultEvent() {
-        String[] tasksType = {"BROWSE_URL|LAUNCH_APP"};
-        String[] tasksValue = {"https://www.google.com|com.google.android.youtube"};
+    private Event firstTimeInitializeDemoDefaultEvent() {
+        String[] tasksType = {"LAUNCH_APP"};
+        String[] tasksValue = {"com.google.android.youtube"};
 
-        return new DefaultEvent(tasksType, tasksValue);
+        return new Event(0, "Default", "2019-08-09",
+                "21:46", -1,
+                null, null,
+                null, null,
+                tasksType, tasksValue,
+                null, null,
+                true, false,
+                false, true,
+                "" + R.drawable.ic_menu_send, null,
+                "DEFAULT", 0);
     }
 
     //** Hard code some event for development ************************************************ START
@@ -358,7 +398,7 @@ public class Events {
         String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"19:15|19:17"};
         String[] tasksTypeStart1 = {"LAUNCH_APP"}, tasksValueStart1 = {"com.google.android.youtube"};
         Event testEvent1 = new Event(
-                "test event 1", "2019-08-03",
+                2345, "test event 4", "2019-08-03",
                 "19:15", 0,
                 null, null,
                 triggerMethod1, triggerValues1,
@@ -366,14 +406,14 @@ public class Events {
                 null, null,
                 false, false,
                 false, true,
-                null, 0x000000,
+                "" + R.drawable.ic_menu_share, 0x000000,
                 "NULL", 0);
 
 
         String[] triggerMethod2 = {"TIME"}, triggerValues2 = {"19:15-19:29"};
         String[] tasksTypeStart2 = {"LAUNCH_APP"}, tasksValueStart2 = {"com.android.chrome"};
         Event testEvent2 = new Event(
-                "test event 2", "2019-08-02",
+                1234,"test event 2", "2019-08-02",
                 "19:31", 0,
                 null, null,
                 triggerMethod2, triggerValues2,
@@ -381,7 +421,7 @@ public class Events {
                 null, null,
                 false, false,
                 false, true,
-                null, 0xffffff,
+                "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
 
@@ -392,17 +432,6 @@ public class Events {
 
     }
     //** Hard code some event for development FINISH **************************************** FINISH
-
-}
-
-class DefaultEvent {
-    String[] tasksType;
-    String[] tasksValue;
-
-    DefaultEvent(String[] tasksType, String[] tasksValue) {
-        this.tasksType = tasksType;
-        this.tasksValue = tasksValue;
-    }
 
 }
 
@@ -427,12 +456,12 @@ class Event {
     String[] tasksTypeEnd;          // The kind of tasks need to do when this event ends
     String[] tasksValueEnd;         // The value for the match task when the event ends
 
-    Boolean selfResetEvent;         // if true, when event ends, all settings will reset
+    Boolean momentEvent;            // if true, when event ends, all settings will reset
     Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
     Boolean autoTrigger;            // if true, this event will start without need to click button
     Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
 
-    String eventImage;
+    String eventImage;              // String imageUri = "drawable://" + R.drawable.image;
     Integer eventColor;
     String eventCategory;           // for future usage
     Integer executedTimes;          // How many times did this event has been used
@@ -444,7 +473,7 @@ class Event {
                  String[] triggerMethods, String[] triggerValues,
                  String[] tasksTypeStart, String[] tasksValueStart,
                  String[] tasksTypeEnd, String[] tasksValueEnd,
-                 Boolean selfResetEvent, Boolean oneTimeEvent,
+                 Boolean momentEvent, Boolean oneTimeEvent,
                  Boolean autoTrigger, Boolean isActivated,
                  String eventImage, Integer eventColor,
                  String eventCategory, Integer executedTimes) {
@@ -464,7 +493,46 @@ class Event {
         this.tasksTypeEnd = tasksTypeEnd;
         this.tasksValueEnd = tasksValueEnd;
 
-        this.selfResetEvent = selfResetEvent;
+        this.momentEvent = momentEvent;
+        this.oneTimeEvent = oneTimeEvent;
+        this.autoTrigger = autoTrigger;
+        this.isActivated = isActivated;
+
+        this.eventImage = eventImage;
+        this.eventColor = eventColor;
+        this.eventCategory = eventCategory;
+        this.executedTimes = executedTimes;
+
+    }
+
+    public Event(Integer eventID, String eventName, String createDate,
+                 String createTime, Integer priorityLevel,
+                 String[] triggerableDay, String[] triggerableTime,
+                 String[] triggerMethods, String[] triggerValues,
+                 String[] tasksTypeStart, String[] tasksValueStart,
+                 String[] tasksTypeEnd, String[] tasksValueEnd,
+                 Boolean momentEvent, Boolean oneTimeEvent,
+                 Boolean autoTrigger, Boolean isActivated,
+                 String eventImage, Integer eventColor,
+                 String eventCategory, Integer executedTimes) {
+
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.createDate = createDate;
+        this.createTime = createTime;
+        this.priorityLevel = priorityLevel;
+
+        this.triggerableDay = triggerableDay;
+        this.triggerableTime = triggerableTime;
+        this.triggerMethods = triggerMethods;
+        this.triggerValues = triggerValues;
+
+        this.tasksTypeStart = tasksTypeStart;
+        this.tasksValueStart = tasksValueStart;
+        this.tasksTypeEnd = tasksTypeEnd;
+        this.tasksValueEnd = tasksValueEnd;
+
+        this.momentEvent = momentEvent;
         this.oneTimeEvent = oneTimeEvent;
         this.autoTrigger = autoTrigger;
         this.isActivated = isActivated;
@@ -494,7 +562,7 @@ class Event {
 //        this.tasksTypeEnd = e.tasksTypeEnd;
 //        this.tasksValueEnd = e.tasksValueEnd;
 //
-//        this.selfResetEvent = e.selfResetEvent;
+//        this.momentEvent = e.momentEvent;
 //        this.oneTimeEvent = e.oneTimeEvent;
 //        this.autoTrigger = e.autoTrigger;
 //        this.isActivated = e.isActivated;

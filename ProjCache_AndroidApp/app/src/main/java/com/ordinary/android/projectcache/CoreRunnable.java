@@ -15,6 +15,8 @@ public class CoreRunnable implements Runnable {
     private ViewPager coreViewPager;
     private Handler mainHandler;
     private Events events;
+    private List<Integer> triggerableEventsID;
+    //public static List<Integer> runningEventsID;
     private File eventsFile;
 
     CoreRunnable(Context context, File eventsFile, ViewPager coreViewPager) {
@@ -27,63 +29,75 @@ public class CoreRunnable implements Runnable {
 
     @Override
     public void run() {
-//        CoreTaskExecutor coreTaskExecutor =
-//                new CoreTaskExecutor(
-//                        context,
-//                        events.getDefaultEvent().tasksType,
-//                        events.getDefaultEvent().tasksValue
-//                );
-//
-//        Intent[] intents = coreTaskExecutor.tasksToDo();
-//
-//        final List<CoreModel> defaultEventModel = new ArrayList<>();
-//        defaultEventModel.add(new CoreModel(
-//                intents,
-//                context.getResources().getDrawable(R.drawable.ic_menu_send, null),
-//                "Default Event"
-//        ));
-//
-//        CoreModelAdapter coreModelAdapter =
-//                new CoreModelAdapter(context, defaultEventModel);
-//        coreViewPager.setAdapter(coreModelAdapter);
 
         /* TODO: 2019-08-04
          * 让 YSL 在每次 event 新的event设置完成后在internal storage加一个文件用于告知events class当前存在新的
          * events变动需要更新。这样CoreRunnable就不需要一直读取csv文件了
          */
 
+        // TODO: 2019-08-09 要想办法解决好runningEvent的存储问题，想想还有没有不需要用global的方法
+        // TODO: 2019-08-09 整顿events，解决default event的形式问题。目前想的是放一整个event，event ID写-1
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                CoreTaskExecutor coreTaskExecutor =
-                        new CoreTaskExecutor(
-                                context,
-                                events.getDefaultEvent().tasksType,
-                                events.getDefaultEvent().tasksValue
-                        );
+                CoreTasksExecutor cte =
+                        new CoreTasksExecutor(context, events.getDefaultEvent());
 
-                Intent[] intents = coreTaskExecutor.tasksToDo();
-
-                final List<CoreModel> defaultEventModel = new ArrayList<>();
-                defaultEventModel.add(new CoreModel(
-                        intents,
-                        context.getResources().getDrawable(R.drawable.ic_menu_send, null),
-                        "Default Event"
+                final List<CoreModel> coreModels = new ArrayList<>();
+                coreModels.add(new CoreModel(
+                        cte,
+                        events.getDefaultEvent().eventName,
+                        context.getResources().getDrawable(R.drawable.ic_menu_send, null)
                 ));
 
-                CoreModelAdapter coreModelAdapter =
-                        new CoreModelAdapter(context, defaultEventModel);
+                CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, coreModels);
                 coreViewPager.setAdapter(coreModelAdapter);
+
+//                CoreTasksExecutor coreTaskExecutor =
+//                        new CoreTasksExecutor(
+//                                context,
+//                                events.getDefaultEvent().tasksType,
+//                                events.getDefaultEvent().tasksValue
+//                        );
+//
+//                Intent[] intents = coreTaskExecutor.tasksToDo();
+//
+//                final List<CoreModel> defaultEventModel = new ArrayList<>();
+//                defaultEventModel.add(new CoreModel(
+//                        intents,
+//                        context.getResources().getDrawable(R.drawable.ic_menu_send, null),
+//                        "Default Event"
+//                ));
+//
+//                CoreModelAdapter coreModelAdapter =
+//                        new CoreModelAdapter(context, defaultEventModel);
+//                coreViewPager.setAdapter(coreModelAdapter);
+
             }
         });
 
+        triggerableEventsID = new ArrayList<>();
+        MainActivity.runningEventsID = new ArrayList<>();
         for (;;) {
-            // TODO: 2019-08-01 Check if there is any event happen
+            // Get all actived Event
+            events.updateActivatedEventsList();
+
+            // Check if there is any events triggerable
+            CoreConditionInspector cci = new CoreConditionInspector(context, events);
+            triggerableEventsID = cci.getTriggerableEventsID();
+
+            List<CoreModel> coreModels = new ArrayList<>();
+            for (Integer i : triggerableEventsID) {
+
+            }
+
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // TODO: 2019-08-01 Change the coreViewPager to new current event list
+                    // Change the coreViewPager to new current triggerable event list
+
 
                     // TODO: 2019-08-01 Call the execute event function/method to execute event's task
 

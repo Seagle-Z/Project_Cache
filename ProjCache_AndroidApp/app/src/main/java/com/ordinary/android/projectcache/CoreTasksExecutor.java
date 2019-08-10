@@ -3,19 +3,29 @@ package com.ordinary.android.projectcache;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
-public class CoreTaskExecutor {
+public class CoreTasksExecutor {
     Context context;
-    String[] tasksType;
-    String[] tasksValue;
+    Event event;
 
-    public CoreTaskExecutor(Context context, String[] tasksType, String[] tasksValue) {
+    // For normal Event
+    public CoreTasksExecutor(Context context, Event event) {
         this.context = context;
-        this.tasksType = tasksType;
-        this.tasksValue = tasksValue;
+        this.event = event;
     }
 
-    public Intent[] tasksToDo() {
+    public void startThisEvent() {
+        Intent[] intents = createTasksIntent(event.tasksTypeStart, event.tasksValueStart);
+        context.startActivities(intents);
+    }
+
+    public void endThisEvent() {
+        Intent[] intents = createTasksIntent(event.tasksTypeEnd, event.tasksValueEnd);
+        context.startActivities(intents);
+    }
+
+    public Intent[] createTasksIntent(String[] tasksType, String[] tasksValue) {
         int tasksNum = tasksType.length;
         Intent[] intents = new Intent[tasksNum];
         for (int i = 0; i < tasksNum; i++) {
@@ -23,6 +33,8 @@ public class CoreTaskExecutor {
         }
         return intents;
     }
+
+
 
     private Intent convertTaskToIntent(String taskType, String taskValue) {
         Intent intent = null;

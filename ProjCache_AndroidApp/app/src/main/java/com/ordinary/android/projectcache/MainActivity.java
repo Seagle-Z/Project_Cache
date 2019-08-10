@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity
 
     private static final String EVENTS_FILE_NAME = "events.csv";
     public Events events;
+    // Global
+    public static List<Integer> runningEventsID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class MainActivity extends AppCompatActivity
         //- Drawer Menu ---------------------------------------------------------------------------*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -85,16 +88,9 @@ public class MainActivity extends AppCompatActivity
 
 
         //- Core Construction ---------------------------------------------------------------------*
-        List<CoreModel> coreModels = new ArrayList<>();
+        runningEventsID = new ArrayList<>();
 
-        // Put the Default event into coreViewPager
-        // TODO: 2019-08-01 Put the default event model into the coreModels
-
-
-
-        CoreModelAdapter coreModelAdapter = new CoreModelAdapter(this, coreModels);
         coreViewPager = findViewById(R.id.core_viewPager);
-        coreViewPager.setAdapter(coreModelAdapter);
         coreViewPager.setPadding(20, 0, 20, 0);
 
         // Start the handler thread for keep looping update the core cards

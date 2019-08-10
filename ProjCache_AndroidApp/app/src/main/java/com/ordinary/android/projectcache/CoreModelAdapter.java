@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoreModelAdapter extends PagerAdapter {
@@ -58,11 +59,11 @@ public class CoreModelAdapter extends PagerAdapter {
         coreCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (coreModels.get(pos).getIntents() == null) {
+                if (coreModels.get(pos).getCoreTasksExecutor() == null) {
                     /* Attention:
                      * If the intent is null, mostly cause by there is not a key word in that match
                      * the switch case statement in the method "convertTaskToIntent" of
-                     * "CoreTaskExecutor" class. Make sure add the key word whenever a new feature
+                     * "CoreTasksExecutor" class. Make sure add the key word whenever a new feature
                      * added. otherwise, "convertTaskToIntent" will return null.
                      */
                     Toast.makeText(
@@ -70,9 +71,8 @@ public class CoreModelAdapter extends PagerAdapter {
                             "Oh, no. This event cannot be triggered... T_T",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    for (Intent i : coreModels.get(pos).getIntents()) {
-                        context.startActivity(i);
-                    }
+                    coreModels.get(pos).getCoreTasksExecutor().startThisEvent();
+
                 }
             }
         });
