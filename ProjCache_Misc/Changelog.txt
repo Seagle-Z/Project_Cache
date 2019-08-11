@@ -36,3 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	2. Added duplicate time checking.
 	3. Added the basic time merging functionality，e.g. existing 8-9, 8:30 will 
 	be merge in 8-9.
+
+# 08/01/2019
+	1. Core thread is completed，empty for now. when complete the checking triggerMethod function, 
+	ready to be added.
+	2. Auto-generate EventID is completed，also in Events class is sorted by ID.
+	3. Event delete funtion completed
+	4. Event modify function completed
+	5. Event class rectified and reformed，except for some hardcoded event，otherwise is fully completed.
+	6. MainActivity simplified and organzied
