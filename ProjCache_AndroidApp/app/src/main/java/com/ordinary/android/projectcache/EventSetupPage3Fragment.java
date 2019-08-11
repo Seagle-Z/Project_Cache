@@ -23,7 +23,7 @@ import android.widget.Toast;
 public class EventSetupPage3Fragment extends Fragment {
 
     private static final String TAG = "EventSetupPage3Fragment";
-    ViewPager viewPager;
+    CustomEventSetupViewPager viewPager;
     FloatingActionButton previous;
     EditText eventName;
     Button complete;
@@ -35,7 +35,7 @@ public class EventSetupPage3Fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_setup_page3, container, false);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
+        viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         adapter = (SectionsPageAdapter) viewPager.getAdapter();
         previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);
         eventName = (EditText) view.findViewById(R.id.event_name);

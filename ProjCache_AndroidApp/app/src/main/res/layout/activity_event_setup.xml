@@ -19,7 +19,7 @@
             android:layout_height="wrap_content" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
+    <com.ordinary.android.projectcache.CustomEventSetupViewPager
         android:id="@+id/setup_viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

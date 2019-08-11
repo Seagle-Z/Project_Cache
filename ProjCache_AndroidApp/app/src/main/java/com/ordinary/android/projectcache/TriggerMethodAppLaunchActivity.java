@@ -44,7 +44,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         pm = TriggerMethodAppLaunchActivity.this.getPackageManager();
 
         selectedAppListView.setTextFilterEnabled(true);
-//        adapterFortimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
+//        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
         appListAdapterView = new AppListAdapter(app_picker_context, selectedAppArrList);
         selectedAppListView.setAdapter(appListAdapterView);
         registerForContextMenu(selectedAppListView);

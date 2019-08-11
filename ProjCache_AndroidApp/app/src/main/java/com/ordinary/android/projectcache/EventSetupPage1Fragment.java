@@ -22,26 +22,30 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventSetupPage1Fragment extends Fragment {
     private final String TAG = "EventSetupPage1Fragment";
-    ViewPager viewPager;
+    CustomEventSetupViewPager viewPager;
     Button addConditionButton;
     FloatingActionButton forward;
-    private final int REQUEST_CONDITION_CODE = 1001;
-    private String triggerCondition = "";
     ListView conditionListView;
     ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     View view;
-    ToolFunctions TF = new ToolFunctions();
-
+    private ToolFunctions TF = new ToolFunctions();
+    private HashMap<String, String> conditions = new HashMap<>();
+    private ArrayList<String> selectedConditionTypes = new ArrayList<>();
+    private final int REQUEST_CONDITION_CODE = 1001;
+    //Code for TimeSelectorActivity result request only
+    private boolean editMode;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_event_setup_page1, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
+        viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionListView = (ListView) view.findViewById(R.id.condition_list);
         conditionListView.setTextFilterEnabled(true);
         adapter = new ArrayAdapter<String>(getContext(), R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
@@ -54,6 +58,10 @@ public class EventSetupPage1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), TriggerMethodSelectionActivity.class);
+                for (Map.Entry m : conditions.entrySet()) {
+                    intent.putExtra(m.getKey().toString(), "");
+                }
+
                 startActivityForResult(intent, REQUEST_CONDITION_CODE);
             }
         });
@@ -68,48 +76,6 @@ public class EventSetupPage1Fragment extends Fragment {
                 }
             }
         });
-
-
-//        TextView widget = (TextView) this;
-//        Object text = widget.getText();
-//        if (text instanceof Spanned) {
-//            Spannable buffer = (Spannable) text;
-//
-//            int action = event.getAction();
-//
-//            if (action == MotionEvent.ACTION_UP
-//                    || action == MotionEvent.ACTION_DOWN) {
-//                int x = (int) event.getX();
-//                int y = (int) event.getY();
-//
-//                x -= widget.getTotalPaddingLeft();
-//                y -= widget.getTotalPaddingTop();
-//
-//                x += widget.getScrollX();
-//                y += widget.getScrollY();
-//
-//                Layout layout = widget.getLayout();
-//                int line = layout.getLineForVertical(y);
-//                int off = layout.getOffsetForHorizontal(line, x);
-//
-//                ClickableSpan[] link = buffer.getSpans(off, off,
-//                        ClickableSpan.class);
-//
-//                if (link.length != 0) {
-//                    if (action == MotionEvent.ACTION_UP) {
-//                        link[0].onClick(widget);
-//                    } else if (action == MotionEvent.ACTION_DOWN) {
-//                        Selection.setSelection(buffer,
-//                                buffer.getSpanStart(link[0]),
-//                                buffer.getSpanEnd(link[0]));
-//                    }
-//                    return true;
-//                }
-//            }
-//
-//        }
-//
-//        return false;
         return view;
     }
 
@@ -117,11 +83,15 @@ public class EventSetupPage1Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
-                if(data.hasExtra("GivenTime")) {
-                    conditionsArrList.add("Added trigger method: Time");
-
-                    adapter.notifyDataSetChanged();
-                    TF.setListViewHeightBasedOnChildren(adapter,conditionListView);
+                if(data.hasExtra("Time")) {
+                    if(!editMode) {
+                        conditionsArrList.add("- Added trigger method: Time");
+                        selectedConditionTypes.add("Time");
+                        adapter.notifyDataSetChanged();
+                        TF.setListViewHeightBasedOnChildren(adapter,conditionListView);
+                    }
+                    conditions.put("Time", data.getStringExtra("Time"));
+                    System.out.println(conditions.get("Time"));
                 }
             }
         } catch (NullPointerException e) {
@@ -141,7 +111,20 @@ public class EventSetupPage1Fragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.edit:
-                Toast.makeText(getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(
+                        getContext(),
+                        "Edit",
+                        Toast.LENGTH_LONG).show();
+                Intent intent =
+                        new Intent(
+                                getContext(),
+                                TriggerMethodDateTimeActivity.class
+                        );
+
+                //Pack the value that selected from the list and send to TimeSelectorActivity
+                intent.putExtra("RETRIEVE", conditions.get("Time"));
+                startActivityForResult(intent, REQUEST_CONDITION_CODE);
+                editMode = true;
                 return true;
             case R.id.delete:
                 Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
@@ -150,9 +133,15 @@ public class EventSetupPage1Fragment extends Fragment {
                 adb.setNegativeButton("No no", null);
                 adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        conditions.remove(selectedConditionTypes.get(info.position));
                         conditionsArrList.remove(info.position);
+                        selectedConditionTypes.remove(info.position);
                         adapter.notifyDataSetChanged();
                         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+                        Toast.makeText(
+                                getContext(),
+                                "Deleted",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
                 adb.show();
@@ -160,9 +149,5 @@ public class EventSetupPage1Fragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
-    }
-
-    public String getTriggerCondition() {
-        return triggerCondition;
     }
 }

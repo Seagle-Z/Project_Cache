@@ -69,26 +69,7 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (conditionTypeID == 3) {
-            try {
-                //data.putExtra("Time", "");
-                data.putExtra("GivenTime", "");
-                setResult(Activity.RESULT_OK, data);
-                finish();
-                //System.out.println(data.getStringExtra("Time"));
-            } catch (NullPointerException e) {
-            }
-        }
-        if(conditionTypeID == 4)
-        {
-            try {
-                //data.putExtra("Time", "");
-                data.putExtra("GivenApp", "");
-                setResult(Activity.RESULT_OK, data);
-                finish();
-                //System.out.println(data.getStringExtra("Time"));
-            } catch (NullPointerException e) {
-            }
-        }
+        setResult(Activity.RESULT_OK, data);
+        finish();
     }
 }
