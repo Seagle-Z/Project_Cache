@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,16 +21,19 @@ import java.util.ArrayList;
 
 public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
 
+    private final int APP_PICKING_CODE = 1010;
     Button addAppButton, completeButton;
     ListView selectedAppListView;
     ArrayList<InstalledAppInfo> selectedAppArrList = new ArrayList<>();
     AppListAdapter appListAdapterView;
     Context app_picker_context;
     PackageManager pm;
-    private final int APP_PICKING_CODE = 1010;
+    AlertDialog.Builder warning;
     private int selectedEditPosition;
     private boolean editMode;
     private InstalledAppInfo returnedApp;
+    private String retrieveAppList;
+    //private ArrayList<String> selectedAppDomainName = new ArrayList<>();
     private ToolFunctions TF = new ToolFunctions();
 
     @Override
@@ -42,13 +45,13 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         completeButton = (Button) findViewById(R.id.application_picker_activity_complete_button);
         selectedAppListView = (ListView) findViewById(R.id.selected_app_list);
         pm = TriggerMethodAppLaunchActivity.this.getPackageManager();
+        warning = new AlertDialog.Builder(app_picker_context);
 
         selectedAppListView.setTextFilterEnabled(true);
 //        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
         appListAdapterView = new AppListAdapter(app_picker_context, selectedAppArrList);
         selectedAppListView.setAdapter(appListAdapterView);
         registerForContextMenu(selectedAppListView);
-
 
         addAppButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,27 +64,75 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Add packagename to data structure
+                try {
+                    if (!selectedAppArrList.isEmpty()) {
+                        String intentResult = "";
+                        for (int i = 0; i < selectedAppArrList.size(); i++) {
+                            if (i != selectedAppArrList.size() - 1)
+                                intentResult = intentResult + selectedAppArrList.get(i).getPackageName() + "#";
+                            else
+                                intentResult = intentResult + selectedAppArrList.get(i).getPackageName();
+                        }
+                        Intent intent = new Intent();
+                        intent.putExtra("Apps", intentResult);
+                        setResult(Activity.RESULT_OK, intent);
+                        finish();
+                    } else {
+                        AlertDialog.Builder adb = new AlertDialog.Builder(app_picker_context);
+                        adb.setTitle("Warning");
+                        adb.setMessage(
+                                "Please add at least one application for the event"
+                        );
+                        adb.setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        adb.show();
+                    }
+                } catch (NullPointerException e) {
+                }
             }
         });
+
+        Intent intent = getIntent();
+        try {
+            if (intent.hasExtra("RETRIEVE")) {
+                retrieveAppList = intent.getStringExtra("RETRIEVE");
+                String[] timeRangeDivider = retrieveAppList.split("#");
+                System.out.println(timeRangeDivider.length);
+                for (String s : timeRangeDivider) {
+                    InstalledAppInfo info = getReturnedApp(s);
+                    selectedAppArrList.add(info);
+                }
+                appListAdapterView.notifyDataSetChanged();
+                TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
+            }
+        } catch (NullPointerException e) {
+        }
+        TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == APP_PICKING_CODE && resultCode == Activity.RESULT_OK) {
-                if (data.hasExtra("App")) {
-                    if (!editMode) {
-                        returnedApp = (InstalledAppInfo) data.getSerializableExtra("App");
+                if (data.hasExtra("app")) {
+                    returnedApp = (InstalledAppInfo) data.getSerializableExtra("app");
+                    if (returnedApp != null) {
                         if (!checkDuplicate(returnedApp, selectedAppArrList)) {
-                            if (returnedApp != null) {
-                                try {
-                                    returnedApp.setDrawable(pm.getApplicationIcon(returnedApp.getPackageName()));
+                            try {
+                                returnedApp.setDrawable(pm.getApplicationIcon(returnedApp.getPackageName()));
+                                if (!editMode) {
                                     selectedAppArrList.add(returnedApp);
-                                    appListAdapterView.notifyDataSetChanged();
-                                    TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
-                                } catch (PackageManager.NameNotFoundException e) {
+                                } else {
+                                    selectedAppArrList.set(selectedEditPosition, returnedApp);
                                 }
+                                appListAdapterView.notifyDataSetChanged();
+                                TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
+                            } catch (PackageManager.NameNotFoundException e) {
                             }
                         } else
                             Toast.makeText(app_picker_context, "App is already added", Toast.LENGTH_SHORT).show();
@@ -114,10 +165,9 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
                 return true;
 
             case R.id.delete:
-                AlertDialog.Builder adb = new AlertDialog.Builder(app_picker_context);
-                adb.setTitle("Delete");
-                adb.setNegativeButton("No no", null);
-                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                warning.setTitle("Delete");
+                warning.setNegativeButton("No no", null);
+                warning.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(app_picker_context, "Deleting", Toast.LENGTH_SHORT).show();
                         selectedAppArrList.remove(info.position);
@@ -126,7 +176,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
                         Toast.makeText(app_picker_context, "Deleted", Toast.LENGTH_SHORT).show();
                     }
                 });
-                adb.show();
+                warning.show();
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -136,25 +186,31 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
     public boolean checkDuplicate(InstalledAppInfo app, ArrayList<InstalledAppInfo> applist) {
         if (!applist.isEmpty()) {
             for (InstalledAppInfo installedAppInfo : applist) {
-                if (installedAppInfo.getPackageName().equals(app.getPackageName()))
+                if (installedAppInfo.getPackageName().equals(app.getPackageName())) {
+                    warning.setTitle("Warning");
+                    warning.setMessage("Application is already on the list.");
+                    warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    warning.show();
                     return true;
+                }
             }
         }
         return false;
     }
-//
-//    public String[] parseResult(ArrayList<String> timeList) {
-//        String[] result = new String[timeList.size()];
-//        String s = "";
-//        for (int i = 0; i < result.length; i++) {
-//            s = timeList.get(i);
-//            if (timeList.get(i).contains("- Event activates between: ")) {
-//                s = s.replace("- Event activates between: ", "");
-//            } else if (s.contains("- Event activates at: ")) {
-//                s = s.replace("- Event activates at: ", "");
-//            }
-//            result[i] = s;
-//        }
-//        return result;
-//    }
+
+    public InstalledAppInfo getReturnedApp(String packageName) {
+        InstalledAppInfo app = null;
+        try {
+            app = new InstalledAppInfo(packageName,
+                    pm.getApplicationInfo(
+                            packageName, 0).loadLabel(pm).toString(),
+                    pm.getApplicationIcon(packageName));
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        return app;
+    }
 }

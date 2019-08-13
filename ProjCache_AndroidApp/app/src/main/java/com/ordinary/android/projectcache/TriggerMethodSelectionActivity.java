@@ -36,8 +36,27 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionsArrList.add("Time");
         conditionsArrList.add("When App Launching");
 
+
         adapterForConditionListView = new ArrayAdapter<String>(this, R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
         conditionListView.setAdapter(adapterForConditionListView);
+
+
+//        Intent intent = getIntent();
+//        if(intent.getExtras() != null)
+//        {
+//            Bundle extras = intent.getExtras();
+//            for(String key : extras.keySet())
+//            {
+//                for(int i = 0; i < conditionsArrList.size(); i++)
+//                {
+//                    if(key.equals(conditionsArrList.get(i)))
+//                    {
+//                        //conditionsArrList.remove(i);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
 
         conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
