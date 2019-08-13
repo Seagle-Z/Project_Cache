@@ -86,21 +86,11 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
         warning = new AlertDialog.Builder(date_time_picker_Context);
 
 
-
+        //Check if the class is called from the edit feature.
         Intent intent = getIntent();
         try {
             if (intent.hasExtra("RETRIEVE")) {
-                retrieveTime = intent.getStringExtra("RETRIEVE");
-                editMode = true;
-                String[] timeRangeDivider = retrieveTime.split("#");
-                for(String s : timeRangeDivider)
-                {
-                    updateActivatedHourList(s, true);
-                    selectedTimeValue.add(s);
-                }
-                rebuildSelectedTimeArray();
-                adapterForTimeListView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
+                parseRetrievalData(intent);
             }
         } catch (NullPointerException e) {
         }
@@ -112,6 +102,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(date_time_picker_Context, TimeSelectorActivity.class);
                 startActivityForResult(intent, TIME_PICKING_CODE);
+                editMode = false;
             }
         });
 
@@ -121,6 +112,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
             public void onClick(View v) {
                 DialogFragment datepicker = new DatePickerFragment();
                 datepicker.show(getSupportFragmentManager(), "Date Selector");
+                editMode = false;
             }
         });
 
@@ -145,18 +137,19 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
                     }
                     //If there is no time selected, then give warning.
                     else {
-                        warning.setTitle("Warning");
-                        warning.setMessage(
+                        AlertDialog.Builder adb = new AlertDialog.Builder(date_time_picker_Context);
+                        adb.setTitle("Warning");
+                        adb.setMessage(
                                 "Please add at least one occurring time for the event"
                         );
-                        warning.setNegativeButton("Ok",
+                        adb.setPositiveButton("Ok",
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                     }
                                 });
-                        warning.show();
+                        adb.show();
                     }
                 } catch (NullPointerException e) {
                 }
@@ -233,11 +226,19 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
                 return true;
 
             case R.id.delete:
-
-                warning.setTitle("Delete");
-                warning.setNegativeButton("No no", null);
+                AlertDialog.Builder deleter = new AlertDialog.Builder(date_time_picker_Context);
+                deleter.setTitle("Delete");
+                deleter.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(
+                                date_time_picker_Context,
+                                "Cancelled",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
                 //Delete what the user selected
-                warning.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                deleter.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(
                                 date_time_picker_Context,
@@ -252,6 +253,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
                                 date_time_picker_Context,
                                 "Deleted",
                                 Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 });
                 warning.show();
@@ -261,6 +263,21 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
         }
     }
 
+
+    public void parseRetrievalData(Intent intent)
+    {
+        retrieveTime = intent.getStringExtra("RETRIEVE");
+        editMode = true;
+        String[] timeRangeDivider = retrieveTime.split("#");
+        for(String s : timeRangeDivider)
+        {
+            updateActivatedHourList(s, true);
+            selectedTimeValue.add(s);
+        }
+        rebuildSelectedTimeArray();
+        adapterForTimeListView.notifyDataSetChanged();
+        TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
+    }
     //Auto-detect if the new selected hour can be merge in any time slot
     public boolean isTimeInRange(String s, List<Boolean> activatedHours) {
         if(editMode)
@@ -465,30 +482,6 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
             }
         }
     }
-
-    //Update the hour list if there is anything deleted from the list.
-//    public void updateActivatedHourList(int position) {
-//        String deleteTime = selectedTimeValue.get(position);
-//        if (deleteTime.contains("-")) {
-//            String[] timeRangeDivider = deleteTime.split("-");
-//            String tempBeginTime = timeRangeDivider[0].trim();
-//            String tempEndTime = timeRangeDivider[1].trim();
-//            String[] _tempBeginHour = tempBeginTime.split(":");
-//            String[] _tempEndhour = tempEndTime.split(":");
-//            int beginHour = Integer.parseInt(_tempBeginHour[0].trim());
-//            int beginMinute = Integer.parseInt(_tempBeginHour[1].trim());
-//            int timeSlot1 = beginHour * 60 + beginMinute;
-//            int endHour = Integer.parseInt(_tempEndhour[0].trim());
-//            int endMinute = Integer.parseInt(_tempEndhour[1].trim());
-//            int timeSlot2 = endHour * 60 + endMinute;
-//
-//            setTimeRangeBoolean(timeSlot1, timeSlot2, false);
-//        } else {
-//            String[] time = deleteTime.split(":");
-//            int timeslot = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]) % 60;
-//            activatedHours.set(timeslot, false);
-//        }
-//    }
 
     public void updateActivatedHourList(String s, boolean flag) {
 

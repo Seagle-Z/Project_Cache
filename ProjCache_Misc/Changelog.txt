@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+#08/12/2019 [b_ysl]
+    1. Fixed minor bug in Time selector class
+    2. Added When Application launching functionality (UI still buggy)
+    3. Modify some XML files slightly, just rearrange some button placement,
+    e.g. activity_trigger_method_app_launching
+    4. Modify the InstalledAppInfo class, now has a constructor, instead using setters.
+
 # 08/10/2019
 	1. Finished all the functionality of the TiggerDateTimeActivity.
 	2. Changed to a brand new custom viewPager, this solves the ghost swiping issue.

@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +26,7 @@ import java.util.Map;
 
 public class EventSetupPage1Fragment extends Fragment {
     private final String TAG = "EventSetupPage1Fragment";
+    private final int REQUEST_CONDITION_CODE = 1001;
     CustomEventSetupViewPager viewPager;
     Button addConditionButton;
     FloatingActionButton forward;
@@ -37,9 +37,9 @@ public class EventSetupPage1Fragment extends Fragment {
     private ToolFunctions TF = new ToolFunctions();
     private HashMap<String, String> conditions = new HashMap<>();
     private ArrayList<String> selectedConditionTypes = new ArrayList<>();
-    private final int REQUEST_CONDITION_CODE = 1001;
     //Code for TimeSelectorActivity result request only
     private boolean editMode;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,15 +53,18 @@ public class EventSetupPage1Fragment extends Fragment {
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
 
-
+        //The "Select A Condition" button that trigger the
         addConditionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), TriggerMethodSelectionActivity.class);
-                for (Map.Entry m : conditions.entrySet()) {
-                    intent.putExtra(m.getKey().toString(), "");
+                if (!conditions.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    for (Map.Entry m : conditions.entrySet()) {
+                        bundle.putString(m.getKey().toString(), "");
+                    }
+                    intent.putExtras(bundle);
                 }
-
                 startActivityForResult(intent, REQUEST_CONDITION_CODE);
             }
         });
@@ -83,18 +86,29 @@ public class EventSetupPage1Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
-                if(data.hasExtra("Time")) {
-                    if(!editMode) {
+                if (data.hasExtra("Time")) {
+                    if (!editMode) {
                         conditionsArrList.add("- Added trigger method: Time");
                         selectedConditionTypes.add("Time");
                         adapter.notifyDataSetChanged();
-                        TF.setListViewHeightBasedOnChildren(adapter,conditionListView);
+                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
                     }
+                    editMode = false;
                     conditions.put("Time", data.getStringExtra("Time"));
-                    System.out.println(conditions.get("Time"));
+                }
+                if (data.hasExtra("Apps")) {
+                    if (!editMode) {
+                        conditionsArrList.add("- Added trigger method: When launching an app");
+                        selectedConditionTypes.add("App");
+                        adapter.notifyDataSetChanged();
+                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+                    }
+                    editMode = false;
+                    conditions.put("App", data.getStringExtra("Apps"));
                 }
             }
         } catch (NullPointerException e) {
+            editMode = false;
         }
     }
 
@@ -115,14 +129,8 @@ public class EventSetupPage1Fragment extends Fragment {
                         getContext(),
                         "Edit",
                         Toast.LENGTH_LONG).show();
-                Intent intent =
-                        new Intent(
-                                getContext(),
-                                TriggerMethodDateTimeActivity.class
-                        );
 
-                //Pack the value that selected from the list and send to TimeSelectorActivity
-                intent.putExtra("RETRIEVE", conditions.get("Time"));
+                Intent intent = getIntent(info.position);
                 startActivityForResult(intent, REQUEST_CONDITION_CODE);
                 editMode = true;
                 return true;
@@ -130,10 +138,17 @@ public class EventSetupPage1Fragment extends Fragment {
                 Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
                 AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
                 adb.setTitle("Delete");
-                adb.setNegativeButton("No no", null);
+                adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getContext(),
+                                "Cancelled",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
                 adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        conditions.remove(selectedConditionTypes.get(info.position));
+                        String value = conditions.remove(selectedConditionTypes.get(info.position));
                         conditionsArrList.remove(info.position);
                         selectedConditionTypes.remove(info.position);
                         adapter.notifyDataSetChanged();
@@ -149,5 +164,26 @@ public class EventSetupPage1Fragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    public Intent getIntent(int position) {
+        Intent intent = null;
+        if (selectedConditionTypes.get(position).equals("Time")) {
+            intent = new Intent(
+                    getContext(),
+                    TriggerMethodDateTimeActivity.class
+            );
+            //Pack the value that selected from the list and send to TimeSelectorActivity
+            intent.putExtra("RETRIEVE", conditions.get("Time"));
+        }
+        if (selectedConditionTypes.get(position).equals("App")) {
+            intent = new Intent(
+                    getContext(),
+                    TriggerMethodAppLaunchActivity.class
+            );
+            //Pack the value that selected from the list and send to TimeSelectorActivity
+            intent.putExtra("RETRIEVE", conditions.get("App"));
+        }
+        return intent;
     }
 }
