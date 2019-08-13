@@ -72,6 +72,9 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
                     case 1:
                         break;
                     case 2:
+                        conditionTypeID =2;
+                        Intent WIFIMode  = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
+                        startActivityForResult(WIFIMode, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     case 3:
                         conditionTypeID = 3;
