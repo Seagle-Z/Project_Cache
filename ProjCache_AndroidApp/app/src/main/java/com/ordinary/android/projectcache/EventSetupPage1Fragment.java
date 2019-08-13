@@ -148,7 +148,7 @@ public class EventSetupPage1Fragment extends Fragment {
                 });
                 adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String value = conditions.remove(selectedConditionTypes.get(info.position));
+                        conditions.remove(selectedConditionTypes.get(info.position));
                         conditionsArrList.remove(info.position);
                         selectedConditionTypes.remove(info.position);
                         adapter.notifyDataSetChanged();

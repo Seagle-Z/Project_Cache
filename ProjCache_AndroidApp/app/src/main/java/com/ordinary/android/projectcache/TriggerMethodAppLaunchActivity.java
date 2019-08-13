@@ -18,13 +18,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
 
     private final int APP_PICKING_CODE = 1010;
     Button addAppButton, completeButton;
     ListView selectedAppListView;
-    ArrayList<InstalledAppInfo> selectedAppArrList = new ArrayList<>();
+    List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>() ;
     AppListAdapter appListAdapterView;
     Context app_picker_context;
     PackageManager pm;
@@ -46,11 +47,9 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         selectedAppListView = (ListView) findViewById(R.id.selected_app_list);
         pm = TriggerMethodAppLaunchActivity.this.getPackageManager();
         warning = new AlertDialog.Builder(app_picker_context);
-
-        selectedAppListView.setTextFilterEnabled(true);
-//        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
         appListAdapterView = new AppListAdapter(app_picker_context, selectedAppArrList);
         selectedAppListView.setAdapter(appListAdapterView);
+        selectedAppListView.setTextFilterEnabled(true);
         registerForContextMenu(selectedAppListView);
 
         addAppButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +111,6 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
             }
         } catch (NullPointerException e) {
         }
-        TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
     }
 
     @Override
@@ -183,7 +181,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkDuplicate(InstalledAppInfo app, ArrayList<InstalledAppInfo> applist) {
+    public boolean checkDuplicate(InstalledAppInfo app, List<InstalledAppInfo> applist) {
         if (!applist.isEmpty()) {
             for (InstalledAppInfo installedAppInfo : applist) {
                 if (installedAppInfo.getPackageName().equals(app.getPackageName())) {

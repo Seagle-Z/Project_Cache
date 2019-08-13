@@ -37,7 +37,11 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionsArrList.add("When App Launching");
 
 
-        adapterForConditionListView = new ArrayAdapter<String>(this, R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
+        adapterForConditionListView = new ArrayAdapter<String>(
+                this,
+                R.layout.layout_general_list,
+                R.id.condition_name,
+                conditionsArrList);
         conditionListView.setAdapter(adapterForConditionListView);
 
 
