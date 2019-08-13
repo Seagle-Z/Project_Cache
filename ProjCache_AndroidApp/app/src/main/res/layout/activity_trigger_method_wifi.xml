@@ -4,60 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TriggerMethodWifiActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/wifi_title"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35sp"
-                android:paddingLeft="5sp"
-                android:paddingTop="5sp"
-                android:text="WIFI Picker"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/wifi_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10sp"
-                android:paddingTop="5sp"
-                android:text="Please select one or more WIFI to trigger the event"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/wifi_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="35sp"
+                    android:paddingLeft="5sp"
+                    android:paddingTop="5sp"
+                    android:text="WIFI Picker"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
 
-            <ListView
-                android:id="@+id/selected_wifi_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="5dp" />
+                <TextView
+                    android:id="@+id/wifi_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp"
+                    android:paddingTop="5sp"
+                    android:text="Please select one or more WIFI to trigger the event"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/add_wifi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:paddingLeft="20dp"
-                android:text="+ Add WIFI"
-                android:textAlignment="textStart"
-                android:textAllCaps="false" />
+                <ListView
+                    android:id="@+id/selected_wifi_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp" />
 
-            <Button
-                android:id="@+id/wifi_picker_activity_complete_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Complete" />
+                <Button
+                    android:id="@+id/add_wifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="20dp"
+                    android:text="+ Add WIFI"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false" />
 
-        </LinearLayout>
-    </ScrollView>
+                <Button
+                    android:id="@+id/wifi_picker_activity_complete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Complete" />
 
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>>
 </RelativeLayout>
