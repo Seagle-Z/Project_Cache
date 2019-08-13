@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+#08/13/2019 [b_bdev]
+    1. Added WIFI Devices to display on Wifi Trigger Page
+
 #08/12/2019 [b_ysl]
     1. Fixed minor bug in Time selector class
     2. Added When Application launching functionality (UI still buggy)
