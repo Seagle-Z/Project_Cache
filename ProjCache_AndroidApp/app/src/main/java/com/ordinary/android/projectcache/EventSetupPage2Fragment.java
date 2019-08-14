@@ -20,7 +20,7 @@ public class EventSetupPage2Fragment extends Fragment {
     private final int ADD_TASK_ACTION_CODE = 1001;
     private final int ADD_END_TASK_CODE = 1002;
     private String AppPackageName = "";
-    ViewPager viewPager;
+    CustomEventSetupViewPager viewPager;
     Button startActionButton, endActionButton;
     FloatingActionButton forward, previous;
 
@@ -29,7 +29,7 @@ public class EventSetupPage2Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_setup_page2, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page2Forward);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.setup_viewPager);
+        viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         startActionButton = (Button) view.findViewById(R.id.add_startAction);
         endActionButton = (Button) view.findViewById(R.id.add_endAction);
 

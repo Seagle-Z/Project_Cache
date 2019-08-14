@@ -58,7 +58,7 @@ public class AppListActivity extends AppCompatActivity {
                 //Check where does the user click on
                 InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
                 Intent intent = new Intent(); //Create a new intent object to for data returning use.
-                intent.putExtra("App", app);
+                intent.putExtra("app", app);
                 setResult(Activity.RESULT_OK, intent);
                 finish(); //End of Activity.
             }
@@ -101,10 +101,14 @@ public class AppListActivity extends AppCompatActivity {
                 if (i == null) {
                     continue;
                 }
-                InstalledAppInfo app = new InstalledAppInfo();
-                app.setPackageName(packageInfo.packageName);
-                app.setLabel(packageInfo.loadLabel(pm).toString());
-                app.setDrawable(packageInfo.loadIcon(pm));
+                InstalledAppInfo app = new InstalledAppInfo(
+                        packageInfo.packageName,
+                        packageInfo.loadLabel(pm).toString(),
+                        packageInfo.loadIcon(pm)
+                        );
+//                app.setPackageName(packageInfo.packageName);
+//                app.setLabel(packageInfo.loadLabel(pm).toString());
+//                app.setDrawable(packageInfo.loadIcon(pm));
                 apps.add(app);
             }
 

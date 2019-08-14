@@ -13,6 +13,12 @@ public class InstalledAppInfo implements Serializable {
     private String label;
     private transient Drawable packageIcon;
 
+    public InstalledAppInfo(String pName, String pLabel, Drawable pIcon)
+    {
+        packageName = pName;
+        label = pLabel;
+        packageIcon = pIcon;
+    }
 
     public void setLabel(String s)
     {

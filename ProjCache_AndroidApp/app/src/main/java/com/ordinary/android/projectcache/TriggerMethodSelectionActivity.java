@@ -36,8 +36,31 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionsArrList.add("Time");
         conditionsArrList.add("When App Launching");
 
-        adapterForConditionListView = new ArrayAdapter<String>(this, R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
+
+        adapterForConditionListView = new ArrayAdapter<String>(
+                this,
+                R.layout.layout_general_list,
+                R.id.condition_name,
+                conditionsArrList);
         conditionListView.setAdapter(adapterForConditionListView);
+
+
+//        Intent intent = getIntent();
+//        if(intent.getExtras() != null)
+//        {
+//            Bundle extras = intent.getExtras();
+//            for(String key : extras.keySet())
+//            {
+//                for(int i = 0; i < conditionsArrList.size(); i++)
+//                {
+//                    if(key.equals(conditionsArrList.get(i)))
+//                    {
+//                        //conditionsArrList.remove(i);
+//                        break;
+//                    }
+//                }
+//            }
+//        }
 
         conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -49,6 +72,9 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
                     case 1:
                         break;
                     case 2:
+                        conditionTypeID =2;
+                        Intent WIFIMode  = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
+                        startActivityForResult(WIFIMode, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     case 3:
                         conditionTypeID = 3;
@@ -69,26 +95,7 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (conditionTypeID == 3) {
-            try {
-                //data.putExtra("Time", "");
-                data.putExtra("GivenTime", "");
-                setResult(Activity.RESULT_OK, data);
-                finish();
-                //System.out.println(data.getStringExtra("Time"));
-            } catch (NullPointerException e) {
-            }
-        }
-        if(conditionTypeID == 4)
-        {
-            try {
-                //data.putExtra("Time", "");
-                data.putExtra("GivenApp", "");
-                setResult(Activity.RESULT_OK, data);
-                finish();
-                //System.out.println(data.getStringExtra("Time"));
-            } catch (NullPointerException e) {
-            }
-        }
+        setResult(Activity.RESULT_OK, data);
+        finish();
     }
 }
