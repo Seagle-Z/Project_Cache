@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity
 
     private static final String EVENTS_FILE_NAME = "events.csv";
     public Events events;
-    // Global
-    public static List<Integer> runningEventsID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +86,9 @@ public class MainActivity extends AppCompatActivity
 
 
         //- Core Construction ---------------------------------------------------------------------*
-        runningEventsID = new ArrayList<>();
-
         coreViewPager = findViewById(R.id.core_viewPager);
         coreViewPager.setPadding(20, 0, 20, 0);
 
-        // Start the handler thread for keep looping update the core cards
         CoreRunnable coreRunnable = new CoreRunnable(this, eventsFile, coreViewPager);
         coreThread = new Thread(coreRunnable);
         coreThread.start();

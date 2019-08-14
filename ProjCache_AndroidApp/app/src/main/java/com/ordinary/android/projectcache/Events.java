@@ -154,6 +154,10 @@ public class Events {
         eventsList.get(eventID).isActivated = status;
     }
 
+    public void updateEventActivationStatus(int eventID, boolean status) {
+        eventsList.get(eventID).isActivated = status;
+    }
+
     public List<Integer> getActivatedEventsIDList() {
         activatedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
@@ -162,17 +166,6 @@ public class Events {
             }
         }
         return activatedEventsList;
-    }
-
-    public boolean changeEventActiveStatus(int eventID, boolean activated) {
-        eventsList.get(eventID).isActivated = activated;
-        activatedEventsList = new ArrayList<>();
-        for (Event e : eventsList) {
-            if (e.isActivated) {
-                activatedEventsList.add(e.eventID);
-            }
-        }
-        return refreshEvents();
     }
 
     private boolean refreshEvents() {
@@ -468,45 +461,6 @@ class Event {
     Integer eventColor;
     String eventCategory;           // for future usage
     Integer executedTimes;          // How many times did this event has been used
-
-
-    public Event(String eventName, String createDate,
-                 String createTime, Integer priorityLevel,
-                 String[] triggerableDay, String[] triggerableTime,
-                 String[] triggerMethods, String[] triggerValues,
-                 String[] tasksTypeStart, String[] tasksValueStart,
-                 String[] tasksTypeEnd, String[] tasksValueEnd,
-                 Boolean momentEvent, Boolean oneTimeEvent,
-                 Boolean autoTrigger, Boolean isActivated,
-                 String eventImage, Integer eventColor,
-                 String eventCategory, Integer executedTimes) {
-
-        this.eventName = eventName;
-        this.createDate = createDate;
-        this.createTime = createTime;
-        this.priorityLevel = priorityLevel;
-
-        this.triggerableDay = triggerableDay;
-        this.triggerableTime = triggerableTime;
-        this.triggerMethods = triggerMethods;
-        this.triggerValues = triggerValues;
-
-        this.tasksTypeStart = tasksTypeStart;
-        this.tasksValueStart = tasksValueStart;
-        this.tasksTypeEnd = tasksTypeEnd;
-        this.tasksValueEnd = tasksValueEnd;
-
-        this.momentEvent = momentEvent;
-        this.oneTimeEvent = oneTimeEvent;
-        this.autoTrigger = autoTrigger;
-        this.isActivated = isActivated;
-
-        this.eventImage = eventImage;
-        this.eventColor = eventColor;
-        this.eventCategory = eventCategory;
-        this.executedTimes = executedTimes;
-
-    }
 
     public Event(Integer eventID, String eventName, String createDate,
                  String createTime, Integer priorityLevel,

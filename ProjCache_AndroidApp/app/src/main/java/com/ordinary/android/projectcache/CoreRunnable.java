@@ -18,6 +18,7 @@ public class CoreRunnable implements Runnable {
     private CoreModel coreModelDefaultEvent;
     private List<Integer> activatedEventsID;
     private List<Integer> triggerableEventsID;
+    public List<Integer> runningEventsID;
     //public static List<Integer> runningEventsID;
     private File eventsFile;
 
@@ -60,33 +61,30 @@ public class CoreRunnable implements Runnable {
         });
 
         triggerableEventsID = new ArrayList<>();
-        MainActivity.runningEventsID = new ArrayList<>();
+        runningEventsID = new ArrayList<>();
         for (;;) {
-            activatedEventsID = events.getActivatedEventsIDList();
 
-            CoreConditionInspector cci = new CoreConditionInspector(context, events);
-            triggerableEventsID = cci.getTriggerableEventsID();
-
-            List<CoreModel> coreModels = new ArrayList<>();
-            for (Integer i : triggerableEventsID) {
-                coreModels.add(new CoreModel(
-                        new CoreTasksExecutor(context, events.getEventByID(i)),
-                        events.getEventByID(i).eventName,
-                        context.getResources().getDrawable(R.drawable.ic_menu_send, null)
-                ));
-            }
-            coreModels.add(coreModelDefaultEvent);
-
-            final CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, coreModels);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Change the coreViewPager to new current triggerable event list
+                    activatedEventsID = events.getActivatedEventsIDList();
+
+                    CoreConditionInspector cci = new CoreConditionInspector(context, events);
+                    triggerableEventsID = cci.getTriggerableEventsID();
+
+                    List<CoreModel> curCoreModels = new ArrayList<>();
+                    for (Integer i : triggerableEventsID) {
+                        curCoreModels.add(new CoreModel(
+                                new CoreTasksExecutor(context, events.getEventByID(i)),
+                                events.getEventByID(i).eventName,
+                                context.getResources().getDrawable(R.drawable.ic_menu_send, null)
+                        ));
+                    }
+                    curCoreModels.add(coreModelDefaultEvent);
+                    CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, curCoreModels);
                     coreViewPager.setAdapter(coreModelAdapter);
 
-
-
-                    // 2019-08-01 In case needed, change the OnPageChangeListener
+                    // In case needed, change the OnPageChangeListener
                     coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int i, float v, int i1) {
