@@ -15,6 +15,7 @@ public class CoreModel {
         this.drawable = drawable;
     }
 
+
     public CoreTasksExecutor getCoreTasksExecutor() {
         return coreTasksExecutor;
     }
@@ -22,6 +23,7 @@ public class CoreModel {
     public void setCoreTasksExecutor(CoreTasksExecutor coreTasksExecutor) {
         this.coreTasksExecutor = coreTasksExecutor;
     }
+
 
     public String getText() {
         return text;

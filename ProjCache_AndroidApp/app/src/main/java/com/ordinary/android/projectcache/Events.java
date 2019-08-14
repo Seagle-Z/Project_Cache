@@ -16,9 +16,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringJoiner;
 
-// TODO: 2019-08-04 增加 event 的 picture，例如开 App 就是 App 的logo
-// TODO: 2019-08-06 加入eventColor 特性
-
 public class Events {
 
     Context context;
@@ -26,7 +23,7 @@ public class Events {
 
     private List<Event> eventsList;     // store all the events information
     private Event defaultEvent;
-    List<Integer> activedEventsList;   // store all eventID of activated events (switch is on)
+    List<Integer> activatedEventsList;   // store all eventID of activated events (switch is on)
 
 
     public Events(Context inputContext, File inputEventsFile) {
@@ -35,10 +32,10 @@ public class Events {
         eventsFile = inputEventsFile;
 
         eventsList = new ArrayList<>();
-        activedEventsList = new ArrayList<>();
+        activatedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activedEventsList.add(e.eventID);
+                activatedEventsList.add(e.eventID);
             }
         }
 
@@ -57,7 +54,7 @@ public class Events {
 
         FileInputStream fis = null;
 
-        // input events
+        // input events to the events object form events.csv file
         try {
             fis = context.openFileInput(eventsFile.getName());
             InputStreamReader isr = new InputStreamReader(fis);
@@ -152,22 +149,27 @@ public class Events {
         return eventsList;
     }
 
-    public boolean updateActivatedEventsList() {
-        activedEventsList = new ArrayList<>();
+    public void updateEventActivationStatus(String eventName, boolean status) {
+        int eventID = (getEventByName(eventName).eventID);
+        eventsList.get(eventID).isActivated = status;
+    }
+
+    public List<Integer> getActivatedEventsIDList() {
+        activatedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activedEventsList.add(e.eventID);
+                activatedEventsList.add(e.eventID);
             }
         }
-        return refreshEvents();
+        return activatedEventsList;
     }
 
     public boolean changeEventActiveStatus(int eventID, boolean activated) {
         eventsList.get(eventID).isActivated = activated;
-        activedEventsList = new ArrayList<>();
+        activatedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activedEventsList.add(e.eventID);
+                activatedEventsList.add(e.eventID);
             }
         }
         return refreshEvents();
@@ -237,7 +239,8 @@ public class Events {
             fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
 
             String eventText = newEvent.eventID.toString() + ", " + nullOrString(newEvent.eventName) + ", " +
-                    nullOrString(newEvent.createDate) + ", " + nullOrString(newEvent.createTime) + ", " + nullOrString(newEvent.priorityLevel) + ", " +
+                    nullOrString(newEvent.createDate) + ", " + nullOrString(newEvent.createTime) + ", " +
+                    nullOrString(newEvent.priorityLevel) + ", " +
                     strArrJoiner(newEvent.triggerableDay) + ", " + strArrJoiner(newEvent.triggerableTime) + ", " +
                     strArrJoiner(newEvent.triggerMethods) + ", " + strArrJoiner(newEvent.triggerValues) + ", " +
                     strArrJoiner(newEvent.tasksTypeStart) + ", " + strArrJoiner(newEvent.tasksValueStart) + ", " +
