@@ -6,24 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-#08/13/2019 [b_bdev]
+# 08/14/2019 [b_jx]
+    1. TIME condition is workable now, added to CoreConditionInspector's switch case.
+    2. Added updateEventActivationStatus functon to Events class.
+    3. Working on bugs about the CoreRunnable and CoreTasksExecutor.
+
+# 08/13/2019 [b_bdev]
     1. Added WIFI Devices to display on Wifi Trigger Page
 
-#08/12/2019 [b_ysl]
+# 08/12/2019 [b_ysl]
     1. Fixed minor bug in Time selector class
     2. Added When Application launching functionality (UI still buggy)
     3. Modify some XML files slightly, just rearrange some button placement,
     e.g. activity_trigger_method_app_launching
     4. Modify the InstalledAppInfo class, now has a constructor, instead using setters.
 
-# 08/10/2019
+# 08/10/2019 [b_ysl]
 	1. Finished all the functionality of the TiggerDateTimeActivity.
 	2. Changed to a brand new custom viewPager, this solves the ghost swiping issue.
 
 # 08/09/2019 [b_jx]
 	1. CoreConditionInspector is finished.
 	2. CoreTasksExecutor is still editing.
-	3. Thinking to add an event property to determine if the event is an instant event, 
+	3. Thinking to add an event property to determine if the event is an instant event,
 	also found some logic loophole in the Event class.
 
 # 08/06/2019
@@ -32,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 		2. default event's task is runnable，now we are able to see and test in the core.
 		3. Event class two new propeties: String eventImage and Integer eventColor，
 		project documentation is also updated.
-	
+
 	#[b_ysl]
 		1. Changed and improved the time merging feature's calculation algorithm.
 
@@ -44,11 +49,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # 08/02/2019 [b_ysl]
 	1. Fixed many bugs in Time Selector Activity.
 	2. Added duplicate time checking.
-	3. Added the basic time merging functionality，e.g. existing 8-9, 8:30 will 
+	3. Added the basic time merging functionality，e.g. existing 8-9, 8:30 will
 	be merge in 8-9.
 
-# 08/01/2019
-	1. Core thread is completed，empty for now. when complete the checking triggerMethod function, 
+# 08/01/2019 [b_jx]
+	1. Core thread is completed，empty for now. when complete the checking triggerMethod function,
 	ready to be added.
 	2. Auto-generate EventID is completed，also in Events class is sorted by ID.
 	3. Event delete funtion completed
