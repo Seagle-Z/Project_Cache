@@ -391,7 +391,7 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     private void hardCodeSomeTestingEventsForDevelopment() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"21:40-22:40|23:17"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"21:40-22:40|23:22"};
         String[] tasksTypeStart1 = {"LAUNCH_APP"}, tasksValueStart1 = {"com.google.android.music"};
         Event testEvent1 = new Event(
                 2345, "test event 4", "2019-08-03",
