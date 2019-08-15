@@ -6,23 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-<<<<<<< HEAD
-# 08/14/2019 [b_jx]
-    1. TIME condition is workable now, added to CoreConditionInspector's switch case.
-    2. Added updateEventActivationStatus functon to Events class.
-    3. Working on bugs about the CoreRunnable and CoreTasksExecutor.
 
+# 08/14/2019
+    #[b_jx]
+        1. TIME condition is workable now, added to CoreConditionInspector's switch case.
+        2. Added updateEventActivationStatus function to Events class.
+        3. Working on bugs about the CoreRunnable and CoreTasksExecutor.
 
-#08/13/2019
     #[b_ysl]
         1. Added in the selected condition duplicate checking feature, now once one condition is
         generated, user cannot choose the same condition again from the condition list choices.
         2. Fixed back the activity_trigger_method_app_launch's button placement (UI still buggy).
         3. Working on the image saving and event constructing feature.
 
-
 #08/13/2019 [b_bdev]
->>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
     1. Added WIFI Devices to display on Wifi Trigger Page
 
 # 08/12/2019 [b_ysl]
@@ -32,18 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     e.g. activity_trigger_method_app_launching
     4. Modify the InstalledAppInfo class, now has a constructor, instead using setters.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # 08/10/2019 [b_ysl]
-	1. Finished all the functionality of the TiggerDateTimeActivity.
-=======
-# 08/10/2019
 	1. Finished all the functionality of the TriggerDateTimeActivity.
->>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
-=======
-# 08/10/2019
-	1. Finished all the functionality of the TriggerDateTimeActivity.
->>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
 	2. Changed to a brand new custom viewPager, this solves the ghost swiping issue.
 
 # 08/09/2019 [b_jx]
