@@ -19,8 +19,7 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
     private PackageManager pm;
     private List<InstalledAppInfo> apps;
 
-    public AppListAdapter(Context context, List<InstalledAppInfo> apps)
-    {
+    public AppListAdapter(Context context, List<InstalledAppInfo> apps) {
         super(context, R.layout.layout_app_list, apps);
         inflater = LayoutInflater.from(context);
         pm = context.getPackageManager();
@@ -28,13 +27,11 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
     }
 
     @Override
-    public View getView(int position, @Nullable View ConvertView, @NonNull ViewGroup parent)
-    {
+    public View getView(int position, @Nullable View ConvertView, @NonNull ViewGroup parent) {
         InstalledAppInfo current = apps.get(position);
         View view = ConvertView;
-        
-        if(view == null)
-        {
+
+        if (view == null) {
             /* With this inflater, the list would expand dynamically based on the number of object from
              * the List<InstalledAppInfo> apps
              */
@@ -42,7 +39,7 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
         }
 
         //Get the title and set the app label to it
-        TextView textviewTitle = (TextView)view.findViewById(R.id.titleTextView);
+        TextView textviewTitle = (TextView) view.findViewById(R.id.titleTextView);
         textviewTitle.setText(current.getLabel());
 
 

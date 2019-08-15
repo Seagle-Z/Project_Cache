@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class ToolFunctions {
+
     public static Drawable ButtonIconProcessing(Context context, PackageManager pm, InstalledAppInfo app) {
         Drawable dResult = null;
         try {
@@ -102,6 +103,4 @@ public class ToolFunctions {
         listView.setLayoutParams(params);
         listView.requestLayout();
     }
-
-
 }

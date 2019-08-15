@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,19 +21,32 @@ public class TriggerMethodWifiActivity extends AppCompatActivity {
 
     //Code for WIFISelectorActivity result request only
     private final int WIFI_PICKING_CODE = 1014;
-
-    //Local Variables
-    private WifiManager wifiManager;
-    private int size = 0;
-    private List<ScanResult> results;
     ArrayList<String> StoredWifi = new ArrayList<>();
-    private ToolFunctions TF = new ToolFunctions();
-
     //User-Interface Code
     Button addWifiButton, completeButton;
     ListView selectedWIFIListView;
     Context wifi_picker_context;
     ArrayAdapter wifiLISTAdapterView;
+    //Local Variables
+    private WifiManager wifiManager;
+    private int size = 0;
+    private List<ScanResult> results;
+    private ToolFunctions TF = new ToolFunctions();
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            results = wifiManager.getScanResults();
+            unregisterReceiver(wifiReceiver);
+
+            for (ScanResult scanResult : results) {
+                StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
+                System.out.println(scanResult.SSID);
+                wifiLISTAdapterView.notifyDataSetChanged();
+                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
+
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +55,7 @@ public class TriggerMethodWifiActivity extends AppCompatActivity {
 
         //User-Interface for Activity
         wifi_picker_context = TriggerMethodWifiActivity.this;
-        addWifiButton  = findViewById(R.id.add_wifi);
+        addWifiButton = findViewById(R.id.add_wifi);
         completeButton = findViewById(R.id.wifi_picker_activity_complete_button);
         selectedWIFIListView = findViewById(R.id.selected_wifi_list);
 
@@ -81,22 +94,6 @@ public class TriggerMethodWifiActivity extends AppCompatActivity {
         wifiManager.startScan();
         Toast.makeText(wifi_picker_context, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
     }
-
-    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            results = wifiManager.getScanResults();
-            unregisterReceiver(wifiReceiver);
-
-            for (ScanResult scanResult : results) {
-                StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
-                System.out.println(scanResult.SSID);
-                wifiLISTAdapterView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
-
-            }
-        }
-    };
 
 
 }

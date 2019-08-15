@@ -1,7 +1,6 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 
@@ -11,6 +10,7 @@ import java.util.List;
 
 public class CoreRunnable implements Runnable {
 
+    public List<Integer> runningEventsID;
     private Context context;                // MainActivity's context
     private ViewPager coreViewPager;
     private Handler mainHandler;
@@ -18,7 +18,6 @@ public class CoreRunnable implements Runnable {
     private CoreModel coreModelDefaultEvent;
     private List<Integer> activatedEventsID;
     private List<Integer> triggerableEventsID;
-    public List<Integer> runningEventsID;
     //public static List<Integer> runningEventsID;
     private File eventsFile;
 
@@ -62,7 +61,7 @@ public class CoreRunnable implements Runnable {
 
         triggerableEventsID = new ArrayList<>();
         runningEventsID = new ArrayList<>();
-        for (;;) {
+        for (; ; ) {
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -118,10 +117,6 @@ public class CoreRunnable implements Runnable {
     private void runOnUiThread(Runnable r) {
         mainHandler.post(r);
     }
-
-
-
-
 
 
     // Hard Code for development and testing

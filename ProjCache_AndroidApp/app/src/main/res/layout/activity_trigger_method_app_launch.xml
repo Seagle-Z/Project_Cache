@@ -46,25 +46,26 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp" />
 
+
+                <Button
+                    android:id="@+id/add_app"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="20dp"
+                    android:text="+ Add Launching App"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/application_picker_activity_complete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Complete" />
+
             </LinearLayout>
 
         </ScrollView>
-
-        <Button
-            android:id="@+id/add_app"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?selectableItemBackground"
-            android:paddingLeft="20dp"
-            android:text="+ Add Launching App"
-            android:textAlignment="textStart"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/application_picker_activity_complete_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Complete" />
 
     </LinearLayout>
 

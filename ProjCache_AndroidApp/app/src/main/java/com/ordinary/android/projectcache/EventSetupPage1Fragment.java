@@ -104,7 +104,7 @@ public class EventSetupPage1Fragment extends Fragment {
                         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
                     }
                     editMode = false;
-                    conditions.put("App", data.getStringExtra("Apps"));
+                    conditions.put("On-Screen App", data.getStringExtra("Apps"));
                 }
             }
         } catch (NullPointerException e) {
