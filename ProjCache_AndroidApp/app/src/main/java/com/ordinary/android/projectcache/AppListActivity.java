@@ -20,10 +20,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
+    SwipeRefreshLayout swipeRefreshLayout;
     private List<InstalledAppInfo> apps;
     private ListView list;
     private boolean editMode;
-    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class AppListActivity extends AppCompatActivity {
                         packageInfo.packageName,
                         packageInfo.loadLabel(pm).toString(),
                         packageInfo.loadIcon(pm)
-                        );
+                );
 //                app.setPackageName(packageInfo.packageName);
 //                app.setLabel(packageInfo.loadLabel(pm).toString());
 //                app.setDrawable(packageInfo.loadIcon(pm));

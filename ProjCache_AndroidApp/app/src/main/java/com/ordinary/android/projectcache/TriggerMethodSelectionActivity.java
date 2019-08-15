@@ -2,8 +2,8 @@ package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,13 +14,19 @@ import java.util.ArrayList;
 
 public class TriggerMethodSelectionActivity extends AppCompatActivity {
 
+    private final int REQUEST_TIME_INFORMATION_CODE = 1001;
+    private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
+    private final int REQUEST_WIFI_INFORMATION_CODE = 1003;
+    // TODO: 2019-08-14 add string constants
+    private final String GPS = "GPS Location";
+    private final String BT = "Bluetooth";
+    private final String WIFI = "WIFI";
+    private final String Time = "Time";
+    private final String OS_APP = "On-Screen App";
     ListView conditionListView;
     ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapterForConditionListView;
     private int conditionTypeID;
-    private final int REQUEST_TIME_INFORMATION_CODE = 1001;
-    private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +36,25 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionListView = (ListView) findViewById(R.id.condition_types);
         conditionListView.setTextFilterEnabled(true);
 
-        conditionsArrList.add("GPS Location");
-        conditionsArrList.add("Bluetooth");
-        conditionsArrList.add("WIFI");
-        conditionsArrList.add("Time");
-        conditionsArrList.add("When App Launching");
+        conditionsArrList.add(GPS);
+        conditionsArrList.add(BT);
+        conditionsArrList.add(WIFI);
+        conditionsArrList.add(Time);
+        conditionsArrList.add(OS_APP);
+
+
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            Bundle extras = intent.getExtras();
+            for (String key : extras.keySet()) {
+                for (int i = 0; i < conditionsArrList.size(); i++) {
+                    if (key.equals(conditionsArrList.get(i))) {
+                        conditionsArrList.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
 
 
         adapterForConditionListView = new ArrayAdapter<String>(
@@ -45,49 +65,32 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
         conditionListView.setAdapter(adapterForConditionListView);
 
 
-//        Intent intent = getIntent();
-//        if(intent.getExtras() != null)
-//        {
-//            Bundle extras = intent.getExtras();
-//            for(String key : extras.keySet())
-//            {
-//                for(int i = 0; i < conditionsArrList.size(); i++)
-//                {
-//                    if(key.equals(conditionsArrList.get(i)))
-//                    {
-//                        //conditionsArrList.remove(i);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-
         conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
+                switch (conditionsArrList.get(position)) {
+                    case GPS:
                         conditionTypeID = 1;
                         break;
-                    case 1:
+                    case BT:
                         break;
-                    case 2:
-                        conditionTypeID =2;
-                        Intent WIFIMode  = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
-                        startActivityForResult(WIFIMode, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
+                    case WIFI:
+                        conditionTypeID = 2;
+                        Intent WIFIMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
+                        startActivityForResult(WIFIMode, REQUEST_WIFI_INFORMATION_CODE);
                         break;
-                    case 3:
+                    case Time:
                         conditionTypeID = 3;
                         Intent timeMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodDateTimeActivity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
-                    case 4:
+                    case OS_APP:
                         conditionTypeID = 4;
-                        Intent AppLaunching  = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodAppLaunchActivity.class);
+                        Intent AppLaunching = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodAppLaunchActivity.class);
                         startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:
-                        Log.d("","No Item selected");
+                        Log.d("", "No Item selected");
                 }
             }
         });

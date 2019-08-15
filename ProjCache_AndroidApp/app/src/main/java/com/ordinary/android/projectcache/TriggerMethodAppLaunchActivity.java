@@ -25,7 +25,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
     private final int APP_PICKING_CODE = 1010;
     Button addAppButton, completeButton;
     ListView selectedAppListView;
-    List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>() ;
+    List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>();
     AppListAdapter appListAdapterView;
     Context app_picker_context;
     PackageManager pm;
@@ -49,7 +49,7 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
         warning = new AlertDialog.Builder(app_picker_context);
         selectedAppListView.setTextFilterEnabled(true);
 //        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
-        
+
         appListAdapterView = new AppListAdapter(app_picker_context, selectedAppArrList);
         selectedAppListView.setAdapter(appListAdapterView);
         selectedAppListView.setTextFilterEnabled(true);
