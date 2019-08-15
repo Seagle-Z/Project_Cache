@@ -12,8 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     2. Added updateEventActivationStatus functon to Events class.
     3. Working on bugs about the CoreRunnable and CoreTasksExecutor.
 
-# 08/13/2019 [b_bdev]
-=======
+
 #08/13/2019
     #[b_ysl]
         1. Added in the selected condition duplicate checking feature, now once one condition is
@@ -34,8 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     4. Modify the InstalledAppInfo class, now has a constructor, instead using setters.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # 08/10/2019 [b_ysl]
 	1. Finished all the functionality of the TiggerDateTimeActivity.
+=======
+# 08/10/2019
+	1. Finished all the functionality of the TriggerDateTimeActivity.
+>>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
 =======
 # 08/10/2019
 	1. Finished all the functionality of the TriggerDateTimeActivity.
@@ -73,6 +77,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # 08/01/2019 [b_jx]
 =======
 # 08/01/2019
+<<<<<<< HEAD
+>>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
+=======
 >>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
 	1. Core thread is completed，empty for now. when complete the checking triggerMethod function,
 	ready to be added.
@@ -81,7 +88,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	4. Event modify function completed
 	5. Event class rectified and reformed，except for some hardcoded event，otherwise is fully completed.
 <<<<<<< HEAD
+<<<<<<< HEAD
 	6. MainActivity simplified and organzied
+=======
+	6. MainActivity simplified and organized
+>>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
 =======
 	6. MainActivity simplified and organized
 >>>>>>> 9d16542aca644997c91f2517d4df52fb8a3449dc
