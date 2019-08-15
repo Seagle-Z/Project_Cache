@@ -71,13 +71,16 @@ public class CoreRunnable implements Runnable {
 
                     CoreConditionInspector cci = new CoreConditionInspector(context, events);
                     triggerableEventsID = cci.getTriggerableEventsID();
-
                     List<CoreModel> curCoreModels = new ArrayList<>();
                     for (Integer i : triggerableEventsID) {
+                        Event curEvent = events.getEventByID(i);
+                        CoreTasksExecutor curCoreTasksExecutor =
+                                new CoreTasksExecutor(context, curEvent);
+                        String curEventName = events.getEventByID(1).eventName;
                         curCoreModels.add(new CoreModel(
-                                new CoreTasksExecutor(context, events.getEventByID(i)),
-                                events.getEventByID(i).eventName,
-                                context.getResources().getDrawable(R.drawable.ic_menu_send, null)
+                                curCoreTasksExecutor,
+                                curEventName,//events.getEventByID(i).eventName,
+                                context.getResources().getDrawable(R.drawable.ic_menu_manage, null)
                         ));
                     }
                     curCoreModels.add(coreModelDefaultEvent);
