@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# 08/15/2019
+    #[b_jx]
+        1. AutoTrigger event could be triggered.
+        2. CoreRunnable will check if a triggerable event is running to decidd trigger it or not.
+        3. Found and fixed a bug of Events.getEventByID() method. (ID is 1 greater than actual)
 
 # 08/14/2019
     #[b_jx]
