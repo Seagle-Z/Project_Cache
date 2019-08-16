@@ -128,11 +128,11 @@ public class Events {
     }
 
     public Event getEventByID(Integer seekingEventID) {
-        if (seekingEventID >= eventsList.size()) {
+        if (seekingEventID > eventsList.size()) {
             return null;
         }
 
-        return eventsList.get(seekingEventID);
+        return eventsList.get(seekingEventID - 1);
     }
 
     public Event getEventByName(String seekingEventName) {
@@ -391,7 +391,7 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     private void hardCodeSomeTestingEventsForDevelopment() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"21:40-22:40|23:17"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"22:23-23:30"};
         String[] tasksTypeStart1 = {"LAUNCH_APP"}, tasksValueStart1 = {"com.google.android.music"};
         Event testEvent1 = new Event(
                 2345, "test event 4", "2019-08-03",
@@ -401,7 +401,7 @@ public class Events {
                 tasksTypeStart1, tasksValueStart1,
                 null, null,
                 false, false,
-                false, true,
+                true, true,
                 "" + R.drawable.ic_menu_share, 0x000000,
                 "NULL", 0);
 
@@ -416,7 +416,7 @@ public class Events {
                 tasksTypeStart2, tasksValueStart2,
                 null, null,
                 false, false,
-                false, true,
+                true, true,
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
