@@ -1,10 +1,16 @@
 package com.ordinary.android.projectcache;
 
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 public class CoreConditionInspector {
 
@@ -57,6 +63,26 @@ public class CoreConditionInspector {
         return false;
     }
 
+    private boolean inspectAPP_ON_SCREEN(String value) {
+        ActivityManager am = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        List l = am.getRecentTasks(1, ActivityManager.RECENT_WITH_EXCLUDED);
+        Iterator i = l.iterator();
+        PackageManager pm = context.getPackageManager();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo)(i.next());
+            try {
+                CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(
+                        info.processName, PackageManager.GET_META_DATA));
+                Log.w("LABEL", c.toString());
+                System.out.println(c.toString());
+            } catch (Exception e) {
+                // Name Not Found Exception
+            }
+        }
+
+        return false;
+    }
+
     private boolean inspectTIME(String value) {
         boolean[] minutesInDay = new boolean[1440];
         String[] times = value.split("#");
@@ -94,9 +120,7 @@ public class CoreConditionInspector {
         return false;
     }
 
-    private boolean inspectAPP_ON_SCREEN(String value) {
-        return false;
-    }
+
 }
 
 
