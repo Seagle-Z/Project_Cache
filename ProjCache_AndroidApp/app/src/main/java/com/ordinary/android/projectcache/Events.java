@@ -18,6 +18,8 @@ import java.util.StringJoiner;
 
 public class Events {
 
+    // TODO: 2019-08-16 重建CSV的时候要弄一个备份，以防在重建过程中app被关掉，CSV里的信息就没了
+
     Context context;
     File eventsFile;
 
@@ -51,6 +53,10 @@ public class Events {
             hardCodeSomeTestingEventsForDevelopment();
             //** Hard code some event for development *************************************** FINISH
         }
+
+        //** Hard code modify event for development ****************************************** START
+        hardCodeModifyTestingEventsForDevelopment();
+        //** Hard code modify event for development ***************************************** FINISH
 
         FileInputStream fis = null;
 
@@ -90,31 +96,21 @@ public class Events {
             }
         }
 
-        newEvent.eventID = eventsList.size() + 1;
+        newEvent.eventID = eventsList.size();
         eventsList.add(newEvent);
 
         return refreshEvents();
     }
 
     public boolean deleteEventById(Integer eventID) {
-        if (eventID >= eventsList.size()) {
+        if (eventID > eventsList.size()) {
             return false;
         }
 
         eventsList.remove(eventID);
         for (int i = eventID; i < eventsList.size(); i++) {
-            eventsList.get(i).eventID--;
+            eventsList.get(i).eventID = i;
         }
-
-        return refreshEvents();
-    }
-
-    public boolean modifyEvent(Event e) {
-        if (e.eventID >= eventsList.size()) {
-            return false;
-        }
-
-        eventsList.set(e.eventID, e);
 
         return refreshEvents();
     }
@@ -132,7 +128,7 @@ public class Events {
             return null;
         }
 
-        return eventsList.get(seekingEventID - 1);
+        return eventsList.get(seekingEventID);
     }
 
     public Event getEventByName(String seekingEventName) {
@@ -177,7 +173,7 @@ public class Events {
             }
         });
         for (int i = 0; i < eventsList.size(); i++) {
-            eventsList.get(i).eventID = i + 1;
+            eventsList.get(i).eventID = i;
         }
         return refreshEventsCSV();
     }
@@ -191,7 +187,6 @@ public class Events {
         // construct csv and put the default event
         eventsCSVConstruct();
         // put default into csv
-        //defaultEvent.eventID = 0;
         addEventToCSV(defaultEvent);
         // put others event
         for (Event e : eventsList) {
@@ -376,7 +371,7 @@ public class Events {
         String[] tasksType = {"LAUNCH_APP"};
         String[] tasksValue = {"com.google.android.youtube"};
 
-        return new Event(0, "Default", "2019-08-09",
+        return new Event(-1, "Default", "2019-08-09",
                 "21:46", -1,
                 null, null,
                 null, null,
@@ -391,8 +386,8 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     private void hardCodeSomeTestingEventsForDevelopment() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"22:23-23:30"};
-        String[] tasksTypeStart1 = {"LAUNCH_APP"}, tasksValueStart1 = {"com.google.android.music"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"14:40"};
+        String[] tasksTypeStart1 = {"VOLUME_STREAM"}, tasksValueStart1 = {"20"};
         Event testEvent1 = new Event(
                 2345, "test event 4", "2019-08-03",
                 "19:15", 0,
@@ -406,10 +401,10 @@ public class Events {
                 "NULL", 0);
 
 
-        String[] triggerMethod2 = {"TIME"}, triggerValues2 = {"19:15-19:29"};
-        String[] tasksTypeStart2 = {"LAUNCH_APP"}, tasksValueStart2 = {"com.android.chrome"};
+        String[] triggerMethod2 = {"TIME"}, triggerValues2 = {"14:39#14:41"};
+        String[] tasksTypeStart2 = {"VOLUME_STREAM"}, tasksValueStart2 = {"80"};
         Event testEvent2 = new Event(
-                1234,"test event 2", "2019-08-02",
+                1234, "test event 2", "2019-08-02",
                 "19:31", 0,
                 null, null,
                 triggerMethod2, triggerValues2,
@@ -421,10 +416,43 @@ public class Events {
                 "NULL", 0);
 
 
-
         addEvent(testEvent2);
         addEvent(testEvent1);
         addEvent(testEvent2);
+    }
+
+    private void hardCodeModifyTestingEventsForDevelopment() {
+
+        String[] triggerMethodM1 = {"TIME"}, triggerValuesM1 = {"12:23-23:30"};
+        String[] tasksTypeStartM1 = {"LAUNCH_APP"}, tasksValueStartM1 = {"com.google.android.music"};
+        Event testEventM1 = new Event(
+                2345, "test event 4", "2019-08-03",
+                "19:15", 0,
+                null, null,
+                triggerMethodM1, triggerValuesM1,
+                tasksTypeStartM1, tasksValueStartM1,
+                null, null,
+                false, false,
+                true, true,
+                "" + R.drawable.ic_menu_share, 0x000000,
+                "NULL", 0);
+
+
+        String[] triggerMethodM2 = {"TIME"}, triggerValuesM2 = {"15:34-19:29"};
+        String[] tasksTypeStartM2 = {"VOLUME_STREAM"}, tasksValueStartM2 = {"50"};
+        Event testEventM2 = new Event(
+                1234,"test event 2", "2019-08-02",
+                "19:31", 0,
+                null, null,
+                triggerMethodM2, triggerValuesM2,
+                tasksTypeStartM2, tasksValueStartM2,
+                null, null,
+                false, false,
+                true, true,
+                "" + R.drawable.ic_menu_gallery, 0xffffff,
+                "NULL", 0);
+
+
 
     }
     //** Hard code some event for development FINISH **************************************** FINISH

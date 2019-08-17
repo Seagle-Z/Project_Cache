@@ -12,12 +12,11 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class TriggerMethodSelectionActivity extends AppCompatActivity {
+public class SetupTriggerMethodSelectionActivity extends AppCompatActivity {
 
     private final int REQUEST_TIME_INFORMATION_CODE = 1001;
     private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
     private final int REQUEST_WIFI_INFORMATION_CODE = 1003;
-    // TODO: 2019-08-14 add string constants
     private final String GPS = "GPS Location";
     private final String BT = "Bluetooth";
     private final String WIFI = "WIFI";
@@ -56,7 +55,6 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
             }
         }
 
-
         adapterForConditionListView = new ArrayAdapter<String>(
                 this,
                 R.layout.layout_general_list,
@@ -70,23 +68,19 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (conditionsArrList.get(position)) {
                     case GPS:
-                        conditionTypeID = 1;
                         break;
                     case BT:
                         break;
                     case WIFI:
-                        conditionTypeID = 2;
-                        Intent WIFIMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
+                        Intent WIFIMode = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodWifiActivity.class);
                         startActivityForResult(WIFIMode, REQUEST_WIFI_INFORMATION_CODE);
                         break;
                     case Time:
-                        conditionTypeID = 3;
-                        Intent timeMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodDateTimeActivity.class);
+                        Intent timeMode = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodDateTimeActivity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case OS_APP:
-                        conditionTypeID = 4;
-                        Intent AppLaunching = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodAppLaunchActivity.class);
+                        Intent AppLaunching = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodOnScreenAppActivity.class);
                         startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:
