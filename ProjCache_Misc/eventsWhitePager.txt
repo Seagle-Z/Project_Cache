@@ -34,7 +34,7 @@ Bigger is higher priority level
 Normally event priorityLevel is 0
 The priorityLevel of the default event is -1
 
-6. 暂时弃用，全都写 "NULL"
+6. Temporary abandon, write "NULL" here
 triggerableDay
 String
 Use the first 3 characters of day name indicate the day.
@@ -46,7 +46,7 @@ Use "WKD" for weekdays that is Monday to Friday.
 Use "WKN" for weekend that is Saturday and Sunday.
 If triggerableDay is "NULL", it means it will available all the day.
 
-7. 暂时弃用，全都写 "NULL"
+7. Temporary abandon, write "NULL" here
 triggerableTime
 String
 HH:MM-HH:MM###HH:MM-HH:MM
