@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TriggerMethodDateTimeActivity extends AppCompatActivity
+public class SetupTriggerMethodDateTimeActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
 
     //Code for TimeSelectorActivity result request only
@@ -61,7 +61,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trigger_method_date_time);
-        date_time_picker_Context = TriggerMethodDateTimeActivity.this;
+        date_time_picker_Context = SetupTriggerMethodDateTimeActivity.this;
         timeButton = findViewById(R.id.add_time);
         dateButton = findViewById(R.id.add_date);
         completeButton = findViewById(R.id.date_time_picker_activity_complete_button);
@@ -214,7 +214,7 @@ public class TriggerMethodDateTimeActivity extends AppCompatActivity
                         Toast.LENGTH_LONG).show();
                 Intent intent =
                         new Intent(
-                                TriggerMethodDateTimeActivity.this,
+                                SetupTriggerMethodDateTimeActivity.this,
                                 TimeSelectorActivity.class
                         );
 

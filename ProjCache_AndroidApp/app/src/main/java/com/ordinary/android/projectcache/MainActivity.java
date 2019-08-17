@@ -2,6 +2,7 @@ package com.ordinary.android.projectcache;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.style.BulletSpan;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity
         CoreRunnable coreRunnable = new CoreRunnable(this, eventsFile, coreViewPager);
         coreThread = new Thread(coreRunnable);
         coreThread.start();
+
     }
 
     @Override

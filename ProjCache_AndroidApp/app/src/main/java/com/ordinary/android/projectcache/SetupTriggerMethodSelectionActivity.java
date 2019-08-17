@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class TriggerMethodSelectionActivity extends AppCompatActivity {
+public class SetupTriggerMethodSelectionActivity extends AppCompatActivity {
 
     private final int REQUEST_TIME_INFORMATION_CODE = 1001;
     private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
@@ -72,15 +72,15 @@ public class TriggerMethodSelectionActivity extends AppCompatActivity {
                     case BT:
                         break;
                     case WIFI:
-                        Intent WIFIMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodWifiActivity.class);
+                        Intent WIFIMode = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodWifiActivity.class);
                         startActivityForResult(WIFIMode, REQUEST_WIFI_INFORMATION_CODE);
                         break;
                     case Time:
-                        Intent timeMode = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodDateTimeActivity.class);
+                        Intent timeMode = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodDateTimeActivity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case OS_APP:
-                        Intent AppLaunching = new Intent(TriggerMethodSelectionActivity.this, TriggerMethodAppLaunchActivity.class);
+                        Intent AppLaunching = new Intent(SetupTriggerMethodSelectionActivity.this, SetupTriggerMethodOnScreenAppActivity.class);
                         startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:

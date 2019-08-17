@@ -21,7 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 public class EventSetupPage1Fragment extends Fragment {
@@ -33,15 +33,19 @@ public class EventSetupPage1Fragment extends Fragment {
     ListView conditionListView;
     ArrayAdapter<String> adapter;
     View view;
+    Event event;
     private ToolFunctions TF = new ToolFunctions();
-    private HashMap<String, String> conditions = new HashMap<>();
+    private Map<String, String> conditions = new Hashtable<>();
     private ArrayList<String> conditionsArrList = new ArrayList<>();
     private ArrayList<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_event_setup_page1, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
@@ -52,12 +56,23 @@ public class EventSetupPage1Fragment extends Fragment {
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
+//        event = new Event(
+//                1234,"test event 2", "2019-08-02",
+//                "19:31", 0,
+//                null, null,
+//                triggerMethod2, triggerValues2,   "12:00#12:05"
+//                tasksTypeStart2, tasksValueStart2,
+//                null, null,
+//                false, false,
+//                true, true,
+//                "" + R.drawable.ic_menu_gallery, 0xffffff,
+//                "NULL", 0);
 
         //The "Select A Condition" button that trigger the
         addConditionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), TriggerMethodSelectionActivity.class);
+                Intent intent = new Intent(getContext(), SetupTriggerMethodSelectionActivity.class);
                 if (!conditions.isEmpty()) {
                     Bundle bundle = new Bundle();
                     for (Map.Entry m : conditions.entrySet()) {
@@ -73,7 +88,7 @@ public class EventSetupPage1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                if (!conditionsArrList.isEmpty())
-                    viewPager.setCurrentItem(1);
+                viewPager.setCurrentItem(1);
 //                else {
 //                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
 //                }
@@ -166,12 +181,12 @@ public class EventSetupPage1Fragment extends Fragment {
         }
     }
 
-    public Intent getIntent(int position) {
+    private Intent getIntent(int position) {
         Intent intent = null;
         if (selectedConditionTypes.get(position).equals("Time")) {
             intent = new Intent(
                     getContext(),
-                    TriggerMethodDateTimeActivity.class
+                    SetupTriggerMethodDateTimeActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("Time"));
@@ -179,11 +194,12 @@ public class EventSetupPage1Fragment extends Fragment {
         if (selectedConditionTypes.get(position).equals("App")) {
             intent = new Intent(
                     getContext(),
-                    TriggerMethodAppLaunchActivity.class
+                    SetupTriggerMethodOnScreenAppActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("On-Screen App"));
         }
         return intent;
     }
+
 }
