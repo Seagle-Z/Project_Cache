@@ -31,18 +31,18 @@ public class EventSetupPage1Fragment extends Fragment {
     Button addConditionButton;
     FloatingActionButton forward;
     ListView conditionListView;
-    ArrayList<String> conditionsArrList = new ArrayList<>();
     ArrayAdapter<String> adapter;
     View view;
     private ToolFunctions TF = new ToolFunctions();
     private HashMap<String, String> conditions = new HashMap<>();
+    private ArrayList<String> conditionsArrList = new ArrayList<>();
     private ArrayList<String> selectedConditionTypes = new ArrayList<>();
-    //Code for TimeSelectorActivity result request only
     private boolean editMode;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_event_setup_page1, container, false);
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
@@ -72,11 +72,11 @@ public class EventSetupPage1Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!conditionsArrList.isEmpty())
+//                if (!conditionsArrList.isEmpty())
                     viewPager.setCurrentItem(1);
-                else {
-                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
-                }
+//                else {
+//                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
+//                }
             }
         });
         return view;
@@ -182,7 +182,7 @@ public class EventSetupPage1Fragment extends Fragment {
                     TriggerMethodAppLaunchActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
-            intent.putExtra("RETRIEVE", conditions.get("App"));
+            intent.putExtra("RETRIEVE", conditions.get("On-Screen App"));
         }
         return intent;
     }
