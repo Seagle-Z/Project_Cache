@@ -20,7 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
+public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
 
     private final int APP_PICKING_CODE = 1010;
     Button addAppButton, completeButton;
@@ -41,11 +41,11 @@ public class TriggerMethodAppLaunchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trigger_method_app_launch);
-        app_picker_context = TriggerMethodAppLaunchActivity.this;
+        app_picker_context = SetupTriggerMethodOnScreenAppActivity.this;
         addAppButton = (Button) findViewById(R.id.add_app);
         completeButton = (Button) findViewById(R.id.application_picker_activity_complete_button);
         selectedAppListView = (ListView) findViewById(R.id.selected_app_list);
-        pm = TriggerMethodAppLaunchActivity.this.getPackageManager();
+        pm = SetupTriggerMethodOnScreenAppActivity.this.getPackageManager();
         warning = new AlertDialog.Builder(app_picker_context);
         selectedAppListView.setTextFilterEnabled(true);
 //        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);

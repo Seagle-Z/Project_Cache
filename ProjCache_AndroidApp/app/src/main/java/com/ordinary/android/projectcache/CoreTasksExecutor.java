@@ -2,8 +2,11 @@ package com.ordinary.android.projectcache;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.widget.Toast;
+
+import static android.content.Context.AUDIO_SERVICE;
 
 public class CoreTasksExecutor {
     Context context;
@@ -17,12 +20,20 @@ public class CoreTasksExecutor {
 
     public void startThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeStart, event.tasksValueStart);
-        context.startActivities(intents);
+        for (Intent i : intents) {
+            if (i != null) {
+                context.startActivity(i);
+            }
+        }
     }
 
     public void endThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeEnd, event.tasksValueEnd);
-        context.startActivities(intents);
+        for (Intent i : intents) {
+            if (i != null) {
+                context.startActivity(i);
+            }
+        }
     }
 
     public Intent[] createTasksIntent(String[] tasksType, String[] tasksValue) {
@@ -50,6 +61,10 @@ public class CoreTasksExecutor {
                 intent = taskCaseLAUNCH_APP(taskValue);
                 break;
 
+            case "VOLUME_STREAM":
+                taskCaseVOLUME_STREAM(taskValue);
+
+
         }
 
         return intent;
@@ -65,5 +80,14 @@ public class CoreTasksExecutor {
     private Intent taskCaseLAUNCH_APP(String taskValue) {
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(taskValue);
         return intent;
+    }
+
+    private void taskCaseVOLUME_STREAM(String taskValue) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+        double maxVolume = (double)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        double inputVolume = (double)Integer.parseInt(taskValue);
+        int toVolume = (int) (inputVolume / 100.00 * maxVolume);
+        audioManager.setStreamVolume(
+                AudioManager.STREAM_MUSIC, toVolume, AudioManager.FLAG_SHOW_UI);
     }
 }
