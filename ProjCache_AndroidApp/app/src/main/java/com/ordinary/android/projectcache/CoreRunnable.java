@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CoreRunnable implements Runnable {
 
-    public List<Integer> runningEventsID;
     private Context context;                // MainActivity's context
     private ViewPager coreViewPager;
     private Handler mainHandler;
@@ -18,7 +17,7 @@ public class CoreRunnable implements Runnable {
     private CoreModel coreModelDefaultEvent;
     private List<Integer> activatedEventsID;
     private List<Integer> triggerableEventsID;
-    //public static List<Integer> runningEventsID;
+    private List<Integer> runningEventsID;
     private File eventsFile;
 
     CoreRunnable(Context context, File eventsFile, ViewPager coreViewPager) {
@@ -27,16 +26,11 @@ public class CoreRunnable implements Runnable {
         this.mainHandler = new Handler(context.getMainLooper());
         this.eventsFile = eventsFile;
         this.events = new Events(context, eventsFile);
+        this.runningEventsID = new ArrayList<>();
     }
 
     @Override
     public void run() {
-
-        /* TODO: 2019-08-04
-         * 让 YSL 在每次 event 新的event设置完成后在internal storage加一个文件用于告知events class当前存在新的
-         * events变动需要更新。这样CoreRunnable就不需要一直读取csv文件了
-         */
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -66,25 +60,41 @@ public class CoreRunnable implements Runnable {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    activatedEventsID = events.getActivatedEventsIDList();
+                    /* TODO: 2019-08-04
+                     * 让 YSL 在每次 event 新的event设置完成后在MainActivity里放一个static用来标记有events.csv有变化，
+                     * 这样CoreRunnable就不需要一直读取csv文件了
+                     */
+//                    if (MainActivity.eventsChanged == true) {
+//                        events = new Events(context, eventsFile);
+//                    }
 
+                    activatedEventsID = events.getActivatedEventsIDList();
                     CoreConditionInspector cci = new CoreConditionInspector(context, events);
                     triggerableEventsID = cci.getTriggerableEventsID();
-                    List<CoreModel> curCoreModels = new ArrayList<>();
+
+//                    List<CoreModel> curCoreModels = new ArrayList<>();
                     for (Integer i : triggerableEventsID) {
                         Event curEvent = events.getEventByID(i);
                         CoreTasksExecutor curCoreTasksExecutor =
                                 new CoreTasksExecutor(context, curEvent);
-                        String curEventName = events.getEventByID(1).eventName;
-                        curCoreModels.add(new CoreModel(
-                                curCoreTasksExecutor,
-                                curEventName,//events.getEventByID(i).eventName,
-                                context.getResources().getDrawable(R.drawable.ic_menu_manage, null)
-                        ));
+                        // save the coreViewPager feature for later
+//                        String curEventName = events.getEventByID(1).eventName;
+//                        curCoreModels.add(new CoreModel(
+//                                curCoreTasksExecutor,
+//                                curEventName,//events.getEventByID(i).eventName,
+//                                context.getResources().getDrawable(R.drawable.ic_menu_manage, null)
+//                        ));
+                        if (!runningEventsID.contains(curEvent.eventID) && curEvent.autoTrigger == true) {
+                            runningEventsID.add(curEvent.eventID);
+                            curCoreTasksExecutor.startThisEvent();
+                        }
+
                     }
-                    curCoreModels.add(coreModelDefaultEvent);
-                    CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, curCoreModels);
-                    coreViewPager.setAdapter(coreModelAdapter);
+//                    curCoreModels.add(coreModelDefaultEvent);
+//                    CoreModelAdapter coreModelAdapter = new CoreModelAdapter(context, curCoreModels);
+//                    coreViewPager.setAdapter(coreModelAdapter);
+
+
 
                     // In case needed, change the OnPageChangeListener
                     coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
