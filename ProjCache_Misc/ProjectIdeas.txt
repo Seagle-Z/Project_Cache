@@ -1,0 +1,9 @@
+# Utility Ideas:
+    1. GPS Senior tracker.
+    2. Children monitor.
+    3. Event password.
+
+
+# Coding Ideas:
+    1. URL txt file.
+    2. Main page implementation. 
