@@ -22,22 +22,23 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 public class EventSetupPage1Fragment extends Fragment {
     private final String TAG = "EventSetupPage1Fragment";
     private final int REQUEST_CONDITION_CODE = 1001;
-    CustomEventSetupViewPager viewPager;
-    Button addConditionButton;
-    FloatingActionButton forward;
-    ListView conditionListView;
-    ArrayAdapter<String> adapter;
-    View view;
     Event event;
+    private CustomEventSetupViewPager viewPager;
+    private Button addConditionButton;
+    private FloatingActionButton forward;
+    private ListView conditionListView;
+    private ArrayAdapter<String> adapter;
+    private View view;
     private ToolFunctions TF = new ToolFunctions();
     private Map<String, String> conditions = new Hashtable<>();
-    private ArrayList<String> conditionsArrList = new ArrayList<>();
-    private ArrayList<String> selectedConditionTypes = new ArrayList<>();
+    private List<String> conditionsArrList = new ArrayList<>();
+    private List<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
 
     @Nullable
@@ -47,32 +48,45 @@ public class EventSetupPage1Fragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_event_setup_page1, container, false);
+        view = inflater.inflate(
+                R.layout.fragment_event_setup_page1,
+                container,
+                false
+        );
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionListView = (ListView) view.findViewById(R.id.condition_list);
         conditionListView.setTextFilterEnabled(true);
-        adapter = new ArrayAdapter<String>(getContext(), R.layout.layout_general_list, R.id.condition_name, conditionsArrList);
+        adapter = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.layout_general_list,
+                R.id.general_list_textview_text,
+                conditionsArrList
+        );
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
-//        event = new Event(
-//                1234,"test event 2", "2019-08-02",
-//                "19:31", 0,
-//                null, null,
-//                triggerMethod2, triggerValues2,   "12:00#12:05"
-//                tasksTypeStart2, tasksValueStart2,
-//                null, null,
-//                false, false,
-//                true, true,
-//                "" + R.drawable.ic_menu_gallery, 0xffffff,
-//                "NULL", 0);
+
+        event = new Event(
+                1000, null, null,
+                null, 0,
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                false, false,
+                true, true,
+                null, 0xffffff,
+                "NULL", 0);
 
         //The "Select A Condition" button that trigger the
         addConditionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), SetupTriggerMethodSelectionActivity.class);
+                Intent intent = new Intent(
+                        getContext(),
+                        SetupTriggerMethodSelectionActivity.class);
+
                 if (!conditions.isEmpty()) {
                     Bundle bundle = new Bundle();
                     for (Map.Entry m : conditions.entrySet()) {
@@ -88,7 +102,10 @@ public class EventSetupPage1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                if (!conditionsArrList.isEmpty())
+//                {
                 viewPager.setCurrentItem(1);
+                updateEventObj();
+//                }
 //                else {
 //                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
 //                }
@@ -109,7 +126,7 @@ public class EventSetupPage1Fragment extends Fragment {
                         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
                     }
                     editMode = false;
-                    conditions.put("Time", data.getStringExtra("Time"));
+                    conditions.put("TIME", data.getStringExtra("Time"));
                 }
                 if (data.hasExtra("Apps")) {
                     if (!editMode) {
@@ -119,7 +136,7 @@ public class EventSetupPage1Fragment extends Fragment {
                         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
                     }
                     editMode = false;
-                    conditions.put("On-Screen App", data.getStringExtra("Apps"));
+                    conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
                 }
             }
         } catch (NullPointerException e) {
@@ -136,7 +153,6 @@ public class EventSetupPage1Fragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
 
         switch (item.getItemId()) {
             case R.id.edit:
@@ -189,17 +205,39 @@ public class EventSetupPage1Fragment extends Fragment {
                     SetupTriggerMethodDateTimeActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
-            intent.putExtra("RETRIEVE", conditions.get("Time"));
-        }
-        if (selectedConditionTypes.get(position).equals("App")) {
+            intent.putExtra("RETRIEVE", conditions.get("TIME"));
+        } else if (selectedConditionTypes.get(position).equals("App")) {
             intent = new Intent(
                     getContext(),
                     SetupTriggerMethodOnScreenAppActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
-            intent.putExtra("RETRIEVE", conditions.get("On-Screen App"));
+            intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
+        } else if (selectedConditionTypes.get(position).equals("WIFI")) {
+            intent = new Intent(
+                    getContext(),
+                    SetupTriggerMethodWifiActivity.class
+            );
+            intent.putExtra("RETRIEVE", conditions.get("WIFI"));
         }
         return intent;
     }
 
+
+    private void updateEventObj() {
+        String[] methods = new String[conditions.size()];
+        String[] values = new String[conditions.size()];
+        int i = 0;
+        for (Map.Entry m : conditions.entrySet()) {
+            methods[i] = m.getKey().toString();
+            values[i] = m.getValue().toString();
+            i++;
+        }
+        event.triggerMethods = methods;
+        event.triggerValues = values;
+        EventSetupPage2Fragment p2 = new EventSetupPage2Fragment();
+        EventSetupPage3Fragment p3 = new EventSetupPage3Fragment();
+        p2.event = event;
+        p3.event = event;
+    }
 }

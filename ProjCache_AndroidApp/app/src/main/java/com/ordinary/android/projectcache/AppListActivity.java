@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
-    SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<InstalledAppInfo> apps;
     private ListView list;
     private boolean editMode;

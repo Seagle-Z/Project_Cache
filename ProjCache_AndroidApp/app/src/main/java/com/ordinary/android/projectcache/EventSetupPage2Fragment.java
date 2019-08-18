@@ -8,30 +8,88 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 public class EventSetupPage2Fragment extends Fragment {
 
     private static final String TAG = "EventSetupPage2Fragment";
     private final int ADD_TASK_ACTION_CODE = 1001;
-    private final int ADD_END_TASK_CODE = 1002;
+    Event event = null;
     private String AppPackageName = "";
-    CustomEventSetupViewPager viewPager;
-    Button startActionButton, endActionButton;
-    FloatingActionButton forward, previous;
+    private CustomEventSetupViewPager viewPager;
+    private Button startActionButton, ongoingActionButton, endActionButton;
+    private FloatingActionButton forward, previous;
+    private ListView startActionListView, ongoingActionListView, endActionListView;
+    private ArrayAdapter<String> adapterForStartActionListView,
+            adapterForOngoingActionListview, adapterForEndActionListView;
+    private List<String> startActionList = new ArrayList<>();
+    private Map<String, String> startActionKeyValue = new Hashtable<>();
+    private List<String> ongoingActionList = new ArrayList<>();
+    private Map<String, String> ongoingActionKeyValue = new Hashtable<>();
+    private List<String> endActionList = new ArrayList<>();
+    private Map<String, String> endActionKeyValue = new Hashtable<>();
+    private ToolFunctions TF = new ToolFunctions();
+    private PackageManager pm;
+    private int buttonPressCode = -999, selectedEditedPosition;
+    private boolean editMode;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_setup_page2, container, false);
-        forward = (FloatingActionButton) view.findViewById(R.id.page2Forward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
+        pm = getActivity().getPackageManager();
+
+        forward = (FloatingActionButton) view.findViewById(R.id.page2Forward);
+        previous = (FloatingActionButton) view.findViewById(R.id.page2Previous);
         startActionButton = (Button) view.findViewById(R.id.add_startAction);
+        ongoingActionButton = (Button) view.findViewById(R.id.add_ongoingAction);
         endActionButton = (Button) view.findViewById(R.id.add_endAction);
+
+        startActionListView = (ListView) view.findViewById(R.id.start_action_listview);
+        ongoingActionListView = (ListView) view.findViewById(R.id.ongoing_action_listview);
+        endActionListView = (ListView) view.findViewById(R.id.end_action_listview);
+
+        adapterForStartActionListView = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.layout_general_list,
+                R.id.general_list_textview_text,
+                startActionList);
+
+        adapterForOngoingActionListview = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.layout_general_list,
+                R.id.general_list_textview_text,
+                ongoingActionList);
+
+        adapterForEndActionListView = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.layout_general_list,
+                R.id.general_list_textview_text,
+                endActionList);
+
+        startActionListView.setAdapter(adapterForStartActionListView);
+        startActionListView.setTextFilterEnabled(true);
+        registerForContextMenu(startActionListView);
+
+        ongoingActionListView.setAdapter(adapterForOngoingActionListview);
+        ongoingActionListView.setTextFilterEnabled(true);
+        registerForContextMenu(ongoingActionListView);
+
+        endActionListView.setAdapter(adapterForEndActionListView);
+        endActionListView.setTextFilterEnabled(true);
+        registerForContextMenu(endActionListView);
 
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,8 +97,6 @@ public class EventSetupPage2Fragment extends Fragment {
                 viewPager.setCurrentItem(2);
             }
         });
-
-        previous = (FloatingActionButton) view.findViewById(R.id.page2Previous);
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,10 +104,19 @@ public class EventSetupPage2Fragment extends Fragment {
             }
         });
 
-
         startActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonPressCode = 1;
+                Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
+                startActivityForResult(intent, ADD_TASK_ACTION_CODE);
+            }
+        });
+
+        ongoingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonPressCode = 2;
                 Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
@@ -60,27 +125,30 @@ public class EventSetupPage2Fragment extends Fragment {
         endActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonPressCode = 3;
                 Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
         return view;
-    }
 
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_TASK_ACTION_CODE && resultCode == Activity.RESULT_OK) {
             try {
-                if (data.hasExtra("Application")) {
-                    InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
-                    PackageManager pm = getActivity().getPackageManager();
-                    ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
-                    startActionButton.setText("Open Application: " + app.getLabel());
-                    AppPackageName = app.getPackageName();
-                } else if (data.hasExtra("QR")) {
-                    //Waiting for implementation
-                }
+//                if (data.hasExtra("Application")) {
+//                    InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
+//                    PackageManager pm = getActivity().getPackageManager();
+//                    updateArrayForListView(app,buttonPressCode);
+//                    //ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
+//                    //startActionButton.setText("Open Application: " + app.getLabel());
+//                    AppPackageName = app.getPackageName();
+//                } else if (data.hasExtra("QR")) {
+//                    //Waiting for implementation
+//                }
+                updateArrayForListView(data, buttonPressCode);
             } catch (NullPointerException e) {
             }
         }
@@ -88,5 +156,54 @@ public class EventSetupPage2Fragment extends Fragment {
 
     public String getAppPackageName() {
         return AppPackageName;
+    }
+
+    public void updateEventObject(Event e) {
+        this.event = e;
+    }
+
+    //Update the related list based on the case input
+    private void updateArrayForListView(Intent intent, int buttonCode) {
+        if (buttonCode == 1) {
+            if(intent.hasExtra("app"))
+            {
+                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
+                if(!editMode)
+                    startActionList.add("Open Application: " + app.getLabel());
+                else
+                    startActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
+                startActionKeyValue.put("App", app.getPackageName());
+                adapterForStartActionListView.notifyDataSetChanged();
+                TF.setListViewHeightBasedOnChildren(adapterForStartActionListView, startActionListView);
+            }
+        } else if (buttonCode == 2) {
+            if(intent.hasExtra("app"))
+            {
+                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
+                if(!editMode)
+                    ongoingActionList.add("Open Application: " + app.getLabel());
+                else
+                    ongoingActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
+                ongoingActionKeyValue.put("App", app.getPackageName());
+                adapterForOngoingActionListview.notifyDataSetChanged();
+                TF.setListViewHeightBasedOnChildren(adapterForOngoingActionListview,ongoingActionListView);
+            }
+
+        } else if (buttonCode == 3){
+            if(intent.hasExtra("app"))
+            {
+                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
+                if(!editMode)
+                    endActionList.add("Open Application: " + app.getLabel());
+                else
+                    endActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
+                endActionKeyValue.put("App", app.getPackageName());
+                adapterForEndActionListView.notifyDataSetChanged();
+                TF.setListViewHeightBasedOnChildren(adapterForEndActionListView, endActionListView);
+            }
+        } else{
+            //Should never happened
+            Log.d("","No Button Pressed");
+        }
     }
 }

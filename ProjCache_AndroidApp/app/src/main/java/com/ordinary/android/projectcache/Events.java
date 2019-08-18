@@ -480,7 +480,7 @@ class Event {
     String[] tasksTypeEnd;          // The kind of tasks need to do when this event ends
     String[] tasksValueEnd;         // The value for the match task when the event ends
 
-    Boolean momentEvent;            // if true, when event ends, all settings will reset
+    Boolean momentEvent;            // if true, wh en event ends, all settings will reset
     Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
     Boolean autoTrigger;            // if true, this event will start without need to click button
     Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match

@@ -41,12 +41,12 @@ public class TimeSelectorActivity extends AppCompatActivity
                                        time is valid, then activity would be closed and result would
                                        be return to SetupTriggerMethodDateTimeActivity.
      */
-    Button addBeginTimeButton, addEndTimeButton, selectorActivityCompleteButton;
+    private Button addBeginTimeButton, addEndTimeButton, selectorActivityCompleteButton;
 
     //timeRangeOnOffModeSwitch: A switch to turn on time range feature.
-    Switch timeRangeOnOffModeSwitch;
+    private Switch timeRangeOnOffModeSwitch;
     //Use to display in time range mode
-    TextView EndTimeTextView;
+    private TextView EndTimeTextView;
     /*TimeRangeOn: To check whether user decided to use the time range feature, if on,
                    then, EndTimeTextView and addEndTimeButton would be activated.
 

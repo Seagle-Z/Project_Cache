@@ -66,7 +66,7 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
         wifiLISTAdapterView = new ArrayAdapter<String>(
                 wifi_picker_context,
                 R.layout.layout_general_list,
-                R.id.condition_name,
+                R.id.general_list_textview_text,
                 StoredWifi);
 
         selectedWIFIListView.setAdapter(wifiLISTAdapterView);

@@ -35,18 +35,18 @@ public class SetupTriggerMethodDateTimeActivity extends AppCompatActivity
       dateButton: open the DateOcikerDialog
       completeButton: return all selected time value
       */
-    Button timeButton, dateButton, completeButton;
+    private Button timeButton, dateButton, completeButton;
 
-    Context date_time_picker_Context; //Current activity's context
-    ListView timeListView; //ListView for viewing selected time
+    private Context date_time_picker_Context; //Current activity's context
+    private ListView timeListView; //ListView for viewing selected time
 
     //Store selected time for ListView use
-    ArrayList<String> selectedTimeArrList = new ArrayList<>();
+    private ArrayList<String> selectedTimeArrList = new ArrayList<>();
     //To store the actual return value that later will pass back to EventSetupPage1Fragment.
-    ArrayList<String> selectedTimeValue = new ArrayList<>();
+    private ArrayList<String> selectedTimeValue = new ArrayList<>();
     //Used to activated time based on the time calculation
-    List<Boolean> activatedHours = new ArrayList<Boolean>(Arrays.asList(new Boolean[1440]));
-    ArrayAdapter<String> adapterForTimeListView; //Adapter for ListView use only
+    private List<Boolean> activatedHours = new ArrayList<Boolean>(Arrays.asList(new Boolean[1440]));
+    private ArrayAdapter<String> adapterForTimeListView; //Adapter for ListView use only
 
     private int Year, Month, day, selectedEditPosition; //Variable for date information
     private String returnedTime = null; //Variable to store return result from TimeSelectorActivity
@@ -75,7 +75,7 @@ public class SetupTriggerMethodDateTimeActivity extends AppCompatActivity
                 new ArrayAdapter<String>(
                         date_time_picker_Context,
                         R.layout.layout_general_list,
-                        R.id.condition_name,
+                        R.id.general_list_textview_text,
                         selectedTimeArrList
                 );
 
@@ -295,7 +295,7 @@ public class SetupTriggerMethodDateTimeActivity extends AppCompatActivity
             //convert the time into an integer
             int timeSlot = hour * 60 + min;
             //Check the boolean list at the index see if it's already on
-            if (activatedHours.get(timeSlot) == true) {
+            if (activatedHours.get(timeSlot)) {
                 warning.setTitle("Warning");
                 warning.setMessage("Selected hour is already exists on the list");
                 warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

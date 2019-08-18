@@ -23,13 +23,13 @@ import java.util.List;
 public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
 
     private final int APP_PICKING_CODE = 1010;
-    Button addAppButton, completeButton;
-    ListView selectedAppListView;
-    List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>();
-    AppListAdapter appListAdapterView;
-    Context app_picker_context;
-    PackageManager pm;
-    AlertDialog.Builder warning;
+    private Button addAppButton, completeButton;
+    private ListView selectedAppListView;
+    private List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>();
+    private AppListAdapter appListAdapterView;
+    private Context app_picker_context;
+    private PackageManager pm;
+    private AlertDialog.Builder warning;
     private int selectedEditPosition;
     private boolean editMode;
     private InstalledAppInfo returnedApp;

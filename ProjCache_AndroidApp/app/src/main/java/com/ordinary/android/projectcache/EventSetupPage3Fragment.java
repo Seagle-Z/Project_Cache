@@ -23,12 +23,13 @@ import android.widget.Toast;
 public class EventSetupPage3Fragment extends Fragment {
 
     private static final String TAG = "EventSetupPage3Fragment";
-    CustomEventSetupViewPager viewPager;
-    FloatingActionButton previous;
-    EditText eventName;
-    Button complete;
-    SectionsPageAdapter adapter;
-    Switch AutoTriggerSwitch, OneTimeEventSwitch;
+    private CustomEventSetupViewPager viewPager;
+    private FloatingActionButton previous;
+    private EditText eventName;
+    private Button complete;
+    private SectionsPageAdapter adapter;
+    private Switch AutoTriggerSwitch, OneTimeEventSwitch;
+    Event event = null;
     private boolean autoTrigger, oneTimeEvent = false;
 
     @Nullable
