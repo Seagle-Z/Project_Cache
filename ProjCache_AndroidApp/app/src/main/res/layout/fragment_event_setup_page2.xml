@@ -35,9 +35,10 @@
 
 
             <ListView
-                android:layout_width="wrap_content"
+                android:id="@+id/start_action_listview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:isScrollContainer="false"/>
+                android:textAlignment="textStart"/>
 
             <Button
                 android:id="@+id/add_startAction"
@@ -48,6 +49,35 @@
                 android:text="+ Select a start action"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
+
+
+            <TextView
+                android:id="@+id/ongoing_action_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10sp"
+                android:paddingTop="5sp"
+                android:text="During the action"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+
+            <ListView
+                android:id="@+id/ongoing_action_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"/>
+
+            <Button
+                android:id="@+id/add_ongoingAction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:paddingLeft="20dp"
+                android:text="+ Select an ongoing action"
+                android:textAlignment="textStart"
+                android:textAllCaps="false" />
+
 
             <TextView
                 android:id="@+id/end_action"
@@ -60,8 +90,10 @@
                 android:textSize="20sp" />
 
             <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/end_action_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textStart"/>
 
             <Button
                 android:id="@+id/add_endAction"

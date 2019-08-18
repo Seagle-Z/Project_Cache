@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/condition_name"
+        android:id="@+id/general_list_textview_text"
         android:layout_width="match_parent"
         android:layout_height="40sp"
         android:text="Selected Condition"
