@@ -91,7 +91,7 @@ public class EventSetupPage1Fragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         getContext(),
-                        SetupTriggerMethodSelectionActivity.class);
+                        SetupEventConditionSelectionActivity.class);
 
                 if (!conditions.isEmpty()) {
                     Bundle bundle = new Bundle();
@@ -208,21 +208,21 @@ public class EventSetupPage1Fragment extends Fragment {
         if (selectedConditionTypes.get(position).equals("Time")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodDateTimeActivity.class
+                    SetupEventConditionDateTimeActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("TIME"));
         } else if (selectedConditionTypes.get(position).equals("App")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodOnScreenAppActivity.class
+                    SetupEventConditionOnScreenAppActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
         } else if (selectedConditionTypes.get(position).equals("WIFI")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodWifiActivity.class
+                    SetupEventConditionWifiActivity.class
             );
             intent.putExtra("RETRIEVE", conditions.get("WIFI"));
         }

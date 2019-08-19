@@ -39,7 +39,7 @@ public class TimeSelectorActivity extends AppCompatActivity
 
        selectorActivityCompleteButton: The button would check whether user selected valid time, if
                                        time is valid, then activity would be closed and result would
-                                       be return to SetupTriggerMethodDateTimeActivity.
+                                       be return to SetupEventConditionDateTimeActivity.
      */
     private Button addBeginTimeButton, addEndTimeButton, selectorActivityCompleteButton;
 
@@ -97,7 +97,7 @@ public class TimeSelectorActivity extends AppCompatActivity
         WarningDialog.setTitle("Warning");
 
 
-        /*First check the whether the intent is called from the SetupTriggerMethodDateTimeActivity's
+        /*First check the whether the intent is called from the SetupEventConditionDateTimeActivity's
           editMode, if it does, it will activate any editing related feature.
         */
         Intent intent = getIntent();

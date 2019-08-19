@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
+public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
     //Code for WIFISelectorActivity result request only
     private final int WIFI_PICKING_CODE = 1014;
@@ -54,7 +54,7 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trigger_method_wifi);
 
         //User-Interface for Activity
-        wifi_picker_context = SetupTriggerMethodWifiActivity.this;
+        wifi_picker_context = SetupEventConditionWifiActivity.this;
         addWifiButton = findViewById(R.id.add_wifi);
         completeButton = findViewById(R.id.wifi_picker_activity_complete_button);
         selectedWIFIListView = findViewById(R.id.selected_wifi_list);

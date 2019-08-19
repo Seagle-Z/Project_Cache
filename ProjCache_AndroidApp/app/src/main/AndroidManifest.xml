@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetupTriggerMethodWifiActivity"></activity>
+        <activity android:name=".SetupEventConditionWifiActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -31,10 +31,10 @@
         <activity android:name=".AppListActivity" />
         <activity android:name=".EventSetupActivity" />
         <activity android:name=".ActionTaskSelectionActivity" />
-        <activity android:name=".SetupTriggerMethodSelectionActivity" />
-        <activity android:name=".SetupTriggerMethodDateTimeActivity" />
+        <activity android:name=".SetupEventConditionSelectionActivity" />
+        <activity android:name=".SetupEventConditionDateTimeActivity" />
         <activity android:name=".TimeSelectorActivity" />
-        <activity android:name=".SetupTriggerMethodOnScreenAppActivity" />
+        <activity android:name=".SetupEventConditionOnScreenAppActivity" />
     </application>
 
 </manifest>
