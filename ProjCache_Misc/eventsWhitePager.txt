@@ -90,45 +90,62 @@ String
 All same with 10 & 11
 The only different is when the event ends, do tasksTypeEnd & tasksValueEnd
 
-14.
-selfResetEvent
-Boolean
-If true, when the event finish, it reset all the settings back to the
-value when the event start.
+14 & 15
+tasksTypeOngoing & tasksValueOngoing
+constructingAll same with 10 & 11
+The only different is these is triggered during the event running
 
-15.
+
+16.
+tasksOngoingRepeatPeriod
+String
+E.g.
+tasksTypeOngoing            PHONE_CALL|SMS_MESSAGE
+tasksValueOngoing           1234567890|1234567890::"Hello World~""
+tasksOngoingRepeatPeriod    5000|200
+This means that call the number 1234567890 every 5000 minutes, and send "Hello
+World~" by sms message to the number 1234567890 every 200 seconds.
+Careful!: m and s cannot
+
+17.
+instantEvent
+Boolean
+If true, there are only start tasks when the event triggered, after the tasks
+finished, the event finished. 
+
+18.
 oneTimeEvent
 Boolean
 If true, this event will automatically set the isActivated value to false
 
-16.
+19.
 autoTrigger
 Boolean
 If true, this event can be triggered automatically without click the event core card.
 If false, this event can be triggered only when the user click the event core card.
 
-17.
+20.
 isActivated
 Boolean
 If true, this event is activated, and it can be triggered.
 If false, this event is not activated, it cannot be triggered.
 
-18.
+21.
 eventImage
 String
 Store the requirement information to create the Drawable object for the image
 
-19.
+22.
 eventColor
 Integer
 Hexadecimal integer to store the RGB value of the color
 
-20.
+23.
 eventCategory
 String
 The category of the event, used for classify events.
 
-21.
+24.
 executedTimes
 Integer
 How many times did this event executed.

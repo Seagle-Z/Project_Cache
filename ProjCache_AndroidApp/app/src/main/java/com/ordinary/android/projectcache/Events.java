@@ -25,7 +25,7 @@ public class Events {
 
     private List<Event> eventsList;     // store all the events information
     private Event defaultEvent;
-    List<Integer> activatedEventsList;   // store all eventID of activated events (switch is on)
+    public List<Integer> activatedEventsList;   // store all eventID of activated events (switch is on)
 
 
     public Events(Context inputContext, File inputEventsFile) {
@@ -87,7 +87,7 @@ public class Events {
 
 
         //** Hard code modify event for development ****************************************** START
-        //modifyTestingEvents();
+        modifyTestingEvents();
         //** Hard code modify event for development ***************************************** FINISH
 
     }
@@ -105,12 +105,17 @@ public class Events {
         return refreshEvents();
     }
 
-    public boolean deleteEventByID(Integer eventID) {
-        if (eventID > eventsList.size()) {
+    public boolean deleteEventByID(int inputEventID) {
+        if (inputEventID > eventsList.size()) {
             return false;
         }
-
-        eventsList.remove(eventID);
+        for (Event ee : eventsList) {
+            System.out.println("zhegeStart: " + ee.eventID + "  " + ee.eventName);
+        }
+        eventsList.remove(inputEventID);
+        for (Event ee : eventsList) {
+            System.out.println("zhegeEnd  : " + ee.eventID + "  " + ee.eventName);
+        }
         for (int i = 0; i < eventsList.size(); i++) {
             eventsList.get(i).eventID = i;
         }
@@ -118,9 +123,9 @@ public class Events {
         return refreshEvents();
     }
 
-    public boolean deleteEventByName(String dEventName) {
+    public boolean deleteEventByName(String inputEventName) {
         for (Event event : eventsList) {
-            if (event.eventName == dEventName) {
+            if (event.eventName.equals(inputEventName)) {
                 return deleteEventByID(event.eventID);
             }
         }
@@ -139,8 +144,13 @@ public class Events {
         return true;
     }
 
-    public void resetDefaultEvent(Event e){
+    public boolean resetDefaultEvent(Event e) {
+        if (e.eventID != -1) {
+            return false;
+        }
+
         this.defaultEvent = e;
+        return true;
     }
 
     public Event getDefaultEvent() {
@@ -451,37 +461,14 @@ public class Events {
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
-        addEvent(testEvent1);
-        addEvent(testEvent2);
-
-    }
-
-    public void modifyTestingEvents() {
-
-        String[] triggerMethodM1 = {"TIME"}, triggerValuesM1 = {"16:26-23:30"};
-        String[] tasksTypeStartM1 = {"LAUNCH_APP"}, tasksValueStartM1 = {"com.google.android.music"};
-        Event testEventM1 = new Event(
-                2345, "test event 1", "2019-08-03",
-                "19:15", 0,
-                null, null,
-                triggerMethodM1, triggerValuesM1,
-                tasksTypeStartM1, tasksValueStartM1,
-                null, null,
-                null, null, null,
-                false, false,
-                true, true,
-                null, 0x000000,
-                "NULL", 0);
-
-
-        String[] triggerMethodM2 = {"TIME"}, triggerValuesM2 = {"16:05-19:29"};
-        String[] tasksTypeStartM2 = {"VOLUME_STREAM"}, tasksValueStartM2 = {"20"};
-        Event testEventM2 = new Event(
-                1234,"test event 2", "2019-08-02",
+        String[] triggerMethod3 = {"TIME"}, triggerValues3 = {"14:39#14:41"};
+        String[] tasksTypeStart3 = {"VOLUME_STREAM"}, tasksValueStart3 = {"80"};
+        Event testEvent3 = new Event(
+                1234, "test event 3", "2019-08-02",
                 "19:31", 0,
                 null, null,
-                triggerMethodM2, triggerValuesM2,
-                tasksTypeStartM2, tasksValueStartM2,
+                triggerMethod3, triggerValues3,
+                tasksTypeStart3, tasksValueStart3,
                 null, null,
                 null, null, null,
                 false, false,
@@ -489,115 +476,101 @@ public class Events {
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
-        modifyEventByID(0, testEventM1);
-        modifyEventByID(1, testEventM2);
+        addEvent(testEvent1);
+        addEvent(testEvent2);
+        addEvent(testEvent3);
+
+    }
+
+    // modify testing events here
+    public void modifyTestingEvents() {
+
+        String[] triggerMethodM1 = {"TIME"};
+        String[] triggerValuesM1 = {"23:58-23:59"};
+
+        String[] tasksTypeStartM1 = {"LAUNCH_APP"};
+        String[] tasksValueStartM1 = {"com.google.android.music"};
+
+        String[] tasksTypeEndM1 = null;
+        String[] tasksValueEndM1 = null;
+
+        String[] tasksTypeOngoingM1 = null;
+        String[] tasksValueOngoingM1 = null;
+        String[] tasksOngoingRepeatPeriodM1 = null;
+
+        Event testEventM1 = new Event(
+                2345, "test event 1", "2019-08-03",
+                "19:15", 0,
+                null, null,
+                triggerMethodM1, triggerValuesM1,
+                tasksTypeStartM1, tasksValueStartM1,
+                tasksTypeEndM1, tasksValueEndM1,
+                tasksTypeOngoingM1, tasksValueOngoingM1, tasksOngoingRepeatPeriodM1,
+                false, false,
+                true, true,
+                null, 0x000000,
+                "NULL", 0);
+
+
+        // test event 2
+        String[] triggerMethodM2 = {"TIME"};
+        String[] triggerValuesM2 = {"0:00-23:59"};
+
+        String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
+        String[] tasksValueStartM2 = {"100"};
+
+        String[] tasksTypeEndM2 = null;
+        String[] tasksValueEndM2 = null;
+
+        String[] tasksTypeOngoingM2 = null;
+        String[] tasksValueOngoingM2 = null;
+        String[] tasksOngoingRepeatPeriodM2 = null;
+
+        Event testEventM2 = new Event(
+                1234,"test event 2", "2019-08-02",
+                "19:31", 0,
+                null, null,
+                triggerMethodM2, triggerValuesM2,
+                tasksTypeStartM2, tasksValueStartM2,
+                tasksTypeEndM2, tasksValueEndM2,
+                tasksTypeOngoingM2, tasksValueOngoingM2, tasksOngoingRepeatPeriodM2,
+                false, false,
+                true, true,
+                "" + R.drawable.ic_menu_gallery, 0xffffff,
+                "NULL", 0);
+
+
+        // test event 3
+        String[] triggerMethodM3 = {"TIME"};
+        String[] triggerValuesM3 = {"14:39#14:41"};
+
+        String[] tasksTypeStartM3 = {"VOLUME_STREAM"};
+        String[] tasksValueStartM3 = {"80"};
+
+        String[] tasksTypeEndM3 = null;
+        String[] tasksValueEndM3 = null;
+
+        String[] tasksTypeOngoingM3 = null;
+        String[] tasksValueOngoingM3 = null;
+        String[] tasksOngoingRepeatPeriodM3 = null;
+
+        Event testEventM3 = new Event(
+                1234, "test event 3", "2019-08-02",
+                "19:31", 0,
+                null, null,
+                triggerMethodM3, triggerValuesM3,
+                tasksTypeStartM3, tasksValueStartM3,
+                tasksTypeEndM3, tasksValueEndM3,
+                tasksTypeOngoingM3, tasksValueOngoingM3, tasksOngoingRepeatPeriodM3,
+                false, false,
+                true, true,
+                "" + R.drawable.ic_menu_gallery, 0xffffff,
+                "NULL", 0);
+
+        modifyEventByName("test event 1", testEventM1);
+        modifyEventByName("test event 2", testEventM2);
+        modifyEventByName("test event 3", testEventM3);
 
     }
     //** Hard code some event for development FINISH **************************************** FINISH
-}
-
-class Event {
-
-    Integer eventID;                // It is always unique, automatically generated programmatically
-    String eventName;
-
-    String createDate;
-    String createTime;
-    Integer priorityLevel;          // Normal is 0, bigger is higher priority level
-
-    String[] triggerableDay;        // the day that the event be able to trigger
-    String[] triggerableTime;       // the timeButton period that the event be able to trigger
-
-    String[] triggerMethods;        // The methods for start this event
-    String[] triggerValues;         // The value for the match method for start this event
-
-    String[] tasksTypeStart;        // The kind of tasks need to do when this event starts
-    String[] tasksValueStart;       // The value for the match task when the event starts
-
-    String[] tasksTypeOngoing;
-    String[] tasksValueOngoing;
-    String[] tasksOngoingRepeatPeriod;
-
-    String[] tasksTypeEnd;          // The kind of tasks need to do when this event ends
-    String[] tasksValueEnd;         // The value for the match task when the event ends
-
-    Boolean instantEvent;            // The event only n
-    Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
-    Boolean autoTrigger;            // if true, this event will start without need to click button
-    Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
-
-    String eventImage;              // String imageUri = "drawable://" + R.drawable.image;
-    Integer eventColor;
-    String eventCategory;           // for future usage
-    Integer executedTimes;          // How many times did this event has been used
-
-    public Event(Integer eventID, String eventName, String createDate,
-                 String createTime, Integer priorityLevel,
-                 String[] triggerableDay, String[] triggerableTime,
-                 String[] triggerMethods, String[] triggerValues,
-                 String[] tasksTypeStart, String[] tasksValueStart,
-                 String[] tasksTypeEnd, String[] tasksValueEnd,
-                 String[] tasksTypeOngoing, String[] tasksValueOngoing, String[] tasksOngoingRepeatPeriod,
-                 Boolean instantEvent, Boolean oneTimeEvent,
-                 Boolean autoTrigger, Boolean isActivated,
-                 String eventImage, Integer eventColor,
-                 String eventCategory, Integer executedTimes) {
-
-        this.eventID = eventID;
-        this.eventName = eventName;
-        this.createDate = createDate;
-        this.createTime = createTime;
-        this.priorityLevel = priorityLevel;
-
-        this.triggerableDay = triggerableDay;
-        this.triggerableTime = triggerableTime;
-        this.triggerMethods = triggerMethods;
-        this.triggerValues = triggerValues;
-
-        this.tasksTypeStart = tasksTypeStart;
-        this.tasksValueStart = tasksValueStart;
-        this.tasksTypeEnd = tasksTypeEnd;
-        this.tasksValueEnd = tasksValueEnd;
-        this.tasksTypeOngoing = tasksTypeOngoing;
-        this.tasksValueOngoing = tasksValueOngoing;
-        this.tasksOngoingRepeatPeriod = tasksOngoingRepeatPeriod;
-
-        this.instantEvent = instantEvent;
-        this.oneTimeEvent = oneTimeEvent;
-        this.autoTrigger = autoTrigger;
-        this.isActivated = isActivated;
-
-        this.eventImage = eventImage;
-        this.eventColor = eventColor;
-        this.eventCategory = eventCategory;
-        this.executedTimes = executedTimes;
-
-    }
-
-//    public Event(Event e) {
-//        this.eventID = e.eventID;
-//        this.eventName = e.eventName;
-//        this.createDate = e.createDate;
-//        this.createTime = e.createTime;
-//        this.priorityLevel = e.priorityLevel;
-//
-//        this.triggerableDay = e.triggerableDay;
-//        this.triggerableTime = e.triggerableTime;
-//
-//        this.triggerMethods = e.triggerMethods;
-//        this.triggerValues = e.triggerValues;
-//        this.tasksTypeStart = e.tasksTypeStart;
-//        this.tasksValueStart = e.tasksValueStart;
-//
-//        this.tasksTypeEnd = e.tasksTypeEnd;
-//        this.tasksValueEnd = e.tasksValueEnd;
-//
-//        this.instantEvent = e.instantEvent;
-//        this.oneTimeEvent = e.oneTimeEvent;
-//        this.autoTrigger = e.autoTrigger;
-//        this.isActivated = e.isActivated;
-//
-//        this.eventCategory = e.eventCategory;
-//        this.executedTimes = e.executedTimes;
-//    }
 }
