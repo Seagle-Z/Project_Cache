@@ -40,7 +40,9 @@ public class EventSetupPage1Fragment extends Fragment {
     private List<String> conditionsArrList = new ArrayList<>();
     private List<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
-
+    private SectionsPageAdapter sectionsPageAdapter;
+    private EventSetupPage2Fragment p2;
+    private EventSetupPage3Fragment p3;
     @Nullable
     @Override
     public View onCreateView(
@@ -66,7 +68,9 @@ public class EventSetupPage1Fragment extends Fragment {
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
-
+        sectionsPageAdapter = (SectionsPageAdapter) viewPager.getAdapter();
+        p2 = (EventSetupPage2Fragment) sectionsPageAdapter.getItem(1);
+        p3 = (EventSetupPage3Fragment) sectionsPageAdapter.getItem(2);
         event = new Event(
                 1000, null, null,
                 null, 0,
@@ -74,6 +78,7 @@ public class EventSetupPage1Fragment extends Fragment {
                 null, null,
                 null, null,
                 null, null,
+                null, null, null,
                 false, false,
                 true, true,
                 null, 0xffffff,
@@ -235,8 +240,6 @@ public class EventSetupPage1Fragment extends Fragment {
         }
         event.triggerMethods = methods;
         event.triggerValues = values;
-        EventSetupPage2Fragment p2 = new EventSetupPage2Fragment();
-        EventSetupPage3Fragment p3 = new EventSetupPage3Fragment();
         p2.event = event;
         p3.event = event;
     }
