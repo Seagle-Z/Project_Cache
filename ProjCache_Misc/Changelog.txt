@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# 08/18/2019
+    #[b_jx]
+        1. Separate the Event class, made it as a single public class
+        2. Fixed the deleteEvent() and modifyEvent() bugs. They work good now.
+        3. modifyTestingEvents() in Events class workable. 
+
 # 08/17/2019
     #[b_jx]
         1. Added VOLUME_STREAM control to CoreTasksExecutor.
