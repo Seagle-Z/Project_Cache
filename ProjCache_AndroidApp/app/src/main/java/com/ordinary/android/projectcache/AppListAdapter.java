@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
+public class AppListAdapter extends ArrayAdapter<AppInfoModel> {
     private LayoutInflater inflater;
     private PackageManager pm;
-    private List<InstalledAppInfo> apps;
+    private List<AppInfoModel> apps;
 
-    public AppListAdapter(Context context, List<InstalledAppInfo> apps) {
+    public AppListAdapter(Context context, List<AppInfoModel> apps) {
         super(context, R.layout.layout_app_list, apps);
         inflater = LayoutInflater.from(context);
         pm = context.getPackageManager();
@@ -28,12 +28,12 @@ public class AppListAdapter extends ArrayAdapter<InstalledAppInfo> {
 
     @Override
     public View getView(int position, @Nullable View ConvertView, @NonNull ViewGroup parent) {
-        InstalledAppInfo current = apps.get(position);
+        AppInfoModel current = apps.get(position);
         View view = ConvertView;
 
         if (view == null) {
             /* With this inflater, the list would expand dynamically based on the number of object from
-             * the List<InstalledAppInfo> apps
+             * the List<AppInfoModel> apps
              */
             view = inflater.inflate(R.layout.layout_app_list, parent, false);
         }

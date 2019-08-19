@@ -20,19 +20,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
+public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
 
     private final int APP_PICKING_CODE = 1010;
     private Button addAppButton, completeButton;
     private ListView selectedAppListView;
-    private List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>();
+    private List<AppInfoModel> selectedAppArrList = new ArrayList<AppInfoModel>();
     private AppListAdapter appListAdapterView;
     private Context app_picker_context;
     private PackageManager pm;
     private AlertDialog.Builder warning;
     private int selectedEditPosition;
     private boolean editMode;
-    private InstalledAppInfo returnedApp;
+    private AppInfoModel returnedApp;
     private String retrieveAppList;
     //private ArrayList<String> selectedAppDomainName = new ArrayList<>();
     private ToolFunctions TF = new ToolFunctions();
@@ -41,11 +41,11 @@ public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trigger_method_app_launch);
-        app_picker_context = SetupTriggerMethodOnScreenAppActivity.this;
+        app_picker_context = SetupEventConditionOnScreenAppActivity.this;
         addAppButton = (Button) findViewById(R.id.add_app);
         completeButton = (Button) findViewById(R.id.application_picker_activity_complete_button);
         selectedAppListView = (ListView) findViewById(R.id.selected_app_list);
-        pm = SetupTriggerMethodOnScreenAppActivity.this.getPackageManager();
+        pm = SetupEventConditionOnScreenAppActivity.this.getPackageManager();
         warning = new AlertDialog.Builder(app_picker_context);
         selectedAppListView.setTextFilterEnabled(true);
 //        adapterForTimeListView = new ArrayAdapter<String>(app_picker_context, R.layout.layout_app_list, R.id.condition_name, selectedAppArrList);
@@ -106,7 +106,7 @@ public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
                 String[] timeRangeDivider = retrieveAppList.split("#");
                 System.out.println(timeRangeDivider.length);
                 for (String s : timeRangeDivider) {
-                    InstalledAppInfo info = getReturnedApp(s);
+                    AppInfoModel info = getReturnedApp(s);
                     selectedAppArrList.add(info);
                 }
                 appListAdapterView.notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
         try {
             if (requestCode == APP_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("app")) {
-                    returnedApp = (InstalledAppInfo) data.getSerializableExtra("app");
+                    returnedApp = (AppInfoModel) data.getSerializableExtra("app");
                     if (returnedApp != null) {
                         if (!checkDuplicate(returnedApp, selectedAppArrList)) {
                             try {
@@ -184,10 +184,10 @@ public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkDuplicate(InstalledAppInfo app, List<InstalledAppInfo> applist) {
+    public boolean checkDuplicate(AppInfoModel app, List<AppInfoModel> applist) {
         if (!applist.isEmpty()) {
-            for (InstalledAppInfo installedAppInfo : applist) {
-                if (installedAppInfo.getPackageName().equals(app.getPackageName())) {
+            for (AppInfoModel appInfoModel : applist) {
+                if (appInfoModel.getPackageName().equals(app.getPackageName())) {
                     warning.setTitle("Warning");
                     warning.setMessage("Application is already on the list.");
                     warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
@@ -203,10 +203,10 @@ public class SetupTriggerMethodOnScreenAppActivity extends AppCompatActivity {
         return false;
     }
 
-    public InstalledAppInfo getReturnedApp(String packageName) {
-        InstalledAppInfo app = null;
+    public AppInfoModel getReturnedApp(String packageName) {
+        AppInfoModel app = null;
         try {
-            app = new InstalledAppInfo(packageName,
+            app = new AppInfoModel(packageName,
                     pm.getApplicationInfo(
                             packageName, 0).loadLabel(pm).toString(),
                     pm.getApplicationIcon(packageName));

@@ -8,13 +8,13 @@ import android.widget.LinearLayout;
 public class EventSetupActivity extends AppCompatActivity {
 
     private static final String TAG = "EventSetupActivity";
-    private SectionsPageAdapter mSectionsPageAdapter;
+    private EventSetupPageAdapter mEventSetupPageAdapter;
     private CustomEventSetupViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_setup);
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        mEventSetupPageAdapter = new EventSetupPageAdapter(getSupportFragmentManager());
 
         mViewPager = (CustomEventSetupViewPager) findViewById(R.id.setup_viewPager);
         setupViewPager(mViewPager);
@@ -30,7 +30,7 @@ public class EventSetupActivity extends AppCompatActivity {
 
     private void setupViewPager(CustomEventSetupViewPager viewPager)
     {
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
+        EventSetupPageAdapter adapter = new EventSetupPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new EventSetupPage1Fragment(), "Condition");
         adapter.addFragment(new EventSetupPage2Fragment(), "Actions");
         adapter.addFragment(new EventSetupPage3Fragment(), "Event Summary");

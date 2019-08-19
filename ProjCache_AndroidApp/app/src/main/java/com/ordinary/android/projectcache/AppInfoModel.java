@@ -8,12 +8,12 @@ import java.io.Serializable;
  * includes all the information for any application on the system. Including label, package name,
  * Package icon etc. */
 
-public class InstalledAppInfo implements Serializable {
+public class AppInfoModel implements Serializable {
     private String packageName;
     private String label;
     private transient Drawable packageIcon;
 
-    public InstalledAppInfo(String pName, String pLabel, Drawable pIcon)
+    public AppInfoModel(String pName, String pLabel, Drawable pIcon)
     {
         packageName = pName;
         label = pLabel;

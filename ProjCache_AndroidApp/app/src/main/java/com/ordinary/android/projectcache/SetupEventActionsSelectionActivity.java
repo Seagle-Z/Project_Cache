@@ -2,7 +2,6 @@ package com.ordinary.android.projectcache;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class ActionTaskSelectionActivity extends AppCompatActivity {
+public class SetupEventActionsSelectionActivity extends AppCompatActivity {
 
     private final int REQUEST_APP_LIST_CODE = 1001;
     private final String LAUNCH_APP = "Launch An App";
@@ -56,7 +55,7 @@ public class ActionTaskSelectionActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (actionArrList.get(position)) {
                     case LAUNCH_APP:
-                        Intent intent = new Intent(ActionTaskSelectionActivity.this, AppListActivity.class);
+                        Intent intent = new Intent(SetupEventActionsSelectionActivity.this, AppListActivity.class);
                         startActivityForResult(intent, REQUEST_APP_LIST_CODE);
                         break;
                     case QR_CODE:

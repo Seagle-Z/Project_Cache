@@ -2,39 +2,39 @@ package com.ordinary.android.projectcache;
 
 public class Event {
 
-    public Integer eventID;                // It is always unique, automatically generated programmatically
-    public String eventName;
+    public Integer  eventID;                // It is always unique, automatically generated programmatically
+    public String   eventName;
 
-    public String createDate;
-    public String createTime;
-    public Integer priorityLevel;          // Normal is 0, bigger is higher priority level
+    public String   createDate;
+    public String   createTime;
+    public Integer  priorityLevel;          // Normal is 0, bigger is higher priority level
 
-    public String[] triggerableDay;        // the day that the event be able to trigger
-    public String[] triggerableTime;       // the timeButton period that the event be able to trigger
+    public String[] triggerableDay;         // the day that the event be able to trigger
+    public String[] triggerableTime;        // the timeButton period that the event be able to trigger
 
-    public String[] triggerMethods;        // The methods for start this event
-    public String[] triggerValues;         // The value for the match method for start this event
+    public String[] triggerMethods;         // The methods for start this event
+    public String[] triggerValues;          // The value for the match method for start this event
 
-    public String[] tasksTypeStart;        // The kind of tasks need to do when this event starts
-    public String[] tasksValueStart;       // The value for the match task when the event starts
+    public String[] tasksTypeStart;         // The kind of tasks need to do when this event starts
+    public String[] tasksValueStart;        // The value for the match task when the event starts
 
-    public String[] tasksTypeEnd;          // The kind of tasks need to do when this event ends
-    public String[] tasksValueEnd;         // The value for the match task when the event ends
+    public String[] tasksTypeEnd;           // The kind of tasks need to do when this event ends
+    public String[] tasksValueEnd;          // The value for the match task when the event ends
 
     public String[] tasksTypeOngoing;
     public String[] tasksValueOngoing;
     public String[] tasksOngoingRepeatPeriod;
 
-    public Boolean instantEvent;           // The event only n
-    public Boolean oneTimeEvent;           // if true, this event will only execute once, after that, it will be deleted
-    public Boolean autoTrigger;            // if true, this event will start without need to click button
-    public Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
+    public Boolean  instantEvent;            // The event only n
+    public Boolean  oneTimeEvent;            // if true, this event will only execute once, after that, it will be deleted
+    public Boolean  autoTrigger;             // if true, this event will start without need to click button
+    public Boolean  isActivated;             // if false, the event will not happen although the trigger conditionsArrList match
 
-    public String eventDescription;
-    public String eventImage;              // String imageUri = "drawable://" + R.drawable.image;
-    public Integer eventColor;
-    public String eventCategory;           // for future usage
-    public Integer executedTimes;          // How many times did this event has been used
+    public String   eventDescription;
+    public String   eventImage;              // String imageUri = "drawable://" + R.drawable.image;
+    public Integer  eventColor;
+    public String   eventCategory;           // for future usage
+    public Integer  executedTimes;           // How many times did this event has been used
 
     public Event(Integer eventID, String eventName, String createDate,
                  String createTime, Integer priorityLevel,

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ActionTaskSelectionActivity">
+    tools:context=".SetupEventActionsSelectionActivity">
 
     <TextView
         android:id="@+id/action_option_layout_title"

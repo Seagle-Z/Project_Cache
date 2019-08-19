@@ -40,7 +40,7 @@ public class EventSetupPage1Fragment extends Fragment {
     private List<String> conditionsArrList = new ArrayList<>();
     private List<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
-    private SectionsPageAdapter sectionsPageAdapter;
+    private EventSetupPageAdapter eventSetupPageAdapter;
     private EventSetupPage2Fragment p2;
     private EventSetupPage3Fragment p3;
     @Nullable
@@ -68,9 +68,9 @@ public class EventSetupPage1Fragment extends Fragment {
         conditionListView.setAdapter(adapter);
         registerForContextMenu(conditionListView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
-        sectionsPageAdapter = (SectionsPageAdapter) viewPager.getAdapter();
-        p2 = (EventSetupPage2Fragment) sectionsPageAdapter.getItem(1);
-        p3 = (EventSetupPage3Fragment) sectionsPageAdapter.getItem(2);
+        eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
+        p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
+        p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
         event = new Event(
                 1000, null, null,
                 null, 0,
@@ -91,7 +91,7 @@ public class EventSetupPage1Fragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(
                         getContext(),
-                        SetupTriggerMethodSelectionActivity.class);
+                        SetupEventConditionsSelectionActivity.class);
 
                 if (!conditions.isEmpty()) {
                     Bundle bundle = new Bundle();
@@ -208,21 +208,21 @@ public class EventSetupPage1Fragment extends Fragment {
         if (selectedConditionTypes.get(position).equals("Time")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodDateTimeActivity.class
+                    SetupEventConditionDateTimeActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("TIME"));
         } else if (selectedConditionTypes.get(position).equals("App")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodOnScreenAppActivity.class
+                    SetupEventConditionOnScreenAppActivity.class
             );
             //Pack the value that selected from the list and send to TimeSelectorActivity
             intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
         } else if (selectedConditionTypes.get(position).equals("WIFI")) {
             intent = new Intent(
                     getContext(),
-                    SetupTriggerMethodWifiActivity.class
+                    SetupEventConditionWifiActivity.class
             );
             intent.putExtra("RETRIEVE", conditions.get("WIFI"));
         }
