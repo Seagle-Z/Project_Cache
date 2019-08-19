@@ -57,6 +57,17 @@
                     android:textAllCaps="false" />
 
                 <Button
+                    android:id="@+id/add_previous_wifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="20dp"
+                    android:text="+ Add Previously Saved WIFI"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false" />
+
+
+                <Button
                     android:id="@+id/wifi_picker_activity_complete_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
