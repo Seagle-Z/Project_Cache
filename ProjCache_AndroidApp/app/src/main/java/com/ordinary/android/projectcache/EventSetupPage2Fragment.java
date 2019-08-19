@@ -43,6 +43,9 @@ public class EventSetupPage2Fragment extends Fragment {
     private PackageManager pm;
     private int buttonPressCode = -999, selectedEditedPosition;
     private boolean editMode;
+    private EventSetupPage1Fragment p1;
+    private EventSetupPage3Fragment p3;
+    private SectionsPageAdapter adapter;
 
     @Nullable
     @Override
@@ -60,6 +63,10 @@ public class EventSetupPage2Fragment extends Fragment {
         startActionListView = (ListView) view.findViewById(R.id.start_action_listview);
         ongoingActionListView = (ListView) view.findViewById(R.id.ongoing_action_listview);
         endActionListView = (ListView) view.findViewById(R.id.end_action_listview);
+
+        adapter = (SectionsPageAdapter) viewPager.getAdapter();
+        p1 = (EventSetupPage1Fragment) adapter.getItem(0);
+        p3 = (EventSetupPage3Fragment) adapter.getItem(2);
 
         adapterForStartActionListView = new ArrayAdapter<String>(
                 getContext(),
@@ -101,6 +108,7 @@ public class EventSetupPage2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 viewPager.setCurrentItem(0);
+                System.out.println(p1.event.eventID);
             }
         });
 
@@ -165,45 +173,47 @@ public class EventSetupPage2Fragment extends Fragment {
     //Update the related list based on the case input
     private void updateArrayForListView(Intent intent, int buttonCode) {
         if (buttonCode == 1) {
-            if(intent.hasExtra("app"))
-            {
-                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
-                if(!editMode)
-                    startActionList.add("Open Application: " + app.getLabel());
-                else
-                    startActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-                startActionKeyValue.put("App", app.getPackageName());
-                adapterForStartActionListView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(adapterForStartActionListView, startActionListView);
-            }
+            addToRelatedList(
+                    startActionList, startActionKeyValue,
+                    adapterForStartActionListView, intent,
+                    startActionListView);
         } else if (buttonCode == 2) {
             if(intent.hasExtra("app"))
             {
-                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
-                if(!editMode)
-                    ongoingActionList.add("Open Application: " + app.getLabel());
-                else
-                    ongoingActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-                ongoingActionKeyValue.put("App", app.getPackageName());
-                adapterForOngoingActionListview.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(adapterForOngoingActionListview,ongoingActionListView);
+                addToRelatedList(
+                        ongoingActionList, ongoingActionKeyValue,
+                        adapterForOngoingActionListview, intent,
+                        ongoingActionListView);
             }
 
         } else if (buttonCode == 3){
             if(intent.hasExtra("app"))
             {
-                InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
-                if(!editMode)
-                    endActionList.add("Open Application: " + app.getLabel());
-                else
-                    endActionList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-                endActionKeyValue.put("App", app.getPackageName());
-                adapterForEndActionListView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(adapterForEndActionListView, endActionListView);
+                addToRelatedList(
+                        endActionList, endActionKeyValue,
+                        adapterForEndActionListView, intent,
+                        endActionListView);
             }
         } else{
             //Should never happened
             Log.d("","No Button Pressed");
+        }
+    }
+
+    private void addToRelatedList(List<String> editingList, Map<String, String> editingHashtable,
+                                  ArrayAdapter<?> adapter, Intent intent,
+                                  ListView editingListView)
+    {
+        if(intent.hasExtra("app"))
+        {
+            InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
+            if(!editMode)
+                editingList.add("Open Application: " + app.getLabel());
+            else
+                editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
+            editingHashtable.put("App", app.getPackageName());
+            adapter.notifyDataSetChanged();
+            TF.setListViewHeightBasedOnChildren(adapter, editingListView);
         }
     }
 }
