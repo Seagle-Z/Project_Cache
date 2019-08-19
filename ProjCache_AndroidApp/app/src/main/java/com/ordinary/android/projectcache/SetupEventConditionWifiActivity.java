@@ -55,7 +55,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trigger_method_wifi);
+        setContentView(R.layout.activity_setup_event_condition_wifi);
 
         //User-Interface for Activity
         wifi_picker_context = SetupEventConditionWifiActivity.this;

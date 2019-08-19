@@ -31,7 +31,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_action_task_selection);
+        setContentView(R.layout.activity_setup_event_actions_selection);
 
         actionListView = (ListView) findViewById(R.id.action_types);
         actionListView.setTextFilterEnabled(true);

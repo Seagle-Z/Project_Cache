@@ -35,7 +35,7 @@ public class SetupEventConditionsSelectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trigger_method_selection);
+        setContentView(R.layout.activity_setup_event_conditions_selection);
         conditions.put("LOCATION", GPS);
         conditions.put("BLUETOOTH", BT);
         conditions.put("WIFI", WIFI);

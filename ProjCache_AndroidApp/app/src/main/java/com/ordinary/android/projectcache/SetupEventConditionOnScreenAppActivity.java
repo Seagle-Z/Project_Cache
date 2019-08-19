@@ -40,7 +40,7 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trigger_method_app_launch);
+        setContentView(R.layout.activity_setup_event_condition_on_screen_app);
         app_picker_context = SetupEventConditionOnScreenAppActivity.this;
         addAppButton = (Button) findViewById(R.id.add_app);
         completeButton = (Button) findViewById(R.id.application_picker_activity_complete_button);

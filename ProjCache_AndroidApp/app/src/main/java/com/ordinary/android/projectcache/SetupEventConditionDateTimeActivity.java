@@ -60,7 +60,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trigger_method_date_time);
+        setContentView(R.layout.activity_setup_event_condition_date_time);
         date_time_picker_Context = SetupEventConditionDateTimeActivity.this;
         timeButton = findViewById(R.id.add_time);
         dateButton = findViewById(R.id.add_date);
