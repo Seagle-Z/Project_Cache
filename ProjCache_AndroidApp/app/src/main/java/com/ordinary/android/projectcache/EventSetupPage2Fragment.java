@@ -147,7 +147,7 @@ public class EventSetupPage2Fragment extends Fragment {
         if (requestCode == ADD_TASK_ACTION_CODE && resultCode == Activity.RESULT_OK) {
             try {
 //                if (data.hasExtra("Application")) {
-//                    InstalledAppInfo app = (InstalledAppInfo) data.getSerializableExtra("App");
+//                    AppInfoModel app = (AppInfoModel) data.getSerializableExtra("App");
 //                    PackageManager pm = getActivity().getPackageManager();
 //                    updateArrayForListView(app,buttonPressCode);
 //                    //ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
@@ -206,7 +206,7 @@ public class EventSetupPage2Fragment extends Fragment {
     {
         if(intent.hasExtra("app"))
         {
-            InstalledAppInfo app = (InstalledAppInfo) intent.getSerializableExtra("app");
+            AppInfoModel app = (AppInfoModel) intent.getSerializableExtra("app");
             if(!editMode)
                 editingList.add("Open Application: " + app.getLabel());
             else

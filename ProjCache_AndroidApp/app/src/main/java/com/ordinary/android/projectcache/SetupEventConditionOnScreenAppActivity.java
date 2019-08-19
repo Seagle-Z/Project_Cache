@@ -25,14 +25,14 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
     private final int APP_PICKING_CODE = 1010;
     private Button addAppButton, completeButton;
     private ListView selectedAppListView;
-    private List<InstalledAppInfo> selectedAppArrList = new ArrayList<InstalledAppInfo>();
+    private List<AppInfoModel> selectedAppArrList = new ArrayList<AppInfoModel>();
     private AppListAdapter appListAdapterView;
     private Context app_picker_context;
     private PackageManager pm;
     private AlertDialog.Builder warning;
     private int selectedEditPosition;
     private boolean editMode;
-    private InstalledAppInfo returnedApp;
+    private AppInfoModel returnedApp;
     private String retrieveAppList;
     //private ArrayList<String> selectedAppDomainName = new ArrayList<>();
     private ToolFunctions TF = new ToolFunctions();
@@ -106,7 +106,7 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
                 String[] timeRangeDivider = retrieveAppList.split("#");
                 System.out.println(timeRangeDivider.length);
                 for (String s : timeRangeDivider) {
-                    InstalledAppInfo info = getReturnedApp(s);
+                    AppInfoModel info = getReturnedApp(s);
                     selectedAppArrList.add(info);
                 }
                 appListAdapterView.notifyDataSetChanged();
@@ -121,7 +121,7 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
         try {
             if (requestCode == APP_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("app")) {
-                    returnedApp = (InstalledAppInfo) data.getSerializableExtra("app");
+                    returnedApp = (AppInfoModel) data.getSerializableExtra("app");
                     if (returnedApp != null) {
                         if (!checkDuplicate(returnedApp, selectedAppArrList)) {
                             try {
@@ -184,10 +184,10 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkDuplicate(InstalledAppInfo app, List<InstalledAppInfo> applist) {
+    public boolean checkDuplicate(AppInfoModel app, List<AppInfoModel> applist) {
         if (!applist.isEmpty()) {
-            for (InstalledAppInfo installedAppInfo : applist) {
-                if (installedAppInfo.getPackageName().equals(app.getPackageName())) {
+            for (AppInfoModel appInfoModel : applist) {
+                if (appInfoModel.getPackageName().equals(app.getPackageName())) {
                     warning.setTitle("Warning");
                     warning.setMessage("Application is already on the list.");
                     warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
@@ -203,10 +203,10 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
         return false;
     }
 
-    public InstalledAppInfo getReturnedApp(String packageName) {
-        InstalledAppInfo app = null;
+    public AppInfoModel getReturnedApp(String packageName) {
+        AppInfoModel app = null;
         try {
-            app = new InstalledAppInfo(packageName,
+            app = new AppInfoModel(packageName,
                     pm.getApplicationInfo(
                             packageName, 0).loadLabel(pm).toString(),
                     pm.getApplicationIcon(packageName));

@@ -20,7 +20,7 @@ import java.io.FileOutputStream;
 
 public class ToolFunctions {
 
-    public static Drawable ButtonIconProcessing(Context context, PackageManager pm, InstalledAppInfo app) {
+    public static Drawable ButtonIconProcessing(Context context, PackageManager pm, AppInfoModel app) {
         Drawable dResult = null;
         try {
             Drawable d = pm.getApplicationIcon(app.getPackageName());

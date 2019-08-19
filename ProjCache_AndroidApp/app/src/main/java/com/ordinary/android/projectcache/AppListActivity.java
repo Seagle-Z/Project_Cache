@@ -21,7 +21,7 @@ import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
-    private List<InstalledAppInfo> apps;
+    private List<AppInfoModel> apps;
     private ListView list;
     private boolean editMode;
 
@@ -56,7 +56,7 @@ public class AppListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //Check where does the user click on
-                InstalledAppInfo app = (InstalledAppInfo) parent.getItemAtPosition(position);
+                AppInfoModel app = (AppInfoModel) parent.getItemAtPosition(position);
                 Intent intent = new Intent(); //Create a new intent object to for data returning use.
                 intent.putExtra("app", app);
                 setResult(Activity.RESULT_OK, intent);
@@ -78,7 +78,7 @@ public class AppListActivity extends AppCompatActivity {
     }
 
 
-    class LoadAppInfoTask extends AsyncTask<Integer, Integer, List<InstalledAppInfo>> {
+    class LoadAppInfoTask extends AsyncTask<Integer, Integer, List<AppInfoModel>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -86,12 +86,12 @@ public class AppListActivity extends AppCompatActivity {
         }
 
         /*Start collecting application information via packageManager. Then creating small
-          installed Application object, check InstalledAppInfo for more information. Insert app objects
+          installed Application object, check AppInfoModel for more information. Insert app objects
           into the List then return to the listView for viewing use.
         */
         @Override
-        protected List<InstalledAppInfo> doInBackground(Integer... params) {
-            List<InstalledAppInfo> apps = new ArrayList<>(); //Create InstalledAppinfo List for listview use
+        protected List<AppInfoModel> doInBackground(Integer... params) {
+            List<AppInfoModel> apps = new ArrayList<>(); //Create InstalledAppinfo List for listview use
             PackageManager pm = getPackageManager(); //Use Android built-in packagemanage to collect app information
 
             List<ApplicationInfo> infos = pm.getInstalledApplications(params[0]);
@@ -101,7 +101,7 @@ public class AppListActivity extends AppCompatActivity {
                 if (i == null) {
                     continue;
                 }
-                InstalledAppInfo app = new InstalledAppInfo(
+                AppInfoModel app = new AppInfoModel(
                         packageInfo.packageName,
                         packageInfo.loadLabel(pm).toString(),
                         packageInfo.loadIcon(pm)
@@ -120,7 +120,7 @@ public class AppListActivity extends AppCompatActivity {
 
         //After executing the loading process, show the user how many app is loaded.
         @Override
-        protected void onPostExecute(List<InstalledAppInfo> appInfos) {
+        protected void onPostExecute(List<AppInfoModel> appInfos) {
             super.onPostExecute(appInfos);
             list.setAdapter(new AppListAdapter(AppListActivity.this, appInfos));
             swipeRefreshLayout.setRefreshing(false);
@@ -128,9 +128,9 @@ public class AppListActivity extends AppCompatActivity {
         }
 
         //Sort the application based on label, if label doesn't exist, sort by package name
-        private class appComparator implements Comparator<InstalledAppInfo> {
+        private class appComparator implements Comparator<AppInfoModel> {
             @Override
-            public int compare(InstalledAppInfo X, InstalledAppInfo Y) {
+            public int compare(AppInfoModel X, AppInfoModel Y) {
                 CharSequence x = X.getLabel();
                 CharSequence y = Y.getLabel();
 
