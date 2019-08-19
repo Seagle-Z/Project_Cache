@@ -30,6 +30,7 @@ public class Event {
     public Boolean autoTrigger;            // if true, this event will start without need to click button
     public Boolean isActivated;            // if false, the event will not happen although the trigger conditionsArrList match
 
+    public String eventDescription;
     public String eventImage;              // String imageUri = "drawable://" + R.drawable.image;
     public Integer eventColor;
     public String eventCategory;           // for future usage
@@ -44,6 +45,7 @@ public class Event {
                  String[] tasksTypeOngoing, String[] tasksValueOngoing, String[] tasksOngoingRepeatPeriod,
                  Boolean instantEvent, Boolean oneTimeEvent,
                  Boolean autoTrigger, Boolean isActivated,
+                 String eventDescription,
                  String eventImage, Integer eventColor,
                  String eventCategory, Integer executedTimes) {
 
@@ -71,6 +73,7 @@ public class Event {
         this.autoTrigger = autoTrigger;
         this.isActivated = isActivated;
 
+        this.eventDescription = eventDescription;
         this.eventImage = eventImage;
         this.eventColor = eventColor;
         this.eventCategory = eventCategory;

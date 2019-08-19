@@ -100,18 +100,19 @@ The only different is these is triggered during the event running
 tasksOngoingRepeatPeriod
 String
 E.g.
-tasksTypeOngoing            PHONE_CALL|SMS_MESSAGE
-tasksValueOngoing           1234567890|1234567890::"Hello World~""
-tasksOngoingRepeatPeriod    5000|200
+tasksTypeOngoing            PHONE_CALL|SMS_MESSAGE|QR_CODE
+tasksValueOngoing           1234567890|1234567890::"Hello World~""|QRCodeDirectory
+tasksOngoingRepeatPeriod    5000|200|CLIKC
 This means that call the number 1234567890 every 5000 minutes, and send "Hello
-World~" by sms message to the number 1234567890 every 200 seconds.
+World~" by sms message to the number 1234567890 every 200 seconds, whenever user
+click the event card, show QR code.
 Careful!: m and s cannot
 
 17.
 instantEvent
 Boolean
 If true, there are only start tasks when the event triggered, after the tasks
-finished, the event finished. 
+finished, the event finished.
 
 18.
 oneTimeEvent

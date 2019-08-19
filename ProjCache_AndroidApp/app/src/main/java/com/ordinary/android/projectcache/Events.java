@@ -240,7 +240,7 @@ public class Events {
                     "tasksTypeOngoing, tasksValueOngoing, tasksOngoingRepeatPeriod, " +
                     "instantEvent, oneTimeEvent, " +
                     "autoTrigger, isActivated, " +
-                    "eventImage, eventColor, eventCategory, executedTimes\n";
+                    "eventDescription, eventImage, eventColor, eventCategory, executedTimes\n";
             fos.write(csvTitle.getBytes());
             fos.close();
 
@@ -272,6 +272,7 @@ public class Events {
                     strArrJoiner(newEvent.tasksOngoingRepeatPeriod) + ", " +
                     nullOrString(newEvent.instantEvent) + ", " + nullOrString(newEvent.oneTimeEvent) + ", " +
                     nullOrString(newEvent.autoTrigger) + ", " + nullOrString(newEvent.isActivated) + ", " +
+                    nullOrString(newEvent.eventDescription) + ", " +
                     nullOrString(newEvent.eventImage) + ", " + nullOrString(newEvent.eventColor) + ", " +
                     nullOrString(newEvent.eventCategory) + ", " + nullOrString(newEvent.executedTimes) + "\n";
 
@@ -357,18 +358,24 @@ public class Events {
         else
             tIsActivated = false;
 
-        String tEventImage = null;
+        String tEventDescription = null;
         if (!data[20].equals("NULL")) {
-            tEventImage = data[20];
+            tEventDescription = data[20];
+        }
+
+        String tEventImage = null;
+        if (!data[21].equals("NULL")) {
+            tEventImage = data[21];
         }
 
         Integer tEventColor = null;
-        if (!data[21].equals("NULL")) {
-            tEventColor = Integer.parseInt(data[21]);
+        if (!data[22].equals("NULL")) {
+            tEventColor = Integer.parseInt(data[22]);
         }
 
-        String tEventCategory = data[22];
-        Integer tExecutedTimes = Integer.parseInt(data[23]);
+        String tEventCategory = data[23];
+
+        Integer tExecutedTimes = Integer.parseInt(data[24]);
 
         return new Event(tEventID, tEventName, tCreateData,
                 tCreateTime, tPriorityLevel,
@@ -379,6 +386,7 @@ public class Events {
                 tTasksTypeOngoing, tTasksValueOngoing, tTasksOngoingRepeatPeriod,
                 tInstantEvent, tOneTimeEvent,
                 tAutoTrigger, tIsActivated,
+                tEventDescription,
                 tEventImage, tEventColor,
                 tEventCategory, tExecutedTimes);
 
@@ -421,6 +429,7 @@ public class Events {
                 null, null, null,
                 true, false,
                 false, true,
+                "This is Default event",
                 "" + R.drawable.ic_menu_send, null,
                 "DEFAULT", 0);
     }
@@ -430,7 +439,7 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     public void createTestingEvents() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"16:29"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30"};
         String[] tasksTypeStart1 = {"VOLUME_STREAM"}, tasksValueStart1 = {"80"};
         Event testEvent1 = new Event(
                 2345, "test event 1", "2019-08-03",
@@ -442,6 +451,7 @@ public class Events {
                 null, null, null,
                 false, false,
                 true, true,
+                "This is the test event 1",
                 "" + R.drawable.ic_menu_share, 0x000000,
                 "NULL", 0);
 
@@ -458,6 +468,7 @@ public class Events {
                 null, null, null,
                 false, false,
                 true, true,
+                "This is the test event 2",
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
@@ -473,6 +484,7 @@ public class Events {
                 null, null, null,
                 false, false,
                 true, true,
+                "This is the test event 3",
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
@@ -486,7 +498,7 @@ public class Events {
     public void modifyTestingEvents() {
 
         String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"23:58-23:59"};
+        String[] triggerValuesM1 = {"23:00-23:01"};
 
         String[] tasksTypeStartM1 = {"LAUNCH_APP"};
         String[] tasksValueStartM1 = {"com.google.android.music"};
@@ -508,6 +520,7 @@ public class Events {
                 tasksTypeOngoingM1, tasksValueOngoingM1, tasksOngoingRepeatPeriodM1,
                 false, false,
                 true, true,
+                "This is the test event 1",
                 null, 0x000000,
                 "NULL", 0);
 
@@ -536,6 +549,7 @@ public class Events {
                 tasksTypeOngoingM2, tasksValueOngoingM2, tasksOngoingRepeatPeriodM2,
                 false, false,
                 true, true,
+                "This is the test event 2",
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
@@ -564,6 +578,7 @@ public class Events {
                 tasksTypeOngoingM3, tasksValueOngoingM3, tasksOngoingRepeatPeriodM3,
                 false, false,
                 true, true,
+                "This is the test event 3",
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 

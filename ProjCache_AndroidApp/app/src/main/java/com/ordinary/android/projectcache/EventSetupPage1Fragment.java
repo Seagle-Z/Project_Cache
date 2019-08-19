@@ -77,6 +77,7 @@ public class EventSetupPage1Fragment extends Fragment {
                 null, null, null,
                 false, false,
                 true, true,
+                null,
                 null, 0xffffff,
                 "NULL", 0);
 
