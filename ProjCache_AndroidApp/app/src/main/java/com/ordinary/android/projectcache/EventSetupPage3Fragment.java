@@ -1,13 +1,10 @@
 package com.ordinary.android.projectcache;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,7 +24,7 @@ public class EventSetupPage3Fragment extends Fragment {
     private FloatingActionButton previous;
     private EditText eventName;
     private Button complete;
-    private SectionsPageAdapter adapter;
+    private EventSetupPageAdapter adapter;
     private Switch AutoTriggerSwitch, OneTimeEventSwitch;
     Event event = null;
     private boolean autoTrigger, oneTimeEvent = false;
@@ -37,7 +34,7 @@ public class EventSetupPage3Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_setup_page3, container, false);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
-        adapter = (SectionsPageAdapter) viewPager.getAdapter();
+        adapter = (EventSetupPageAdapter) viewPager.getAdapter();
         previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);
         eventName = (EditText) view.findViewById(R.id.event_name);
         complete = (Button) view.findViewById(R.id.complete);

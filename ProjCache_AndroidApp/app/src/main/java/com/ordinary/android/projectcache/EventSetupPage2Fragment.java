@@ -45,7 +45,7 @@ public class EventSetupPage2Fragment extends Fragment {
     private boolean editMode;
     private EventSetupPage1Fragment p1;
     private EventSetupPage3Fragment p3;
-    private SectionsPageAdapter adapter;
+    private EventSetupPageAdapter adapter;
 
     @Nullable
     @Override
@@ -64,7 +64,7 @@ public class EventSetupPage2Fragment extends Fragment {
         ongoingActionListView = (ListView) view.findViewById(R.id.ongoing_action_listview);
         endActionListView = (ListView) view.findViewById(R.id.end_action_listview);
 
-        adapter = (SectionsPageAdapter) viewPager.getAdapter();
+        adapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p1 = (EventSetupPage1Fragment) adapter.getItem(0);
         p3 = (EventSetupPage3Fragment) adapter.getItem(2);
 
@@ -116,7 +116,7 @@ public class EventSetupPage2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonPressCode = 1;
-                Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
+                Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -125,7 +125,7 @@ public class EventSetupPage2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonPressCode = 2;
-                Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
+                Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -134,7 +134,7 @@ public class EventSetupPage2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonPressCode = 3;
-                Intent intent = new Intent(getContext(), ActionTaskSelectionActivity.class);
+                Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });

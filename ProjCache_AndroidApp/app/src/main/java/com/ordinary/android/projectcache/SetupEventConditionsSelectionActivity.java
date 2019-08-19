@@ -15,7 +15,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class SetupEventConditionSelectionActivity extends AppCompatActivity {
+public class SetupEventConditionsSelectionActivity extends AppCompatActivity {
 
     private final int REQUEST_TIME_INFORMATION_CODE = 1001;
     private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
@@ -83,15 +83,15 @@ public class SetupEventConditionSelectionActivity extends AppCompatActivity {
                     case BT:
                         break;
                     case WIFI:
-                        Intent WIFIMode = new Intent(SetupEventConditionSelectionActivity.this, SetupEventConditionWifiActivity.class);
+                        Intent WIFIMode = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionWifiActivity.class);
                         startActivityForResult(WIFIMode, REQUEST_WIFI_INFORMATION_CODE);
                         break;
                     case Time:
-                        Intent timeMode = new Intent(SetupEventConditionSelectionActivity.this, SetupEventConditionDateTimeActivity.class);
+                        Intent timeMode = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionDateTimeActivity.class);
                         startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
                         break;
                     case OS_APP:
-                        Intent AppLaunching = new Intent(SetupEventConditionSelectionActivity.this, SetupEventConditionOnScreenAppActivity.class);
+                        Intent AppLaunching = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionOnScreenAppActivity.class);
                         startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
                         break;
                     default:

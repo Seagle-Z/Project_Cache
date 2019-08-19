@@ -30,8 +30,8 @@
         </activity>
         <activity android:name=".AppListActivity" />
         <activity android:name=".EventSetupActivity" />
-        <activity android:name=".ActionTaskSelectionActivity" />
-        <activity android:name=".SetupEventConditionSelectionActivity" />
+        <activity android:name=".SetupEventActionsSelectionActivity" />
+        <activity android:name=".SetupEventConditionsSelectionActivity" />
         <activity android:name=".SetupEventConditionDateTimeActivity" />
         <activity android:name=".TimeSelectorActivity" />
         <activity android:name=".SetupEventConditionOnScreenAppActivity" />
