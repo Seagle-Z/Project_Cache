@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
@@ -32,6 +36,7 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
     private int size = 0;
     private List<ScanResult> results;
     private ToolFunctions TF = new ToolFunctions();
+
     BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -40,10 +45,9 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
 
             for (ScanResult scanResult : results) {
                 StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
-                System.out.println(scanResult.SSID);
+                System.out.println("SSID: " + scanResult.SSID + "       MAC: " + scanResult.BSSID);
                 wifiLISTAdapterView.notifyDataSetChanged();
                 TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
-
             }
         }
     };
@@ -80,11 +84,28 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
         addWifiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //CURRENT WIFI (MOVE THIS)
+                WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+                System.out.println("CURRENTLY CONNECTED: " + wifiInfo.getSSID() + "     MAC: " + getMacAddr());
+
+                //PREVIOUSLY SAVED (MOVE THIS)
+                List<WifiConfiguration> currentNetworks = wifiManager.getConfiguredNetworks();
+                System.out.println("Previously Saved WIFI");
+                for (WifiConfiguration test : currentNetworks) {
+                    System.out.println("SSID: " + test.SSID);
+                }
+
                 System.out.println("Selecting WIFI");
                 //Scan the WIFI-device currently
                 scanWifi();
+
+
             }
         });
+
+
+
 
     }
 
@@ -95,5 +116,32 @@ public class SetupTriggerMethodWifiActivity extends AppCompatActivity {
         Toast.makeText(wifi_picker_context, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
     }
 
+
+    public String getMacAddr() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    //res1.append(Integer.toHexString(b & 0xFF) + ":");
+                    res1.append(String.format("%02X:",b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "";
+    }
 
 }
