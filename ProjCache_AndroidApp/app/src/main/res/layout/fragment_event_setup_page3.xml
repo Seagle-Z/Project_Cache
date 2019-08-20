@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/Start_action"
+            android:id="@+id/event_name_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10sp"
@@ -48,19 +49,19 @@
                 android:id="@+id/test"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingTop="10sp"
                 android:paddingLeft="10sp"
-                android:textSize="20sp"
+                android:paddingTop="10sp"
+                android:text="Auto Trigger"
                 android:textColor="@android:color/black"
-                android:text="Auto Trigger" />
+                android:textSize="20sp" />
 
             <Switch
                 android:id="@+id/autotrigger_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:paddingTop="10sp"
-                android:paddingBottom="10sp"
-                android:layout_weight="1" />
+                android:paddingBottom="10sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,20 +73,40 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@android:color/black"
-                android:paddingTop="10sp"
                 android:paddingLeft="10sp"
-                android:textSize="20sp"
-                android:text="One Time Event" />
+                android:paddingTop="10sp"
+                android:text="One Time Event"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
 
             <Switch
                 android:id="@+id/OneTimeEvent_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:paddingTop="10sp"
-                android:paddingBottom="10sp"
-                android:layout_weight="1" />
+                android:paddingBottom="10sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/event_description_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:text="Event Name"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/event_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="" />
 
     </LinearLayout>
 

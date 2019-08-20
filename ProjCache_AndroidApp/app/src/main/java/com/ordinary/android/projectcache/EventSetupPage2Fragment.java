@@ -178,36 +178,29 @@ public class EventSetupPage2Fragment extends Fragment {
                     adapterForStartActionListView, intent,
                     startActionListView);
         } else if (buttonCode == 2) {
-            if(intent.hasExtra("app"))
-            {
-                addToRelatedList(
-                        ongoingActionList, ongoingActionKeyValue,
-                        adapterForOngoingActionListview, intent,
-                        ongoingActionListView);
-            }
+            addToRelatedList(
+                    ongoingActionList, ongoingActionKeyValue,
+                    adapterForOngoingActionListview, intent,
+                    ongoingActionListView);
 
-        } else if (buttonCode == 3){
-            if(intent.hasExtra("app"))
-            {
-                addToRelatedList(
-                        endActionList, endActionKeyValue,
-                        adapterForEndActionListView, intent,
-                        endActionListView);
-            }
-        } else{
+        } else if (buttonCode == 3) {
+            addToRelatedList(
+                    endActionList, endActionKeyValue,
+                    adapterForEndActionListView, intent,
+                    endActionListView);
+        } else {
             //Should never happened
-            Log.d("","No Button Pressed");
+            Log.d("", "No Button Pressed");
         }
     }
 
     private void addToRelatedList(List<String> editingList, Map<String, String> editingHashtable,
                                   ArrayAdapter<?> adapter, Intent intent,
-                                  ListView editingListView)
-    {
-        if(intent.hasExtra("app"))
-        {
+                                  ListView editingListView) {
+
+        if (intent.hasExtra("app")) {
             AppInfoModel app = (AppInfoModel) intent.getSerializableExtra("app");
-            if(!editMode)
+            if (!editMode)
                 editingList.add("Open Application: " + app.getLabel());
             else
                 editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());

@@ -19,7 +19,7 @@
                 android:layout_height="35sp"
                 android:paddingLeft="5sp"
                 android:paddingTop="5sp"
-                android:text="Actions"
+                android:text="Run action when condition match"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
