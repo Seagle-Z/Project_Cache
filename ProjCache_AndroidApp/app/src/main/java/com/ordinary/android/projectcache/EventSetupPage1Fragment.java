@@ -71,6 +71,7 @@ public class EventSetupPage1Fragment extends Fragment {
         eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
+
         event = new Event(
                 1000, null, null,
                 null, 0,
@@ -124,26 +125,7 @@ public class EventSetupPage1Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
-                if (data.hasExtra("Time")) {
-                    if (!editMode) {
-                        conditionsArrList.add("- Added trigger method: Time");
-                        selectedConditionTypes.add("Time");
-                        adapter.notifyDataSetChanged();
-                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
-                    }
-                    editMode = false;
-                    conditions.put("TIME", data.getStringExtra("Time"));
-                }
-                if (data.hasExtra("Apps")) {
-                    if (!editMode) {
-                        conditionsArrList.add("- Added trigger method: When launching an app");
-                        selectedConditionTypes.add("App");
-                        adapter.notifyDataSetChanged();
-                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
-                    }
-                    editMode = false;
-                    conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
-                }
+                updateConditionList(data);
             }
         } catch (NullPointerException e) {
             editMode = false;
@@ -229,6 +211,27 @@ public class EventSetupPage1Fragment extends Fragment {
         return intent;
     }
 
+    private void updateConditionList(Intent data)
+    {
+        if (data.hasExtra("Time")) {
+            if (!editMode) {
+                conditionsArrList.add("- Added trigger method: Time");
+                selectedConditionTypes.add("Time");
+            }
+            editMode = false;
+            conditions.put("TIME", data.getStringExtra("Time"));
+        }
+        if (data.hasExtra("Apps")) {
+            if (!editMode) {
+                conditionsArrList.add("- Added trigger method: When app show on screen");
+                selectedConditionTypes.add("App");
+            }
+            editMode = false;
+            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
+        }
+        adapter.notifyDataSetChanged();
+        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+    }
 
     private void updateEventObj() {
         String[] methods = new String[conditions.size()];

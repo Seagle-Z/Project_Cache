@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetupEventActionScreenBrightness">
+
+    <TextView
+        android:id="@+id/screen_brightness_title"
+        android:layout_width="match_parent"
+        android:layout_height="35sp"
+        android:paddingLeft="5sp"
+        android:paddingTop="5sp"
+        android:text="Setup Screen Brightness"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/brightness_control_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="Change screen brightness when condition match"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/seekBar_value"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:paddingLeft="10sp"
+            android:paddingTop="10sp"
+            android:text="value"
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
+
+        <SeekBar
+            android:id="@+id/brightness_seekbar"
+            android:paddingLeft="10sp"
+            android:paddingTop="20sp"
+            android:paddingBottom="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/screen_brightness_activity_complete_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:text="Complete" />
+
+    </LinearLayout>
+
+</LinearLayout>

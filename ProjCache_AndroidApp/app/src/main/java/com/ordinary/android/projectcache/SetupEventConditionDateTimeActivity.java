@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
@@ -123,15 +124,12 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                 try {
                     //check if there any time value
                     if (!selectedTimeValue.isEmpty()) {
-                        String intentResult = "";
+                        StringJoiner intentResult = new StringJoiner("#");
                         for (int i = 0; i < selectedTimeValue.size(); i++) {
-                            if (i != selectedTimeValue.size() - 1)
-                                intentResult = intentResult + selectedTimeValue.get(i) + "#";
-                            else
-                                intentResult = intentResult + selectedTimeValue.get(i);
+                            intentResult.add(selectedTimeValue.get(i));
                         }
                         Intent intent = new Intent();
-                        intent.putExtra("Time", intentResult);
+                        intent.putExtra("Time", intentResult.toString());
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     }

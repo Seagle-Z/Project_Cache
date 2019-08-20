@@ -77,26 +77,31 @@ public class SetupEventConditionsSelectionActivity extends AppCompatActivity {
         conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
                 switch (conditionsArrList.get(position)) {
                     case GPS:
                         break;
                     case BT:
                         break;
                     case WIFI:
-                        Intent WIFIMode = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionWifiActivity.class);
-                        startActivityForResult(WIFIMode, REQUEST_WIFI_INFORMATION_CODE);
+                        intent = new Intent(
+                                SetupEventConditionsSelectionActivity.this,
+                                SetupEventConditionWifiActivity.class);
                         break;
                     case Time:
-                        Intent timeMode = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionDateTimeActivity.class);
-                        startActivityForResult(timeMode, REQUEST_TIME_INFORMATION_CODE);
+                        intent= new Intent(
+                                SetupEventConditionsSelectionActivity.this,
+                                SetupEventConditionDateTimeActivity.class);
                         break;
                     case OS_APP:
-                        Intent AppLaunching = new Intent(SetupEventConditionsSelectionActivity.this, SetupEventConditionOnScreenAppActivity.class);
-                        startActivityForResult(AppLaunching, REQUEST_LAUNCHING_APP_INFORMATION_CODE);
+                        intent = new Intent(
+                                SetupEventConditionsSelectionActivity.this,
+                                SetupEventConditionOnScreenAppActivity.class);
                         break;
                     default:
                         Log.d("", "No Item selected");
                 }
+                startActivityForResult(intent, REQUEST_WIFI_INFORMATION_CODE);
             }
         });
     }
