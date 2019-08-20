@@ -18,17 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetupEventActionScreenBrightness"></activity>
-        <activity android:name=".SetupEventConditionWifiActivity" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".AppListActivity" />
         <activity android:name=".EventSetupActivity" />
@@ -37,6 +37,8 @@
         <activity android:name=".SetupEventConditionDateTimeActivity" />
         <activity android:name=".TimeSelectorActivity" />
         <activity android:name=".SetupEventConditionOnScreenAppActivity" />
+        <activity android:name=".SetupEventActionScreenBrightness"/>
+        <activity android:name=".SetupEventConditionWifiActivity" />
     </application>
 
 </manifest>
