@@ -5,7 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-
+# 08/20/2019
+    #[b_ysl]
+        1. Added in event object utilization in the event setup classes
+        2. Added in more UI elements in the event setup page to match with the event object's needs
+        3. Implemented the screen brightness feature for action. (Require system permission)
+        4. Added brightness system write permission in the Manifest.xml
+        5. Improved some code structure in the event setup classes.
+        
 # 08/18/2019
     #[b_jx]
         1. Separate the Event class, made it as a single public class
