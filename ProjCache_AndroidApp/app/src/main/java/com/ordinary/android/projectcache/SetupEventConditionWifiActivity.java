@@ -85,6 +85,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                /*
                 //CURRENT WIFI (MOVE THIS)
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                 System.out.println("CURRENTLY CONNECTED: " + wifiInfo.getSSID() + "     MAC: " + getMacAddr());
@@ -99,10 +100,15 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                 System.out.println("Selecting WIFI");
                 //Scan the WIFI-device currently
                 scanWifi();
+                */
 
+                Intent intent = new Intent(wifi_picker_context, WIFISelectorActivity.class);
+                startActivityForResult(intent, WIFI_PICKING_CODE);
 
             }
         });
+
+
 
 
 
