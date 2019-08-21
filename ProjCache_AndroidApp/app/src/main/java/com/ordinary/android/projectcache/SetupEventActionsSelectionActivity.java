@@ -1,5 +1,7 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +18,14 @@ import java.util.Map;
 
 public class SetupEventActionsSelectionActivity extends AppCompatActivity {
 
-    private final int REQUEST_APP_LIST_CODE = 1001;
+    private final int REQUEST_SELECTION_LIST_CODE = 1001;
     private final String LAUNCH_APP = "Launch An App";
     private final String QR_CODE = "Show a QR Code";
     private final String BROWSE_URL = "Connect to A Site";
     private final String VOLUME_STREAM = "Volume Level";
     private final String BRIGHTNESS = "Screen Brightness";
 
+    private Context action_selection_context;
     private ListView actionListView;
     private List<String> actionArrList = new ArrayList<>();
     private ArrayAdapter<String> adapterForActionListView;
@@ -32,6 +35,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_event_actions_selection);
+        action_selection_context = SetupEventActionsSelectionActivity.this;
 
         actionListView = (ListView) findViewById(R.id.action_types);
         actionListView.setTextFilterEnabled(true);
@@ -53,14 +57,20 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
         actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = null;
                 switch (actionArrList.get(position)) {
                     case LAUNCH_APP:
-                        Intent intent = new Intent(SetupEventActionsSelectionActivity.this, AppListActivity.class);
-                        startActivityForResult(intent, REQUEST_APP_LIST_CODE);
+                        intent = new Intent(
+                                action_selection_context,
+                                AppListActivity.class);
                         break;
                     case QR_CODE:
                         break;
                     case BRIGHTNESS:
+                        intent = new Intent(
+                                action_selection_context,
+                                SetupEventActionScreenBrightness.class);
+                        //startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
                         break;
                     case BROWSE_URL:
                         break;
@@ -69,6 +79,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
                     default:
                         Log.d("", "No Item Selected");
                 }
+                startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
             }
         });
     }
@@ -76,13 +87,8 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if (data.hasExtra("app")) {
-                data.putExtra("Application", "");
-            } else if (data.hasExtra("QE")) {
-                data.putExtra("QR", "");
-            }
-
-            setResult(RESULT_OK, data);
+            if(requestCode == REQUEST_SELECTION_LIST_CODE && resultCode == Activity.RESULT_OK)
+            setResult(Activity.RESULT_OK, data);
             finish();
         } catch (NullPointerException e) {
         }

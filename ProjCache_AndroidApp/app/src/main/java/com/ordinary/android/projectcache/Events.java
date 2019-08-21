@@ -530,7 +530,7 @@ public class Events {
         String[] triggerValuesM2 = {"17:00"};
 
         String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM2 = {"100"};
+        String[] tasksValueStartM2 = {"50"};
 
         String[] tasksTypeEndM2 = null;
         String[] tasksValueEndM2 = null;
@@ -559,7 +559,7 @@ public class Events {
         String[] triggerValuesM3 = {"14:39#14:41"};
 
         String[] tasksTypeStartM3 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM3 = {"80"};
+        String[] tasksValueStartM3 = {"50"};
 
         String[] tasksTypeEndM3 = null;
         String[] tasksValueEndM3 = null;

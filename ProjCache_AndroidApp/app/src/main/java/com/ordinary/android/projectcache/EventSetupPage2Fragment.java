@@ -205,8 +205,17 @@ public class EventSetupPage2Fragment extends Fragment {
             else
                 editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
             editingHashtable.put("App", app.getPackageName());
-            adapter.notifyDataSetChanged();
-            TF.setListViewHeightBasedOnChildren(adapter, editingListView);
         }
+        if (intent.hasExtra("BRIGHTNESS")) {
+            if (!editMode)
+                editingList.add("Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
+            else
+                editingList.set(
+                        selectedEditedPosition,
+                        "Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
+            editingHashtable.put("BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
+        }
+        adapter.notifyDataSetChanged();
+        TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }
 }
