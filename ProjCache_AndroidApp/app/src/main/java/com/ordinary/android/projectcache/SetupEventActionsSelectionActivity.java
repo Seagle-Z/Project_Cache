@@ -42,7 +42,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
         actionArrList.add(BROWSE_URL);
         actionArrList.add(VOLUME_STREAM);
 
-        adapterForActionListView = new ArrayAdapter<String>(
+         adapterForActionListView = new ArrayAdapter<String>(
                 this,
                 R.layout.layout_general_list,
                 R.id.general_list_textview_text,

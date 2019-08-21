@@ -498,7 +498,7 @@ public class Events {
     public void modifyTestingEvents() {
 
         String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"23:00-23:01"};
+        String[] triggerValuesM1 = {"19:10"};
 
         String[] tasksTypeStartM1 = {"LAUNCH_APP"};
         String[] tasksValueStartM1 = {"com.google.android.music"};
@@ -527,7 +527,7 @@ public class Events {
 
         // test event 2
         String[] triggerMethodM2 = {"TIME"};
-        String[] triggerValuesM2 = {"0:00-23:59"};
+        String[] triggerValuesM2 = {"17:00"};
 
         String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
         String[] tasksValueStartM2 = {"100"};
