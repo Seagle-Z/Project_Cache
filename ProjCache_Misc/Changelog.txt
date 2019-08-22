@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+# 08/21/2019
+    #[b_ysl]
+        1. Changed Manifest.xml information. Forced app run in only portrait mode.
+        2. Implemented Barcode Scanner class with google firebase support (Not sure if
+           is what we need).
+        3. Firebase installed wrote a lot of small plugin in all the app level file,
+           such as gradle script.
+
 # 08/20/2019
     #[b_ysl]
         1. Added in event object utilization in the event setup classes
