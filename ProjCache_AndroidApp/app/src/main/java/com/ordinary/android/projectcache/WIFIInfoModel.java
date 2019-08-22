@@ -7,31 +7,31 @@ import java.io.Serializable;
  */
 
 public class WIFIInfoModel implements Serializable {
-    private String packageName;
-    private String label;
+    private String wifiName;
+    private String macAddr;
 
-    public WIFIInfoModel(String pName, String pLabel) {
-            packageName = pName;
-            label = pLabel;
+    public WIFIInfoModel(String wName, String mAddr) {
+            wifiName = wName;
+            macAddr = mAddr;
     }
 
     public void setLabel(String s)
         {
-            label = s;
+            macAddr = s;
         }
 
     public String getLabel() {
-            return label;
+            return macAddr;
         }
 
-    public void setPackageName(String s)
+    public void setWIFIName(String s)
         {
-            packageName = s;
+            wifiName = s;
         }
 
-    public String getPackageName()
+    public String getWIFIName()
         {
-            return packageName;
+            return wifiName;
         }
 
 }

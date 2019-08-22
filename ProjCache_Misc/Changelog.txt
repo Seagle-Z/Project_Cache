@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 #08/22/2019
-	#[b_bdev]
-		1. Added WIFIInfoModel.java, WIFIInfoActivity.java, WIFIInfoAdapter.java
-		2. Similar to the AppSelection Activity's classes with minor changes
-		3. Functionality is very close to working and just need to adjust the WIFIInfoActivity.java
-		
+    #[b_bdev]
+        1. Added WIFIInfoModel.java, WIFIInfoActivity.java, WIFIInfoAdapter.java
+	2. Similar to the AppSelection Activity's classes with minor changes
+	3. Functionality is very close to working and just need to adjust the WIFIInfoActivity.java
+	4. Move the functionality of obtaining the Previous WIFI Connections into the WIFIInfoActivity.java
+	5. Attempting to resolve the problem of not displaying anything when switching SetupEventConditionWifiActivity.java to WIFIInfoActivity.java
 
 # 08/21/2019
     #[b_ysl]

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,13 +24,14 @@ import java.text.Collator;
 
 public class WIFISelectorActivity extends AppCompatActivity {
 
-
-    SwipeRefreshLayout swipeRefreshLayout;
     ArrayList<String> StoredWifi = new ArrayList<>();
+
     //UI Code
     private ListView selectedWIFIListView;
     Context wifi_picker_context;
     ArrayAdapter wifiLISTAdapterView;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     //Local Variables
     private WifiManager wifiManager;
     private int size = 0;
@@ -42,7 +44,10 @@ public class WIFISelectorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_wifi_list);
 
+        wifi_picker_context = WIFISelectorActivity.this;
         selectedWIFIListView = findViewById(R.id.wifi_list);
+        selectedWIFIListView.setTextFilterEnabled(true);
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
 
         Intent intent = getIntent();
         try {
@@ -51,6 +56,15 @@ public class WIFISelectorActivity extends AppCompatActivity {
             }
         } catch (NullPointerException e) {
         }
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshIt(); //fresh the UI when user requests
+            }
+        });
+
+        wifiManager = (WifiManager) wifi_picker_context.getSystemService(Context.WIFI_SERVICE);
 
         //get the app information, pack and send back to main activity
         selectedWIFIListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,13 +87,13 @@ public class WIFISelectorActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LoadWIFIInfoTask loadAppInfoTask = new LoadWIFIInfoTask();
-        loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
+        LoadWIFIInfoTask loadWIFIInfoTask = new LoadWIFIInfoTask();
+        //loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
     }
 
     private void refreshIt() {
-        LoadWIFIInfoTask loadAppInfoTask = new LoadWIFIInfoTask();
-        loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
+        LoadWIFIInfoTask loadWIFIInfoTask = new LoadWIFIInfoTask();
+        //loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
     }
 
 
@@ -90,37 +104,34 @@ public class WIFISelectorActivity extends AppCompatActivity {
             swipeRefreshLayout.setRefreshing(true);
         }
 
-        /*Start collecting application information via packageManager. Then creating small
-          installed Application object, check AppInfoModel for more information. Insert app objects
+        /*Start collecting wifi information. Then creating small
+          wifi object, check WIFIInfoModel for more information. Insert wifi objects
           into the List then return to the listView for viewing use.
         */
-        //TODO: Fix this AppInfo and such
+        //TODO: Fix this similar to AppInfo
         @Override
         protected List<WIFIInfoModel> doInBackground(Integer... params) {
             List<WIFIInfoModel> wifi_list = new ArrayList<>(); //Create InstalledAppinfo List for listview use
-            PackageManager pm = getPackageManager(); //Use Android built-in packagemanage to collect app information
 
-            List<ApplicationInfo> infos = pm.getInstalledApplications(params[0]);  //Resolve first
-            Intent i;
+            //PREVIOUSLY SAVED WIFI Connections
+            List<WifiConfiguration> currentNetworks = wifiManager.getConfiguredNetworks();
+            System.out.println("Previously Saved WIFI");
+            for (WifiConfiguration prevConnections : currentNetworks) {
 
-            for (ApplicationInfo packageInfo : infos) {
-                i = getPackageManager().getLaunchIntentForPackage(packageInfo.packageName);
-                if (i == null) {
-                    continue;
-                }
+                //DEBUGGING
+                System.out.println("SSID: " + prevConnections.SSID);
+                System.out.println("BSSID: " + prevConnections.BSSID);
+
                 WIFIInfoModel wifi = new WIFIInfoModel(
-                        packageInfo.packageName,
-                        packageInfo.loadLabel(pm).toString()
+                        prevConnections.SSID,
+                        prevConnections.BSSID
                 );
-//                app.setPackageName(packageInfo.packageName);
-//                app.setLabel(packageInfo.loadLabel(pm).toString());
-//                app.setDrawable(packageInfo.loadIcon(pm));
+
                 wifi_list.add(wifi);
             }
 
             Collections.sort(wifi_list, new wifiComparator()); //Sort the List before returning.
             return wifi_list;
-            //return null;
         }
 
 
@@ -128,9 +139,9 @@ public class WIFISelectorActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<WIFIInfoModel> wifiInfos) {
             super.onPostExecute(wifiInfos);
-            list.setAdapter(new WIFIListAdapter(WIFISelectorActivity.this, wifiInfos));
+            selectedWIFIListView.setAdapter(new WIFIListAdapter(WIFISelectorActivity.this, wifiInfos));
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(list, wifiInfos.size() + "WIFI List loaded", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(selectedWIFIListView, wifiInfos.size() + "WIFI List loaded", Snackbar.LENGTH_LONG).show();
         }
 
         //Sort the WIFI List based on label, if label doesn't exist, sort by package name
@@ -141,10 +152,10 @@ public class WIFISelectorActivity extends AppCompatActivity {
                 CharSequence y = Y.getLabel();
 
                 if (x == null) {
-                    x = X.getPackageName();
+                    x = X.getWIFIName();
                 }
                 if (y == null) {
-                    y = Y.getPackageName();
+                    y = Y.getWIFIName();
                 }
                 return Collator.getInstance().compare(x.toString(), y.toString());
             }
