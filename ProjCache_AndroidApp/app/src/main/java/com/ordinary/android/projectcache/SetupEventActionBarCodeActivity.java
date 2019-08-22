@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,20 +15,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.face.FirebaseVisionFace;
-import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
-public class SetupEventActionDisplayBarCodeActivity extends AppCompatActivity {
+public class SetupEventActionBarCodeActivity extends AppCompatActivity {
 
     private Button albumButton, cameraScannerButton, completeButton;
     private Context display_barcode_context;
@@ -42,7 +38,7 @@ public class SetupEventActionDisplayBarCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_event_action_show_bar_code);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        display_barcode_context = SetupEventActionDisplayBarCodeActivity.this;
+        display_barcode_context = SetupEventActionBarCodeActivity.this;
 
         cameraScannerButton = (Button) findViewById(R.id.scanner_barcode_with_camera);
         albumButton = (Button) findViewById(R.id.select_barcode_with_galley);

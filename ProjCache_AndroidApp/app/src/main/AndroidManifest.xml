@@ -60,7 +60,7 @@
         <activity android:name=".SetupEventConditionWifiActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventActionDisplayBarCodeActivity"
+        <activity android:name=".SetupEventActionBarCodeActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 

@@ -67,7 +67,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
                     case QR_CODE:
                         intent = new Intent(
                                 action_selection_context,
-                                SetupEventActionDisplayBarCodeActivity.class);
+                                SetupEventActionBarCodeActivity.class);
                         break;
                     case BRIGHTNESS:
                         intent = new Intent(
