@@ -1,7 +1,9 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -43,7 +45,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                     getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS);
             brightnessValue.setText(
-                    "Brightness Value: " + curBrightnessValue + "/" + brightnessSeekbar.getMax());
+                    "Brightness Value: " + curBrightnessValue + "/" + 100);
             brightnessSeekbar.setProgress(curBrightnessValue);
         } catch (Settings.SettingNotFoundException e) {
         }
@@ -51,9 +53,9 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
         brightnessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarvalue = progress;
+                seekBarvalue = (int) Math.round((progress / 255.0) * 100);
                 brightnessValue.setText(
-                        "Brightness Value: " + seekBarvalue + "/" + brightnessSeekbar.getMax());
+                        "Brightness Value: " + seekBarvalue + "/" + 100);
                 Settings.System.putInt(
                         getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS, (int) Math.round(seekBarvalue));
@@ -66,7 +68,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 brightnessValue.setText(
-                        "Brightness Value: " + seekBarvalue + "/" + screenBrightnessMax);
+                        "Brightness Value: " + seekBarvalue + "/" + 100);
                 Settings.System.putInt(
                         getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS,
@@ -78,9 +80,24 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.putExtra("BRIGHTNESS", Integer.toString(seekBarvalue));
-                setResult(Activity.RESULT_OK, intent);
-                finish();
+                if(seekBarvalue == curBrightnessValue)
+                {
+                    AlertDialog.Builder Warning = new AlertDialog.Builder(screen_brightness_context);
+                    Warning.setTitle("Reminder");
+                    Warning.setMessage("The value did not change.");
+                    Warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    Warning.show();
+                }
+                else {
+                    intent.putExtra("BRIGHTNESS", Integer.toString(seekBarvalue));
+                    setResult(Activity.RESULT_OK, intent);
+                    finish();
+                }
             }
         });
     }
