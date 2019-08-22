@@ -439,7 +439,7 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     public void createTestingEvents() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30-19:26"};
         String[] tasksTypeStart1 = {"VOLUME_STREAM"}, tasksValueStart1 = {"80"};
         Event testEvent1 = new Event(
                 2345, "test event 1", "2019-08-03",
@@ -527,10 +527,10 @@ public class Events {
 
         // test event 2
         String[] triggerMethodM2 = {"TIME"};
-        String[] triggerValuesM2 = {"17:00"};
+        String[] triggerValuesM2 = {"19:25"};
 
         String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM2 = {"50"};
+        String[] tasksValueStartM2 = {"20"};
 
         String[] tasksTypeEndM2 = null;
         String[] tasksValueEndM2 = null;
