@@ -497,11 +497,11 @@ public class Events {
     // modify testing events here
     public void modifyTestingEvents() {
 
-        String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"19:10"};
+        String[] triggerMethodM1 = {"ON_SCREEN_APP"};
+        String[] triggerValuesM1 = {"com.android.chrome"};
 
-        String[] tasksTypeStartM1 = {"LAUNCH_APP"};
-        String[] tasksValueStartM1 = {"com.google.android.music"};
+        String[] tasksTypeStartM1 = {"VOLUME_STREAM"};
+        String[] tasksValueStartM1 = {"20"};
 
         String[] tasksTypeEndM1 = null;
         String[] tasksValueEndM1 = null;

@@ -117,7 +117,7 @@ public class CoreRunnable implements Runnable {
             });
 
             try {
-                Thread.sleep(2000);     // every this time long, check the new status
+                Thread.sleep(1000);     // every this time long, check the new status
             } catch (Exception e) {
                 // print out exception if needed
             }

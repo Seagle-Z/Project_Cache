@@ -50,9 +50,7 @@ public class CoreTasksExecutor {
     private Intent convertTaskToIntent(String taskType, String taskValue) {
         Intent intent = null;
         switch (taskType) {
-            /* TODO: 2019-08-04
-             * 这里需要改成在events里用用urlID找url的method从存储url的csv里返回url
-             */
+
             case "BROWSE_URL":
                 intent = taskCaseBROWSE_URL(taskValue);
                 break;
