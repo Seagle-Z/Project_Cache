@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 
 public class ToolFunctions {
 
+    private final int encrytedCode = 42069;
     public static Drawable ButtonIconProcessing(Context context, PackageManager pm, AppInfoModel app) {
         Drawable dResult = null;
         try {
@@ -113,7 +114,7 @@ public class ToolFunctions {
             char character = unencoded_string.charAt(i); // start on the first character
             int ascii = (int) character; //convert the first character
             //System.out.println(character+" = "+ ascii); // print the character and it's value in ascii
-            ascii_int_list[i] = ascii + 42069;
+            ascii_int_list[i] = ascii + encrytedCode;
         }
         return ascii_int_list;
     }
@@ -124,7 +125,7 @@ public class ToolFunctions {
 
         for (int i : encoded_string)
         {
-            decoded_string = decoded_string + (char)(i-42069);
+            decoded_string = decoded_string + (char)(i-encrytedCode);
         }
 
         return decoded_string;

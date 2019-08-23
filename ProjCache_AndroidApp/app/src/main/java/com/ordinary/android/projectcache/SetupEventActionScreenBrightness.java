@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class SetupEventActionScreenBrightness extends AppCompatActivity {
 
-    private final int screenBrightnessMax = 255, screenBrightnessMin = 0;
+    private final int screenBrightnessMax = 255, screenBrightnessMin = 1;
     private SeekBar brightnessSeekbar;
     private TextView brightnessValue;
     private Button complete;

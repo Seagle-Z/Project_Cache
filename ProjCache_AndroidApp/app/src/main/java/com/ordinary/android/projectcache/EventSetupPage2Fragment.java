@@ -101,14 +101,15 @@ public class EventSetupPage2Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateEventObj();
                 viewPager.setCurrentItem(2);
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateEventObj();
                 viewPager.setCurrentItem(0);
-                System.out.println(p1.event.eventID);
             }
         });
 
@@ -218,4 +219,46 @@ public class EventSetupPage2Fragment extends Fragment {
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }
+
+    private void updateEventObj() {
+        String[] taskTypeStart = getActionKeyValueStrArr(startActionKeyValue, 1);
+        String[] taskStartValue = getActionKeyValueStrArr(startActionKeyValue,2);
+        String[] taskTypeOngoing = getActionKeyValueStrArr(ongoingActionKeyValue,1);
+        String[] taskValueOngoing = getActionKeyValueStrArr(ongoingActionKeyValue,2);
+        String[] taskTypeEnd = getActionKeyValueStrArr(endActionKeyValue,1);
+        String[] taskValueEnd = getActionKeyValueStrArr(endActionKeyValue,2);
+
+        event.tasksTypeStart = taskTypeStart;
+        event.tasksValueStart = taskStartValue;
+        event.tasksTypeOngoing = taskTypeOngoing;
+        event.tasksValueOngoing = taskValueOngoing;
+        event.tasksTypeEnd = taskTypeEnd;
+        event.tasksValueEnd = taskValueEnd;
+
+        p1.event = event;
+        p3.event = event;
+    }
+
+    private String[] getActionKeyValueStrArr(Map<String, String> ActionKeyValue, int keyOrValue) {
+        String[] arr = new String[ActionKeyValue.size()];
+        int i = 0;
+        if (keyOrValue == 1)
+        {
+            for(Map.Entry m : ActionKeyValue.entrySet())
+            {
+                arr[i] = m.getKey().toString();
+                i++;
+            }
+        }
+        else
+        {
+            for(Map.Entry m : ActionKeyValue.entrySet())
+            {
+                arr[i] = m.getValue().toString();
+                i++;
+            }
+        }
+        return arr;
+    }
+
 }

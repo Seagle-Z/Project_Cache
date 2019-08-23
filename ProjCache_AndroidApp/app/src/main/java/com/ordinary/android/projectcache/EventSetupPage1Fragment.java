@@ -110,8 +110,8 @@ public class EventSetupPage1Fragment extends Fragment {
             public void onClick(View v) {
 //                if (!conditionsArrList.isEmpty())
 //                {
-                viewPager.setCurrentItem(1);
                 updateEventObj();
+                viewPager.setCurrentItem(1);
 //                }
 //                else {
 //                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
