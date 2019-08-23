@@ -128,6 +128,17 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                 // TODO: 8/22/2019  check if all result are valid
                 // TODO: 8/22/2019 encrypt data (implement in ToolFunction)
                 // TODO: 8/22/2019 dump that in the list and return it
+                // Encoded Code
+                //  int temp [] = TF.ascii_encoder(returnedWifi.getWIFIName());
+                //  for(int i : temp)
+                //  {
+                //      System.out.println(i);
+                // }
+
+                // Decoded Code
+                //  int [] tmep = {86,74,68};
+                //  System.out.println(TF.ascii_decoder(tmep));
+
             }
         });
     }
@@ -141,17 +152,17 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
                     if (returnedWifi != null) {
                         if (!checkDuplicate(returnedWifi.getWIFIName(), selectedWifiArrList)) {
-                                if (!editMode) {
-                                    selectedWifiArrList.add(returnedWifi.getWIFIName());
-                                } else {
-                                    selectedWifiArrList.set(
-                                            selectedEditPosition,
-                                            returnedWifi.getWIFIName());
-                                }
-                                wifiLISTAdapterView.notifyDataSetChanged();
-                                TF.setListViewHeightBasedOnChildren(
-                                        wifiLISTAdapterView,
-                                        selectedWIFIListView);
+                            if (!editMode) {
+                                selectedWifiArrList.add(returnedWifi.getWIFIName());
+                            } else {
+                                selectedWifiArrList.set(
+                                        selectedEditPosition,
+                                        returnedWifi.getWIFIName());
+                            }
+                            wifiLISTAdapterView.notifyDataSetChanged();
+                            TF.setListViewHeightBasedOnChildren(
+                                    wifiLISTAdapterView,
+                                    selectedWIFIListView);
 
                         } else
                             Toast.makeText(
@@ -164,7 +175,6 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
         }
     }
-
 
 
 //    private void scanWifi() {
@@ -189,7 +199,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                 StringBuilder res1 = new StringBuilder();
                 for (byte b : macBytes) {
                     //res1.append(Integer.toHexString(b & 0xFF) + ":");
-                    res1.append(String.format("%02X:",b));
+                    res1.append(String.format("%02X:", b));
                 }
 
                 if (res1.length() > 0) {
