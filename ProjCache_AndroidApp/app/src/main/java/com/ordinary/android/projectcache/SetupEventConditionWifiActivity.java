@@ -129,7 +129,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                 // TODO: 8/22/2019 encrypt data (implement in ToolFunction)
                 // TODO: 8/22/2019 dump that in the list and return it
                 // Encoded Code
-                //  int temp [] = TF.ascii_encoder(returnedWifi.getWIFIName());
+                //  int temp [] = TF.asciiEncoder(returnedWifi.getWIFIName());
                 //  for(int i : temp)
                 //  {
                 //      System.out.println(i);
@@ -137,7 +137,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
                 // Decoded Code
                 //  int [] tmep = {86,74,68};
-                //  System.out.println(TF.ascii_decoder(tmep));
+                //  System.out.println(TF.asciiDecoder(tmep));
 
             }
         });

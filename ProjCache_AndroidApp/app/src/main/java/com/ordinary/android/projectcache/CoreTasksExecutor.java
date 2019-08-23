@@ -21,7 +21,7 @@ public class CoreTasksExecutor {
     public void startThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeStart, event.tasksValueStart);
         for (Intent i : intents) {
-            if (i != null) {
+            if (i != null) {    // Due to some task do not need intent
                 context.startActivity(i);
             }
         }
@@ -46,13 +46,10 @@ public class CoreTasksExecutor {
     }
 
 
-
     private Intent convertTaskToIntent(String taskType, String taskValue) {
         Intent intent = null;
         switch (taskType) {
-            /* TODO: 2019-08-04
-             * 这里需要改成在events里用用urlID找url的method从存储url的csv里返回url
-             */
+
             case "BROWSE_URL":
                 intent = taskCaseBROWSE_URL(taskValue);
                 break;
@@ -61,8 +58,13 @@ public class CoreTasksExecutor {
                 intent = taskCaseLAUNCH_APP(taskValue);
                 break;
 
+            case "SCREEN_BRIGHTNESS":
+                taskCaseSCREEN_BRIGHTNESS(taskValue);
+                break;
+
             case "VOLUME_STREAM":
                 taskCaseVOLUME_STREAM(taskValue);
+                break;
 
 
         }
@@ -71,6 +73,7 @@ public class CoreTasksExecutor {
     }
 
     private Intent taskCaseBROWSE_URL(String taskValue) {
+        // TODO: 2019-08-23 在eventSetup可用后，把这里改成decode再开。因为这里events.csv里存的是encode后的ascii码
         String url = taskValue;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
@@ -80,6 +83,16 @@ public class CoreTasksExecutor {
     private Intent taskCaseLAUNCH_APP(String taskValue) {
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(taskValue);
         return intent;
+    }
+
+    private void taskCaseSCREEN_BRIGHTNESS(String taskValue) {
+        int brightness = Integer.parseInt(taskValue);
+        if (brightness < 1) {
+            brightness = 1;
+        }
+        brightness = (int) (((double) brightness / 100.0) * 255.0);
+        android.provider.Settings.System.putInt(context.getContentResolver(),
+                android.provider.Settings.System.SCREEN_BRIGHTNESS, brightness);
     }
 
     private void taskCaseVOLUME_STREAM(String taskValue) {

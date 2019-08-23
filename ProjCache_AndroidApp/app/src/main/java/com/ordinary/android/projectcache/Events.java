@@ -439,7 +439,7 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     public void createTestingEvents() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30"};
+        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30-19:26"};
         String[] tasksTypeStart1 = {"VOLUME_STREAM"}, tasksValueStart1 = {"80"};
         Event testEvent1 = new Event(
                 2345, "test event 1", "2019-08-03",
@@ -498,10 +498,10 @@ public class Events {
     public void modifyTestingEvents() {
 
         String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"23:00-23:01"};
+        String[] triggerValuesM1 = {"12:17"};
 
-        String[] tasksTypeStartM1 = {"LAUNCH_APP"};
-        String[] tasksValueStartM1 = {"com.google.android.music"};
+        String[] tasksTypeStartM1 = {"SCREEN_BRIGHTNESS"};
+        String[] tasksValueStartM1 = {"100"};
 
         String[] tasksTypeEndM1 = null;
         String[] tasksValueEndM1 = null;
@@ -526,11 +526,11 @@ public class Events {
 
 
         // test event 2
-        String[] triggerMethodM2 = {"TIME"};
-        String[] triggerValuesM2 = {"0:00-23:59"};
+        String[] triggerMethodM2 = null; //{"TIME"};
+        String[] triggerValuesM2 = null; //{"19:25"};
 
-        String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM2 = {"50"};
+        String[] tasksTypeStartM2 = null; //{"VOLUME_STREAM"};
+        String[] tasksValueStartM2 = null; //{"20"};
 
         String[] tasksTypeEndM2 = null;
         String[] tasksValueEndM2 = null;
@@ -555,11 +555,11 @@ public class Events {
 
 
         // test event 3
-        String[] triggerMethodM3 = {"TIME"};
-        String[] triggerValuesM3 = {"14:39#14:41"};
+        String[] triggerMethodM3 = null; //{"TIME"};
+        String[] triggerValuesM3 = null; //{"14:39#14:41"};
 
-        String[] tasksTypeStartM3 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM3 = {"50"};
+        String[] tasksTypeStartM3 = null; //{"VOLUME_STREAM"};
+        String[] tasksValueStartM3 = null; //{"50"};
 
         String[] tasksTypeEndM3 = null;
         String[] tasksValueEndM3 = null;

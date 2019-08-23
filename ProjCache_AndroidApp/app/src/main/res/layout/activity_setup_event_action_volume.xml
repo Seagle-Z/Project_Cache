@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SetupEventActionVolumeActivity">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:textSize="30dp"
+        android:text="Setup Device Volume" />
+
+    <TextView
+        android:id="@+id/seekBarValue_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change device volume when condition match"
+        android:textSize="20dp" />
+
+    <Switch
+        android:id="@+id/playTestVolume_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="Play a short test alarm after adjust" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/streamVolume_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Media Volume" />
+
+        <SeekBar
+            android:id="@+id/streamVolume_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="40dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/ringtoneVolume_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Ringtone Volume" />
+
+        <SeekBar
+            android:id="@+id/ringtoneVolume_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="40dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/alarmsVolume_checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Alarms Volume" />
+
+        <SeekBar
+            android:id="@+id/alarmsVolume_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="40dp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/complete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete" />
+</LinearLayout>

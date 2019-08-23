@@ -1,6 +1,9 @@
 package com.ordinary.android.projectcache;
 
 import android.app.ActivityManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -35,6 +40,10 @@ public class CoreConditionInspector {
     }
 
     public boolean conditionsMatch(Event event) {
+        if (event.triggerMethods == null) {
+            return false;
+        }
+
         int matchs = 0;
         for (int i = 0; i < event.triggerMethods.length; i++) {
             if (inspectCondition(event.triggerMethods[i], event.triggerValues[i])) {
@@ -51,8 +60,8 @@ public class CoreConditionInspector {
     private boolean inspectCondition(String method, String value) {
         switch (method) {
 
-            case "APP_ON_SCREEN":
-                return inspectAPP_ON_SCREEN(value);
+            case "ON_SCREEN_APP":
+                return inspectON_SCREEN_APP(value);
 
             case "TIME":
                 return inspectTIME(value);
@@ -63,23 +72,19 @@ public class CoreConditionInspector {
         return false;
     }
 
-    private boolean inspectAPP_ON_SCREEN(String value) {
-        ActivityManager am = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-        List l = am.getRecentTasks(1, ActivityManager.RECENT_WITH_EXCLUDED);
-        Iterator i = l.iterator();
-        PackageManager pm = context.getPackageManager();
-        while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo)(i.next());
-            try {
-                CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(
-                        info.processName, PackageManager.GET_META_DATA));
-                Log.w("LABEL", c.toString());
-                System.out.println(c.toString());
-            } catch (Exception e) {
-                // Name Not Found Exception
-            }
-        }
+    private boolean inspectON_SCREEN_APP(String value) {
+        ActivityManager am =(ActivityManager)context.getSystemService(ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo task = tasks.get(0); // current task
+        ComponentName rootActivity = task.baseActivity;
 
+
+        String currentPackageName = rootActivity.getPackageName();
+        if(currentPackageName.equals(value)) {
+            //Do whatever here
+            System.out.println("------------------------" + currentPackageName);
+            return true;
+        }
         return false;
     }
 

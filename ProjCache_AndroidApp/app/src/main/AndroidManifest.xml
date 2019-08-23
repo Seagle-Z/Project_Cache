@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ordinary.android.projectcache"
     xmlns:tools="http://schemas.android.com/tools"
+    package="com.ordinary.android.projectcache"
     tools:ignore="GoogleAppIndexingWarning">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -11,9 +11,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
 
     <application
         android:allowBackup="true"
@@ -22,56 +21,67 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SetupEventActionVolumeActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
-            android:screenOrientation="portrait">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppListActivity"
+        <activity
+            android:name=".AppListActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".WIFISelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WIFISelectorActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".EventSetupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EventSetupActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventActionsSelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventActionsSelectionActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventConditionsSelectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventConditionsSelectionActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventConditionDateTimeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventConditionDateTimeActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TimeSelectorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TimeSelectorActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventConditionOnScreenAppActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventConditionOnScreenAppActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventActionScreenBrightness"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventActionScreenBrightness"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventConditionWifiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventConditionWifiActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventActionBarCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SetupEventActionBarCodeActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="barcode" />
-        <!-- To use multiple models: android:value="barcode,model2,model3" -->
-
     </application>
 
 </manifest>

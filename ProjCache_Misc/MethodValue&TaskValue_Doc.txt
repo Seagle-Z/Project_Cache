@@ -80,10 +80,10 @@ Show a QR code.
 BROWSE_URL
 Open url in web browser.
 
-VOLUME_STREAM
+VOLUME
 Change device media volume.
 
-BRIGHT
+SCREEN_BRIGHTNESS
 Change screen brightness.
 
 
@@ -116,15 +116,15 @@ In urlStore.csv
 24, https://www.bilibili.com
 51, https://maps.google.com
 
-VOLUME_STREAM
-From 0% to 100%, only 10, 20, 30... available
-Use only integer number without "%"
-E.g.    "20"    means set volume to 20%
-        "100"   means set volume to 100%
-For some device that do not match 10 level change, we will map each to a value
-that match the device.
+VOLUME
+Use "-" to separate stream(media), Ringtone, and Alarms
+From 0% to 100%
+Use only integer number without "%". Use "N" to indicate keep it without change.
+E.g.    "27-0-48"    means set stream volume to 20%, ringtone volume to 0, alarms to 48
+        "100-N-N"   means set stream volume to 100%, ringtone and alarms keep it without change
+For some device that do not match 100 level change, we will map each to a value that match the device.
 
-BRIGHT
+SCREEN_BRIGHTNESS
 From 0% to 100%, only 10, 20, 30... available
 Use only integer number without "%"
 E.g.    "20"    means set brightness to 20%
