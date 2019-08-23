@@ -2,6 +2,7 @@ package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -24,19 +25,13 @@ import java.text.Collator;
 
 public class WIFISelectorActivity extends AppCompatActivity {
 
-    ArrayList<String> StoredWifi = new ArrayList<>();
-
     //UI Code
     private ListView selectedWIFIListView;
-    Context wifi_picker_context;
-    ArrayAdapter wifiLISTAdapterView;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private Context wifi_picker_context;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     //Local Variables
     private WifiManager wifiManager;
-    private int size = 0;
-    private List<ScanResult> results;
-    private ToolFunctions TF = new ToolFunctions();
     private boolean editMode;
 
     @Override
@@ -88,12 +83,12 @@ public class WIFISelectorActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         LoadWIFIInfoTask loadWIFIInfoTask = new LoadWIFIInfoTask();
-        //loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
+        loadWIFIInfoTask.execute();
     }
 
     private void refreshIt() {
         LoadWIFIInfoTask loadWIFIInfoTask = new LoadWIFIInfoTask();
-        //loadWIFIInfoTask.execute(PackageManager.GET_META_DATA);
+        loadWIFIInfoTask.execute();
     }
 
 
@@ -118,14 +113,17 @@ public class WIFISelectorActivity extends AppCompatActivity {
             System.out.println("Previously Saved WIFI");
             for (WifiConfiguration prevConnections : currentNetworks) {
 
-                //DEBUGGING
-                System.out.println("SSID: " + prevConnections.SSID);
-                System.out.println("BSSID: " + prevConnections.BSSID);
+                String SSID = prevConnections.SSID.replaceAll("\"","");
+                String BSSID = null;
+                try {
+                    BSSID = prevConnections.BSSID.replaceAll("\"", "");
+                }catch(NullPointerException e) {}
 
-                WIFIInfoModel wifi = new WIFIInfoModel(
-                        prevConnections.SSID,
-                        prevConnections.BSSID
-                );
+                //DEBUGGING
+                //System.out.println("SSID: " + SSID);
+                //System.out.println("BSSID: " + BSSID);
+
+                WIFIInfoModel wifi = new WIFIInfoModel(SSID, BSSID);
 
                 wifi_list.add(wifi);
             }
@@ -141,7 +139,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
             super.onPostExecute(wifiInfos);
             selectedWIFIListView.setAdapter(new WIFIListAdapter(WIFISelectorActivity.this, wifiInfos));
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(selectedWIFIListView, wifiInfos.size() + "WIFI List loaded", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(selectedWIFIListView, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();
         }
 
         //Sort the WIFI List based on label, if label doesn't exist, sort by package name
@@ -160,6 +158,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
                 return Collator.getInstance().compare(x.toString(), y.toString());
             }
         }
-    }
+    } //End of LoadWIFIInfoTask
+
 
 }

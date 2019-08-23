@@ -14,13 +14,11 @@ import java.util.List;
 
 public class WIFIListAdapter extends ArrayAdapter<WIFIInfoModel> {
     private LayoutInflater inflater;
-    private PackageManager pm;
     private List<WIFIInfoModel> wifi_list;
 
     public WIFIListAdapter(Context context, List<WIFIInfoModel> wifi_list) {
         super(context, R.layout.layout_wifi_list, wifi_list);
         inflater = LayoutInflater.from(context);
-        pm = context.getPackageManager();
         this.wifi_list = wifi_list;
     }
 
@@ -37,8 +35,8 @@ public class WIFIListAdapter extends ArrayAdapter<WIFIInfoModel> {
         }
 
         //Get the title and set the app label to it
-        TextView textviewTitle = (TextView) view.findViewById(R.id.titleTextView);
-        textviewTitle.setText(current.getLabel());
+        TextView textviewTitle = (TextView) view.findViewById(R.id.wifi_name);
+        textviewTitle.setText(current.getWIFIName());
 
         return view;
     }

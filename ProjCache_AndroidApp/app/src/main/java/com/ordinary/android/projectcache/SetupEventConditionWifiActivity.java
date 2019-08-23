@@ -1,20 +1,25 @@
 package com.ordinary.android.projectcache;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.app.Activity;
 
 import java.net.NetworkInterface;
 import java.util.ArrayList;
@@ -36,6 +41,11 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
     private int size = 0;
     private List<ScanResult> results;
     private ToolFunctions TF = new ToolFunctions();
+    private WIFIInfoModel returnedWifi;
+    private List<WIFIInfoModel> selectedWifiArrList = new ArrayList<WIFIInfoModel>();
+    private boolean editMode;
+    private int selectedEditPosition;
+    private AlertDialog.Builder warning;
 
     BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
@@ -62,6 +72,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         addWifiButton = findViewById(R.id.add_wifi);
         completeButton = findViewById(R.id.wifi_picker_activity_complete_button);
         selectedWIFIListView = findViewById(R.id.selected_wifi_list);
+        warning = new AlertDialog.Builder(wifi_picker_context);
 
 
         selectedWIFIListView.setTextFilterEnabled(true);
@@ -84,7 +95,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         addWifiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                editMode = false;
                 /*
                 //CURRENT WIFI (MOVE THIS)
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -107,13 +118,34 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        try {
+            if (requestCode == WIFI_PICKING_CODE && resultCode == Activity.RESULT_OK) {
+                if (data.hasExtra("wifi")) {
+                    returnedWifi = (WIFIInfoModel) data.getSerializableExtra("wifi");
+                    if (returnedWifi != null) {
+                        if (!checkDuplicate(returnedWifi, selectedWifiArrList)) {
+                                if (!editMode) {
+                                    selectedWifiArrList.add(returnedWifi);
+                                } else {
+                                    selectedWifiArrList.set(selectedEditPosition, returnedWifi);
+                                }
+                                wifiLISTAdapterView.notifyDataSetChanged();
+                                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
+
+                        } else
+                            Toast.makeText(wifi_picker_context, "WIFI is already added", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        } catch (NullPointerException e) {
+        }
+    }
+
+
 
     private void scanWifi() {
         StoredWifi.clear();
@@ -149,5 +181,25 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         }
         return "";
     }
+
+    public boolean checkDuplicate(WIFIInfoModel wifi, List<WIFIInfoModel> wifilist) {
+        if (!wifilist.isEmpty()) {
+            for (WIFIInfoModel wifiInfoModel : wifilist) {
+                if (wifiInfoModel.getWIFIName().equals(wifi.getWIFIName())) {
+                    warning.setTitle("Warning");
+                    warning.setMessage("Application is already on the list.");
+                    warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    warning.show();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
 }
