@@ -80,10 +80,10 @@ Show a QR code.
 BROWSE_URL
 Open url in web browser.
 
-VOLUME_STREAM
+VOLUME
 Change device media volume.
 
-BRIGHT
+SCREEN_BRIGHTNESS
 Change screen brightness.
 
 
@@ -116,7 +116,7 @@ In urlStore.csv
 24, https://www.bilibili.com
 51, https://maps.google.com
 
-VOLUME_STREAM
+VOLUME
 From 0% to 100%, only 10, 20, 30... available
 Use only integer number without "%"
 E.g.    "20"    means set volume to 20%
@@ -124,7 +124,7 @@ E.g.    "20"    means set volume to 20%
 For some device that do not match 10 level change, we will map each to a value
 that match the device.
 
-BRIGHT
+SCREEN_BRIGHTNESS
 From 0% to 100%, only 10, 20, 30... available
 Use only integer number without "%"
 E.g.    "20"    means set brightness to 20%

@@ -40,6 +40,10 @@ public class CoreConditionInspector {
     }
 
     public boolean conditionsMatch(Event event) {
+        if (event.triggerMethods == null) {
+            return false;
+        }
+
         int matchs = 0;
         for (int i = 0; i < event.triggerMethods.length; i++) {
             if (inspectCondition(event.triggerMethods[i], event.triggerValues[i])) {

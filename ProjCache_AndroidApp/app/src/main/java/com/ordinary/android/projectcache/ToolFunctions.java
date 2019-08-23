@@ -104,7 +104,7 @@ public class ToolFunctions {
         listView.requestLayout();
     }
 
-    public int [] ascii_encoder (String unencoded_string) {
+    public int [] asciiEncoder(String unencoded_string) {
 
         int ascii_int_list[] = new int[unencoded_string.length()];
 
@@ -118,7 +118,7 @@ public class ToolFunctions {
         return ascii_int_list;
     }
 
-    public String ascii_decoder (int[] encoded_string) {
+    public String asciiDecoder(int[] encoded_string) {
 
         String decoded_string = "";
 

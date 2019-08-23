@@ -229,6 +229,7 @@ public class EventSetupPage1Fragment extends Fragment {
             editMode = false;
             conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
         }
+
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
     }

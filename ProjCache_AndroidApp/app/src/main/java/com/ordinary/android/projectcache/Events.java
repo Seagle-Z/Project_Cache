@@ -497,11 +497,11 @@ public class Events {
     // modify testing events here
     public void modifyTestingEvents() {
 
-        String[] triggerMethodM1 = {"ON_SCREEN_APP"};
-        String[] triggerValuesM1 = {"com.android.chrome"};
+        String[] triggerMethodM1 = {"TIME"};
+        String[] triggerValuesM1 = {"12:17"};
 
-        String[] tasksTypeStartM1 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM1 = {"20"};
+        String[] tasksTypeStartM1 = {"SCREEN_BRIGHTNESS"};
+        String[] tasksValueStartM1 = {"100"};
 
         String[] tasksTypeEndM1 = null;
         String[] tasksValueEndM1 = null;
@@ -526,11 +526,11 @@ public class Events {
 
 
         // test event 2
-        String[] triggerMethodM2 = {"TIME"};
-        String[] triggerValuesM2 = {"19:25"};
+        String[] triggerMethodM2 = null; //{"TIME"};
+        String[] triggerValuesM2 = null; //{"19:25"};
 
-        String[] tasksTypeStartM2 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM2 = {"20"};
+        String[] tasksTypeStartM2 = null; //{"VOLUME_STREAM"};
+        String[] tasksValueStartM2 = null; //{"20"};
 
         String[] tasksTypeEndM2 = null;
         String[] tasksValueEndM2 = null;
@@ -555,11 +555,11 @@ public class Events {
 
 
         // test event 3
-        String[] triggerMethodM3 = {"TIME"};
-        String[] triggerValuesM3 = {"14:39#14:41"};
+        String[] triggerMethodM3 = null; //{"TIME"};
+        String[] triggerValuesM3 = null; //{"14:39#14:41"};
 
-        String[] tasksTypeStartM3 = {"VOLUME_STREAM"};
-        String[] tasksValueStartM3 = {"50"};
+        String[] tasksTypeStartM3 = null; //{"VOLUME_STREAM"};
+        String[] tasksValueStartM3 = null; //{"50"};
 
         String[] tasksTypeEndM3 = null;
         String[] tasksValueEndM3 = null;

@@ -22,7 +22,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     private final String LAUNCH_APP = "Launch An App";
     private final String QR_CODE = "Show a QR Code";
     private final String BROWSE_URL = "Connect to A Site";
-    private final String VOLUME_STREAM = "Volume Level";
+    private final String CHANGE_VOLUME = "Change Volume";
     private final String BRIGHTNESS = "Screen Brightness";
 
     private Context action_selection_context;
@@ -44,7 +44,7 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
         actionArrList.add(QR_CODE);
         actionArrList.add(BRIGHTNESS);
         actionArrList.add(BROWSE_URL);
-        actionArrList.add(VOLUME_STREAM);
+        actionArrList.add(CHANGE_VOLUME);
 
          adapterForActionListView = new ArrayAdapter<String>(
                 this,
@@ -64,21 +64,30 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
                                 action_selection_context,
                                 AppListActivity.class);
                         break;
+
                     case QR_CODE:
                         intent = new Intent(
                                 action_selection_context,
                                 SetupEventActionBarCodeActivity.class);
                         break;
+
                     case BRIGHTNESS:
                         intent = new Intent(
                                 action_selection_context,
                                 SetupEventActionScreenBrightness.class);
                         //startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
                         break;
+
                     case BROWSE_URL:
+
                         break;
-                    case VOLUME_STREAM:
+
+                    case CHANGE_VOLUME:
+                        intent = new Intent(
+                                action_selection_context,
+                                SetupEventActionVolumeActivity.class);
                         break;
+
                     default:
                         Log.d("", "No Item Selected");
                 }
