@@ -104,6 +104,32 @@ public class ToolFunctions {
         listView.requestLayout();
     }
 
+    public int [] ascii_encoder (String unencoded_string) {
+
+        int ascii_int_list[] = new int[unencoded_string.length()];
+
+        int nameLength = unencoded_string.length(); // length of the string used for the loop
+        for(int i = 0; i < nameLength ; i++){   // while counting characters if less than the length add one
+            char character = unencoded_string.charAt(i); // start on the first character
+            int ascii = (int) character; //convert the first character
+            //System.out.println(character+" = "+ ascii); // print the character and it's value in ascii
+            ascii_int_list[i] = ascii + 42069;
+        }
+        return ascii_int_list;
+    }
+
+    public String ascii_decoder (int[] encoded_string) {
+
+        String decoded_string = "";
+
+        for (int i : encoded_string)
+        {
+            decoded_string = decoded_string + (char)(i-42069);
+        }
+
+        return decoded_string;
+    }
+
 }
 
 
