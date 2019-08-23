@@ -11,27 +11,24 @@ public class WIFIInfoModel implements Serializable {
     private String macAddr;
 
     public WIFIInfoModel(String wName, String mAddr) {
-            wifiName = wName;
-            macAddr = mAddr;
+        wifiName = wName;
+        macAddr = mAddr;
     }
 
-    public void setLabel(String s)
-        {
-            macAddr = s;
-        }
+    public void setLabel(String s) {
+        macAddr = s;
+    }
 
     public String getLabel() {
-            return macAddr;
-        }
+        return macAddr;
+    }
 
-    public void setWIFIName(String s)
-        {
-            wifiName = s;
-        }
+    public void setWIFIName(String s) {
+        wifiName = s;
+    }
 
-    public String getWIFIName()
-        {
-            return wifiName;
-        }
+    public String getWIFIName() {
+        return wifiName;
+    }
 
 }

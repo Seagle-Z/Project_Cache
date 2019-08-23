@@ -42,25 +42,27 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
     private List<ScanResult> results;
     private ToolFunctions TF = new ToolFunctions();
     private WIFIInfoModel returnedWifi;
-    private List<WIFIInfoModel> selectedWifiArrList = new ArrayList<WIFIInfoModel>();
+    private List<String> selectedWifiArrList = new ArrayList<String>(); // "YOU CHOOSE: UIC WIFI"
+    private List<String> selectedWifiSSIDArrList = new ArrayList<String>(); //UIC.WIFI
+    private List<String> encryptedSSIDArrList = new ArrayList<String>(); //91-24-123
     private boolean editMode;
     private int selectedEditPosition;
     private AlertDialog.Builder warning;
 
-    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            results = wifiManager.getScanResults();
-            unregisterReceiver(wifiReceiver);
-
-            for (ScanResult scanResult : results) {
-                StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
-                System.out.println("SSID: " + scanResult.SSID + "       MAC: " + scanResult.BSSID);
-                wifiLISTAdapterView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
-            }
-        }
-    };
+//    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            results = wifiManager.getScanResults();
+//            unregisterReceiver(wifiReceiver);
+//
+//            for (ScanResult scanResult : results) {
+//                StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
+//                System.out.println("SSID: " + scanResult.SSID + "       MAC: " + scanResult.BSSID);
+//                wifiLISTAdapterView.notifyDataSetChanged();
+//                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                 wifi_picker_context,
                 R.layout.layout_general_list,
                 R.id.general_list_textview_text,
-                StoredWifi);
+                selectedWifiArrList);
 
         selectedWIFIListView.setAdapter(wifiLISTAdapterView);
         registerForContextMenu(selectedWIFIListView);
@@ -96,6 +98,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 editMode = false;
+
                 /*
                 //CURRENT WIFI (MOVE THIS)
                 WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -118,6 +121,15 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
             }
         });
+
+        completeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: 8/22/2019  check if all result are valid
+                // TODO: 8/22/2019 encrypt data (implement in ToolFunction)
+                // TODO: 8/22/2019 dump that in the list and return it
+            }
+        });
     }
 
     @Override
@@ -126,18 +138,26 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
             if (requestCode == WIFI_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("wifi")) {
                     returnedWifi = (WIFIInfoModel) data.getSerializableExtra("wifi");
+
                     if (returnedWifi != null) {
-                        if (!checkDuplicate(returnedWifi, selectedWifiArrList)) {
+                        if (!checkDuplicate(returnedWifi.getWIFIName(), selectedWifiArrList)) {
                                 if (!editMode) {
-                                    selectedWifiArrList.add(returnedWifi);
+                                    selectedWifiArrList.add(returnedWifi.getWIFIName());
                                 } else {
-                                    selectedWifiArrList.set(selectedEditPosition, returnedWifi);
+                                    selectedWifiArrList.set(
+                                            selectedEditPosition,
+                                            returnedWifi.getWIFIName());
                                 }
                                 wifiLISTAdapterView.notifyDataSetChanged();
-                                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
+                                TF.setListViewHeightBasedOnChildren(
+                                        wifiLISTAdapterView,
+                                        selectedWIFIListView);
 
                         } else
-                            Toast.makeText(wifi_picker_context, "WIFI is already added", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(
+                                    wifi_picker_context,
+                                    "WIFI is already added",
+                                    Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -147,12 +167,12 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
 
 
-    private void scanWifi() {
-        StoredWifi.clear();
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        wifiManager.startScan();
-        Toast.makeText(wifi_picker_context, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
-    }
+//    private void scanWifi() {
+//        StoredWifi.clear();
+//        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+//        wifiManager.startScan();
+//        Toast.makeText(wifi_picker_context, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
+//    }
 
 
     public String getMacAddr() {
@@ -182,12 +202,12 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         return "";
     }
 
-    public boolean checkDuplicate(WIFIInfoModel wifi, List<WIFIInfoModel> wifilist) {
+    public boolean checkDuplicate(String wifi, List<String> wifilist) {
         if (!wifilist.isEmpty()) {
-            for (WIFIInfoModel wifiInfoModel : wifilist) {
-                if (wifiInfoModel.getWIFIName().equals(wifi.getWIFIName())) {
+            for (String wifiInfoModel : wifilist) {
+                if (wifiInfoModel.equals(wifi)) {
                     warning.setTitle("Warning");
-                    warning.setMessage("Application is already on the list.");
+                    warning.setMessage("WIFI is already on the list.");
                     warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -200,6 +220,4 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
 }
