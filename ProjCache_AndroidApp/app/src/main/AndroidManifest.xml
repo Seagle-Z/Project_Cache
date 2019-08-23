@@ -36,6 +36,9 @@
         <activity android:name=".AppListActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
+        <activity android:name=".WIFISelectorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity android:name=".EventSetupActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>

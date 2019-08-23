@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+#08/22/2019
+    #[b_bdev]
+        1. Added WIFIInfoModel.java, WIFIInfoActivity.java, WIFIInfoAdapter.java
+	2. Similar to the AppSelection Activity's classes with minor changes
+	3. Functionality is very close to working and just need to adjust the WIFIInfoActivity.java
+	4. Move the functionality of obtaining the Previous WIFI Connections into the WIFIInfoActivity.java
+	5. Now Displays WIFI Previous Connections into WIFI Picker. Special thanks to b_ysl.
+	6. Added encrypt and decrypt methods into the "ToolFunction.java" class.
+
 # 08/21/2019
     #[b_ysl]
         1. Changed Manifest.xml information. Forced app run in only portrait mode.
@@ -13,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
            is what we need).
         3. Firebase installed wrote a lot of small plugin in all the app level file,
            such as gradle script.
+    
 
 # 08/20/2019
     #[b_ysl]
