@@ -25,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         2. Change the minimum brightness level in SetupActionBrightnessActivity from 0 to 1.
         3. Added Volume intent reading in EventSetupPage2.
 
+    #[b_bdev]
+	1. Finished SetupEventConditionWifiActivity()
+	2. Encoded WIFI SSIDs after hitting the complete button
+	3. Decodes WIFI SSIDs when in 'edit' mode
+
 # 08/22/2019
     #[b_bdev]
         1. Added WIFIInfoModel.java, WIFIInfoActivity.java, WIFIInfoAdapter.java
