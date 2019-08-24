@@ -103,9 +103,9 @@ public class SetupEventConditionOnScreenAppActivity extends AppCompatActivity {
         try {
             if (intent.hasExtra("RETRIEVE")) {
                 retrieveAppList = intent.getStringExtra("RETRIEVE");
-                String[] timeRangeDivider = retrieveAppList.split("#");
-                System.out.println(timeRangeDivider.length);
-                for (String s : timeRangeDivider) {
+                String[] packageNameDivider = retrieveAppList.split("#");
+                System.out.println(packageNameDivider.length);
+                for (String s : packageNameDivider) {
                     AppInfoModel info = getReturnedApp(s);
                     selectedAppArrList.add(info);
                 }

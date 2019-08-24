@@ -216,6 +216,15 @@ public class EventSetupPage2Fragment extends Fragment {
                         "Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
             editingHashtable.put("BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
         }
+
+        if(intent.hasExtra("Volume"))
+        {
+            if(!editMode)
+                editingList.add("Added Volume Control");
+            else
+                editingList.set(selectedEditedPosition, "Added Volume Control");
+            editingHashtable.put("VOLUME", intent.getStringExtra("Volume"));
+        }
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }
