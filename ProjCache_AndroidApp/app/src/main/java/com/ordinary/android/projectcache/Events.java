@@ -109,13 +109,13 @@ public class Events {
         if (inputEventID > eventsList.size()) {
             return false;
         }
-        for (Event ee : eventsList) {
-            System.out.println("zhegeStart: " + ee.eventID + "  " + ee.eventName);
-        }
+//        for (Event ee : eventsList) {
+//            System.out.println("zhegeStart: " + ee.eventID + "  " + ee.eventName);
+//        }
         eventsList.remove(inputEventID);
-        for (Event ee : eventsList) {
-            System.out.println("zhegeEnd  : " + ee.eventID + "  " + ee.eventName);
-        }
+//        for (Event ee : eventsList) {
+//            System.out.println("zhegeEnd  : " + ee.eventID + "  " + ee.eventName);
+//        }
         for (int i = 0; i < eventsList.size(); i++) {
             eventsList.get(i).eventID = i;
         }
@@ -439,8 +439,8 @@ public class Events {
     //** Hard code some event for development ************************************************ START
     public void createTestingEvents() {
 
-        String[] triggerMethod1 = {"TIME"}, triggerValues1 = {"8:30-19:26"};
-        String[] tasksTypeStart1 = {"VOLUME_STREAM"}, tasksValueStart1 = {"80"};
+        String[] triggerMethod1 = null, triggerValues1 = null;
+        String[] tasksTypeStart1 = null, tasksValueStart1 = null;
         Event testEvent1 = new Event(
                 2345, "test event 1", "2019-08-03",
                 "19:15", 0,
@@ -489,8 +489,8 @@ public class Events {
                 "NULL", 0);
 
         addEvent(testEvent1);
-        addEvent(testEvent2);
-        addEvent(testEvent3);
+//        addEvent(testEvent2);
+//        addEvent(testEvent3);
 
     }
 
@@ -498,7 +498,7 @@ public class Events {
     public void modifyTestingEvents() {
 
         String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"20:08-23:10"};
+        String[] triggerValuesM1 = {"8:08-23:10"};
 
         String[] tasksTypeStartM1 = {"BROWSE_URL"};
         String[] tasksValueStartM1 = {"104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109"};
@@ -582,9 +582,9 @@ public class Events {
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 
-        modifyEventByName("test event 1", testEventM1);
-        modifyEventByName("test event 2", testEventM2);
-        modifyEventByName("test event 3", testEventM3);
+//        modifyEventByName("test event 1", testEventM1);
+//        modifyEventByName("test event 2", testEventM2);
+//        modifyEventByName("test event 3", testEventM3);
 
     }
     //** Hard code some event for development FINISH **************************************** FINISH

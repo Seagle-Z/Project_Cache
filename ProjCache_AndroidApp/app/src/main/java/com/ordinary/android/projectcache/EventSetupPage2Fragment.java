@@ -201,7 +201,7 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.add("Open Application: " + app.getLabel());
             else
                 editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-            editingHashtable.put("App", app.getPackageName());
+            editingHashtable.put("LAUNCH_APP", app.getPackageName());
         }
         if (intent.hasExtra("BRIGHTNESS")) {
             if (!editMode)
@@ -210,16 +210,16 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.set(
                         selectedEditedPosition,
                         "Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
-            editingHashtable.put("BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
+            editingHashtable.put("SCREEN_BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
         }
 
-        if(intent.hasExtra("Volume"))
+        if(intent.hasExtra("VOLUME"))
         {
             if(!editMode)
                 editingList.add("Added Volume Control");
             else
                 editingList.set(selectedEditedPosition, "Added Volume Control");
-            editingHashtable.put("VOLUME", intent.getStringExtra("Volume"));
+            editingHashtable.put("VOLUME", intent.getStringExtra("VOLUME"));
         }
 
         if(intent.hasExtra("BROWSE_URL"))

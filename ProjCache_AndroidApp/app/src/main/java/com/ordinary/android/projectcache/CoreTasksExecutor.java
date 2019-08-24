@@ -62,7 +62,7 @@ public class CoreTasksExecutor {
                 taskCaseSCREEN_BRIGHTNESS(taskValue);
                 break;
 
-            case "VOLUME_STREAM":
+            case "VOLUME":
                 taskCaseVOLUME_STREAM(taskValue);
                 break;
 
@@ -96,10 +96,12 @@ public class CoreTasksExecutor {
     }
 
     private void taskCaseVOLUME_STREAM(String taskValue) {
+        String[] volumes = taskValue.split("-");
         AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
         double maxVolume = (double)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        double inputVolume = (double)Integer.parseInt(taskValue);
+        double inputVolume = (double)Integer.parseInt(volumes[0]);
         int toVolume = (int) (inputVolume / 100.00 * maxVolume);
+        System.out.println("toVolume: " + toVolume);
         audioManager.setStreamVolume(
                 AudioManager.STREAM_MUSIC, toVolume, AudioManager.FLAG_SHOW_UI);
     }

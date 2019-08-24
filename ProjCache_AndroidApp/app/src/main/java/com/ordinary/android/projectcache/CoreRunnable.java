@@ -20,6 +20,8 @@ public class CoreRunnable implements Runnable {
     private List<Integer> runningEventsID;
     private File eventsFile;
 
+    private static final String EVENTS_FILE_NAME = "events.csv";
+
     CoreRunnable(Context context, File eventsFile, ViewPager coreViewPager) {
         this.context = context;
         this.coreViewPager = coreViewPager;
@@ -67,10 +69,26 @@ public class CoreRunnable implements Runnable {
 //                    if (MainActivity.eventsChanged == true) {
 //                        events = new Events(context, eventsFile);
 //                    }
-                    events = new Events(context, eventsFile);
+                    File ef = new File(context.getFilesDir(), EVENTS_FILE_NAME);
+                    events = new Events(context, ef);
+//                    //System.out.println("For Debugging ----------------------------------");
+//                    for (int i = 0; i < events.getEventsList().size(); i++) {
+//
+//                        System.out.println(events.getEventsList().get(i).eventID
+//                                + "  " + events.getEventsList().get(i).eventName
+//                                + "  " + events.getEventsList().get(i).eventDescription
+//                                + "  " + printThis(events.getEventsList().get(i).triggerMethods)
+//                                + "  " + printThis(events.getEventsList().get(i).triggerValues)
+//                                + "  " + printThis(events.getEventsList().get(i).tasksTypeStart)
+//                                + "  " + printThis(events.getEventsList().get(i).tasksValueStart));
+//                    }
                     activatedEventsID = events.getActivatedEventsIDList();
                     CoreConditionInspector cci = new CoreConditionInspector(context, events);
                     triggerableEventsID = cci.getTriggerableEventsID();
+                    System.out.print("triggerable events ID (" + triggerableEventsID.size() + "):  ");
+                    for (Integer i : triggerableEventsID) {
+                        System.out.print(i + "  ");
+                    }
 
 //                    List<CoreModel> curCoreModels = new ArrayList<>();
                     for (Integer i : triggerableEventsID) {
@@ -84,6 +102,19 @@ public class CoreRunnable implements Runnable {
 //                                curEventName,//events.getEventByID(i).eventName,
 //                                context.getResources().getDrawable(R.drawable.ic_menu_manage, null)
 //                        ));
+
+                        System.out.println("Print execute event: ");
+
+                        System.out.print(curEvent.eventID
+                                + "  " + curEvent.eventName
+                                + "  " + curEvent.eventDescription
+                                + "  " + printThis(curEvent.triggerMethods)
+                                + "  " + printThis(curEvent.triggerValues)
+                                + "  " + printThis(curEvent.tasksTypeStart)
+                                + "  " + printThis(curEvent.tasksValueStart) + "\n");
+
+
+
                         if (!runningEventsID.contains(curEvent.eventID) && curEvent.autoTrigger == true) {
                             runningEventsID.add(curEvent.eventID);
                             curCoreTasksExecutor.startThisEvent();
@@ -117,7 +148,7 @@ public class CoreRunnable implements Runnable {
             });
 
             try {
-                Thread.sleep(1000);     // every this time long, check the new status
+                Thread.sleep(2000);     // every this time long, check the new status
             } catch (Exception e) {
                 // print out exception if needed
             }
@@ -201,5 +232,18 @@ public class CoreRunnable implements Runnable {
 //        }
 //    }
 
+    private String printThis(String[] sArr) {
+        if (sArr == null) {
+            return "NULL";
+        }
+        String rets = "";
+        for (int i = 0; i < sArr.length; i++) {
+            rets += sArr[i];
+            if (i != sArr.length - 1) {
+                rets += "|";
+            }
+        }
+        return rets;
+    }
 }
 
