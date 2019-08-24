@@ -17,9 +17,12 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ToolFunctions {
 
+    private final int encrytedCode = 42069;
     public static Drawable ButtonIconProcessing(Context context, PackageManager pm, AppInfoModel app) {
         Drawable dResult = null;
         try {
@@ -104,32 +107,67 @@ public class ToolFunctions {
         listView.requestLayout();
     }
 
-    public int [] asciiEncoder(String unencoded_string) {
+    public int[] asciiEncoder(String inputString) {
 
-        int ascii_int_list[] = new int[unencoded_string.length()];
-
-        int nameLength = unencoded_string.length(); // length of the string used for the loop
-        for(int i = 0; i < nameLength ; i++){   // while counting characters if less than the length add one
-            char character = unencoded_string.charAt(i); // start on the first character
-            int ascii = (int) character; //convert the first character
-            //System.out.println(character+" = "+ ascii); // print the character and it's value in ascii
-            ascii_int_list[i] = ascii + 42069;
-        }
-        return ascii_int_list;
-    }
-
-    public String asciiDecoder(int[] encoded_string) {
-
-        String decoded_string = "";
-
-        for (int i : encoded_string)
-        {
-            decoded_string = decoded_string + (char)(i-42069);
+        int[] asciiIntArray = new int[inputString.length()];
+        for (int i = 0; i < inputString.length(); i++) {
+            asciiIntArray[i] = (int) inputString.charAt(i);
         }
 
-        return decoded_string;
+        return asciiIntArray;
     }
 
+    public String asciiDecoder(int[] inputIntArray) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < inputIntArray.length; i++) {
+            Integer integer = i;
+            stringBuilder.append(integer.toString());
+        }
+
+        return stringBuilder.toString();
+    }
+
+    // This can only decode string with "-" to separate each string integer
+    // This function assume clean input
+    public String asciiDecoder(String inputIntArrayString) {
+
+        String[] stringList = inputIntArrayString.split("-");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : stringList) {
+            stringBuilder.append((char) Integer.parseInt(s));
+        }
+
+        return stringBuilder.toString();
+    }
+
+
+//    public int[] asciiEncoder(String unencoded_string) {
+//
+//        int ascii_int_list[] = new int[unencoded_string.length()];
+//
+//        int nameLength = unencoded_string.length(); // length of the string used for the loop
+//        for(int i = 0; i < nameLength ; i++){   // while counting characters if less than the length add one
+//            char character = unencoded_string.charAt(i); // start on the first character
+//            int ascii = (int) character; //convert the first character
+//            //System.out.println(character+" = "+ ascii); // print the character and it's value in ascii
+//            ascii_int_list[i] = ascii/* + 42069*/;
+//        }
+//
+//        return ascii_int_list;
+//    }
+
+//    public String asciiDecoder(int[] inputIntArray /*encoded_string*/) {
+//
+//        String decoded_string = "";
+//
+//        for (int i : encoded_string)
+//        {
+//            decoded_string = decoded_string + (char)(i/*-42069*/);
+//        }
+//
+//        return decoded_string;
+//    }
 }
 
 

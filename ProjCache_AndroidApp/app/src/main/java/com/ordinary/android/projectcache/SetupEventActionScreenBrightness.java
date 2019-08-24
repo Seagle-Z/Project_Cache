@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 public class SetupEventActionScreenBrightness extends AppCompatActivity {
 
-    private final int screenBrightnessMax = 255, screenBrightnessMin = 0;
+    private final int screenBrightnessMax = 255, screenBrightnessMin = 1;
     private SeekBar brightnessSeekbar;
     private TextView brightnessValue;
-    private Button complete;
+    private Button completeButton;
     private int curBrightnessValue, seekBarvalue;
     private Context screen_brightness_context;
 
@@ -32,7 +32,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
         brightnessSeekbar.setMax(screenBrightnessMax);
         brightnessSeekbar.setMin(screenBrightnessMin);
         brightnessValue = (TextView) findViewById(R.id.seekBar_value);
-        complete = (Button) findViewById(R.id.screen_brightness_activity_complete_button);
+        completeButton = (Button) findViewById(R.id.screen_brightness_activity_complete_button);
 
         // TODO: 2019-08-20 Missing edite feature.
         boolean settingsCanWrite = hasWriteSettingsPermission(screen_brightness_context);
@@ -76,7 +76,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             }
         });
 
-        complete.setOnClickListener(new View.OnClickListener() {
+        completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
