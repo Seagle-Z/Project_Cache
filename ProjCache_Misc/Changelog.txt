@@ -15,10 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # 08/23/2019
     #[b_jx]
-        1. Added and finished SetupEventActionVolumeActivity()
+        1. Added and finished SetupEventActionVolumeActivity().
         2. Now user can setup media volume, ringtone volume, and alarms volume.
         3. Documentation update with the volume change.
         4. CoreTasksExecutor can do screen brightness changes.
+<<<<<<< HEAD
+=======
+
+    #[b_ysl]
+        1. Added the event object update function to update the action trigger value.
+        2. Change the minimum brightness level in SetupActionBrightnessActivity from 0 to 1.
+        3. Added Volume intent reading in EventSetupPage2.
+>>>>>>> 54176e64f52171fb174c25ef541a6386ae402a6d
 
 # 08/22/2019
     #[b_bdev]

@@ -22,6 +22,7 @@ import java.util.List;
 
 public class ToolFunctions {
 
+    private final int encrytedCode = 42069;
     public static Drawable ButtonIconProcessing(Context context, PackageManager pm, AppInfoModel app) {
         Drawable dResult = null;
         try {
