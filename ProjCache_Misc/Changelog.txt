@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         3. Documentation update with the volume change.
         4. CoreTasksExecutor can do screen brightness changes. 
 
+    #[b_bdev]
+	1. Finished SetupEventConditionWifiActivity()
+	2. Encoded WIFI SSIDs after hitting the complete button
+	3. Decodes WIFI SSIDs when in 'edit' mode
+
 # 08/22/2019
     #[b_bdev]
         1. Added WIFIInfoModel.java, WIFIInfoActivity.java, WIFIInfoAdapter.java
