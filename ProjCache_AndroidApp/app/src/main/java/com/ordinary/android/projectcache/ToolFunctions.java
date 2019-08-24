@@ -121,8 +121,7 @@ public class ToolFunctions {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < inputIntArray.length; i++) {
-            Integer integer = i;
-            stringBuilder.append(integer.toString());
+            stringBuilder.append((char) inputIntArray[i]);
         }
 
         return stringBuilder.toString();
