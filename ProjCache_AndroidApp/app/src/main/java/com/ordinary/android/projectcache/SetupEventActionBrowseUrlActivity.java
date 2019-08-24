@@ -27,6 +27,9 @@ public class SetupEventActionBrowseUrlActivity extends AppCompatActivity {
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // TODO: 2019-08-24 Add url validation
+
                 if (inputUrlEditText.getText().toString().equals("")) {
                     Toast.makeText(
                             SetupEventActionBrowseUrlActivity.this,

@@ -148,8 +148,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         private class wifiComparator implements Comparator<WIFIInfoModel> {
             @Override
             public int compare(WIFIInfoModel X, WIFIInfoModel Y) {
-                CharSequence x = X.getLabel();
-                CharSequence y = Y.getLabel();
+                CharSequence x = X.getWIFIName();
+                CharSequence y = Y.getWIFIName();
 
                 if (x == null) {
                     x = X.getWIFIName();

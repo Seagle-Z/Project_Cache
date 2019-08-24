@@ -31,6 +31,7 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
     private Context display_barcode_context;
     private ImageView barcodeImage;
     private final int BARCODE_IMAGE_REQUEST_CODE = 1001;
+    private final ToolFunctions TF = new ToolFunctions();
 
 
     @Override
@@ -85,6 +86,7 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
     private void barcodeChecking(InputStream is)
     {
         final Bitmap barcode = BitmapFactory.decodeStream(is);
+        //final Bitmap barcode = TF.imageCompression(display_barcode_context,is);
         final FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(barcode);
         FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance().getVisionBarcodeDetector();
         detector.detectInImage(image).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
@@ -104,9 +106,12 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
                         }
                     });
                     failure.show();
+                    completeButton.setVisibility(View.INVISIBLE);
                 }
-                else
+                else {
                     barcodeImage.setImageBitmap(barcode);
+                    completeButton.setVisibility(View.VISIBLE);
+                };
             }
         });
     }

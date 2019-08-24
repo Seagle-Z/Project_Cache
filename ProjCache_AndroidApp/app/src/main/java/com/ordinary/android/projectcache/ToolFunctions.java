@@ -3,11 +3,13 @@ package com.ordinary.android.projectcache;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.media.ImageWriter;
 import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ToolFunctions {
 
-    private final int encrytedCode = 42069;
     public static Drawable ButtonIconProcessing(Context context, PackageManager pm, AppInfoModel app) {
         Drawable dResult = null;
         try {
@@ -63,16 +70,27 @@ public class ToolFunctions {
         return dResult;
     }
 
+    public Bitmap imageCompression(Context context, InputStream is)
+    {
+        Bitmap original = BitmapFactory.decodeStream(is);
+        createDirectoryAndSaveFile(context,original, "Original");
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        original.compress(Bitmap.CompressFormat.JPEG, 60, output);
+        Bitmap out = BitmapFactory.decodeStream(new ByteArrayInputStream(output.toByteArray()));
+        createDirectoryAndSaveFile(context, out, "After");
+        return out;
+    }
+
     public static void createDirectoryAndSaveFile(Context context, Bitmap imageToSave, String fileName) {
 
-        File direct = new File(Environment.getExternalStorageDirectory() + "/sdcard/Android/data/com.ordinary.projectcache.projectcache");
+        File direct = new File(Environment.getExternalStorageDirectory() + "/sdcard/Android/data/com.ordinary.android.projectcache/barcode");
 
         if (!direct.exists()) {
-            File wallpaperDirectory = new File("/sdcard/Android/data/com.ordinary.projectcache.projectcache");
+            File wallpaperDirectory = new File("/sdcard/Android/data/com.ordinary.android.projectcache/barcode");
             wallpaperDirectory.mkdirs();
         }
 
-        File file = new File(new File("/sdcard/Android/data/com.ordinary.projectcache.projectcache"), fileName);
+        File file = new File(new File("/sdcard/Android/data/com.ordinary.android.projectcache/barcode"), fileName);
         if (file.exists()) {
             file.delete();
         }
@@ -108,7 +126,6 @@ public class ToolFunctions {
     }
 
     public int[] asciiEncoder(String inputString) {
-
         int[] asciiIntArray = new int[inputString.length()];
         for (int i = 0; i < inputString.length(); i++) {
             asciiIntArray[i] = (int) inputString.charAt(i);
@@ -121,10 +138,8 @@ public class ToolFunctions {
 
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < inputIntArray.length; i++) {
-            Integer integer = i;
-            stringBuilder.append(integer.toString());
+            stringBuilder.append((char) inputIntArray[i]);
         }
-
         return stringBuilder.toString();
     }
 

@@ -167,10 +167,6 @@ public class EventSetupPage2Fragment extends Fragment {
         return AppPackageName;
     }
 
-    public void updateEventObject(Event e) {
-        this.event = e;
-    }
-
     //Update the related list based on the case input
     private void updateArrayForListView(Intent intent, int buttonCode) {
         if (buttonCode == 1) {

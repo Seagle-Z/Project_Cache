@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10sp"
             android:paddingTop="5sp"
-            android:text="Event Name"
+            android:text="Event Description"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
