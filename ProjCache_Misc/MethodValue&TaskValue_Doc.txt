@@ -100,21 +100,17 @@ Only one QR code could be Show
 Store the QR code picture's directory
 
 BROWSE_URL
-For BROSE_URL, we do not store url in events.csv. Instead, we stroe urlID in event.csv
-If a event contains task about url, the event generator will automatically
-create urlID for the url, and store the url in urlStore.csv file.
+For BROSE_URL, we do not store the real url in events.csv. Instead, we stroe
+the ASCII encoded string with "-" to separate each integer.
 Only one url could be open
 E.g.
-In events.csv:
-tasksTypeStart          tasksValueStart
-BRIGHT|BROSE_URL        80|24
-In urlStore.csv, the format is urlID, url
+https://www.bilibili.com 
+104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109
 E.g.
-In urlStore.csv
-1, https://www.google.com
-2, https://www.baidu.com
-24, https://www.bilibili.com
-51, https://maps.google.com
+In events.csv:
+tasksTypeStart                      tasksValueStart
+SCREEN_BRIGHTNESS|BROSE_URL         80|104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109
+
 
 VOLUME
 Use "-" to separate stream(media), Ringtone, and Alarms

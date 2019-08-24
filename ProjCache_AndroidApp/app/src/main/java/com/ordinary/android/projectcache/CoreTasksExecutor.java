@@ -73,8 +73,8 @@ public class CoreTasksExecutor {
     }
 
     private Intent taskCaseBROWSE_URL(String taskValue) {
-        // TODO: 2019-08-23 在eventSetup可用后，把这里改成decode再开。因为这里events.csv里存的是encode后的ascii码
-        String url = taskValue;
+        ToolFunctions toolFunctions = new ToolFunctions();
+        String url = toolFunctions.asciiDecoder(taskValue);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         return intent;

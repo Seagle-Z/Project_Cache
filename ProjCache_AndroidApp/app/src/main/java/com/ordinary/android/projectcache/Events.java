@@ -498,10 +498,10 @@ public class Events {
     public void modifyTestingEvents() {
 
         String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"12:17"};
+        String[] triggerValuesM1 = {"20:08-23:10"};
 
-        String[] tasksTypeStartM1 = {"SCREEN_BRIGHTNESS"};
-        String[] tasksValueStartM1 = {"100"};
+        String[] tasksTypeStartM1 = {"BROWSE_URL"};
+        String[] tasksValueStartM1 = {"104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109"};
 
         String[] tasksTypeEndM1 = null;
         String[] tasksValueEndM1 = null;
