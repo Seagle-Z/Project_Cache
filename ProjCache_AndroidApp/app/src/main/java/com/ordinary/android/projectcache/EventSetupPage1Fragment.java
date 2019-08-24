@@ -230,6 +230,16 @@ public class EventSetupPage1Fragment extends Fragment {
             conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
         }
 
+        //Setup for WIFIPage
+        if (data.hasExtra("Wifi")) {
+            if (!editMode) {
+                conditionsArrList.add("- Added trigger method: WIFI");
+                selectedConditionTypes.add("WIFI");
+            }
+            editMode = false;
+            conditions.put("WIFI", data.getStringExtra("Wifi"));
+        }
+
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
     }

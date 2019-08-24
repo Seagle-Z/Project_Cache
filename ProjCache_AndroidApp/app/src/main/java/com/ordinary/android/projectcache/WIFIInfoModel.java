@@ -15,11 +15,11 @@ public class WIFIInfoModel implements Serializable {
         macAddr = mAddr;
     }
 
-    public void setLabel(String s) {
+    public void setMacAddr(String s) {
         macAddr = s;
     }
 
-    public String getLabel() {
+    public String getMacAddr() {
         return macAddr;
     }
 

@@ -2,9 +2,7 @@ package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -14,7 +12,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -79,6 +76,11 @@ public class WIFISelectorActivity extends AppCompatActivity {
     } //End of onCreate()
 
 
+    // Decoded Code
+    //  int [] tmep = {86,74,68};
+    //  System.out.println(TF.asciiDecoder(tmep));
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -110,7 +112,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
             //PREVIOUSLY SAVED WIFI Connections
             List<WifiConfiguration> currentNetworks = wifiManager.getConfiguredNetworks();
-            System.out.println("Previously Saved WIFI");
+            //System.out.println("Previously Saved WIFI");
             for (WifiConfiguration prevConnections : currentNetworks) {
 
                 String SSID = prevConnections.SSID.replaceAll("\"","");
@@ -146,8 +148,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         private class wifiComparator implements Comparator<WIFIInfoModel> {
             @Override
             public int compare(WIFIInfoModel X, WIFIInfoModel Y) {
-                CharSequence x = X.getLabel();
-                CharSequence y = Y.getLabel();
+                CharSequence x = X.getWIFIName();
+                CharSequence y = Y.getWIFIName();
 
                 if (x == null) {
                     x = X.getWIFIName();
