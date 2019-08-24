@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/page2_title"
+            android:id="@+id/page3_title"
             android:layout_width="match_parent"
             android:layout_height="35sp"
             android:paddingLeft="5sp"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10sp"
             android:paddingTop="5sp"
-            android:text="Event Name"
+            android:text="Event Description"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 

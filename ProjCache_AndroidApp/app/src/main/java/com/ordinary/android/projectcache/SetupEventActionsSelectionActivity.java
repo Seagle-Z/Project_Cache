@@ -11,7 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +48,9 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
         actionArrList.add(BRIGHTNESS);
         actionArrList.add(BROWSE_URL);
         actionArrList.add(CHANGE_VOLUME);
+        Collections.sort(actionArrList);
 
-         adapterForActionListView = new ArrayAdapter<String>(
+        adapterForActionListView = new ArrayAdapter<String>(
                 this,
                 R.layout.layout_general_list,
                 R.id.general_list_textview_text,
@@ -101,8 +105,8 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if(requestCode == REQUEST_SELECTION_LIST_CODE && resultCode == Activity.RESULT_OK)
-            setResult(Activity.RESULT_OK, data);
+            if (requestCode == REQUEST_SELECTION_LIST_CODE && resultCode == Activity.RESULT_OK)
+                setResult(Activity.RESULT_OK, data);
             finish();
         } catch (NullPointerException e) {
         }

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String EVENTS_FILE_NAME = "events.csv";
     public Events events;
+    public File eventsFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent startEventSetup =
                         new Intent(MainActivity.this, EventSetupActivity.class);
+                startEventSetup.putExtra("EVENT_FILE",eventsFile);
                 startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
             }
         });
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity
 
 
         //- Events Object -------------------------------------------------------------------------*
-        File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+        eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
         events = new Events(this, eventsFile);
 
 
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_createEvent) {
             Intent startEventSetup =
                     new Intent(MainActivity.this, EventSetupActivity.class);
+            startEventSetup.putExtra("EVENT_FILE",eventsFile);
             startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
         } else if (id == R.id.nav_about) {
             //** put our link here "https://www.ordinary.com

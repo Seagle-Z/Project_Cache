@@ -1,10 +1,10 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.Activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 //import android.content.BroadcastReceiver;
 //import android.content.IntentFilter;
 //import android.content.pm.PackageManager;
@@ -22,8 +25,6 @@ import android.app.Activity;
 //import android.net.wifi.WifiInfo;
 //import java.util.Collections;
 //import java.net.NetworkInterface;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
@@ -95,12 +96,11 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                         for (int i = 0; i < selectedWifiArrList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
 
                             // Encoding the String
-                            int tempEncoded [] = TF.asciiEncoder(selectedWifiArrList.get(i));
+                            int tempEncoded[] = TF.asciiEncoder(selectedWifiArrList.get(i));
                             String tempString = "";
 
                             //Padding the string with '-' between each number
-                            for(int j = 0; j < tempEncoded.length; j++)
-                            {
+                            for (int j = 0; j < tempEncoded.length; j++) {
                                 if (j != tempEncoded.length - 1)
                                     tempString = tempString + tempEncoded[j] + "-";
                                 else
@@ -150,15 +150,17 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
                 for (int i = 0; i < wifiStringDivider.length; i++) {
                     String selectedEncodedString = wifiStringDivider[i];
-                    //String[] tempNumArray = selectedEncodedString.split("-"); // splitting string by '-'
-                    //int tempNumSize = tempNumArray.length;
-                    //int tempNum[] = new int[tempNumSize];
+                    String[] tempNumArray = selectedEncodedString.split("-"); // splitting string by '-'
+
+                    int tempNumSize = tempNumArray.length;
+                    int tempNum[] = new int[tempNumSize];
+
                     //Converting String Integer Array into Integer Integer Array
-                    //for (int z= 0; z < tempNumArray.length; z++) {
-                    //    tempNum[z] = Integer.parseInt(tempNumArray[z]);
-                    //}
-                    //selectedWifiArrList.add(TF.asciiDecoder(tempNum)); //Add Decoded String onto the wifiList
-                    selectedWifiArrList.add(TF.asciiDecoder(selectedEncodedString));
+                    for (int z = 0; z < tempNumArray.length; z++) {
+                        tempNum[z] = Integer.parseInt(tempNumArray[z]);
+                    }
+
+                    selectedWifiArrList.add(TF.asciiDecoder(tempNum)); //Add Decoded String onto the wifiList
                 }
 
                 wifiLISTAdapterView.notifyDataSetChanged();
@@ -179,11 +181,11 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                     if (returnedWifi != null) {
                         if (!checkDuplicate(returnedWifi.getWIFIName(), selectedWifiArrList)) {
                             if (!editMode) {
-                                selectedWifiArrList.add(returnedWifi.getWIFIName());                //Places the data from the WifiSelectorActivity.java into the arraylist
+                                selectedWifiArrList.add("Wi-Fi: " + returnedWifi.getWIFIName());                //Places the data from the WifiSelectorActivity.java into the arraylist
                             } else {
                                 selectedWifiArrList.set(
                                         selectedEditPosition,
-                                        returnedWifi.getWIFIName());
+                                        "Wi-Fi: " + returnedWifi.getWIFIName());
                             }
                             wifiLISTAdapterView.notifyDataSetChanged();
                             TF.setListViewHeightBasedOnChildren(
