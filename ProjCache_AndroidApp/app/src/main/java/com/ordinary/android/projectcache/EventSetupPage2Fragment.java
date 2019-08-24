@@ -225,6 +225,15 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.set(selectedEditedPosition, "Added Volume Control");
             editingHashtable.put("VOLUME", intent.getStringExtra("Volume"));
         }
+
+        if(intent.hasExtra("BROWSE_URL"))
+        {
+            if(!editMode)
+                editingList.add("Browse URL Link");
+            else
+                editingList.set(selectedEditedPosition, "Browse URL Link");
+            editingHashtable.put("BROWSE_URL", intent.getStringExtra("BROWSE_URL"));
+        }
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }
