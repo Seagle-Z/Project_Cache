@@ -67,7 +67,7 @@ public class CoreRunnable implements Runnable {
 //                    if (MainActivity.eventsChanged == true) {
 //                        events = new Events(context, eventsFile);
 //                    }
-
+                    events = new Events(context, eventsFile);
                     activatedEventsID = events.getActivatedEventsIDList();
                     CoreConditionInspector cci = new CoreConditionInspector(context, events);
                     triggerableEventsID = cci.getTriggerableEventsID();

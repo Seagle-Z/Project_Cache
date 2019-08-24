@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/page2_title"
+            android:id="@+id/page3_title"
             android:layout_width="match_parent"
             android:layout_height="35sp"
             android:paddingLeft="5sp"
