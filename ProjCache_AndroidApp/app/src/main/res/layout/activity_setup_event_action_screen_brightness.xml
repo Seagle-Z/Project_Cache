@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/screen_brightness_title"
         android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
+        android:layout_height="35dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:text="Setup Screen Brightness"
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
@@ -26,8 +26,8 @@
             android:id="@+id/brightness_control_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="Change screen brightness when condition match"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
@@ -37,17 +37,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="value"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
 
         <SeekBar
             android:id="@+id/brightness_seekbar"
-            android:paddingLeft="10sp"
-            android:paddingTop="20sp"
-            android:paddingBottom="20sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -55,8 +55,8 @@
             android:id="@+id/screen_brightness_activity_complete_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:text="Complete" />
 
     </LinearLayout>

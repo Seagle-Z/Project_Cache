@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="500dp">
@@ -19,8 +18,8 @@
                 android:id="@+id/page1_title"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:paddingLeft="5sp"
-                android:paddingTop="5sp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
                 android:text="Add method to trigger the the event"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
@@ -37,10 +36,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:background="?selectableItemBackground"
-                android:paddingLeft="15sp"
+                android:paddingLeft="15dp"
                 android:text="+ Select a condition"
                 android:textAlignment="textStart" />
         </LinearLayout>
+
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10sp"
-        android:layout_marginBottom="10sp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_media_play" />
 

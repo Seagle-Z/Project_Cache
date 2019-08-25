@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+
     private void checkPermissionStatus() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
