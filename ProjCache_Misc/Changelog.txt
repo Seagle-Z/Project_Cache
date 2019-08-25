@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     	1. Reformat the scaling for all xml files
     	2. Added event object to event.csv, now event can be automatically trigger.
     	3. Added request system control permission in SetupActionBrightnessActivity.java
-    	
+    	4. Added TypeValueObjectModelClass to support all different types of object for both 
+    	   condition and action page.
 
 # 08/23/2019
     #[b_jx]
