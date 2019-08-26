@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+# 08/25/2019
+    #[b_jx]
+        1. Added Wi-Fi inspector, it work good for right format.
+        2. Change the asciiEncoder() and asciiDecoder() to textEncoder() and textDecoder().
+        3. Start working on EventManagementActivity().
+        4. Update the Wi-Fi description in MethodValues&Taskvalue_Doc. 
+
 # 08/24/2019
     #[b_jx]
         1. Added and finished SetupEventActionBrowseUrlActivity().
@@ -26,9 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         3. Added Volume intent reading in EventSetupPage2.
 
     #[b_bdev]
-	1. Finished SetupEventConditionWifiActivity()
-	2. Encoded WIFI SSIDs after hitting the complete button
-	3. Decodes WIFI SSIDs when in 'edit' mode
+	    1. Finished SetupEventConditionWifiActivity()
+	    2. Encoded WIFI SSIDs after hitting the complete button
+	    3. Decodes WIFI SSIDs when in 'edit' mode
 
 # 08/22/2019
     #[b_bdev]

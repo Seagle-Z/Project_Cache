@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.widget.Toast;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -66,6 +65,8 @@ public class CoreTasksExecutor {
                 taskCaseVOLUME_STREAM(taskValue);
                 break;
 
+            default:
+                break;
 
         }
 
@@ -74,7 +75,7 @@ public class CoreTasksExecutor {
 
     private Intent taskCaseBROWSE_URL(String taskValue) {
         ToolFunctions toolFunctions = new ToolFunctions();
-        String url = toolFunctions.asciiDecoder(taskValue);
+        String url = toolFunctions.textDecoder(taskValue);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         return intent;

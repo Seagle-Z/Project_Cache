@@ -59,6 +59,10 @@ BLUETOOTH
 
 
 WIFI
+Use Java character to int to encode to int array
+Use "#" without space as L2 separator to separate each Wi-Fi eventName
+E.g.    if there are two Wi-Fi: AndroidWifi and Ordinary的网络热点
+        65-110-100-114-111-105-100-87-105-102-105#79-114-100-105-110-97-114-121-30340-32593-32476-28909-28857
 
 
 LOCATION
@@ -104,7 +108,7 @@ For BROSE_URL, we do not store the real url in events.csv. Instead, we stroe
 the ASCII encoded string with "-" to separate each integer.
 Only one url could be open
 E.g.
-https://www.bilibili.com 
+https://www.bilibili.com
 104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109
 E.g.
 In events.csv:
