@@ -38,7 +38,7 @@ public class SetupEventActionBrowseUrlActivity extends AppCompatActivity {
                     ).show();
                 } else {
                     String url = inputUrlEditText.getText().toString();
-                    int[] urlEncoded = toolFunctions.asciiEncoder(url);
+                    int[] urlEncoded = toolFunctions.textEncoder(url);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < urlEncoded.length; i++) {
                         //System.out.println("------------------------" + i);

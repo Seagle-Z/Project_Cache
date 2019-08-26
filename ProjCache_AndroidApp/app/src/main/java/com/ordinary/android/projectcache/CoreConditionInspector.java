@@ -6,6 +6,9 @@ import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -66,6 +69,11 @@ public class CoreConditionInspector {
             case "TIME":
                 return inspectTIME(value);
 
+            case "WIFI":
+                return inspectWIFI(value);
+
+            default:
+                break;
 
         }
 
@@ -125,6 +133,34 @@ public class CoreConditionInspector {
         return false;
     }
 
+    private boolean inspectWIFI(String value) {
+        String[] ssidList = value.split("#");
+
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo;
+
+        wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
+            String curSSID = wifiInfo.getSSID();
+            int l = curSSID.length();
+            curSSID = curSSID.substring(1, l - 1);
+            System.out.println("After deQuote: " + curSSID);
+            System.out.println("enmm...");
+            ToolFunctions toolFunctions = new ToolFunctions();
+            for (String ssid : ssidList) {
+                if (ssid.length() < 3) {
+                    continue;
+                }
+                System.out.println("event ssid: " + toolFunctions.textDecoder(ssid));
+                if (curSSID.equals(toolFunctions.textDecoder(ssid))) {
+                    System.out.println("event should happens: " + curSSID);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
 }
 

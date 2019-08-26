@@ -96,7 +96,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                         for (int i = 0; i < selectedWifiArrList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
 
                             // Encoding the String
-                            int tempEncoded[] = TF.asciiEncoder(selectedWifiArrList.get(i));
+                            int tempEncoded[] = TF.textEncoder(selectedWifiArrList.get(i));
                             String tempString = "";
 
                             //Padding the string with '-' between each number
@@ -160,7 +160,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                         tempNum[z] = Integer.parseInt(tempNumArray[z]);
                     }
 
-                    selectedWifiArrList.add(TF.asciiDecoder(tempNum)); //Add Decoded String onto the wifiList
+                    selectedWifiArrList.add(TF.textDecoder(tempNum)); //Add Decoded String onto the wifiList
                 }
 
                 wifiLISTAdapterView.notifyDataSetChanged();
