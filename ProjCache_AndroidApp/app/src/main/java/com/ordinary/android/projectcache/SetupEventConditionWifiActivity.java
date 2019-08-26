@@ -181,11 +181,11 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                     if (returnedWifi != null) {
                         if (!checkDuplicate(returnedWifi.getWIFIName(), selectedWifiArrList)) {
                             if (!editMode) {
-                                selectedWifiArrList.add("Wi-Fi: " + returnedWifi.getWIFIName());                //Places the data from the WifiSelectorActivity.java into the arraylist
+                                selectedWifiArrList.add(returnedWifi.getWIFIName());                //Places the data from the WifiSelectorActivity.java into the arraylist
                             } else {
                                 selectedWifiArrList.set(
                                         selectedEditPosition,
-                                        "Wi-Fi: " + returnedWifi.getWIFIName());
+                                        returnedWifi.getWIFIName());
                             }
                             wifiLISTAdapterView.notifyDataSetChanged();
                             TF.setListViewHeightBasedOnChildren(
