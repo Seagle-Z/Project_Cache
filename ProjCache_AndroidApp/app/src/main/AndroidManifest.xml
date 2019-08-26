@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
+
+        <activity
+            android:name=".EventsManagementActivity"
+            android:label="@string/title_activity_events_management"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
@@ -90,5 +97,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
 </manifest>
