@@ -18,7 +18,6 @@ public class EventsManagementActivity extends AppCompatActivity {
     private RecyclerView eventsManagementRecyclerView;
     private RecyclerView.Adapter EventManagementAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    private Events events;
     private static final String EVENTS_FILE_NAME = "events.csv";
 
     @Override
@@ -38,21 +37,13 @@ public class EventsManagementActivity extends AppCompatActivity {
         });
 
         File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
-        events = new Events(this.getApplicationContext(), eventsFile);
+        Events events = new Events(this.getApplicationContext(), eventsFile);
         List<Event> eventsList = events.getEventsList();
-
-        List<EventManagementModel> EventsManagementList;
-        EventsManagementList = new ArrayList<>();
-        for (Event e : eventsList) {
-            EventsManagementList.add(new EventManagementModel(
-                    e.eventName, e.eventDescription, e.isActivated, R.drawable.ic_menu_send/*e.eventImage*/
-            ));
-        }
 
         eventsManagementRecyclerView = findViewById(R.id.eventsManagement_RecyclerView);
         eventsManagementRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        EventManagementAdapter = new EventsManagementAdapter(EventsManagementList);
+        EventManagementAdapter = new EventsManagementAdapter(this, eventsList);
 
         eventsManagementRecyclerView.setLayoutManager(layoutManager);
         eventsManagementRecyclerView.setAdapter(EventManagementAdapter);

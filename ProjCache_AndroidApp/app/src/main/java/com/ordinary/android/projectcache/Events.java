@@ -1,7 +1,9 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class Events {
+public class Events extends AppCompatActivity {
 
     // TODO: 2019-08-16 重建CSV的时候要弄一个备份，以防在重建过程中app被关掉，CSV里的信息就没了
 
