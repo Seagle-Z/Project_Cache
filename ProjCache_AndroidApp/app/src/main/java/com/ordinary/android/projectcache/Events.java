@@ -24,16 +24,28 @@ public class Events extends AppCompatActivity {
 
     Context context;
     File eventsFile;
+    private static final String EVENTS_FILE_NAME = "events.csv";
 
     private List<Event> eventsList;     // store all the events information
     private Event defaultEvent;
     public List<Integer> activatedEventsList;   // store all eventID of activated events (switch is on)
 
 
-    public Events(Context inputContext, File inputEventsFile) {
+    public Events(Context context) {
+        File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+        this.context = context;
+        this.eventsFile = eventsFile;
+        createEvents(context, eventsFile);
+    }
 
-        context = inputContext;
-        eventsFile = inputEventsFile;
+    public Events(Context inputContext, File inputEventsFile) {
+        this.context = inputContext;
+        this.eventsFile = inputEventsFile;
+        createEvents(inputContext, inputEventsFile);
+    }
+
+
+    public void createEvents(Context inputContext, File inputEventsFile) {
 
         eventsList = new ArrayList<>();
         activatedEventsList = new ArrayList<>();

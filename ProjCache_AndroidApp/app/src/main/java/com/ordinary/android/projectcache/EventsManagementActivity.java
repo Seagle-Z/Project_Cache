@@ -1,5 +1,6 @@
 package com.ordinary.android.projectcache;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,7 +19,9 @@ public class EventsManagementActivity extends AppCompatActivity {
     private RecyclerView eventsManagementRecyclerView;
     private RecyclerView.Adapter EventManagementAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
     private static final String EVENTS_FILE_NAME = "events.csv";
+    private final int REQUEST_SETUP_CODE = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,11 @@ public class EventsManagementActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent startEventSetup =
+                        new Intent(EventsManagementActivity.this, EventSetupActivity.class);
+                File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+                startEventSetup.putExtra("EVENT_FILE", eventsFile);
+                startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
             }
         });
 
