@@ -9,6 +9,10 @@ import android.widget.LinearLayout;
 
 import java.io.File;
 
+/* TODO: 2019-08-26 Add functionality that can input an Event, then put all info about this Event
+         into UI elements. This functionality used for user modify event.
+ */
+
 public class EventSetupActivity extends AppCompatActivity {
 
     private static final String TAG = "EventSetupActivity";

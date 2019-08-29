@@ -78,7 +78,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
     // Decoded Code
     //  int [] tmep = {86,74,68};
-    //  System.out.println(TF.asciiDecoder(tmep));
+    //  System.out.println(TF.textDecoder(tmep));
 
 
     @Override

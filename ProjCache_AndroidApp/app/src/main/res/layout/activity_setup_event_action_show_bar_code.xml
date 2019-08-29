@@ -11,9 +11,9 @@
     <TextView
         android:id="@+id/date_time_picker_activity"
         android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
+        android:layout_height="35dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:text="Barcode Selector"
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
@@ -22,8 +22,8 @@
         android:id="@+id/time_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10sp"
-        android:paddingTop="5sp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
         android:text="Please scan or select a barcode to show"
         android:textColor="@android:color/black"
         android:textSize="20sp" />

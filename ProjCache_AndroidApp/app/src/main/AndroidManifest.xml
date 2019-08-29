@@ -11,8 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SetupEventActionBrowseUrlActivity"></activity>
-        <activity android:name=".SetupEventActionVolumeActivity" />
+
+
+
+        <activity
+            android:name=".EventsManagementActivity"
+            android:label="@string/title_activity_events_management"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation"
@@ -70,6 +76,13 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".SetupEventActionBrowseUrlActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SetupEventActionVolumeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="barcode" />
@@ -84,5 +97,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
 </manifest>

@@ -9,4 +9,5 @@
     <string name="title_activity_user_setup">UserSetupActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_events_management">EventsManagementActivity</string>
 </resources>

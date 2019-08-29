@@ -20,6 +20,8 @@ public class CoreRunnable implements Runnable {
     private List<Integer> runningEventsID;
     private File eventsFile;
 
+    private static final String EVENTS_FILE_NAME = "events.csv";
+
     CoreRunnable(Context context, File eventsFile, ViewPager coreViewPager) {
         this.context = context;
         this.coreViewPager = coreViewPager;
@@ -67,7 +69,8 @@ public class CoreRunnable implements Runnable {
 //                    if (MainActivity.eventsChanged == true) {
 //                        events = new Events(context, eventsFile);
 //                    }
-                    events = new Events(context, eventsFile);
+                    File ef = new File(context.getFilesDir(), EVENTS_FILE_NAME);
+                    events = new Events(context, ef);
                     activatedEventsID = events.getActivatedEventsIDList();
                     CoreConditionInspector cci = new CoreConditionInspector(context, events);
                     triggerableEventsID = cci.getTriggerableEventsID();
@@ -84,6 +87,8 @@ public class CoreRunnable implements Runnable {
 //                                curEventName,//events.getEventByID(i).eventName,
 //                                context.getResources().getDrawable(R.drawable.ic_menu_manage, null)
 //                        ));
+
+
                         if (!runningEventsID.contains(curEvent.eventID) && curEvent.autoTrigger == true) {
                             runningEventsID.add(curEvent.eventID);
                             curCoreTasksExecutor.startThisEvent();
@@ -117,7 +122,7 @@ public class CoreRunnable implements Runnable {
             });
 
             try {
-                Thread.sleep(1000);     // every this time long, check the new status
+                Thread.sleep(2000);     // every this time long, check the new status
             } catch (Exception e) {
                 // print out exception if needed
             }
@@ -201,5 +206,18 @@ public class CoreRunnable implements Runnable {
 //        }
 //    }
 
+    private String printThis(String[] sArr) {
+        if (sArr == null) {
+            return "NULL";
+        }
+        String rets = "";
+        for (int i = 0; i < sArr.length; i++) {
+            rets += sArr[i];
+            if (i != sArr.length - 1) {
+                rets += "|";
+            }
+        }
+        return rets;
+    }
 }
 

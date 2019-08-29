@@ -148,7 +148,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_manageEvents) {
-            //** add, delete, modify events here
+            Intent startEventManagement =
+                    new Intent(MainActivity.this, EventsManagementActivity.class);
+            startEventManagement.putExtra("EVENT_FILE", eventsFile);
+            startActivity(startEventManagement);
         } else if (id == R.id.nav_createEvent) {
             Intent startEventSetup =
                     new Intent(MainActivity.this, EventSetupActivity.class);
@@ -164,6 +167,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     private void checkPermissionStatus() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,

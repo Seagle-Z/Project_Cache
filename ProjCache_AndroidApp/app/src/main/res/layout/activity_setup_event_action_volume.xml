@@ -11,7 +11,7 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="Setup Device Volume" />
 
     <TextView
@@ -19,13 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Change device volume when condition match"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <Switch
         android:id="@+id/playTestVolume_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
         android:text="Play a short test alarm after adjust" />

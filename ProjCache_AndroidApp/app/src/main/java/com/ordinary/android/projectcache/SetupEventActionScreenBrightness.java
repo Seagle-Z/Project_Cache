@@ -12,10 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SetupEventActionScreenBrightness extends AppCompatActivity {
 
-    private final int screenBrightnessMax = 255, screenBrightnessMin = 1;
+    private final int screenBrightnessMax = 100, screenBrightnessMin = 1;
     private SeekBar brightnessSeekbar;
     private TextView brightnessValue;
     private Button completeButton;
@@ -34,16 +35,42 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
         brightnessValue = (TextView) findViewById(R.id.seekBar_value);
         completeButton = (Button) findViewById(R.id.screen_brightness_activity_complete_button);
 
-        // TODO: 2019-08-20 Missing edite feature.
+        // TODO: 2019-08-20 Missing edit feature.
         boolean settingsCanWrite = hasWriteSettingsPermission(screen_brightness_context);
         // If do not have then open the Can modify system settings panel.
-        if (!settingsCanWrite)
-            changeWriteSettingsPermission(screen_brightness_context);
+        if (!settingsCanWrite) {
+            AlertDialog.Builder RequestPermissionDialog =
+                    new AlertDialog.Builder(screen_brightness_context);
+            RequestPermissionDialog.setTitle("Permission needed");
+            RequestPermissionDialog.setMessage(
+                    "To modify brightness, please allow app to modify system setting");
+            RequestPermissionDialog.setPositiveButton(
+                    "Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            changeWriteSettingsPermission(screen_brightness_context);
+                        }
+                    });
+            RequestPermissionDialog.setNegativeButton(
+                    "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(
+                                    screen_brightness_context,
+                                    "Permission Denied",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            RequestPermissionDialog.show();
+        }
 
         try {
             curBrightnessValue = android.provider.Settings.System.getInt(
                     getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS);
+            curBrightnessValue = (int) (curBrightnessValue / 255.0 * 100);
             brightnessValue.setText(
                     "Brightness Value: " + curBrightnessValue + "/" + 100);
             brightnessSeekbar.setProgress(curBrightnessValue);
@@ -53,12 +80,13 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
         brightnessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarvalue = (int) Math.round((progress / 255.0) * 100);
+                seekBarvalue = progress;
                 brightnessValue.setText(
                         "Brightness Value: " + seekBarvalue + "/" + 100);
                 Settings.System.putInt(
                         getContentResolver(),
-                        Settings.System.SCREEN_BRIGHTNESS, (int) Math.round(seekBarvalue));
+                        Settings.System.SCREEN_BRIGHTNESS,
+                        (int) Math.round(seekBarvalue * 255.0 / 100));
             }
 
             @Override
@@ -80,8 +108,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                if(seekBarvalue == curBrightnessValue)
-                {
+                if (seekBarvalue == curBrightnessValue) {
                     AlertDialog.Builder Warning = new AlertDialog.Builder(screen_brightness_context);
                     Warning.setTitle("Reminder");
                     Warning.setMessage("The value did not change.");
@@ -92,8 +119,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                         }
                     });
                     Warning.show();
-                }
-                else {
+                } else {
                     intent.putExtra("BRIGHTNESS", Integer.toString(seekBarvalue));
                     setResult(Activity.RESULT_OK, intent);
                     finish();
