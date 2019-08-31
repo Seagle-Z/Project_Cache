@@ -1,14 +1,20 @@
 package com.ordinary.android.projectcache;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.List;
@@ -26,8 +32,6 @@ public class EventsManagementAdapter
         public Switch activationSwitch;
         public ImageView eventImageView;
 
-        private static final String EVENTS_FILE_NAME = "events.csv";
-
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.eventName_textView);
@@ -35,15 +39,26 @@ public class EventsManagementAdapter
             activationSwitch = itemView.findViewById(R.id.eventActivation_switch);
             eventImageView = itemView.findViewById(R.id.eventImage_imageView);
 
-            File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
-            Events events = new Events(context, eventsFile);
+            Events events = new Events(context);
+            final Context contextConstant = context;
 
             activationSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (activationSwitch.isChecked()) {
-
+                        Events events = new Events(contextConstant);
+                        events.updateEventActivationStatus(nameTextView.getText().toString(), true);
+                    } else {
+                        Events events = new Events(contextConstant);
+                        events.updateEventActivationStatus(nameTextView.getText().toString(), false);
                     }
+                }
+            });
+
+            eventImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
         }
@@ -77,4 +92,6 @@ public class EventsManagementAdapter
     public int getItemCount() {
         return EventsManagementList.size();
     }
+
+
 }

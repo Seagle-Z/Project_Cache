@@ -32,7 +32,7 @@ public class Events extends AppCompatActivity {
 
 
     public Events(Context context) {
-        File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+        File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
         this.context = context;
         this.eventsFile = eventsFile;
         createEvents(context, eventsFile);
@@ -69,9 +69,18 @@ public class Events extends AppCompatActivity {
             //** Hard code some event for development *************************************** FINISH
         }
 
-        FileInputStream fis = null;
-
         // input events to the events object form events.csv file
+        updateEventList();
+
+        //** Hard code modify event for development ****************************************** START
+        modifyTestingEvents();
+        //** Hard code modify event for development ***************************************** FINISH
+
+    }
+
+    public void updateEventList() {
+        eventsList = new ArrayList<>();
+        FileInputStream fis = null;
         try {
             fis = context.openFileInput(eventsFile.getName());
             InputStreamReader isr = new InputStreamReader(fis);
@@ -97,13 +106,6 @@ public class Events extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-        //** Hard code modify event for development ****************************************** START
-        modifyTestingEvents();
-        //** Hard code modify event for development ***************************************** FINISH
-
     }
 
     public boolean addEvent(Event newEvent) {
@@ -123,13 +125,9 @@ public class Events extends AppCompatActivity {
         if (inputEventID > eventsList.size()) {
             return false;
         }
-//        for (Event ee : eventsList) {
-//            System.out.println("zhegeStart: " + ee.eventID + "  " + ee.eventName);
-//        }
+
         eventsList.remove(inputEventID);
-//        for (Event ee : eventsList) {
-//            System.out.println("zhegeEnd  : " + ee.eventID + "  " + ee.eventName);
-//        }
+
         for (int i = 0; i < eventsList.size(); i++) {
             eventsList.get(i).eventID = i;
         }
@@ -172,6 +170,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByID(Integer seekingEventID) {
+        updateEventList();
         if (seekingEventID > eventsList.size()) {
             return null;
         }
@@ -180,6 +179,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByName(String seekingEventName) {
+        updateEventList();
         for (Event e : eventsList) {
             if (e.eventName.equals(seekingEventName)) {
                 return e;
@@ -193,13 +193,17 @@ public class Events extends AppCompatActivity {
         return eventsList;
     }
 
-    public void updateEventActivationStatus(String eventName, boolean status) {
-        int eventID = (getEventByName(eventName).eventID);
+    public boolean updateEventActivationStatus(String eventName, boolean status) {
+        updateEventList();
+        int eventID = getEventByName(eventName).eventID;
         eventsList.get(eventID).isActivated = status;
+        return refreshEvents();
     }
 
-    public void updateEventActivationStatus(int eventID, boolean status) {
+    public boolean updateEventActivationStatus(int eventID, boolean status) {
+        updateEventList();
         eventsList.get(eventID).isActivated = status;
+        return refreshEvents();
     }
 
     public List<Integer> getActivatedEventsIDList() {
