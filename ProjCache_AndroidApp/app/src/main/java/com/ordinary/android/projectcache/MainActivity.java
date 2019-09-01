@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity
         //- ToolBar -------------------------------------------------------------------------------*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        //- Check Permissions ---------------------------------------------------------------------*
         checkPermissionStatus();
 
 

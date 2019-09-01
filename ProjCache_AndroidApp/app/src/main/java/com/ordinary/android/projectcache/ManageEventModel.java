@@ -17,4 +17,21 @@ public class ManageEventModel {
     public boolean isSelected() {
         return isSelected;
     }
+
+
+    public String getEventName() {
+        return event.eventName;
+    }
+
+    public String getEventDescription() {
+        return event.eventDescription;
+    }
+
+    public boolean eventIsActivated() {
+        return event.isActivated;
+    }
+
+    public String getEventImage() {
+        return event.eventImage;
+    }
 }
