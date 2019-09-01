@@ -3,7 +3,6 @@ package com.ordinary.android.projectcache;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +31,7 @@ public class Events extends AppCompatActivity {
 
 
     public Events(Context context) {
-        File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
+        File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
         this.context = context;
         this.eventsFile = eventsFile;
         createEvents(context, eventsFile);
@@ -69,9 +68,18 @@ public class Events extends AppCompatActivity {
             //** Hard code some event for development *************************************** FINISH
         }
 
-        FileInputStream fis = null;
-
         // input events to the events object form events.csv file
+        updateEventsList();
+
+        //** Hard code modify event for development ****************************************** START
+        modifyTestingEvents();
+        //** Hard code modify event for development ***************************************** FINISH
+
+    }
+
+    public void updateEventsList() {
+        eventsList = new ArrayList<>();
+        FileInputStream fis = null;
         try {
             fis = context.openFileInput(eventsFile.getName());
             InputStreamReader isr = new InputStreamReader(fis);
@@ -97,13 +105,6 @@ public class Events extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-        //** Hard code modify event for development ****************************************** START
-        modifyTestingEvents();
-        //** Hard code modify event for development ***************************************** FINISH
-
     }
 
     public boolean addEvent(Event newEvent) {
@@ -123,13 +124,9 @@ public class Events extends AppCompatActivity {
         if (inputEventID > eventsList.size()) {
             return false;
         }
-//        for (Event ee : eventsList) {
-//            System.out.println("zhegeStart: " + ee.eventID + "  " + ee.eventName);
-//        }
+
         eventsList.remove(inputEventID);
-//        for (Event ee : eventsList) {
-//            System.out.println("zhegeEnd  : " + ee.eventID + "  " + ee.eventName);
-//        }
+
         for (int i = 0; i < eventsList.size(); i++) {
             eventsList.get(i).eventID = i;
         }
@@ -172,6 +169,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByID(Integer seekingEventID) {
+        updateEventsList();
         if (seekingEventID > eventsList.size()) {
             return null;
         }
@@ -180,6 +178,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByName(String seekingEventName) {
+        updateEventsList();
         for (Event e : eventsList) {
             if (e.eventName.equals(seekingEventName)) {
                 return e;
@@ -190,16 +189,21 @@ public class Events extends AppCompatActivity {
     }
 
     public List<Event> getEventsList() {
+        updateEventsList();
         return eventsList;
     }
 
-    public void updateEventActivationStatus(String eventName, boolean status) {
-        int eventID = (getEventByName(eventName).eventID);
+    public boolean updateEventActivationStatus(String eventName, boolean status) {
+        updateEventsList();
+        int eventID = getEventByName(eventName).eventID;
         eventsList.get(eventID).isActivated = status;
+        return refreshEvents();
     }
 
-    public void updateEventActivationStatus(int eventID, boolean status) {
+    public boolean updateEventActivationStatus(int eventID, boolean status) {
+        updateEventsList();
         eventsList.get(eventID).isActivated = status;
+        return refreshEvents();
     }
 
     public List<Integer> getActivatedEventsIDList() {

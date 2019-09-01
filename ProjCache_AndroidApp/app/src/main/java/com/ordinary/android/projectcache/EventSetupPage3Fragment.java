@@ -153,7 +153,7 @@ public class EventSetupPage3Fragment extends Fragment {
 //                intent.putExtra("Event", event);
                 Events events = new Events(adapter.getContext(), adapter.getFile());
                 events.addEvent(event);
-                //getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }
         });
