@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 #8/31/2019
-	#[b_ysl]
-		1. Setup AutoTrigger on as default
-		2. Added a class called "TypeValueObjectModel", this class handles the layout for
+    #[b_ysl]
+        1. Setup AutoTrigger on as default
+        2. Added a class called "TypeValueObjectModel", this class handles the layout for
 		   layout_type_value. In layout_type_value, it contains an ImageView, and two textView.
-		3. Added a adapter called TypeValueObjectAdapter, this handles the layout_type_value
+        3. Added a adapter called TypeValueObjectAdapter, this handles the layout_type_value
 		   information.
         4. Added a class called "TypeObjectModel", this class handles the layout for
            layout_type_value. In layout_type_model, it contains an ImageView, and one textView.
