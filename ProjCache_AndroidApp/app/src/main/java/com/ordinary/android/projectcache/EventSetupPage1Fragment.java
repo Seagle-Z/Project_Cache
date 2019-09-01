@@ -38,7 +38,7 @@ public class EventSetupPage1Fragment extends Fragment {
     private Button addConditionButton;
     private FloatingActionButton forward;
     private RecyclerView conditionRecyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerView.Adapter adapterForRecyclerView;
     private View view;
     private ToolFunctions TF = new ToolFunctions();
     private Map<String, String> conditions = new Hashtable<>();
@@ -61,13 +61,14 @@ public class EventSetupPage1Fragment extends Fragment {
                 container,
                 false
         );
+
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);
         conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //conditionRecyclerView.setTextFilterEnabled(true);
-        adapter = new TypeValueObjectAdapter(getContext(), conditionsArrList);
-        conditionRecyclerView.setAdapter(adapter);
+        adapterForRecyclerView = new TypeValueObjectAdapter(getContext(), conditionsArrList);
+        conditionRecyclerView.setAdapter(adapterForRecyclerView);
 
         registerForContextMenu(conditionRecyclerView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
@@ -75,19 +76,25 @@ public class EventSetupPage1Fragment extends Fragment {
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
 
-        event = new Event(
-                1000, null, null,
-                null, 0,
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null, null,
-                false, false,
-                true, true,
-                null,
-                null, 0xffffff,
-                "NULL", 0);
+        event = eventSetupPageAdapter.getEvent();
+        if(event != null)
+            System.out.println(event.eventName);
+
+        if (event == null) {
+            event = new Event(
+                    1000, null, null,
+                    null, 0,
+                    null, null,
+                    null, null,
+                    null, null,
+                    null, null,
+                    null, null, null,
+                    false, false,
+                    true, true,
+                    null,
+                    null, 0xffffff,
+                    "NULL", 0);
+        }
 
         //The "Select A Condition" button that trigger the
         addConditionButton.setOnClickListener(new View.OnClickListener() {
@@ -172,8 +179,8 @@ public class EventSetupPage1Fragment extends Fragment {
                         conditions.remove(selectedConditionTypes.get(info.position));
                         conditionsArrList.remove(info.position);
                         selectedConditionTypes.remove(info.position);
-                        adapter.notifyDataSetChanged();
-                        //TF.setListViewHeightBasedOnChildren(adapter, conditionRecyclerView);
+                        adapterForRecyclerView.notifyDataSetChanged();
+                        //TF.setListViewHeightBasedOnChildren(adapterForRecyclerView, conditionRecyclerView);
                         Toast.makeText(
                                 getContext(),
                                 "Deleted",
@@ -213,8 +220,7 @@ public class EventSetupPage1Fragment extends Fragment {
         return intent;
     }
 
-    private void updateConditionList(Intent data)
-    {
+    private void updateConditionList(Intent data) {
         if (data.hasExtra("Time")) {
             if (!editMode) {
                 //conditionsArrList.add("- Added trigger method: Time");
@@ -247,9 +253,8 @@ public class EventSetupPage1Fragment extends Fragment {
                 String s = data.getStringExtra("Wifi");
                 String wifinames[] = s.split("#");
                 StringJoiner newWifiString = new StringJoiner(", ");
-                for(int i = 0; i < wifinames.length; i++) {
-                    if(i == 3)
-                    {
+                for (int i = 0; i < wifinames.length; i++) {
+                    if (i == 3) {
                         newWifiString.add("...");
                         break;
                     }
@@ -268,9 +273,9 @@ public class EventSetupPage1Fragment extends Fragment {
         }
 //
         updateEventObj();
-        adapter.notifyDataSetChanged();
-        
-//        TF.setListViewHeightBasedOnChildren(adapter, conditionRecyclerView);
+        adapterForRecyclerView.notifyDataSetChanged();
+
+//        TF.setListViewHeightBasedOnChildren(adapterForRecyclerView, conditionRecyclerView);
     }
 
     private void updateEventObj() {
@@ -288,24 +293,19 @@ public class EventSetupPage1Fragment extends Fragment {
         p3.event = event;
     }
 
-    private StringJoiner parseTimeData(String[] time)
-    {
+    private StringJoiner parseTimeData(String[] time) {
         StringJoiner newTimeString = new StringJoiner(", ");
         DateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        for(int i = 0; i < time.length; i++)
-        {
-            if(i == 3)
-            {
+        for (int i = 0; i < time.length; i++) {
+            if (i == 3) {
                 newTimeString.add("...");
                 break;
             }
-            if(time[i].contains("-"))
-            {
+            if (time[i].contains("-")) {
                 String timeRange[] = time[i].split("-");
                 StringJoiner tempTimeRange = new StringJoiner("-");
-                for(String t : timeRange)
-                {
+                for (String t : timeRange) {
                     try {
                         Date hour = sdf.parse(t);
                         String Hr, Min;
@@ -315,12 +315,11 @@ public class EventSetupPage1Fragment extends Fragment {
                         Hr = checkHour(hour);
                         Min = checkMin(hour);
                         tempTimeRange.add(Hr + ":" + Min);
-                    }catch (ParseException e){}
+                    } catch (ParseException e) {
+                    }
                 }
                 newTimeString.add(tempTimeRange.toString());
-            }
-            else
-            {
+            } else {
                 try {
                     Date hour = sdf.parse(time[i]);
                     String Hr, Min;
@@ -330,27 +329,25 @@ public class EventSetupPage1Fragment extends Fragment {
                     Hr = checkHour(hour);
                     Min = checkMin(hour);
                     newTimeString.add(Hr + ":" + Min);
-                }catch (ParseException e){}
+                } catch (ParseException e) {
+                }
             }
         }
         return newTimeString;
     }
 
-    private String checkHour(Date hour)
-    {
+    private String checkHour(Date hour) {
         String Hr = "";
-        if(hour.getHours() < 10)
-        {
+        if (hour.getHours() < 10) {
             Hr = "0" + hour.getHours();
-        }
-        else
+        } else
             Hr = Integer.toString(hour.getHours());
         return Hr;
     }
-    private String checkMin(Date hour)
-    {
+
+    private String checkMin(Date hour) {
         String Min = "";
-        if(hour.getMinutes() < 10)
+        if (hour.getMinutes() < 10)
             Min = "0" + hour.getMinutes();
         else
             Min = Integer.toString(hour.getMinutes());
