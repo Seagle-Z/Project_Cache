@@ -103,10 +103,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK) {
-            Event event = (Event) data.getSerializableExtra("Event");
-            events.addEvent(event);
-        }
+//        if (REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK) {
+//            Event event = (Event) data.getSerializableExtra("Event");
+//            events.addEvent(event);
+//        }
     }
 
     @Override

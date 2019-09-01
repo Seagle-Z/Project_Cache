@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,17 +33,18 @@ public class EventSetupPage1Fragment extends Fragment {
     private CustomEventSetupViewPager viewPager;
     private Button addConditionButton;
     private FloatingActionButton forward;
-    private ListView conditionListView;
-    private ArrayAdapter<String> adapter;
+    private RecyclerView conditionRecyclerView;
+    private RecyclerView.Adapter adapter;
     private View view;
     private ToolFunctions TF = new ToolFunctions();
     private Map<String, String> conditions = new Hashtable<>();
-    private List<String> conditionsArrList = new ArrayList<>();
+    private List<TypeValueObjectModel> conditionsArrList = new ArrayList<>();
     private List<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
     private EventSetupPageAdapter eventSetupPageAdapter;
     private EventSetupPage2Fragment p2;
     private EventSetupPage3Fragment p3;
+
     @Nullable
     @Override
     public View onCreateView(
@@ -57,16 +59,13 @@ public class EventSetupPage1Fragment extends Fragment {
         );
         forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
-        conditionListView = (ListView) view.findViewById(R.id.condition_list);
-        conditionListView.setTextFilterEnabled(true);
-        adapter = new ArrayAdapter<String>(
-                getContext(),
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                conditionsArrList
-        );
-        conditionListView.setAdapter(adapter);
-        registerForContextMenu(conditionListView);
+        conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);
+        conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //conditionRecyclerView.setTextFilterEnabled(true);
+        adapter = new TypeValueObjectAdapter(getContext(), conditionsArrList);
+        conditionRecyclerView.setAdapter(adapter);
+
+        registerForContextMenu(conditionRecyclerView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
         eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
@@ -171,7 +170,7 @@ public class EventSetupPage1Fragment extends Fragment {
                         conditionsArrList.remove(info.position);
                         selectedConditionTypes.remove(info.position);
                         adapter.notifyDataSetChanged();
-                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+                        //TF.setListViewHeightBasedOnChildren(adapter, conditionRecyclerView);
                         Toast.makeText(
                                 getContext(),
                                 "Deleted",
@@ -215,33 +214,39 @@ public class EventSetupPage1Fragment extends Fragment {
     {
         if (data.hasExtra("Time")) {
             if (!editMode) {
-                conditionsArrList.add("- Added trigger method: Time");
+                //conditionsArrList.add("- Added trigger method: Time");
+                conditionsArrList.add(new TypeValueObjectModel(
+                        "Time",
+                        data.getStringExtra("Time"),
+                        getResources().getDrawable(R.drawable.ic_menu_manage))
+                );
                 selectedConditionTypes.add("Time");
             }
             editMode = false;
             conditions.put("TIME", data.getStringExtra("Time"));
         }
-        if (data.hasExtra("Apps")) {
-            if (!editMode) {
-                conditionsArrList.add("- Added trigger method: When app show on screen");
-                selectedConditionTypes.add("App");
-            }
-            editMode = false;
-            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
-        }
-
-        //Setup for WIFIPage
-        if (data.hasExtra("Wifi")) {
-            if (!editMode) {
-                conditionsArrList.add("- Added trigger method: WIFI");
-                selectedConditionTypes.add("WIFI");
-            }
-            editMode = false;
-            conditions.put("WIFI", data.getStringExtra("Wifi"));
-        }
-
+//        if (data.hasExtra("Apps")) {
+//            if (!editMode) {
+//                conditionsArrList.add("- Added trigger method: When app show on screen");
+//                selectedConditionTypes.add("App");
+//            }
+//            editMode = false;
+//            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
+//        }
+//
+//        //Setup for WIFIPage
+//        if (data.hasExtra("Wifi")) {
+//            if (!editMode) {
+//                conditionsArrList.add("- Added trigger method: WIFI");
+//                selectedConditionTypes.add("WIFI");
+//            }
+//            editMode = false;
+//            conditions.put("WIFI", data.getStringExtra("Wifi"));
+//        }
+//
         adapter.notifyDataSetChanged();
-        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+        
+//        TF.setListViewHeightBasedOnChildren(adapter, conditionRecyclerView);
     }
 
     private void updateEventObj() {
