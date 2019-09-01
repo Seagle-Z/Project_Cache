@@ -15,7 +15,7 @@
 
 
         <activity
-            android:name=".EventsManagementActivity"
+            android:name=".ManageEventsActivity"
             android:label="@string/title_activity_events_management"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 

@@ -1,26 +1,19 @@
 package com.ordinary.android.projectcache;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.File;
 import java.util.List;
 
-public class EventsManagementAdapter
-        extends RecyclerView.Adapter<EventsManagementAdapter.ViewHolder> {
+public class ManageEventsAdapter
+        extends RecyclerView.Adapter<ManageEventsAdapter.ViewHolder> {
 
     Context context;
     private List<Event> EventsManagementList;
@@ -64,7 +57,7 @@ public class EventsManagementAdapter
         }
     }
 
-    public EventsManagementAdapter(Context context, List<Event> EventsManagementList) {
+    public ManageEventsAdapter(Context context, List<Event> EventsManagementList) {
         this.context = context;
         this.EventsManagementList = EventsManagementList;
     }

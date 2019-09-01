@@ -14,7 +14,7 @@ import android.view.View;
 import java.io.File;
 import java.util.List;
 
-public class EventsManagementActivity extends AppCompatActivity {
+public class ManageEventsActivity extends AppCompatActivity {
 
     private RecyclerView eventsManagementRecyclerView;
     private RecyclerView.Adapter eventManagementAdapter;
@@ -38,7 +38,7 @@ public class EventsManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startEventSetup =
-                        new Intent(EventsManagementActivity.this, EventSetupActivity.class);
+                        new Intent(ManageEventsActivity.this, EventSetupActivity.class);
                 File eventsFile = new File(getFilesDir(), EVENTS_FILE_NAME);
                 startEventSetup.putExtra("EVENT_FILE", eventsFile);
                 startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
@@ -52,7 +52,7 @@ public class EventsManagementActivity extends AppCompatActivity {
         eventsManagementRecyclerView = findViewById(R.id.eventsManagement_RecyclerView);
         eventsManagementRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        eventManagementAdapter = new EventsManagementAdapter(this, eventsList);
+        eventManagementAdapter = new ManageEventsAdapter(this, eventsList);
 
         eventsManagementRecyclerView.setLayoutManager(layoutManager);
         eventsManagementRecyclerView.setAdapter(eventManagementAdapter);
@@ -68,7 +68,7 @@ public class EventsManagementActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(this);
-                eventManagementAdapter = new EventsManagementAdapter(this, eventsList);
+                eventManagementAdapter = new ManageEventsAdapter(this, eventsList);
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventManagementAdapter);
