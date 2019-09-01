@@ -20,10 +20,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 
 public class EventSetupPage1Fragment extends Fragment {
     private final String TAG = "EventSetupPage1Fragment";
@@ -214,10 +219,11 @@ public class EventSetupPage1Fragment extends Fragment {
             if (!editMode) {
                 //conditionsArrList.add("- Added trigger method: Time");
                 String s = data.getStringExtra("Time");
-                s = s.replaceAll("#", ", ");
+                String time[] = s.split("#");
+                StringJoiner newTimeString = parseTimeData(time);
                 conditionsArrList.add(new TypeValueObjectModel(
                         "Time",
-                        s,
+                        newTimeString.toString(),
                         getResources().getDrawable(R.drawable.icon_clock))
                 );
                 selectedConditionTypes.add("Time");
@@ -239,10 +245,21 @@ public class EventSetupPage1Fragment extends Fragment {
             if (!editMode) {
                 //String s = TF.textDecoder(data.getStringExtra("Wifi"));
                 String s = data.getStringExtra("Wifi");
-                s = s.replaceAll("#", ", ");
+                String wifinames[] = s.split("#");
+                StringJoiner newWifiString = new StringJoiner(", ");
+                for(int i = 0; i < wifinames.length; i++) {
+                    if(i == 3)
+                    {
+                        newWifiString.add("...");
+                        break;
+                    }
+                    wifinames[i] = TF.textDecoder(wifinames[i]);
+                    newWifiString.add(wifinames[i]);
+
+                }
                 conditionsArrList.add(new TypeValueObjectModel(
                         "WI-FI",
-                        s,
+                        newWifiString.toString(),
                         getResources().getDrawable(R.drawable.icon_wifi))
                 );
             }
@@ -269,5 +286,75 @@ public class EventSetupPage1Fragment extends Fragment {
         event.triggerValues = values;
         p2.event = event;
         p3.event = event;
+    }
+
+    private StringJoiner parseTimeData(String[] time)
+    {
+        StringJoiner newTimeString = new StringJoiner(", ");
+        DateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        for(int i = 0; i < time.length; i++)
+        {
+            if(i == 3)
+            {
+                newTimeString.add("...");
+                break;
+            }
+            if(time[i].contains("-"))
+            {
+                String timeRange[] = time[i].split("-");
+                StringJoiner tempTimeRange = new StringJoiner("-");
+                for(String t : timeRange)
+                {
+                    try {
+                        Date hour = sdf.parse(t);
+                        String Hr, Min;
+
+                        /*Check the syntax to determine if need to add 0 before values, check
+                        function for more details*/
+                        Hr = checkHour(hour);
+                        Min = checkMin(hour);
+                        tempTimeRange.add(Hr + ":" + Min);
+                    }catch (ParseException e){}
+                }
+                newTimeString.add(tempTimeRange.toString());
+            }
+            else
+            {
+                try {
+                    Date hour = sdf.parse(time[i]);
+                    String Hr, Min;
+
+                        /*Check the syntax to determine if need to add 0 before values, check
+                        function for more details*/
+                    Hr = checkHour(hour);
+                    Min = checkMin(hour);
+                    newTimeString.add(Hr + ":" + Min);
+                }catch (ParseException e){}
+            }
+        }
+        return newTimeString;
+    }
+
+    private String checkHour(Date hour)
+    {
+        String Hr = "";
+        if(hour.getHours() < 10)
+        {
+            Hr = "0" + hour.getHours();
+        }
+        else
+            Hr = Integer.toString(hour.getHours());
+        return Hr;
+    }
+    private String checkMin(Date hour)
+    {
+        String Min = "";
+        if(hour.getMinutes() < 10)
+            Min = "0" + hour.getMinutes();
+        else
+            Min = Integer.toString(hour.getMinutes());
+
+        return Min;
     }
 }
