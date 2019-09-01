@@ -1,5 +1,6 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ public class ManageEventsAdapter
         public TextView descriptionTextView;
         public Switch activationSwitch;
         public ImageView eventImageView;
+        private final int MODIFY_REUQEST_CODE = 1010;
 
         public ViewHolder(@NonNull View itemView, final Context context) {
             super(itemView);
@@ -57,6 +59,8 @@ public class ManageEventsAdapter
                             new Intent(contextConstant, EventSetupActivity.class);
                     startEventSetup.putExtra(
                             "MODIFY_EVENT", nameTextView.getText().toString());
+                    ((Activity)context).startActivity(
+                            startEventSetup);
                 }
             });
         }

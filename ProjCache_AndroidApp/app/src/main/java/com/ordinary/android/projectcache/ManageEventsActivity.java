@@ -76,9 +76,6 @@ public class ManageEventsActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventManagementAdapter);
-
-                System.out.println("试一试有没有进去这个function");
-                System.out.println("e2: " + eventsList);
             }
 
 
