@@ -1,5 +1,6 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -152,7 +153,7 @@ public class EventSetupPage3Fragment extends Fragment {
 //                intent.putExtra("Event", event);
                 Events events = new Events(adapter.getContext(), adapter.getFile());
                 events.addEvent(event);
-                //getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }
         });

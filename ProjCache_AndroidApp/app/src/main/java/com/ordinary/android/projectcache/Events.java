@@ -3,7 +3,6 @@ package com.ordinary.android.projectcache;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,7 +69,7 @@ public class Events extends AppCompatActivity {
         }
 
         // input events to the events object form events.csv file
-        updateEventList();
+        updateEventsList();
 
         //** Hard code modify event for development ****************************************** START
         modifyTestingEvents();
@@ -78,7 +77,7 @@ public class Events extends AppCompatActivity {
 
     }
 
-    public void updateEventList() {
+    public void updateEventsList() {
         eventsList = new ArrayList<>();
         FileInputStream fis = null;
         try {
@@ -170,7 +169,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByID(Integer seekingEventID) {
-        updateEventList();
+        updateEventsList();
         if (seekingEventID > eventsList.size()) {
             return null;
         }
@@ -179,7 +178,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByName(String seekingEventName) {
-        updateEventList();
+        updateEventsList();
         for (Event e : eventsList) {
             if (e.eventName.equals(seekingEventName)) {
                 return e;
@@ -190,18 +189,19 @@ public class Events extends AppCompatActivity {
     }
 
     public List<Event> getEventsList() {
+        updateEventsList();
         return eventsList;
     }
 
     public boolean updateEventActivationStatus(String eventName, boolean status) {
-        updateEventList();
+        updateEventsList();
         int eventID = getEventByName(eventName).eventID;
         eventsList.get(eventID).isActivated = status;
         return refreshEvents();
     }
 
     public boolean updateEventActivationStatus(int eventID, boolean status) {
-        updateEventList();
+        updateEventsList();
         eventsList.get(eventID).isActivated = status;
         return refreshEvents();
     }
