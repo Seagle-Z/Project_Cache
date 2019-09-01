@@ -8,6 +8,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 2019-08-30 检测程序有bug，有时候即使isActivated是true也不触发，有时候是false也会触发。估计是runningEvengsID和activatedEventsID还有triggerableEventsID之间的问题
+
 public class CoreRunnable implements Runnable {
 
     private Context context;                // MainActivity's context

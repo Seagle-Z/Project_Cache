@@ -1,25 +1,25 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class SetupEventConditionsSelectionActivity extends AppCompatActivity {
+public class SetupEventConditionsSelectionActivity
+        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
 
-    private final int REQUEST_TIME_INFORMATION_CODE = 1001;
-    private final int REQUEST_LAUNCHING_APP_INFORMATION_CODE = 1002;
-    private final int REQUEST_WIFI_INFORMATION_CODE = 1003;
+    private final int REQUEST_INFORMATION_CODE = 1001;
     private Map<String, String> conditions = new Hashtable<>();
 
     private final String GPS = "GPS Location";
@@ -28,87 +28,112 @@ public class SetupEventConditionsSelectionActivity extends AppCompatActivity {
     private final String Time = "Time";
     private final String OS_APP = "On-Screen App";
 
-    private ListView conditionListView;
-    private List<String> conditionsArrList = new ArrayList<>();
-    private ArrayAdapter<String> adapterForConditionListView;
+    private Context context;
+    private RecyclerView conditionOptionRV;
+    private RecyclerView.Adapter adapterForconditionOptionRV;
+    private List<TypeObjectModel> conditionsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_event_conditions_selection);
+        context = SetupEventConditionsSelectionActivity.this;
         conditions.put("LOCATION", GPS);
         conditions.put("BLUETOOTH", BT);
         conditions.put("WIFI", WIFI);
         conditions.put("TIME", Time);
         conditions.put("ON_SCREEN_APP", OS_APP);
 
-        conditionListView = (ListView) findViewById(R.id.condition_types);
-        conditionListView.setTextFilterEnabled(true);
+        conditionOptionRV = (RecyclerView) findViewById(R.id.condition_types);
+        conditionOptionRV.setLayoutManager(new LinearLayoutManager(context));
 
-        conditionsArrList.add(conditions.get("LOCATION"));
-        conditionsArrList.add(conditions.get("BLUETOOTH"));
-        conditionsArrList.add(conditions.get("WIFI"));
-        conditionsArrList.add(conditions.get("TIME"));
-        conditionsArrList.add(conditions.get("ON_SCREEN_APP"));
+        conditionsList.add(new TypeObjectModel(
+                conditions.get("LOCATION"),
+                getDrawable(R.drawable.icon_location)));
+        conditionsList.add(new TypeObjectModel(
+                conditions.get("BLUETOOTH"),
+                getDrawable(R.drawable.icon_bluetooth)));
+        conditionsList.add(new TypeObjectModel(
+                conditions.get("WIFI"),
+                getDrawable(R.drawable.icon_wifi)));
+        conditionsList.add(new TypeObjectModel(
+                conditions.get("TIME"),
+                getDrawable(R.drawable.icon_clock)));
+        conditionsList.add(new TypeObjectModel(
+                conditions.get("ON_SCREEN_APP"),
+                getDrawable(R.drawable.icon_application)));
 
 
         Intent intent = getIntent();
         if (intent.getExtras() != null) {
             Bundle extras = intent.getExtras();
             for (String key : extras.keySet()) {
-                for(int i = 0; i < conditionsArrList.size(); i++)
+                for(int i = 0; i < conditionsList.size(); i++)
                 {
-                    if(conditions.get(key).equals(conditionsArrList.get(i))) {
-                        conditionsArrList.remove(i);
+                    if(conditions.get(key).equalsIgnoreCase(conditionsList.get(i).getTypename())) {
+                        conditionsList.remove(i);
                         break;
                     }
                 }
             }
         }
 
-        adapterForConditionListView = new ArrayAdapter<String>(
-                this,
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                conditionsArrList);
-        conditionListView.setAdapter(adapterForConditionListView);
+        adapterForconditionOptionRV = new TypeObjectAdapter(
+                context,
+                conditionsList,
+                 this);
 
-
-        conditionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = null;
-                switch (conditionsArrList.get(position)) {
-                    case GPS:
-                        break;
-                    case BT:
-                        break;
-                    case WIFI:
-                        intent = new Intent(
-                                SetupEventConditionsSelectionActivity.this,
-                                SetupEventConditionWifiActivity.class);
-                        break;
-                    case Time:
-                        intent= new Intent(
-                                SetupEventConditionsSelectionActivity.this,
-                                SetupEventConditionDateTimeActivity.class);
-                        break;
-                    case OS_APP:
-                        intent = new Intent(
-                                SetupEventConditionsSelectionActivity.this,
-                                SetupEventConditionOnScreenAppActivity.class);
-                        break;
-                    default:
-                        Log.d("", "No Item selected");
-                }
-                startActivityForResult(intent, REQUEST_WIFI_INFORMATION_CODE);
-            }
-        });
+        conditionOptionRV.setAdapter(adapterForconditionOptionRV);
+    }
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = null;
+        switch (conditionsList.get(position).getTypename()) {
+            case GPS:
+                showAlertMessage();
+                break;
+            case BT:
+                showAlertMessage();
+                break;
+            case WIFI:
+                intent = new Intent(
+                        context,
+                        SetupEventConditionWifiActivity.class);
+                break;
+            case Time:
+                intent= new Intent(
+                        context,
+                        SetupEventConditionDateTimeActivity.class);
+                break;
+            case OS_APP:
+                showAlertMessage();
+                break;
+            default:
+                Log.d("", "No Item selected");
+        }
+        try {
+            startActivityForResult(intent, REQUEST_INFORMATION_CODE);
+        }catch (NullPointerException e){}
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         setResult(Activity.RESULT_OK, data);
         finish();
+    }
+
+    private void showAlertMessage()
+    {
+        AlertDialog.Builder alert =
+                new AlertDialog.Builder(context);
+        alert.setTitle("Sorry");
+        alert.setMessage("Current feature is under construction. Stay close for new updates.");
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 }

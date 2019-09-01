@@ -50,7 +50,7 @@
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/date_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,12 +69,14 @@
                 android:text="+ Add date"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
+                -->
 
             <Button
                 android:id="@+id/date_time_picker_activity_complete_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Complete" />
+
 
         </LinearLayout>
 

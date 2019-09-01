@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#09/01/2019
+    #[b_ysl]
+        1. Fixed the wifi value displaying issue
+        2. Improved time value displaying
+        
+#8/31/2019
+    #[b_ysl]
+        1. Setup AutoTrigger on as default
+        2. Added a class called "TypeValueObjectModel", this class handles the layout for
+		   layout_type_value. In layout_type_value, it contains an ImageView, and two textView.
+        3. Added a adapter called TypeValueObjectAdapter, this handles the layout_type_value
+		   information.
+        4. Added a class called "TypeObjectModel", this class handles the layout for
+           layout_type_value. In layout_type_model, it contains an ImageView, and one textView.
+        5. Added a adapter called TypeObjectAdapter, this handles the layout_type_model
+           information.
+        6. Implement two types of RecyclerView layout. One is named layout_type_value, the other named
+		   layout_type_model.
+        7. Added icons in drawable, which used in conditionSelection and event setup main page.
+		   Waiting to implement it on Action setup.
+        8. Added a mOnItemClickListener interface to support the RecyclerView's clicking mechanism.
+        9. Helped [b_jx] to fix the EventManagementActivity list not update issue.
 
 # 08/26/2019
     #[b_jx]

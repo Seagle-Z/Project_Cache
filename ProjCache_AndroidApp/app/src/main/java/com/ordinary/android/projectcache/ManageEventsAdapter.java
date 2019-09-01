@@ -10,11 +10,10 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.List;
 
-public class EventsManagementAdapter
-        extends RecyclerView.Adapter<EventsManagementAdapter.ViewHolder> {
+public class ManageEventsAdapter
+        extends RecyclerView.Adapter<ManageEventsAdapter.ViewHolder> {
 
     Context context;
     private List<Event> EventsManagementList;
@@ -26,8 +25,6 @@ public class EventsManagementAdapter
         public Switch activationSwitch;
         public ImageView eventImageView;
 
-        private static final String EVENTS_FILE_NAME = "events.csv";
-
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.eventName_textView);
@@ -35,21 +32,32 @@ public class EventsManagementAdapter
             activationSwitch = itemView.findViewById(R.id.eventActivation_switch);
             eventImageView = itemView.findViewById(R.id.eventImage_imageView);
 
-            File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
-            Events events = new Events(context, eventsFile);
+            Events events = new Events(context);
+            final Context contextConstant = context;
 
             activationSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (activationSwitch.isChecked()) {
-
+                        Events events = new Events(contextConstant);
+                        events.updateEventActivationStatus(nameTextView.getText().toString(), true);
+                    } else {
+                        Events events = new Events(contextConstant);
+                        events.updateEventActivationStatus(nameTextView.getText().toString(), false);
                     }
+                }
+            });
+
+            eventImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
         }
     }
 
-    public EventsManagementAdapter(Context context, List<Event> EventsManagementList) {
+    public ManageEventsAdapter(Context context, List<Event> EventsManagementList) {
         this.context = context;
         this.EventsManagementList = EventsManagementList;
     }
@@ -77,4 +85,6 @@ public class EventsManagementAdapter
     public int getItemCount() {
         return EventsManagementList.size();
     }
+
+
 }
