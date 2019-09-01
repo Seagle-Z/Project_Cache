@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#09/01/2019
+    #[b_ysl]
+        1. Fixed the wifi value displaying issue
+        2. Improved time value displaying
+        
 #8/31/2019
     #[b_ysl]
         1. Setup AutoTrigger on as default
