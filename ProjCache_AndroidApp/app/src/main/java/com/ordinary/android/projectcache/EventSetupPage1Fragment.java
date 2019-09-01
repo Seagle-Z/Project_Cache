@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -109,7 +108,6 @@ public class EventSetupPage1Fragment extends Fragment {
             public void onClick(View v) {
 //                if (!conditionsArrList.isEmpty())
 //                {
-                updateEventObj();
                 viewPager.setCurrentItem(1);
 //                }
 //                else {
@@ -215,10 +213,12 @@ public class EventSetupPage1Fragment extends Fragment {
         if (data.hasExtra("Time")) {
             if (!editMode) {
                 //conditionsArrList.add("- Added trigger method: Time");
+                String s = data.getStringExtra("Time");
+                s = s.replaceAll("#", ", ");
                 conditionsArrList.add(new TypeValueObjectModel(
                         "Time",
-                        data.getStringExtra("Time"),
-                        getResources().getDrawable(R.drawable.ic_menu_manage))
+                        s,
+                        getResources().getDrawable(R.drawable.icon_clock))
                 );
                 selectedConditionTypes.add("Time");
             }
@@ -234,16 +234,23 @@ public class EventSetupPage1Fragment extends Fragment {
 //            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
 //        }
 //
-//        //Setup for WIFIPage
-//        if (data.hasExtra("Wifi")) {
-//            if (!editMode) {
-//                conditionsArrList.add("- Added trigger method: WIFI");
-//                selectedConditionTypes.add("WIFI");
-//            }
-//            editMode = false;
-//            conditions.put("WIFI", data.getStringExtra("Wifi"));
-//        }
+        //Setup for WIFIPage
+        if (data.hasExtra("Wifi")) {
+            if (!editMode) {
+                //String s = TF.textDecoder(data.getStringExtra("Wifi"));
+                String s = data.getStringExtra("Wifi");
+                s = s.replaceAll("#", ", ");
+                conditionsArrList.add(new TypeValueObjectModel(
+                        "WI-FI",
+                        s,
+                        getResources().getDrawable(R.drawable.icon_wifi))
+                );
+            }
+            editMode = false;
+            conditions.put("WIFI", data.getStringExtra("Wifi"));
+        }
 //
+        updateEventObj();
         adapter.notifyDataSetChanged();
         
 //        TF.setListViewHeightBasedOnChildren(adapter, conditionRecyclerView);

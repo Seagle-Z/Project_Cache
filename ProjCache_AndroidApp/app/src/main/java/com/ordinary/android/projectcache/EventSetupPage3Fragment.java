@@ -75,6 +75,8 @@ public class EventSetupPage3Fragment extends Fragment {
             }
         });
 
+        AutoTriggerSwitch.setChecked(true);
+        autoTrigger = true;
         AutoTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
