@@ -1,6 +1,8 @@
 package com.ordinary.android.projectcache;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +18,7 @@ public class ManageEventsAdapter
         extends RecyclerView.Adapter<ManageEventsAdapter.ViewHolder> {
 
     Context context;
-    private List<Event> EventsManagementList;
+    private List<Event> eventsManagementList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +27,7 @@ public class ManageEventsAdapter
         public Switch activationSwitch;
         public ImageView eventImageView;
 
-        public ViewHolder(@NonNull View itemView, Context context) {
+        public ViewHolder(@NonNull View itemView, final Context context) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.eventName_textView);
             descriptionTextView = itemView.findViewById(R.id.eventDescription_TextView);
@@ -48,10 +50,13 @@ public class ManageEventsAdapter
                 }
             });
 
-            eventImageView.setOnClickListener(new View.OnClickListener() {
+            nameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent startEventSetup =
+                            new Intent(contextConstant, EventSetupActivity.class);
+                    startEventSetup.putExtra(
+                            "MODIFY_EVENT", nameTextView.getText().toString());
                 }
             });
         }
@@ -59,7 +64,7 @@ public class ManageEventsAdapter
 
     public ManageEventsAdapter(Context context, List<Event> EventsManagementList) {
         this.context = context;
-        this.EventsManagementList = EventsManagementList;
+        this.eventsManagementList = EventsManagementList;
     }
 
     @NonNull
@@ -71,19 +76,33 @@ public class ManageEventsAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
-        Event curItem = EventsManagementList.get(i);
-        viewHolder.nameTextView.setText(curItem.eventName);
-        viewHolder.descriptionTextView.setText(curItem.eventDescription);
-        viewHolder.activationSwitch.setChecked(curItem.isActivated);
-        viewHolder.eventImageView.setImageResource(R.drawable.ic_menu_send/*curItem.eventImage*/);
+        final ManageEventModel item = new ManageEventModel(eventsManagementList.get(i));
+        viewHolder.nameTextView.setText(item.getEventName());
+        viewHolder.descriptionTextView.setText(item.getEventDescription());
+        viewHolder.activationSwitch.setChecked(item.eventIsActivated());
+        viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default/*item.getEventImage()*/);
+
+        viewHolder.eventImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!item.isSelected()) {
+                    item.setSelected(true);
+                    viewHolder.eventImageView.setImageResource(R.drawable.icon_check);
+                } else {
+                    item.setSelected(false);
+                    viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);
+                }
+                viewHolder.itemView.setBackgroundColor(item.isSelected() ? 0xffb2ebf2 : Color.WHITE);
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return EventsManagementList.size();
+        return eventsManagementList.size();
     }
 
 
