@@ -85,6 +85,7 @@ public class SetupEventConditionsSelectionActivity
 
         conditionOptionRV.setAdapter(adapterForconditionOptionRV);
     }
+
     @Override
     public void onItemClick(int position) {
         Intent intent = null;
