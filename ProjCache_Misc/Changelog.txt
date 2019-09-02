@@ -14,10 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         5. Modify some UI
         6. App name decided. Name is "While"
         
-
     #[b_ysl]
         1. Fixed the wifi value displaying issue
         2. Improved time value displaying
+        3. Added edit feature to event setup page 1
+        4. Added another interface to support the recyclerView edit feature in the TypeValueObjectAdapter.
+        5. Added event object passing port to EventSetupPage [Need to implement event object update].
 
 #8/31/2019
     #[b_ysl]
