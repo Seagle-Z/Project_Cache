@@ -88,16 +88,16 @@ public class Events extends AppCompatActivity {
 
             // ignore the first line which is title
             line = br.readLine();
-            Log.d(" ", line);
+            //Log.d(" ", line);
 
             // parse defaultEvent
             line = br.readLine();
-            Log.d(" ", line);
+            //Log.d(" ", line);
             defaultEvent = parseEventData(line);
 
             // parse events to eventsList
             while ((line = br.readLine()) != null) {
-                Log.d(" ", line);
+                //Log.d(" ", line);
                 eventsList.add(parseEventData(line));
             }
         } catch (FileNotFoundException e) {

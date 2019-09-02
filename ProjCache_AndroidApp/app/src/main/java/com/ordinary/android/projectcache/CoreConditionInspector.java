@@ -144,16 +144,12 @@ public class CoreConditionInspector {
             String curSSID = wifiInfo.getSSID();
             int l = curSSID.length();
             curSSID = curSSID.substring(1, l - 1);
-            System.out.println("After deQuote: " + curSSID);
-            System.out.println("enmm...");
             ToolFunctions toolFunctions = new ToolFunctions();
             for (String ssid : ssidList) {
                 if (ssid.length() < 3) {
                     continue;
                 }
-                System.out.println("event ssid: " + toolFunctions.textDecoder(ssid));
                 if (curSSID.equals(toolFunctions.textDecoder(ssid))) {
-                    System.out.println("event should happens: " + curSSID);
                     return true;
                 }
             }
