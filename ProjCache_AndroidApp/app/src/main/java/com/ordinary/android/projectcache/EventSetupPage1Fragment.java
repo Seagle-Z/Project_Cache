@@ -1,8 +1,6 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,14 +9,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,7 +25,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class EventSetupPage1Fragment
-        extends Fragment implements TypeValueObjectAdapter.intentResultCollectingInterface{
+        extends Fragment implements TypeValueObjectAdapter.intentResultCollectingInterface {
     private final String TAG = "EventSetupPage1Fragment";
     private final int REQUEST_CONDITION_CODE = 1001;
     Event event;
@@ -79,7 +73,7 @@ public class EventSetupPage1Fragment
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
 
         event = eventSetupPageAdapter.getEvent();
-        if(event != null)
+        if (event != null)
             System.out.println(event.eventName);
 
         if (event == null) {
@@ -174,18 +168,24 @@ public class EventSetupPage1Fragment
     private void updateConditionList(Intent data) {
         if (data.hasExtra("Time")) {
 
-                String s = data.getStringExtra("Time");
-                String time[] = s.split("#");
-                StringJoiner newTimeString = parseTimeData(time);
-                String result = newTimeString.toString().substring(0, 30);
+            String s = data.getStringExtra("Time");
+            String time[] = s.split("#");
+            StringJoiner newTimeString = parseTimeData(time);
+            String result = "";
+            if (newTimeString.toString().length() > 33) {
+                result = newTimeString.toString().substring(0, 30);
+                result = result + "...";
+            } else
+                result = newTimeString.toString();
+
+
             if (!editMode) {
                 conditionsArrList.add(new TypeValueObjectModel(
                         "Time",
                         result,
                         getResources().getDrawable(R.drawable.icon_clock))
                 );
-            }
-            else {
+            } else {
                 conditionsArrList.get(selectedPosition).setValues(newTimeString.toString());
             }
             editMode = false;
@@ -202,15 +202,20 @@ public class EventSetupPage1Fragment
 //
         //Setup for WIFIPage
         if (data.hasExtra("Wifi")) {
-                String s = data.getStringExtra("Wifi");
-                String wifinames[] = s.split("#");
-                StringJoiner newWifiString = new StringJoiner(", ");
-                for (int i = 0; i < wifinames.length; i++) {
-                    wifinames[i] = TF.textDecoder(wifinames[i]);
-                    newWifiString.add(wifinames[i]);
-                }
-                String result = newWifiString.toString().substring(0,30);
+            String s = data.getStringExtra("Wifi");
+            String wifinames[] = s.split("#");
+            StringJoiner newWifiString = new StringJoiner(", ");
+            for (int i = 0; i < wifinames.length; i++) {
+                wifinames[i] = TF.textDecoder(wifinames[i]);
+                newWifiString.add(wifinames[i]);
+            }
+            String result = "";
+            if (newWifiString.toString().length() > 33) {
+                System.out.println(newWifiString.toString().length());
+                result = newWifiString.toString().substring(0, 30);
                 result = result + "...";
+            } else
+                result = newWifiString.toString();
 
             if (!editMode) {
                 conditionsArrList.add(new TypeValueObjectModel(
@@ -218,9 +223,7 @@ public class EventSetupPage1Fragment
                         result,
                         getResources().getDrawable(R.drawable.icon_wifi))
                 );
-            }
-            else
-            {
+            } else {
                 conditionsArrList.get(selectedPosition).setValues(newWifiString.toString());
             }
             editMode = false;
@@ -251,10 +254,6 @@ public class EventSetupPage1Fragment
         DateFormat sdf = new SimpleDateFormat("HH:mm");
 
         for (int i = 0; i < time.length; i++) {
-            if (i == 3) {
-                newTimeString.add("...");
-                break;
-            }
             if (time[i].contains("-")) {
                 String timeRange[] = time[i].split("-");
                 StringJoiner tempTimeRange = new StringJoiner("-");
