@@ -515,11 +515,11 @@ public class Events extends AppCompatActivity {
     // modify testing events here
     public void modifyTestingEvents() {
 
-        String[] triggerMethodM1 = {"TIME"};
-        String[] triggerValuesM1 = {"8:08-23:10"};
+        String[] triggerMethodM1 = null;//{"TIME"};
+        String[] triggerValuesM1 = null;//{"8:08-23:10"};
 
-        String[] tasksTypeStartM1 = {"BROWSE_URL"};
-        String[] tasksValueStartM1 = {"104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109"};
+        String[] tasksTypeStartM1 = null;//{"BROWSE_URL"};
+        String[] tasksValueStartM1 = null;//{"104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109"};
 
         String[] tasksTypeEndM1 = null;
         String[] tasksValueEndM1 = null;
