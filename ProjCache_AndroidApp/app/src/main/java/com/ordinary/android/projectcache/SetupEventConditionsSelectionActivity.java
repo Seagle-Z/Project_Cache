@@ -59,9 +59,9 @@ public class SetupEventConditionsSelectionActivity
         conditionsList.add(new TypeObjectModel(
                 conditions.get("TIME"),
                 getDrawable(R.drawable.icon_clock)));
-        conditionsList.add(new TypeObjectModel(
-                conditions.get("ON_SCREEN_APP"),
-                getDrawable(R.drawable.icon_application)));
+//        conditionsList.add(new TypeObjectModel(
+//                conditions.get("ON_SCREEN_APP"),
+//                getDrawable(R.drawable.icon_application)));
 
 
         Intent intent = getIntent();

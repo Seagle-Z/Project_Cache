@@ -107,14 +107,12 @@ public class EventSetupPage2Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateEventObj();
                 viewPager.setCurrentItem(2);
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateEventObj();
                 viewPager.setCurrentItem(0);
             }
         });
@@ -318,6 +316,7 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.set(selectedEditedPosition, "Browse URL Link");
             editingHashtable.put("BROWSE_URL", intent.getStringExtra("BROWSE_URL"));
         }
+        updateEventObj();
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }

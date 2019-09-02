@@ -43,7 +43,6 @@ public class EventSetupPage1Fragment extends Fragment {
     private ToolFunctions TF = new ToolFunctions();
     private Map<String, String> conditions = new Hashtable<>();
     private List<TypeValueObjectModel> conditionsArrList = new ArrayList<>();
-    private List<String> selectedConditionTypes = new ArrayList<>();
     private boolean editMode;
     private EventSetupPageAdapter eventSetupPageAdapter;
     private EventSetupPage2Fragment p2;
@@ -67,7 +66,7 @@ public class EventSetupPage1Fragment extends Fragment {
         conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);
         conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //conditionRecyclerView.setTextFilterEnabled(true);
-        adapterForRecyclerView = new TypeValueObjectAdapter(getContext(), conditionsArrList);
+        adapterForRecyclerView = new TypeValueObjectAdapter(getContext(), conditionsArrList, conditions);
         conditionRecyclerView.setAdapter(adapterForRecyclerView);
 
         registerForContextMenu(conditionRecyclerView);
@@ -121,7 +120,6 @@ public class EventSetupPage1Fragment extends Fragment {
 //                if (!conditionsArrList.isEmpty())
 //                {
                 viewPager.setCurrentItem(1);
-//                }
 //                else {
 //                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
 //                }
@@ -141,84 +139,87 @@ public class EventSetupPage1Fragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.popup_menu, menu);
-    }
+//    @Override
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        getActivity().getMenuInflater().inflate(R.menu.popup_menu, menu);
+//    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//
+//        switch (item.getItemId()) {
+//            case R.id.edit:
+//                Toast.makeText(
+//                        getContext(),
+//                        "Edit",
+//                        Toast.LENGTH_LONG).show();
+//
+//                Intent intent = getIntent(info.position);
+//                startActivityForResult(intent, REQUEST_CONDITION_CODE);
+//                editMode = true;
+//                return true;
+//            case R.id.delete:
+//                Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
+//                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+//                adb.setTitle("Delete");
+//                adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getContext(),
+//                                "Cancelled",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        conditions.remove(selectedConditionTypes.get(info.position));
+//                        conditionsArrList.remove(info.position);
+//                        // - Added Condition: Time
+//
+//
+//                        selectedConditionTypes.remove(info.position);
+//                        adapterForRecyclerView.notifyDataSetChanged();
+//                        //TF.setListViewHeightBasedOnChildren(adapterForRecyclerView, conditionRecyclerView);
+//                        Toast.makeText(
+//                                getContext(),
+//                                "Deleted",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                adb.show();
+//                return true;
+//            default:
+//                return super.onContextItemSelected(item);
+//        }
+//    }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        switch (item.getItemId()) {
-            case R.id.edit:
-                Toast.makeText(
-                        getContext(),
-                        "Edit",
-                        Toast.LENGTH_LONG).show();
-
-                Intent intent = getIntent(info.position);
-                startActivityForResult(intent, REQUEST_CONDITION_CODE);
-                editMode = true;
-                return true;
-            case R.id.delete:
-                Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
-                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
-                adb.setTitle("Delete");
-                adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getContext(),
-                                "Cancelled",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        conditions.remove(selectedConditionTypes.get(info.position));
-                        conditionsArrList.remove(info.position);
-                        selectedConditionTypes.remove(info.position);
-                        adapterForRecyclerView.notifyDataSetChanged();
-                        //TF.setListViewHeightBasedOnChildren(adapterForRecyclerView, conditionRecyclerView);
-                        Toast.makeText(
-                                getContext(),
-                                "Deleted",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                adb.show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-    private Intent getIntent(int position) {
-        Intent intent = null;
-        if (selectedConditionTypes.get(position).equals("Time")) {
-            intent = new Intent(
-                    getContext(),
-                    SetupEventConditionDateTimeActivity.class
-            );
-            //Pack the value that selected from the list and send to TimeSelectorActivity
-            intent.putExtra("RETRIEVE", conditions.get("TIME"));
-        } else if (selectedConditionTypes.get(position).equals("App")) {
-            intent = new Intent(
-                    getContext(),
-                    SetupEventConditionOnScreenAppActivity.class
-            );
-            //Pack the value that selected from the list and send to TimeSelectorActivity
-            intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
-        } else if (selectedConditionTypes.get(position).equals("WIFI")) {
-            intent = new Intent(
-                    getContext(),
-                    SetupEventConditionWifiActivity.class
-            );
-            intent.putExtra("RETRIEVE", conditions.get("WIFI"));
-        }
-        return intent;
-    }
+//    private Intent getIntent(int position) {
+//        Intent intent = null;
+//        if (selectedConditionTypes.get(position).equals("Time")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionDateTimeActivity.class
+//            );
+//            //Pack the value that selected from the list and send to TimeSelectorActivity
+//            intent.putExtra("RETRIEVE", conditions.get("TIME"));
+//        } else if (selectedConditionTypes.get(position).equals("App")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionOnScreenAppActivity.class
+//            );
+//            //Pack the value that selected from the list and send to TimeSelectorActivity
+//            intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
+//        } else if (selectedConditionTypes.get(position).equals("WIFI")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionWifiActivity.class
+//            );
+//            intent.putExtra("RETRIEVE", conditions.get("WIFI"));
+//        }
+//        return intent;
+//    }
 
     private void updateConditionList(Intent data) {
         if (data.hasExtra("Time")) {
@@ -232,7 +233,7 @@ public class EventSetupPage1Fragment extends Fragment {
                         newTimeString.toString(),
                         getResources().getDrawable(R.drawable.icon_clock))
                 );
-                selectedConditionTypes.add("Time");
+                //selectedConditionTypes.add("Time");
             }
             editMode = false;
             conditions.put("TIME", data.getStringExtra("Time"));
@@ -263,7 +264,7 @@ public class EventSetupPage1Fragment extends Fragment {
 
                 }
                 conditionsArrList.add(new TypeValueObjectModel(
-                        "WI-FI",
+                        "WIFI",
                         newWifiString.toString(),
                         getResources().getDrawable(R.drawable.icon_wifi))
                 );

@@ -42,7 +42,7 @@
                     android:textSize="25sp"
                     android:textStyle="bold"
                     android:clickable="true"
-                    tools:layout_editor_absoluteY="12dp"></TextView>
+                    tools:layout_editor_absoluteY="12dp"/>
 
                 <TextView
                     android:id="@+id/eventDescription_TextView"
