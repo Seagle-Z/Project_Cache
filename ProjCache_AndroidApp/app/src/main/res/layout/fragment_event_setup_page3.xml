@@ -13,9 +13,9 @@
         <TextView
             android:id="@+id/page3_title"
             android:layout_width="match_parent"
-            android:layout_height="35sp"
-            android:paddingLeft="5sp"
-            android:paddingTop="5sp"
+            android:layout_height="35dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
             android:text="Summary"
             android:textColor="@color/colorAccent"
             android:textSize="20sp" />
@@ -24,8 +24,8 @@
             android:id="@+id/event_name_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10sp"
-            android:paddingTop="5sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
             android:text="Event Name"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
@@ -36,8 +36,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="" />
 
         <LinearLayout
@@ -49,8 +49,8 @@
                 android:id="@+id/test"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="10sp"
-                android:paddingTop="10sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
                 android:text="Auto Trigger"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -60,8 +60,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="10sp"
-                android:paddingBottom="10sp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,8 +73,8 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingLeft="10sp"
-                android:paddingTop="10sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
                 android:text="One Time Event"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -84,16 +84,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:paddingTop="10sp"
-                android:paddingBottom="10sp" />
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/event_description_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10sp"
-            android:paddingTop="5sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
             android:text="Event Description"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
@@ -104,8 +104,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="" />
 
     </LinearLayout>
@@ -116,8 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="10sp"
-        android:layout_marginBottom="10sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_media_previous" />
 
@@ -127,8 +127,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10sp"
-        android:layout_marginBottom="10sp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:background="?selectableItemBackground"
         android:text="Finish" />
 </RelativeLayout>

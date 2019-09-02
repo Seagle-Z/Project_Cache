@@ -1,5 +1,6 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -74,6 +75,8 @@ public class EventSetupPage3Fragment extends Fragment {
             }
         });
 
+        AutoTriggerSwitch.setChecked(true);
+        autoTrigger = true;
         AutoTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -150,9 +153,9 @@ public class EventSetupPage3Fragment extends Fragment {
 //                        "ASDFASDF", 10101);
 //                Intent intent = new Intent();
 //                intent.putExtra("Event", event);
-                Events events = new Events(adapter.getContext(), adapter.getFile());
+                Events events = new Events(adapter.getContext());
                 events.addEvent(event);
-                //getActivity().setResult(Activity.RESULT_OK, intent);
+                getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }
         });

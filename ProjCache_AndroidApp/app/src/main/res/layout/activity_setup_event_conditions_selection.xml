@@ -11,14 +11,19 @@
         android:id="@+id/condition_option_layout_title"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:text="Select a trigger method"
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/condition_types"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:scrollbars="vertical">
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

@@ -17,8 +17,8 @@
                 android:id="@+id/page2_title"
                 android:layout_width="match_parent"
                 android:layout_height="35sp"
-                android:paddingLeft="5sp"
-                android:paddingTop="5sp"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
                 android:text="Run action when condition match"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
@@ -27,8 +27,8 @@
                 android:id="@+id/Start_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10sp"
-                android:paddingTop="5sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
                 android:text="When start"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -55,8 +55,8 @@
                 android:id="@+id/ongoing_action_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10sp"
-                android:paddingTop="5sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
                 android:text="During the action"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -83,8 +83,8 @@
                 android:id="@+id/end_action"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10sp"
-                android:paddingTop="5sp"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
                 android:text="When end"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
-                android:paddingLeft="20sp"
+                android:paddingLeft="20dp"
                 android:text="+ Select an end action"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />

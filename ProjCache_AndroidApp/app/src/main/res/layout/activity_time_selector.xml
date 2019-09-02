@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/date_time_picker_activity"
         android:layout_width="match_parent"
-        android:layout_height="35sp"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
+        android:layout_height="35dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:text="Time Picker"
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
@@ -26,8 +26,8 @@
             android:id="@+id/timeRangeOnOffTitle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingLeft="10sp"
-            android:paddingTop="10sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
             android:text="Time Range Required?"
             android:textColor="@android:color/black"
             android:textSize="15sp" />
@@ -37,16 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:paddingTop="10sp"
-            android:paddingBottom="10sp" />
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/start_time_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10sp"
-        android:paddingTop="30sp"
+        android:paddingLeft="10dp"
+        android:paddingTop="30dp"
         android:text="Choose a start time"
         android:textColor="@android:color/black"
         android:textSize="15sp" />
@@ -65,8 +65,8 @@
         android:id="@+id/end_time_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10sp"
-        android:paddingTop="20sp"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
         android:text="Choose an end time"
         android:textColor="@android:color/black"
         android:textSize="15sp" />

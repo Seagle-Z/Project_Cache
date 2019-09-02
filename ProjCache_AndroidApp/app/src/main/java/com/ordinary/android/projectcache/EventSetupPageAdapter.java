@@ -15,19 +15,18 @@ class EventSetupPageAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
     private Context context;
-    private File File;
-
+    private Event event;
 
     public EventSetupPageAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void addFragment(Fragment Fragment, String title, Context c, File file)
+    public void addFragment(Fragment Fragment, String title, Context c, Event e)
     {
         mFragmentList.add(Fragment);
         mFragmentTitleList.add(title);
         context = c;
-        File = file;
+        event = e;
     }
 
     @Nullable
@@ -51,8 +50,9 @@ class EventSetupPageAdapter extends FragmentPagerAdapter {
         return context;
     }
 
-    public File getFile()
+    public Event getEvent()
     {
-        return File;
+        return event;
     }
+
 }

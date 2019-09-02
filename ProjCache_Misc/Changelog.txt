@@ -5,6 +5,50 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#09/01/2019
+    #[b_jx]
+        1. Event Management now can delete events
+        2. Event Management now can select multiple Events
+        3. Event Management now can change event activateion
+        4. Fix many bugs
+        5. Modify some UI
+        6. App name decided. Name is "While"
+        
+    #[b_ysl]
+        1. Fixed the wifi value displaying issue
+        2. Improved time value displaying
+        3. Added edit feature to event setup page 1
+        4. Added another interface to support the recyclerView edit feature in the TypeValueObjectAdapter.
+        5. Added event object passing port to EventSetupPage [Need to implement event object update].
+
+#8/31/2019
+    #[b_ysl]
+        1. Setup AutoTrigger on as default
+        2. Added a class called "TypeValueObjectModel", this class handles the layout for
+		   layout_type_value. In layout_type_value, it contains an ImageView, and two textView.
+        3. Added a adapter called TypeValueObjectAdapter, this handles the layout_type_value
+		   information.
+        4. Added a class called "TypeObjectModel", this class handles the layout for
+           layout_type_value. In layout_type_model, it contains an ImageView, and one textView.
+        5. Added a adapter called TypeObjectAdapter, this handles the layout_type_model
+           information.
+        6. Implement two types of RecyclerView layout. One is named layout_type_value, the other named
+		   layout_type_model.
+        7. Added icons in drawable, which used in conditionSelection and event setup main page.
+		   Waiting to implement it on Action setup.
+        8. Added a mOnItemClickListener interface to support the RecyclerView's clicking mechanism.
+        9. Helped [b_jx] to fix the EventManagementActivity list not update issue.
+
+# 08/26/2019
+    #[b_jx]
+        1. EventManagementActivity now can display all events.
+
+# 08/25/2019
+    #[b_jx]
+        1. Added Wi-Fi inspector, it work good for right format.
+        2. Change the asciiEncoder() and asciiDecoder() to textEncoder() and textDecoder().
+        3. Start working on EventManagementActivity().
+        4. Update the Wi-Fi description in MethodValues&Taskvalue_Doc.
 
 # 08/24/2019
     #[b_jx]
@@ -12,6 +56,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         2. Added taskCaseBROWSE_URL() to taskExecutor().
         3. All Url are encoded with ASCII in events.csv, and it will be decoded when needed.
         4. Added overload asciiDecoder() method in ToolFunctions. Now, it can input whether String or int[].
+
+    #[b_ysl]
+    	1. Reformat the scaling for all xml files
+    	2. Added event object to event.csv, now event can be automatically trigger.
+    	3. Added request system control permission in SetupActionBrightnessActivity.java
+    	4. Added TypeValueObjectModelClass to support all different types of object for both
+    	   condition and action page.
 
 # 08/23/2019
     #[b_jx]
@@ -26,9 +77,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
         3. Added Volume intent reading in EventSetupPage2.
 
     #[b_bdev]
-	1. Finished SetupEventConditionWifiActivity()
-	2. Encoded WIFI SSIDs after hitting the complete button
-	3. Decodes WIFI SSIDs when in 'edit' mode
+	    1. Finished SetupEventConditionWifiActivity()
+	    2. Encoded WIFI SSIDs after hitting the complete button
+	    3. Decodes WIFI SSIDs when in 'edit' mode
 
 # 08/22/2019
     #[b_bdev]

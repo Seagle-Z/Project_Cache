@@ -1,23 +1,17 @@
 package com.ordinary.android.projectcache;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.text.style.BulletSpan;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,14 +21,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,6 +46,9 @@ public class MainActivity extends AppCompatActivity
         //- ToolBar -------------------------------------------------------------------------------*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        //- Check Permissions ---------------------------------------------------------------------*
         checkPermissionStatus();
 
 
@@ -103,10 +95,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK) {
-            Event event = (Event) data.getSerializableExtra("Event");
-            events.addEvent(event);
-        }
+//        if (REQUEST_SETUP_CODE == requestCode && resultCode == Activity.RESULT_OK) {
+//            Event event = (Event) data.getSerializableExtra("Event");
+//            events.addEvent(event);
+//        }
     }
 
     @Override
@@ -148,7 +140,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_manageEvents) {
-            //** add, delete, modify events here
+            Intent startEventManagement =
+                    new Intent(MainActivity.this, ManageEventsActivity.class);
+            startEventManagement.putExtra("EVENT_FILE", eventsFile);
+            startActivity(startEventManagement);
         } else if (id == R.id.nav_createEvent) {
             Intent startEventSetup =
                     new Intent(MainActivity.this, EventSetupActivity.class);
@@ -164,6 +159,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 
     private void checkPermissionStatus() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,

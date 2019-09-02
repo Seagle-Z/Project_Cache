@@ -7,7 +7,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 
-import java.io.File;
+/* TODO: 2019-08-26 Add functionality that can input an Event, then put all info about this Event
+         into UI elements. This functionality used for user modify event.
+ */
 
 public class EventSetupActivity extends AppCompatActivity {
 
@@ -15,14 +17,20 @@ public class EventSetupActivity extends AppCompatActivity {
     private EventSetupPageAdapter mEventSetupPageAdapter;
     private CustomEventSetupViewPager mViewPager;
     private Context context;
-    private File eventFile;
+    private Event event = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_setup);
         context = getApplicationContext();
+
         Intent intent = getIntent();
-        eventFile = (File) intent.getExtras().get("EVENT_FILE");
+        if (intent.hasExtra("MODIFY_EVENT")) {
+            Events events = new Events(context);
+            String result = intent.getStringExtra("MODIFY_EVENT");
+            event = events.getEventByName(result);
+        }
 
         mEventSetupPageAdapter = new EventSetupPageAdapter(getSupportFragmentManager());
         mViewPager = (CustomEventSetupViewPager) findViewById(R.id.setup_viewPager);
@@ -36,15 +44,18 @@ public class EventSetupActivity extends AppCompatActivity {
         }
     }
 
-
-    private void setupViewPager(CustomEventSetupViewPager viewPager)
-    {
+    private void setupViewPager(CustomEventSetupViewPager viewPager) {
         EventSetupPageAdapter adapter = new EventSetupPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EventSetupPage1Fragment(), "Condition", context, eventFile);
-        adapter.addFragment(new EventSetupPage2Fragment(), "Actions", context, eventFile);
-        adapter.addFragment(new EventSetupPage3Fragment(), "Event Summary", context, eventFile);
+        adapter.addFragment(new EventSetupPage1Fragment(), "Condition", context, event);
+        adapter.addFragment(new EventSetupPage2Fragment(), "Actions", context, event);
+        adapter.addFragment(new EventSetupPage3Fragment(), "Event Summary", context, event);
         int limit = (adapter.getCount() > 1 ? adapter.getCount() - 1 : 1);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(limit);
+    }
+
+    public String getABC()
+    {
+        return "肖际我去你的";
     }
 }

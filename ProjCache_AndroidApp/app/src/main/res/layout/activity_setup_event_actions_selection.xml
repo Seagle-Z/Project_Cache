@@ -11,8 +11,8 @@
         android:id="@+id/action_option_layout_title"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:paddingLeft="5sp"
-        android:paddingTop="5sp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
         android:text="Select an action"
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />

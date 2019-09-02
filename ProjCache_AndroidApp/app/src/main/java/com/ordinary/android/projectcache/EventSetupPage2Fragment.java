@@ -1,6 +1,8 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -9,12 +11,16 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -31,8 +37,8 @@ public class EventSetupPage2Fragment extends Fragment {
     private Button startActionButton, ongoingActionButton, endActionButton;
     private FloatingActionButton forward, previous;
     private ListView startActionListView, ongoingActionListView, endActionListView;
-    private ArrayAdapter<String> adapterForStartActionListView,
-            adapterForOngoingActionListview, adapterForEndActionListView;
+    private ArrayAdapter<String> adapterForStartActionListView, adapterForOngoingActionListview,
+            adapterForEndActionListView, selectedListViewAdapter;
     private List<String> startActionList = new ArrayList<>();
     private Map<String, String> startActionKeyValue = new Hashtable<>();
     private List<String> ongoingActionList = new ArrayList<>();
@@ -101,14 +107,12 @@ public class EventSetupPage2Fragment extends Fragment {
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateEventObj();
                 viewPager.setCurrentItem(2);
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateEventObj();
                 viewPager.setCurrentItem(0);
             }
         });
@@ -163,9 +167,91 @@ public class EventSetupPage2Fragment extends Fragment {
         }
     }
 
-    public String getAppPackageName() {
-        return AppPackageName;
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.popup_menu, menu);
+        try {
+            ListView selectedListView = (ListView) v;
+            selectedListViewAdapter = (ArrayAdapter<String>) selectedListView.getAdapter();
+        }catch(ClassCastException e){}
     }
+
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//
+//        switch (item.getItemId()) {
+//            case R.id.edit:
+//                Toast.makeText(
+//                        getContext(),
+//                        "Edit",
+//                        Toast.LENGTH_LONG).show();
+//
+//                Intent intent = getIntent(selectedListViewAdapter.getItem(info.position));
+//                startActivityForResult(intent, ADD_TASK_ACTION_CODE);
+//                editMode = true;
+//                return true;
+//            case R.id.delete:
+//                Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
+//                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+//                adb.setTitle("Delete");
+//                adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(getContext(),
+//                                "Cancelled",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        conditions.remove(selectedConditionTypes.get(info.position));
+//                        conditionsArrList.remove(info.position);
+//                        selectedConditionTypes.remove(info.position);
+//                        adapter.notifyDataSetChanged();
+//                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
+//                        Toast.makeText(
+//                                getContext(),
+//                                "Deleted",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                adb.show();
+//                return true;
+//            default:
+//                return super.onContextItemSelected(item);
+//        }
+//    }
+//
+//    private Intent getIntent(int position) {
+//        Intent intent = null;
+//        if (selectedConditionTypes.get(position).equals("Time")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionDateTimeActivity.class
+//            );
+//            //Pack the value that selected from the list and send to TimeSelectorActivity
+//            intent.putExtra("RETRIEVE", conditions.get("TIME"));
+//        } else if (selectedConditionTypes.get(position).equals("App")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionOnScreenAppActivity.class
+//            );
+//            //Pack the value that selected from the list and send to TimeSelectorActivity
+//            intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
+//        } else if (selectedConditionTypes.get(position).equals("WIFI")) {
+//            intent = new Intent(
+//                    getContext(),
+//                    SetupEventConditionWifiActivity.class
+//            );
+//            intent.putExtra("RETRIEVE", conditions.get("WIFI"));
+//        }
+//        return intent;
+//    }
+
+
 
     //Update the related list based on the case input
     private void updateArrayForListView(Intent intent, int buttonCode) {
@@ -201,7 +287,7 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.add("Open Application: " + app.getLabel());
             else
                 editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-            editingHashtable.put("App", app.getPackageName());
+            editingHashtable.put("LAUNCH_APP", app.getPackageName());
         }
         if (intent.hasExtra("BRIGHTNESS")) {
             if (!editMode)
@@ -210,16 +296,16 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.set(
                         selectedEditedPosition,
                         "Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
-            editingHashtable.put("BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
+            editingHashtable.put("SCREEN_BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
         }
 
-        if(intent.hasExtra("Volume"))
+        if(intent.hasExtra("VOLUME"))
         {
             if(!editMode)
                 editingList.add("Added Volume Control");
             else
                 editingList.set(selectedEditedPosition, "Added Volume Control");
-            editingHashtable.put("VOLUME", intent.getStringExtra("Volume"));
+            editingHashtable.put("VOLUME", intent.getStringExtra("VOLUME"));
         }
 
         if(intent.hasExtra("BROWSE_URL"))
@@ -230,6 +316,7 @@ public class EventSetupPage2Fragment extends Fragment {
                 editingList.set(selectedEditedPosition, "Browse URL Link");
             editingHashtable.put("BROWSE_URL", intent.getStringExtra("BROWSE_URL"));
         }
+        updateEventObj();
         adapter.notifyDataSetChanged();
         TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }

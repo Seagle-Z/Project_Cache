@@ -64,7 +64,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         setContentView(R.layout.activity_setup_event_condition_date_time);
         date_time_picker_Context = SetupEventConditionDateTimeActivity.this;
         timeButton = findViewById(R.id.add_time);
-        dateButton = findViewById(R.id.add_date);
+        //dateButton = findViewById(R.id.add_date);
         completeButton = findViewById(R.id.date_time_picker_activity_complete_button);
 
 
@@ -108,14 +108,14 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         });
 
         //Display date picker dialog for picking date
-        dateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment datepicker = new DatePickerFragment();
-                datepicker.show(getSupportFragmentManager(), "Date Selector");
-                editMode = false;
-            }
-        });
+//        dateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                DialogFragment datepicker = new DatePickerFragment();
+//                datepicker.show(getSupportFragmentManager(), "Date Selector");
+//                editMode = false;
+//            }
+//        });
 
         //Return result back to the EventSetupPage1Fragment
         completeButton.setOnClickListener(new View.OnClickListener() {

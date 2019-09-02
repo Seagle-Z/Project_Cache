@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.widget.Toast;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -62,10 +61,12 @@ public class CoreTasksExecutor {
                 taskCaseSCREEN_BRIGHTNESS(taskValue);
                 break;
 
-            case "VOLUME_STREAM":
+            case "VOLUME":
                 taskCaseVOLUME_STREAM(taskValue);
                 break;
 
+            default:
+                break;
 
         }
 
@@ -74,7 +75,7 @@ public class CoreTasksExecutor {
 
     private Intent taskCaseBROWSE_URL(String taskValue) {
         ToolFunctions toolFunctions = new ToolFunctions();
-        String url = toolFunctions.asciiDecoder(taskValue);
+        String url = toolFunctions.textDecoder(taskValue);
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(url));
         return intent;
@@ -96,10 +97,12 @@ public class CoreTasksExecutor {
     }
 
     private void taskCaseVOLUME_STREAM(String taskValue) {
+        String[] volumes = taskValue.split("-");
         AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
         double maxVolume = (double)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        double inputVolume = (double)Integer.parseInt(taskValue);
+        double inputVolume = (double)Integer.parseInt(volumes[0]);
         int toVolume = (int) (inputVolume / 100.00 * maxVolume);
+        System.out.println("toVolume: " + toVolume);
         audioManager.setStreamVolume(
                 AudioManager.STREAM_MUSIC, toVolume, AudioManager.FLAG_SHOW_UI);
     }
