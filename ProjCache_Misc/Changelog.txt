@@ -6,10 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 #09/01/2019
+    #[b_jx]
+        1. Event Management now can delete events
+        2. Event Management now can select multiple Events
+        3. Event Management now can change event activateion
+        4. Fix many bugs
+        5. Modify some UI
+        6. App name decided. Name is "While"
+        
+
     #[b_ysl]
         1. Fixed the wifi value displaying issue
         2. Improved time value displaying
-        
+
 #8/31/2019
     #[b_ysl]
         1. Setup AutoTrigger on as default
@@ -30,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # 08/26/2019
     #[b_jx]
-        1. EventManagementActivity now can display all events. 
+        1. EventManagementActivity now can display all events.
 
 # 08/25/2019
     #[b_jx]
