@@ -7,12 +7,14 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -43,9 +45,28 @@ public class WIFISelectorActivity extends AppCompatActivity {
         setContentView(R.layout.listview_wifi_list);
 
         wifi_picker_context = WIFISelectorActivity.this;
-        selectedWIFIRV = findViewById(R.id.wifi_rv);
-        selectedWIFIRV.setAdapter(null);
+        selectedWIFIRV = (RecyclerView) findViewById(R.id.wifi_rv);
         selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
+
+        selectedWIFIRVAdap = new RecyclerView.Adapter() {
+            @NonNull
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return null;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return 0;
+            }
+        };
+
+        selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshWifi);
 
         Intent intent = getIntent();
@@ -65,6 +86,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
         wifiManager = (WifiManager) wifi_picker_context.getSystemService(Context.WIFI_SERVICE);
 
+        selectedWIFIRVAdap.notifyDataSetChanged();
 
         //selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
         //selectedWIFIRVAdap.notifyDataSetChanged();
