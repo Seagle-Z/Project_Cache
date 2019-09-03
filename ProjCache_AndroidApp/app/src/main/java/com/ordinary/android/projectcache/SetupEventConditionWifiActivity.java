@@ -7,10 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,7 +30,7 @@ import java.util.List;
 //import java.util.Collections;
 //import java.net.NetworkInterface;
 
-public class SetupEventConditionWifiActivity extends AppCompatActivity {
+public class SetupEventConditionWifiActivity extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener{
 
     //Code for WIFISelectorActivity result request only
     private final int WIFI_PICKING_CODE = 1014;
@@ -35,14 +38,19 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
 
     //User-Interface Code
     Button addWifiButton, completeButton;
-    ListView selectedWIFIListView;
+    //ListView selectedWIFIListView;
     Context wifi_picker_context;
-    ArrayAdapter wifiLISTAdapterView;
+    //ArrayAdapter wifiLISTAdapterView;
+
+    RecyclerView selectedWIFIRV;
+    RecyclerView.Adapter selectedWIFIAdap;
+    private List<TypeObjectModel> selectedWIFITList = new ArrayList<TypeObjectModel>();
+
 
     //Local Variables
     private ToolFunctions TF = new ToolFunctions();
     private String returnedWifi;
-    private List<String> selectedWifiArrList = new ArrayList<String>();     //Ex) {UIC-WIFI, Guest, MyHome}
+    //private List<String> selectedWifiArrList = new ArrayList<String>();     //Ex) {UIC-WIFI, Guest, MyHome}
     private List<String> encryptedSSIDArrList = new ArrayList<String>();    //Ex) {91-24-123#43-35-62}
     private boolean editMode;
     private int selectedEditPosition;
@@ -61,21 +69,32 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         wifi_picker_context = SetupEventConditionWifiActivity.this;
         addWifiButton = findViewById(R.id.add_wifi);
         completeButton = findViewById(R.id.wifi_picker_activity_complete_button);
-        selectedWIFIListView = findViewById(R.id.selected_wifi_list);
+        //selectedWIFIListView = findViewById(R.id.selected_wifi_list);
+
+        selectedWIFIRV = (RecyclerView) findViewById(R.id.selectedWIFIListRV);
+        selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
+
         warning = new AlertDialog.Builder(wifi_picker_context);
 
-        selectedWIFIListView.setTextFilterEnabled(true);
+        //selectedWIFIListView.setTextFilterEnabled(true);    //Not needed for RecyclerView
 
-        wifiLISTAdapterView = new ArrayAdapter<String>(
-                wifi_picker_context,
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                selectedWifiArrList);
+//        wifiLISTAdapterView = new ArrayAdapter<String>(
+//                wifi_picker_context,
+//                R.layout.layout_general_list,
+//                R.id.general_list_textview_text,
+//                selectedWifiArrList);
 
-        selectedWIFIListView.setAdapter(wifiLISTAdapterView);
-        registerForContextMenu(selectedWIFIListView);
+        //selectedWIFIListView.setAdapter(wifiLISTAdapterView);
+
+        selectedWIFIAdap = new TypeObjectAdapter(wifi_picker_context, selectedWIFITList,this);
+
+        selectedWIFIRV.setAdapter(selectedWIFIAdap);
+
+       //registerForContextMenu(selectedWIFIListView);
 
         wifiManager = (WifiManager) wifi_picker_context.getSystemService(Context.WIFI_SERVICE);
+
+        selectedWIFIAdap.notifyDataSetChanged();
 
         addWifiButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,13 +111,13 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    if (!selectedWifiArrList.isEmpty()) {
+                    if (!selectedWIFITList.isEmpty()) {
                         String intentResult = "";
 
-                        for (int i = 0; i < selectedWifiArrList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
+                        for (int i = 0; i < selectedWIFITList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
 
                             // Encoding the String
-                            int tempEncoded[] = TF.textEncoder(selectedWifiArrList.get(i));
+                            int tempEncoded[] = TF.textEncoder(selectedWIFITList.get(i).getTypename());
                             String tempString = "";
 
                             //Padding the string with '-' between each number
@@ -162,11 +181,13 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                         tempNum[z] = Integer.parseInt(tempNumArray[z]);
                     }
 
-                    selectedWifiArrList.add(TF.textDecoder(tempNum)); //Add Decoded String onto the wifiList
+                    //selectedWifiArrList.add(TF.textDecoder(tempNum)); //Add Decoded String onto the wifiList
+                    selectedWIFITList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi)));
                 }
 
-                wifiLISTAdapterView.notifyDataSetChanged();
-                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
+                //wifiLISTAdapterView.notifyDataSetChanged();
+                selectedWIFIAdap.notifyDataSetChanged();
+                //TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
             }
         } catch (NullPointerException e) {
         }
@@ -181,18 +202,24 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
                     returnedWifi = data.getStringExtra("wifi");
 
                     if (returnedWifi != null) {
-                        if (!checkDuplicate(returnedWifi, selectedWifiArrList)) {
+                        if (!checkDuplicate(returnedWifi, selectedWIFITList)) {
                             if (!editMode) {
-                                selectedWifiArrList.add(returnedWifi);                //Places the data from the WifiSelectorActivity.java into the arraylist
+                                //selectedWifiArrList.add(returnedWifi);                //Places the data from the WifiSelectorActivity.java into the arraylist
+                                selectedWIFITList.add(new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)));
                             } else {
-                                selectedWifiArrList.set(
-                                        selectedEditPosition,
-                                        returnedWifi);
+                                //selectedWifiArrList.set(
+                                //        selectedEditPosition,
+                                //        returnedWifi);
+
+                                selectedWIFITList.set(selectedEditPosition, new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)) );
                             }
-                            wifiLISTAdapterView.notifyDataSetChanged();
-                            TF.setListViewHeightBasedOnChildren(
-                                    wifiLISTAdapterView,
-                                    selectedWIFIListView);
+                            //wifiLISTAdapterView.notifyDataSetChanged();
+
+                            selectedWIFIAdap.notifyDataSetChanged();
+
+                            //TF.setListViewHeightBasedOnChildren(
+                            //        wifiLISTAdapterView,
+                            //        selectedWIFIListView);
 
                         } else
                             Toast.makeText(
@@ -206,10 +233,10 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         }
     }
 
-    public boolean checkDuplicate(String wifi, List<String> wifilist) {
+    public boolean checkDuplicate(String wifi, List<TypeObjectModel> wifilist) {
         if (!wifilist.isEmpty()) {
-            for (String wifiInfoModel : wifilist) {
-                if (wifiInfoModel.equals(wifi)) {
+            for (TypeObjectModel wifiInfoModel : wifilist) {
+                if (wifiInfoModel.getTypename().equals(wifi)) {
                     warning.setTitle("Warning");
                     warning.setMessage("WIFI is already on the list.");
                     warning.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
@@ -223,6 +250,11 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
 //    private void scanWifi() {
