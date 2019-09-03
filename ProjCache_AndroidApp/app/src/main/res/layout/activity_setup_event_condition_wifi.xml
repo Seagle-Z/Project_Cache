@@ -23,10 +23,10 @@
                 <TextView
                     android:id="@+id/wifi_title"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="1dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
-                    android:text="WIFI Picker"
+                    android:text=""
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp" />
 
@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
-                    android:text="Please select one or more WIFI to trigger the event"
+                    android:text="Add Wi-Fi here  ^_^"
                     android:textColor="@android:color/black"
                     android:textSize="20sp" />
 
@@ -52,7 +52,9 @@
                     android:layout_height="wrap_content"
                     android:background="?selectableItemBackground"
                     android:paddingLeft="20dp"
-                    android:text="+ Add WIFI"
+                    android:text="+  Add WI-FI"
+                    android:textSize="17sp"
+                    android:textColor="@color/colorAddNew"
                     android:textAlignment="textStart"
                     android:textAllCaps="false" />
 

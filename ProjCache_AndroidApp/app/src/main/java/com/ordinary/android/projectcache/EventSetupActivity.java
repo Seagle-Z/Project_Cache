@@ -46,16 +46,11 @@ public class EventSetupActivity extends AppCompatActivity {
 
     private void setupViewPager(CustomEventSetupViewPager viewPager) {
         EventSetupPageAdapter adapter = new EventSetupPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EventSetupPage1Fragment(), "Condition", context, event);
+        adapter.addFragment(new EventSetupPage1Fragment(), "Conditions", context, event);
         adapter.addFragment(new EventSetupPage2Fragment(), "Actions", context, event);
-        adapter.addFragment(new EventSetupPage3Fragment(), "Event Summary", context, event);
+        adapter.addFragment(new EventSetupPage3Fragment(), "Summary", context, event);
         int limit = (adapter.getCount() > 1 ? adapter.getCount() - 1 : 1);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(limit);
-    }
-
-    public String getABC()
-    {
-        return "肖际我去你的";
     }
 }

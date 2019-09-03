@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:text="@string/floating_add_event"
+        app:srcCompat="@drawable/icon_add_new"/>
 
     <include layout="@layout/content_events_management" />
 

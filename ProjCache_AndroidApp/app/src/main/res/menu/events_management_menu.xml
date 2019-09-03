@@ -11,9 +11,4 @@
         android:visible="true"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/managementMune_itemButton"
-        android:title="Item 1"
-        app:showAsAction="never" />
-
 </menu>

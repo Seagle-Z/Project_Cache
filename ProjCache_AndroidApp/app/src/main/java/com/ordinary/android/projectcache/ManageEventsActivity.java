@@ -97,7 +97,10 @@ public class ManageEventsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.delete_itemButton:
                 if (selectedList == null || selectedList.size() == 0) {
-                    Toast.makeText(this, "Please select event to delete", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            this,
+                            "Click event image to choose the event you want to delete",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     deleteEvents();
                     eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);

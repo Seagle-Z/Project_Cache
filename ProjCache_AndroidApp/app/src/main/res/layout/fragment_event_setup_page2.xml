@@ -16,11 +16,11 @@
             <TextView
                 android:id="@+id/page2_title"
                 android:layout_width="match_parent"
-                android:layout_height="35sp"
+                android:layout_height="1dp"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
-                android:text="Run action when condition match"
-                android:textColor="@color/colorAccent"
+                android:text=""
+                android:textColor="@color/colorDescription"
                 android:textSize="20sp" />
 
             <TextView
@@ -30,7 +30,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:text="When start"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
 
@@ -46,7 +46,9 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="20dp"
-                android:text="+ Select a start action"
+                android:text="+  new action when start"
+                android:textSize="17sp"
+                android:textColor="@color/colorAddNew"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
@@ -57,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="During the action"
-                android:textColor="@android:color/black"
+                android:text="Ongoing"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
 
@@ -74,7 +76,9 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="20dp"
-                android:text="+ Select an ongoing action"
+                android:text="+  new ongoing action"
+                android:textSize="17sp"
+                android:textColor="@color/colorAddNew"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
@@ -86,7 +90,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:text="When end"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
             <ListView
@@ -101,7 +105,9 @@
                 android:layout_height="wrap_content"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="20dp"
-                android:text="+ Select an end action"
+                android:text="+  new action when end"
+                android:textSize="17sp"
+                android:textColor="@color/colorAddNew"
                 android:textAlignment="textStart"
                 android:textAllCaps="false" />
 
@@ -109,7 +115,7 @@
 
     </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/page2Previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,10 +123,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_previous" />
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:background="?selectableItemBackground"
+        android:text="@string/back" />
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/page2Forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,8 +136,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:background="?selectableItemBackground"
+        android:text="@string/next" />
 
 
 </RelativeLayout>

@@ -49,6 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventConditionsSelectionActivity"
+            android:label="@string/title_activity_setup_event_condition_selection"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -69,6 +70,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventConditionWifiActivity"
+            android:label="@string/title_activity_setup_event_condition_wifi"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
