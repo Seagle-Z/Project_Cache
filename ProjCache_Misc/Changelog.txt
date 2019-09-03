@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#09/03/2019
+    #[b_bdev]
+	1. Adjusted WIFI UI page when selecting from a wifi list
+	2. Adjusted the small bug on EventSetupPage1 not displaying only 33 char string
+
 #09/01/2019
     #[b_jx]
         1. Event Management now can delete events
