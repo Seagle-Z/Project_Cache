@@ -35,7 +35,7 @@ public class EventSetupPage2Fragment extends Fragment {
     private String AppPackageName = "";
     private CustomEventSetupViewPager viewPager;
     private Button startActionButton, ongoingActionButton, endActionButton;
-    private FloatingActionButton forward, previous;
+    private Button forward, previous;
     private ListView startActionListView, ongoingActionListView, endActionListView;
     private ArrayAdapter<String> adapterForStartActionListView, adapterForOngoingActionListview,
             adapterForEndActionListView, selectedListViewAdapter;
@@ -60,8 +60,8 @@ public class EventSetupPage2Fragment extends Fragment {
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         pm = getActivity().getPackageManager();
 
-        forward = (FloatingActionButton) view.findViewById(R.id.page2Forward);
-        previous = (FloatingActionButton) view.findViewById(R.id.page2Previous);
+        forward = (Button) view.findViewById(R.id.page2Forward);
+        previous = (Button) view.findViewById(R.id.page2Previous);
         startActionButton = (Button) view.findViewById(R.id.add_startAction);
         ongoingActionButton = (Button) view.findViewById(R.id.add_ongoingAction);
         endActionButton = (Button) view.findViewById(R.id.add_endAction);

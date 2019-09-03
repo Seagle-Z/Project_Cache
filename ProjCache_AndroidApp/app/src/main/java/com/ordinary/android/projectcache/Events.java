@@ -100,6 +100,8 @@ public class Events extends AppCompatActivity {
                 //Log.d(" ", line);
                 eventsList.add(parseEventData(line));
             }
+
+            fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -567,7 +569,7 @@ public class Events extends AppCompatActivity {
                 tasksTypeOngoingM2, tasksValueOngoingM2, tasksOngoingRepeatPeriodM2,
                 false, false,
                 true, true,
-                "This is the test event 2",
+                "This is the test event 2, this is long description. Can it display?",
                 "" + R.drawable.ic_menu_gallery, 0xffffff,
                 "NULL", 0);
 

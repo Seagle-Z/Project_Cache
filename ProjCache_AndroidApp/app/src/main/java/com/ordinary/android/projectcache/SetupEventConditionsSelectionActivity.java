@@ -22,8 +22,8 @@ public class SetupEventConditionsSelectionActivity
     private final int REQUEST_INFORMATION_CODE = 1001;
     private Map<String, String> conditions = new Hashtable<>();
 
-    private final String GPS = "GPS Location";
-    private final String BT = "Bluetooth";
+    private final String GPS = "Device Location";
+    private final String BT = "Bluetooth Connection";
     private final String WIFI = "Wi-Fi Connection";
     private final String Time = "Time";
     private final String OS_APP = "On-Screen App";
@@ -49,16 +49,16 @@ public class SetupEventConditionsSelectionActivity
 
         conditionsList.add(new TypeObjectModel(
                 conditions.get("LOCATION"),
-                getDrawable(R.drawable.icon_location)));
+                getDrawable(R.drawable.icon_condition_location)));
         conditionsList.add(new TypeObjectModel(
                 conditions.get("BLUETOOTH"),
-                getDrawable(R.drawable.icon_bluetooth)));
+                getDrawable(R.drawable.icon_condition_bluetooth)));
         conditionsList.add(new TypeObjectModel(
                 conditions.get("WIFI"),
-                getDrawable(R.drawable.icon_wifi)));
+                getDrawable(R.drawable.icon_condition_wifi)));
         conditionsList.add(new TypeObjectModel(
                 conditions.get("TIME"),
-                getDrawable(R.drawable.icon_clock)));
+                getDrawable(R.drawable.icon_condition_time)));
 //        conditionsList.add(new TypeObjectModel(
 //                conditions.get("ON_SCREEN_APP"),
 //                getDrawable(R.drawable.icon_application)));

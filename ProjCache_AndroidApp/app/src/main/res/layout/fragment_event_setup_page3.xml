@@ -11,13 +11,14 @@
         android:orientation="vertical">
 
         <TextView
+
             android:id="@+id/page3_title"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="1dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            android:text="Summary"
-            android:textColor="@color/colorAccent"
+            android:text=""
+            android:textColor="@color/colorDescription"
             android:textSize="20sp" />
 
         <TextView
@@ -27,7 +28,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:text="Event Name"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
         <EditText
@@ -52,7 +53,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="Auto Trigger"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
             <Switch
@@ -76,7 +77,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:text="One Time Event"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
             <Switch
@@ -95,7 +96,7 @@
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:text="Event Description"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
         <EditText
@@ -110,16 +111,18 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/page3Previous"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_previous" />
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:background="?selectableItemBackground"
+        android:text="@string/back" />
 
     <Button
         android:id="@+id/complete"
@@ -129,6 +132,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:textSize="17sp"
         android:background="?selectableItemBackground"
-        android:text="Finish" />
+        android:text="FNISHI" />
 </RelativeLayout>

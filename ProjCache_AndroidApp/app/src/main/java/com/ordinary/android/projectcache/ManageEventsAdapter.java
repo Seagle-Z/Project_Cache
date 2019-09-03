@@ -107,7 +107,7 @@ public class ManageEventsAdapter
                     selectedList.remove(item.getEventName());
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);
                 }
-                viewHolder.itemView.setBackgroundColor(selectedList.contains(item.getEventName()) ? 0xffb2ebf2 : Color.WHITE);
+                viewHolder.itemView.setBackgroundColor(selectedList.contains(item.getEventName()) ? 0xffb3e5fc : Color.WHITE);
                 //notifyDataSetChanged();
             }
         });

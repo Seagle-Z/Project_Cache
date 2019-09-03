@@ -6,7 +6,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="6dp"
     android:orientation="vertical"
     android:layout_margin="4dp">
 
@@ -36,6 +36,7 @@
                 android:id="@+id/selected_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Type:"
                 android:textSize="20sp" />
         </LinearLayout>

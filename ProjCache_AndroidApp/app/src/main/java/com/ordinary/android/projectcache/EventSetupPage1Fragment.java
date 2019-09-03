@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,7 +33,7 @@ public class EventSetupPage1Fragment
     Event event;
     private CustomEventSetupViewPager viewPager;
     private Button addConditionButton;
-    private FloatingActionButton forward;
+    private Button forward;
     private RecyclerView conditionRecyclerView;
     private RecyclerView.Adapter adapterForRecyclerView;
     private View view;
@@ -57,7 +59,7 @@ public class EventSetupPage1Fragment
                 false
         );
 
-        forward = (FloatingActionButton) view.findViewById(R.id.page1Foward);
+        forward = (Button) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);
         conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -114,12 +116,13 @@ public class EventSetupPage1Fragment
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!conditionsArrList.isEmpty())
-//                {
-                viewPager.setCurrentItem(1);
-//                else {
-//                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
-//                }
+                if (!conditionsArrList.isEmpty())
+                {
+                    viewPager.setCurrentItem(1);
+                }
+                else {
+                    Toast.makeText(getContext(), "Please add a condition first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;

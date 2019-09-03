@@ -17,11 +17,11 @@
         <TextView
             android:id="@+id/page1_title"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="1dp"
             android:paddingLeft="5dp"
             android:paddingTop="5dp"
-            android:text="Add method to trigger the the event"
-            android:textColor="@color/colorAccent"
+            android:text=""
+            android:textColor="@color/colorDescription"
             android:textSize="20sp" />
 
         <!--<ListView
@@ -43,18 +43,21 @@
 
         <Button
             android:id="@+id/add_condition"
+            android:clickable="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="?selectableItemBackground"
             android:paddingLeft="15dp"
-            android:text="+ Select a condition"
+            android:text="+  new constraint condition"
             android:textAlignment="textStart"
-            android:textSize="15sp"/>
+            android:textAllCaps="false"
+            android:textColor="@color/colorAddNew"
+            android:textSize="17sp"/>
     </LinearLayout>
 
     <!--</ScrollView>-->
 
-    <android.support.design.widget.FloatingActionButton
+    <Button
         android:id="@+id/page1Foward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +65,9 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        android:textAllCaps="false"
+        android:textSize="17sp"
+        android:background="?selectableItemBackground"
+        android:text="@string/next" />
 
 </RelativeLayout>

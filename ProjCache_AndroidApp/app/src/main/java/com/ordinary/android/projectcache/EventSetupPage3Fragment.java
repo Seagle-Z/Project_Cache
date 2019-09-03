@@ -22,7 +22,7 @@ public class EventSetupPage3Fragment extends Fragment {
     private static final String TAG = "EventSetupPage3Fragment";
     Event event = null;
     private CustomEventSetupViewPager viewPager;
-    private FloatingActionButton previous;
+    private Button previous;
     private EditText eventName, eventDescription;
     private Button complete;
     private EventSetupPageAdapter adapter;
@@ -36,7 +36,7 @@ public class EventSetupPage3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_setup_page3, container, false);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         adapter = (EventSetupPageAdapter) viewPager.getAdapter();
-        previous = (FloatingActionButton) view.findViewById(R.id.page3Previous);
+        previous = (Button) view.findViewById(R.id.page3Previous);
         eventName = (EditText) view.findViewById(R.id.event_name);
         eventDescription = (EditText) view.findViewById(R.id.event_description);
         complete = (Button) view.findViewById(R.id.complete);
