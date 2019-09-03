@@ -14,13 +14,6 @@ import java.util.List;
 public class TypeObjectAdapter
         extends RecyclerView.Adapter<TypeObjectAdapter.ViewHolder> {
 
-    private final int REQUEST_INFORMATION_CODE = 1010;
-    private final String GPS = "GPS Location";
-    private final String BT = "Bluetooth";
-    private final String WIFI = "Wi-Fi Connection";
-    private final String Time = "Time";
-    private final String OS_APP = "On-Screen App";
-    private View adapterView;
     private Context context;
     private List<TypeObjectModel> typeObjectModelList;
     private mOnItemClickListener listener;
@@ -64,7 +57,7 @@ public class TypeObjectAdapter
 
         public ViewHolder(@NonNull View itemView, Context context, mOnItemClickListener mOnItemClickListener) {
             super(itemView);
-            adapterView = itemView;
+
             typeNameTextView = itemView.findViewById(R.id.selected_type);
             objectImageView = itemView.findViewById(R.id.iconImage);
             this.mOnItemClickListener = mOnItemClickListener;

@@ -107,16 +107,6 @@ public class TypeValueObjectAdapter
 
             RelativeLayout layout = (RelativeLayout) itemView.findViewById(R.id.typeValue_Relative);
             layout.setOnClickListener(this);
-
-//            layout.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = getIntent(getAdapterPosition());
-//                    ((Activity) context).startActivityForResult(intent, 1010);
-//                    notifyDataSetChanged();
-//
-//                }
-//            });
         }
         @Override
         public void onClick(View v) {

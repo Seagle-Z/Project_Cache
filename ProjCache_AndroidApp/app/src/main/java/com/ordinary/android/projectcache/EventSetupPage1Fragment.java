@@ -220,7 +220,6 @@ public class EventSetupPage1Fragment
             }
             String result = "";
             if (newWifiString.toString().length() > 33) {
-                System.out.println(newWifiString.toString().length());
                 result = newWifiString.toString().substring(0, 30);
                 result = result + "...";
             } else

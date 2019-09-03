@@ -8,18 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 public class SetupEventActionsSelectionActivity
-        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener{
+        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
 
     private final int REQUEST_SELECTION_LIST_CODE = 1001;
     private final String LAUNCH_APP = "Launch An App";
@@ -67,7 +63,6 @@ public class SetupEventActionsSelectionActivity
                         getDrawable(R.drawable.icon_action_volume)));
 
 
-
         adapterForActionListView = new TypeObjectAdapter(
                 action_selection_context,
                 actionArrList,
@@ -90,41 +85,40 @@ public class SetupEventActionsSelectionActivity
     @Override
     public void onItemClick(int position) {
         Intent intent = null;
-                switch (actionArrList.get(position).getTypename()) {
-                    case LAUNCH_APP:
-                        intent = new Intent(
-                                action_selection_context,
-                                AppListActivity.class);
-                        break;
+        switch (actionArrList.get(position).getTypename()) {
+            case LAUNCH_APP:
+                intent = new Intent(
+                        action_selection_context,
+                        AppListActivity.class);
+                break;
 
-                    case QR_CODE:
-                        intent = new Intent(
-                                action_selection_context,
-                                SetupEventActionBarCodeActivity.class);
-                        break;
+            case QR_CODE:
+                intent = new Intent(
+                        action_selection_context,
+                        SetupEventActionBarCodeActivity.class);
+                break;
 
-                    case BRIGHTNESS:
-                        intent = new Intent(
-                                action_selection_context,
-                                SetupEventActionScreenBrightness.class);
-                        //startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
-                        break;
+            case BRIGHTNESS:
+                intent = new Intent(
+                        action_selection_context,
+                        SetupEventActionScreenBrightness.class);
+                break;
 
-                    case BROWSE_URL:
-                        intent = new Intent(
-                                action_selection_context,
-                                SetupEventActionBrowseUrlActivity.class);
-                        break;
+            case BROWSE_URL:
+                intent = new Intent(
+                        action_selection_context,
+                        SetupEventActionBrowseUrlActivity.class);
+                break;
 
-                    case CHANGE_VOLUME:
-                        intent = new Intent(
-                                action_selection_context,
-                                SetupEventActionVolumeActivity.class);
-                        break;
+            case CHANGE_VOLUME:
+                intent = new Intent(
+                        action_selection_context,
+                        SetupEventActionVolumeActivity.class);
+                break;
 
-                    default:
-                        Log.d("", "No Item Selected");
-                }
-                startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
+            default:
+                Log.d("", "No Item Selected");
+        }
+        startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
     }
 }
