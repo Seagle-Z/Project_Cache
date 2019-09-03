@@ -1,7 +1,9 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +11,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +33,7 @@ public class SetupEventActionsSelectionActivity
     private RecyclerView actionRV;
     private List<TypeObjectModel> actionArrList = new ArrayList<>();
     private RecyclerView.Adapter adapterForActionListView;
-    private Map<String, String> action_options = new Hashtable<>();
+    public ToolFunctions TF = new ToolFunctions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,6 @@ public class SetupEventActionsSelectionActivity
                 new TypeObjectModel(
                         LAUNCH_APP,
                         getDrawable(R.drawable.icon_action_app)));
-
         actionArrList.add(
                 new TypeObjectModel(
                         QR_CODE,
@@ -62,6 +66,7 @@ public class SetupEventActionsSelectionActivity
                         CHANGE_VOLUME,
                         getDrawable(R.drawable.icon_action_volume)));
 
+        Collections.sort(actionArrList, TF.getComparator());
 
         adapterForActionListView = new TypeObjectAdapter(
                 action_selection_context,
@@ -93,9 +98,10 @@ public class SetupEventActionsSelectionActivity
                 break;
 
             case QR_CODE:
-                intent = new Intent(
-                        action_selection_context,
-                        SetupEventActionBarCodeActivity.class);
+//                intent = new Intent(
+//                        action_selection_context,
+//                        SetupEventActionBarCodeActivity.class);
+                showAlertMessage();
                 break;
 
             case BRIGHTNESS:
@@ -120,5 +126,20 @@ public class SetupEventActionsSelectionActivity
                 Log.d("", "No Item Selected");
         }
         startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
+    }
+
+    private void showAlertMessage()
+    {
+        AlertDialog.Builder alert =
+                new AlertDialog.Builder(action_selection_context);
+        alert.setTitle("Sorry");
+        alert.setMessage("Current feature is under construction. Stay close for new updates.");
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.show();
     }
 }

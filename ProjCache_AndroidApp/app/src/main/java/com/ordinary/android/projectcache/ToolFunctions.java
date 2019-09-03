@@ -25,7 +25,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -157,6 +159,26 @@ public class ToolFunctions {
         return stringBuilder.toString();
     }
 
+    public Comparator getComparator()
+    {
+        return new mComparator();
+    }
+
+    public class mComparator implements Comparator<TypeObjectModel> {
+        @Override
+        public int compare(TypeObjectModel X, TypeObjectModel Y) {
+            CharSequence x = X.getTypename();
+            CharSequence y = Y.getTypename();
+
+            if (x == null) {
+                x = X.getTypename();
+            }
+            if (y == null) {
+                y = Y.getTypename();
+            }
+            return Collator.getInstance().compare(x.toString(), y.toString());
+        }
+    }
 
 }
 

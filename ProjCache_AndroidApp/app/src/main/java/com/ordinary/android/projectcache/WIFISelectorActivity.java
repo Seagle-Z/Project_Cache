@@ -38,6 +38,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
     private WifiManager wifiManager;
     private boolean editMode;
     private List<TypeObjectModel> wifiInfoList = new ArrayList<>();
+    public ToolFunctions TF = new ToolFunctions();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,25 +89,6 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
         selectedWIFIRVAdap.notifyDataSetChanged();
 
-        //selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
-        //selectedWIFIRVAdap.notifyDataSetChanged();
-        //get the app information, pack and send back to main activity
-//        selectedWIFIListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                //Check where does the user click on
-//                WIFIInfoModel wifi = (WIFIInfoModel) parent.getItemAtPosition(position);
-//                Intent intent = new Intent(); //Create a new intent object to for data returning use.
-//                intent.putExtra("wifi", wifi);
-//                setResult(Activity.RESULT_OK, intent);
-//                finish(); //End of Activity.
-//            }
-//        });
-
-
-
-
     } //End of onCreate()
 
 
@@ -156,7 +138,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
                 wifiInfoList.add(wifi);
             }
 
-            Collections.sort(wifiInfoList, new wifiComparator()); //Sort the List before returning.
+            Collections.sort(wifiInfoList, TF.getComparator()); //Sort the List before returning.
             return wifiInfoList;
         }
 
@@ -173,34 +155,10 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
         @Override
         public void onItemClick(int position) {
-            //        //Check where does the user click on
-////                WIFIInfoModel wifi = (WIFIInfoModel) parent.getItemAtPosition(position);
-////                Intent intent = new Intent(); //Create a new intent object to for data returning use.
-////                intent.putExtra("wifi", wifi);
-////                setResult(Activity.RESULT_OK, intent);
-////                finish(); //End of Activity.
-
             Intent intent = new Intent();
             intent.putExtra("wifi", wifiInfoList.get(position).getTypename());
             setResult(Activity.RESULT_OK, intent);
             finish();
-        }
-
-        //Sort the WIFI List based on label, if label doesn't exist, sort by package name
-        private class wifiComparator implements Comparator<TypeObjectModel> {
-            @Override
-            public int compare(TypeObjectModel X, TypeObjectModel Y) {
-                CharSequence x = X.getTypename();
-                CharSequence y = Y.getTypename();
-
-                if (x == null) {
-                    x = X.getTypename();
-                }
-                if (y == null) {
-                    y = Y.getTypename();
-                }
-                return Collator.getInstance().compare(x.toString(), y.toString());
-            }
         }
     } //End of LoadWIFIInfoTask
 
