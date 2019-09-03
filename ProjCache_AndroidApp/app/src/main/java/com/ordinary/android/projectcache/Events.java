@@ -100,6 +100,8 @@ public class Events extends AppCompatActivity {
                 //Log.d(" ", line);
                 eventsList.add(parseEventData(line));
             }
+
+            fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
