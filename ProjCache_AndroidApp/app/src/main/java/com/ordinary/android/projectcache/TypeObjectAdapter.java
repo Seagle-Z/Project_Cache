@@ -56,6 +56,7 @@ public class TypeObjectAdapter
         void onItemClick(int position);
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView typeNameTextView;
         private ImageView objectImageView;
