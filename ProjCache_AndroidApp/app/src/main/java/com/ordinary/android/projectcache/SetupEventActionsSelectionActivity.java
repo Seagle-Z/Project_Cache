@@ -11,13 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 public class SetupEventActionsSelectionActivity
         extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
@@ -28,12 +24,11 @@ public class SetupEventActionsSelectionActivity
     private final String BROWSE_URL = "Open a Web Link";
     private final String CHANGE_VOLUME = "Change Volume";
     private final String BRIGHTNESS = "Screen Brightness";
-
+    public ToolFunctions TF = new ToolFunctions();
     private Context action_selection_context;
     private RecyclerView actionRV;
     private List<TypeObjectModel> actionArrList = new ArrayList<>();
     private RecyclerView.Adapter adapterForActionListView;
-    public ToolFunctions TF = new ToolFunctions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +123,7 @@ public class SetupEventActionsSelectionActivity
         startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
     }
 
-    private void showAlertMessage()
-    {
+    private void showAlertMessage() {
         AlertDialog.Builder alert =
                 new AlertDialog.Builder(action_selection_context);
         alert.setTitle("Sorry");

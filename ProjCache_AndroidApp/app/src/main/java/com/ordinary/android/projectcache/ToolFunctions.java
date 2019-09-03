@@ -9,9 +9,7 @@ import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.media.ImageWriter;
 import android.os.Environment;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -23,13 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-
 import java.text.Collator;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
 
 public class ToolFunctions {
 
@@ -73,17 +66,6 @@ public class ToolFunctions {
         return dResult;
     }
 
-    public Bitmap imageCompression(Context context, InputStream is)
-    {
-        Bitmap original = BitmapFactory.decodeStream(is);
-        createDirectoryAndSaveFile(context,original, "Original");
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        original.compress(Bitmap.CompressFormat.JPEG, 60, output);
-        Bitmap out = BitmapFactory.decodeStream(new ByteArrayInputStream(output.toByteArray()));
-        createDirectoryAndSaveFile(context, out, "After");
-        return out;
-    }
-
     public static void createDirectoryAndSaveFile(Context context, Bitmap imageToSave, String fileName) {
 
         File direct = new File(Environment.getExternalStorageDirectory() + "/sdcard/Android/data/com.ordinary.android.projectcache/barcode");
@@ -106,6 +88,16 @@ public class ToolFunctions {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Bitmap imageCompression(Context context, InputStream is) {
+        Bitmap original = BitmapFactory.decodeStream(is);
+        createDirectoryAndSaveFile(context, original, "Original");
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        original.compress(Bitmap.CompressFormat.JPEG, 60, output);
+        Bitmap out = BitmapFactory.decodeStream(new ByteArrayInputStream(output.toByteArray()));
+        createDirectoryAndSaveFile(context, out, "After");
+        return out;
     }
 
     public void setListViewHeightBasedOnChildren(ArrayAdapter<?> arrayAdapter, ListView listView) {
@@ -159,8 +151,7 @@ public class ToolFunctions {
         return stringBuilder.toString();
     }
 
-    public Comparator getComparator()
-    {
+    public Comparator getComparator() {
         return new mComparator();
     }
 

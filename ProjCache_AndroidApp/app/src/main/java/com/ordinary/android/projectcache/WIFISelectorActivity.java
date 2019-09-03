@@ -13,16 +13,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.text.Collator;
 
 public class WIFISelectorActivity extends AppCompatActivity {
 
@@ -43,7 +38,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listview_wifi_list);
+        setContentView(R.layout.layout_wifilist_swiperefresh);
 
         wifi_picker_context = WIFISelectorActivity.this;
         selectedWIFIRV = (RecyclerView) findViewById(R.id.wifi_rv);
