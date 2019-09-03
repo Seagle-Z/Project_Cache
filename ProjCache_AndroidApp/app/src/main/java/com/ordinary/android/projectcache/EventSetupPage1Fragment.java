@@ -192,7 +192,7 @@ public class EventSetupPage1Fragment
                 conditionsArrList.add(new TypeValueObjectModel(
                         "Time",
                         result,
-                        getResources().getDrawable(R.drawable.icon_clock))
+                        getResources().getDrawable(R.drawable.icon_condition_time))
                 );
             } else {
                 conditionsArrList.get(selectedPosition).setValues(result);
@@ -230,7 +230,7 @@ public class EventSetupPage1Fragment
                 conditionsArrList.add(new TypeValueObjectModel(
                         "WIFI",
                         result,
-                        getResources().getDrawable(R.drawable.icon_wifi))
+                        getResources().getDrawable(R.drawable.icon_condition_wifi))
                 );
             } else {
                 conditionsArrList.get(selectedPosition).setValues(result);

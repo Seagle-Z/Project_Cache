@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
     private Button completeButton;
     private int curBrightnessValue, seekBarvalue;
     private Context screen_brightness_context;
+    private final int REQUEST_PERMISSION_CODE = 1010;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +139,26 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
 
     private void changeWriteSettingsPermission(Context context) {
         Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-        context.startActivity(intent);
+        ((Activity)context).startActivityForResult(intent, REQUEST_PERMISSION_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(!Settings.System.canWrite(screen_brightness_context))
+        {
+            AlertDialog.Builder Error = new AlertDialog.Builder(screen_brightness_context);
+            Error.setTitle("Error");
+            Error.setMessage("User permission is not granted");
+            Error.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            Error.show();
+        }
     }
 }
 

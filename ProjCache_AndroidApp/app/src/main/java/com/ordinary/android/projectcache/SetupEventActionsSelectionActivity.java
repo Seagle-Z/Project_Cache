@@ -5,21 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class SetupEventActionsSelectionActivity extends AppCompatActivity {
+public class SetupEventActionsSelectionActivity
+        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener{
 
     private final int REQUEST_SELECTION_LIST_CODE = 1001;
     private final String LAUNCH_APP = "Launch An App";
@@ -29,9 +29,9 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
     private final String BRIGHTNESS = "Screen Brightness";
 
     private Context action_selection_context;
-    private ListView actionListView;
-    private List<String> actionArrList = new ArrayList<>();
-    private ArrayAdapter<String> adapterForActionListView;
+    private RecyclerView actionRV;
+    private List<TypeObjectModel> actionArrList = new ArrayList<>();
+    private RecyclerView.Adapter adapterForActionListView;
     private Map<String, String> action_options = new Hashtable<>();
 
     @Override
@@ -40,29 +40,57 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_setup_event_actions_selection);
         action_selection_context = SetupEventActionsSelectionActivity.this;
 
-        actionListView = (ListView) findViewById(R.id.action_types);
-        actionListView.setTextFilterEnabled(true);
+        actionRV = (RecyclerView) findViewById(R.id.action_types);
+        actionRV.setLayoutManager(new LinearLayoutManager(action_selection_context));
+        actionArrList.add(
+                new TypeObjectModel(
+                        LAUNCH_APP,
+                        getDrawable(R.drawable.icon_action_app)));
 
-        actionArrList.add(LAUNCH_APP);
-        actionArrList.add(QR_CODE);
-        actionArrList.add(BRIGHTNESS);
-        actionArrList.add(BROWSE_URL);
-        actionArrList.add(CHANGE_VOLUME);
-        Collections.sort(actionArrList);
+        actionArrList.add(
+                new TypeObjectModel(
+                        QR_CODE,
+                        getDrawable(R.drawable.testing_qrcode)));
+        actionArrList.add(
+                new TypeObjectModel(
+                        BRIGHTNESS,
+                        getDrawable(R.drawable.icon_action_brightness)));
 
-        adapterForActionListView = new ArrayAdapter<String>(
-                this,
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                actionArrList);
+        actionArrList.add(
+                new TypeObjectModel(
+                        BROWSE_URL,
+                        getDrawable(R.drawable.icon_action_brower)));
 
-        actionListView.setAdapter(adapterForActionListView);
+        actionArrList.add(
+                new TypeObjectModel(
+                        CHANGE_VOLUME,
+                        getDrawable(R.drawable.icon_action_volume)));
 
-        actionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = null;
-                switch (actionArrList.get(position)) {
+
+
+        adapterForActionListView = new TypeObjectAdapter(
+                action_selection_context,
+                actionArrList,
+                this);
+
+        actionRV.setAdapter(adapterForActionListView);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (requestCode == REQUEST_SELECTION_LIST_CODE && resultCode == Activity.RESULT_OK)
+                setResult(Activity.RESULT_OK, data);
+            finish();
+        } catch (NullPointerException e) {
+        }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = null;
+                switch (actionArrList.get(position).getTypename()) {
                     case LAUNCH_APP:
                         intent = new Intent(
                                 action_selection_context,
@@ -98,17 +126,5 @@ public class SetupEventActionsSelectionActivity extends AppCompatActivity {
                         Log.d("", "No Item Selected");
                 }
                 startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            if (requestCode == REQUEST_SELECTION_LIST_CODE && resultCode == Activity.RESULT_OK)
-                setResult(Activity.RESULT_OK, data);
-            finish();
-        } catch (NullPointerException e) {
-        }
     }
 }
