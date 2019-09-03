@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,13 +25,17 @@ import java.text.Collator;
 public class WIFISelectorActivity extends AppCompatActivity {
 
     //UI Code
-    private ListView selectedWIFIListView;
+    //private ListView selectedWIFIListView;
     private Context wifi_picker_context;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private RecyclerView selectedWIFIRV;
+    private RecyclerView.Adapter selectedWIFIRVAdap;
 
     //Local Variables
     private WifiManager wifiManager;
     private boolean editMode;
+    private List<TypeObjectModel> wifiInfoList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,9 +43,10 @@ public class WIFISelectorActivity extends AppCompatActivity {
         setContentView(R.layout.listview_wifi_list);
 
         wifi_picker_context = WIFISelectorActivity.this;
-        selectedWIFIListView = findViewById(R.id.wifi_list);
-        selectedWIFIListView.setTextFilterEnabled(true);
-        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
+        selectedWIFIRV = findViewById(R.id.wifi_rv);
+        selectedWIFIRV.setAdapter(null);
+        selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshWifi);
 
         Intent intent = getIntent();
         try {
@@ -58,19 +65,24 @@ public class WIFISelectorActivity extends AppCompatActivity {
 
         wifiManager = (WifiManager) wifi_picker_context.getSystemService(Context.WIFI_SERVICE);
 
-        //get the app information, pack and send back to main activity
-        selectedWIFIListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //Check where does the user click on
-                WIFIInfoModel wifi = (WIFIInfoModel) parent.getItemAtPosition(position);
-                Intent intent = new Intent(); //Create a new intent object to for data returning use.
-                intent.putExtra("wifi", wifi);
-                setResult(Activity.RESULT_OK, intent);
-                finish(); //End of Activity.
-            }
-        });
+        //selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
+        //selectedWIFIRVAdap.notifyDataSetChanged();
+        //get the app information, pack and send back to main activity
+//        selectedWIFIListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                //Check where does the user click on
+//                WIFIInfoModel wifi = (WIFIInfoModel) parent.getItemAtPosition(position);
+//                Intent intent = new Intent(); //Create a new intent object to for data returning use.
+//                intent.putExtra("wifi", wifi);
+//                setResult(Activity.RESULT_OK, intent);
+//                finish(); //End of Activity.
+//            }
+//        });
+
+
 
 
     } //End of onCreate()
@@ -94,7 +106,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
     }
 
 
-    class LoadWIFIInfoTask extends AsyncTask<Integer, Integer, List<WIFIInfoModel>> {
+    class LoadWIFIInfoTask extends AsyncTask<Integer, Integer, List<TypeObjectModel>> implements TypeObjectAdapter.mOnItemClickListener  {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -107,8 +119,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         */
         //TODO: Fix this similar to AppInfo
         @Override
-        protected List<WIFIInfoModel> doInBackground(Integer... params) {
-            List<WIFIInfoModel> wifi_list = new ArrayList<>(); //Create InstalledAppinfo List for listview use
+        protected List<TypeObjectModel> doInBackground(Integer... params) {
+            //List<TypeObjectModel> wifi_list = new ArrayList<>(); //Create InstalledAppinfo List for listview use
 
             //PREVIOUSLY SAVED WIFI Connections
             List<WifiConfiguration> currentNetworks = wifiManager.getConfiguredNetworks();
@@ -116,46 +128,54 @@ public class WIFISelectorActivity extends AppCompatActivity {
             for (WifiConfiguration prevConnections : currentNetworks) {
 
                 String SSID = prevConnections.SSID.replaceAll("\"","");
-                String BSSID = null;
-                try {
-                    BSSID = prevConnections.BSSID.replaceAll("\"", "");
-                }catch(NullPointerException e) {}
 
-                //DEBUGGING
-                //System.out.println("SSID: " + SSID);
-                //System.out.println("BSSID: " + BSSID);
+                TypeObjectModel wifi = new TypeObjectModel(SSID, getDrawable(R.drawable.icon_condition_wifi));
 
-                WIFIInfoModel wifi = new WIFIInfoModel(SSID, BSSID);
-
-                wifi_list.add(wifi);
+                wifiInfoList.add(wifi);
             }
 
-            Collections.sort(wifi_list, new wifiComparator()); //Sort the List before returning.
-            return wifi_list;
+            Collections.sort(wifiInfoList, new wifiComparator()); //Sort the List before returning.
+            return wifiInfoList;
         }
-
 
         //After executing the loading process, show the user how many app is loaded.
         @Override
-        protected void onPostExecute(List<WIFIInfoModel> wifiInfos) {
+        protected void onPostExecute(List<TypeObjectModel> wifiInfos) {
             super.onPostExecute(wifiInfos);
-            selectedWIFIListView.setAdapter(new WIFIListAdapter(WIFISelectorActivity.this, wifiInfos));
+
+            selectedWIFIRVAdap = new TypeObjectAdapter(wifi_picker_context, wifiInfos,this);
+            selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(selectedWIFIListView, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(selectedWIFIRV, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onItemClick(int position) {
+            //        //Check where does the user click on
+////                WIFIInfoModel wifi = (WIFIInfoModel) parent.getItemAtPosition(position);
+////                Intent intent = new Intent(); //Create a new intent object to for data returning use.
+////                intent.putExtra("wifi", wifi);
+////                setResult(Activity.RESULT_OK, intent);
+////                finish(); //End of Activity.
+
+            Intent intent = new Intent();
+            intent.putExtra("wifi", wifiInfoList.get(position).getTypename());
+            setResult(Activity.RESULT_OK, intent);
+            finish();
         }
 
         //Sort the WIFI List based on label, if label doesn't exist, sort by package name
-        private class wifiComparator implements Comparator<WIFIInfoModel> {
+        private class wifiComparator implements Comparator<TypeObjectModel> {
             @Override
-            public int compare(WIFIInfoModel X, WIFIInfoModel Y) {
-                CharSequence x = X.getWIFIName();
-                CharSequence y = Y.getWIFIName();
+            public int compare(TypeObjectModel X, TypeObjectModel Y) {
+                CharSequence x = X.getTypename();
+                CharSequence y = Y.getTypename();
 
                 if (x == null) {
-                    x = X.getWIFIName();
+                    x = X.getTypename();
                 }
                 if (y == null) {
-                    y = Y.getWIFIName();
+                    y = Y.getTypename();
                 }
                 return Collator.getInstance().compare(x.toString(), y.toString());
             }

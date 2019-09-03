@@ -9,6 +9,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,9 +38,10 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
     ListView selectedWIFIListView;
     Context wifi_picker_context;
     ArrayAdapter wifiLISTAdapterView;
+
     //Local Variables
     private ToolFunctions TF = new ToolFunctions();
-    private WIFIInfoModel returnedWifi;
+    private String returnedWifi;
     private List<String> selectedWifiArrList = new ArrayList<String>();     //Ex) {UIC-WIFI, Guest, MyHome}
     private List<String> encryptedSSIDArrList = new ArrayList<String>();    //Ex) {91-24-123#43-35-62}
     private boolean editMode;
@@ -176,16 +178,16 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity {
         try {
             if (requestCode == WIFI_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("wifi")) {
-                    returnedWifi = (WIFIInfoModel) data.getSerializableExtra("wifi");
+                    returnedWifi = data.getStringExtra("wifi");
 
                     if (returnedWifi != null) {
-                        if (!checkDuplicate(returnedWifi.getWIFIName(), selectedWifiArrList)) {
+                        if (!checkDuplicate(returnedWifi, selectedWifiArrList)) {
                             if (!editMode) {
-                                selectedWifiArrList.add(returnedWifi.getWIFIName());                //Places the data from the WifiSelectorActivity.java into the arraylist
+                                selectedWifiArrList.add(returnedWifi);                //Places the data from the WifiSelectorActivity.java into the arraylist
                             } else {
                                 selectedWifiArrList.set(
                                         selectedEditPosition,
-                                        returnedWifi.getWIFIName());
+                                        returnedWifi);
                             }
                             wifiLISTAdapterView.notifyDataSetChanged();
                             TF.setListViewHeightBasedOnChildren(

@@ -195,7 +195,7 @@ public class EventSetupPage1Fragment
                         getResources().getDrawable(R.drawable.icon_clock))
                 );
             } else {
-                conditionsArrList.get(selectedPosition).setValues(newTimeString.toString());
+                conditionsArrList.get(selectedPosition).setValues(result);
             }
             editMode = false;
             conditions.put("TIME", data.getStringExtra("Time"));
@@ -233,7 +233,7 @@ public class EventSetupPage1Fragment
                         getResources().getDrawable(R.drawable.icon_wifi))
                 );
             } else {
-                conditionsArrList.get(selectedPosition).setValues(newWifiString.toString());
+                conditionsArrList.get(selectedPosition).setValues(result);
             }
             editMode = false;
             conditions.put("WIFI", data.getStringExtra("Wifi"));
@@ -259,7 +259,7 @@ public class EventSetupPage1Fragment
     }
 
     private StringJoiner parseTimeData(String[] time) {
-        StringJoiner newTimeString = new StringJoiner("\n ");
+        StringJoiner newTimeString = new StringJoiner(", ");
         DateFormat sdf = new SimpleDateFormat("HH:mm");
 
         for (int i = 0; i < time.length; i++) {
