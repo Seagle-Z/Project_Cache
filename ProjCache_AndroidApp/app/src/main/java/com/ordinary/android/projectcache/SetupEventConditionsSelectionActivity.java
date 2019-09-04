@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,13 @@ public class SetupEventConditionsSelectionActivity
         extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
 
     private final int REQUEST_INFORMATION_CODE = 1001;
-    private Map<String, String> conditions = new Hashtable<>();
-
     private final String GPS = "Device Location";
     private final String BT = "Bluetooth Connection";
     private final String WIFI = "Wi-Fi Connection";
     private final String Time = "Time";
     private final String OS_APP = "On-Screen App";
-
+    public ToolFunctions TF = new ToolFunctions();
+    private Map<String, String> conditions = new Hashtable<>();
     private Context context;
     private RecyclerView conditionOptionRV;
     private RecyclerView.Adapter adapterForconditionOptionRV;
@@ -68,9 +68,8 @@ public class SetupEventConditionsSelectionActivity
         if (intent.getExtras() != null) {
             Bundle extras = intent.getExtras();
             for (String key : extras.keySet()) {
-                for(int i = 0; i < conditionsList.size(); i++)
-                {
-                    if(conditions.get(key).equalsIgnoreCase(conditionsList.get(i).getTypename())) {
+                for (int i = 0; i < conditionsList.size(); i++) {
+                    if (conditions.get(key).equalsIgnoreCase(conditionsList.get(i).getTypename())) {
                         conditionsList.remove(i);
                         break;
                     }
@@ -78,10 +77,11 @@ public class SetupEventConditionsSelectionActivity
             }
         }
 
+        Collections.sort(conditionsList, TF.getComparator());
         adapterForconditionOptionRV = new TypeObjectAdapter(
                 context,
                 conditionsList,
-                 this);
+                this);
 
         conditionOptionRV.setAdapter(adapterForconditionOptionRV);
     }
@@ -102,7 +102,7 @@ public class SetupEventConditionsSelectionActivity
                         SetupEventConditionWifiActivity.class);
                 break;
             case Time:
-                intent= new Intent(
+                intent = new Intent(
                         context,
                         SetupEventConditionDateTimeActivity.class);
                 break;
@@ -114,7 +114,8 @@ public class SetupEventConditionsSelectionActivity
         }
         try {
             startActivityForResult(intent, REQUEST_INFORMATION_CODE);
-        }catch (NullPointerException e){}
+        } catch (NullPointerException e) {
+        }
     }
 
     @Override
@@ -123,8 +124,7 @@ public class SetupEventConditionsSelectionActivity
         finish();
     }
 
-    private void showAlertMessage()
-    {
+    private void showAlertMessage() {
         AlertDialog.Builder alert =
                 new AlertDialog.Builder(context);
         alert.setTitle("Sorry");
