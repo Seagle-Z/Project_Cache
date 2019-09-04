@@ -6,6 +6,7 @@
 
     <color name="colorDescription">#666666</color>
     <color name="colorAddNew">#666666</color>
+    <color name="colorStepButtonText">#000000</color>
 
     <color name="colorSelecteItemBackground">#b3e5fc</color>
 </resources>

@@ -437,7 +437,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                     hour = checkHour(i);
                     min = checkMin(i);
 
-                    selectedTimeArrList.add("- Event activates at: " + hour + ":" + min);
+                    selectedTimeArrList.add(/*"- Event activates at: " + */hour + ":" + min);
                     selectedTimeValue.add(i / 60 + ":" + i % 60);
                     i = j; //Update the "pointer" to the last check position
                     break;
@@ -461,14 +461,14 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                         endMin = checkMin(endTime);
 
                         selectedTimeArrList.add(
-                                "- Event activates between: " +
+                                /*"- Event activates between: " +*/
                                         beginHr + ":" +
-                                        beginMin + "-" +
+                                        beginMin + " - " +
                                         endHr + ":" +
                                         endMin
                         );
                         selectedTimeValue.add(startTime / 60 + ":" +
-                                startTime % 60 + "-" +
+                                startTime % 60 + " - " +
                                 endTime / 60 + ":" +
                                 endTime % 60);
                         i = j; //Update the "pointer" to the last check position

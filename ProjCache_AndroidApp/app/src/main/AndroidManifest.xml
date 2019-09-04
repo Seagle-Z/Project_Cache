@@ -39,19 +39,22 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventActionsSelectionActivity"
+            android:label="@string/title_activity_setup_event_actions_selection"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventConditionsSelectionActivity"
-            android:label="@string/title_activity_setup_event_condition_selection"
+            android:label="@string/title_activity_setup_event_conditions_selection"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventConditionDateTimeActivity"
+            android:label="@string/title_activity_setup_event_condition_time"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".TimeSelectorActivity"
+            android:label="@string/title_activity_time_selector_activity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity

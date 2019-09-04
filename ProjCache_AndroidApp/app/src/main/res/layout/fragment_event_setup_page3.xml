@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            android:text="Event Description"
+            android:text="Event Description (optional)"
             android:textColor="@color/colorAccent"
             android:textSize="20sp" />
 
@@ -121,6 +121,7 @@
         android:layout_marginBottom="10dp"
         android:textAllCaps="false"
         android:textSize="17sp"
+        android:textColor="@color/colorStepButtonText"
         android:background="?selectableItemBackground"
         android:text="@string/back" />
 
@@ -133,6 +134,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:textSize="17sp"
+        android:textColor="@color/colorStepButtonText"
         android:background="?selectableItemBackground"
         android:text="FNISHI" />
 </RelativeLayout>

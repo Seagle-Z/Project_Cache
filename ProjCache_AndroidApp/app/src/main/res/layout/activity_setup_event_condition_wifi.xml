@@ -36,8 +36,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingTop="5dp"
-                    android:text="Add Wi-Fi here  ^_^"
-                    android:textColor="@android:color/black"
+                    android:text="Select one or more Wi-Fi"
+                    android:textColor="@color/colorAccent"
                     android:textSize="20sp" />
 
 <!--                <ListView-->
@@ -67,8 +67,14 @@
 
                 <Button
                     android:id="@+id/wifi_picker_activity_complete_button"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="right"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"
+                    android:textSize="20sp"
                     android:text="Complete" />
 
             </LinearLayout>
