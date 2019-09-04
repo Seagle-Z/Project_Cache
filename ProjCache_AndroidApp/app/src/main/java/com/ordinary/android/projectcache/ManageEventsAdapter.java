@@ -43,7 +43,6 @@ public class ManageEventsAdapter
 
             infoLayout = itemView.findViewById(R.id.eventInfo_linearLayout);
 
-            Events events = new Events(context);
             final Context contextConstant = context;
 
             activationSwitch.setOnClickListener(new View.OnClickListener() {
@@ -59,17 +58,6 @@ public class ManageEventsAdapter
                 }
             });
 
-            infoLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent startEventSetup =
-                            new Intent(contextConstant, EventSetupActivity.class);
-                    startEventSetup.putExtra(
-                            "MODIFY_EVENT", nameTextView.getText().toString());
-                    ((Activity)context).startActivity(
-                            startEventSetup);
-                }
-            });
         }
     }
 
@@ -109,6 +97,19 @@ public class ManageEventsAdapter
                 }
                 viewHolder.itemView.setBackgroundColor(selectedList.contains(item.getEventName()) ? 0xffb3e5fc : Color.WHITE);
                 //notifyDataSetChanged();
+            }
+        });
+
+        viewHolder.infoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startEventSetup =
+                        new Intent(context, EventSetupActivity.class);
+                startEventSetup.putExtra(
+                        "MODIFY_EVENT", viewHolder.nameTextView.getText().toString());
+                ((Activity)context).startActivity(
+                        startEventSetup);
+                notifyDataSetChanged();
             }
         });
 

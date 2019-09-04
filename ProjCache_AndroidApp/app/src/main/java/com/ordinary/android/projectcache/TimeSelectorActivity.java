@@ -252,7 +252,7 @@ public class TimeSelectorActivity extends AppCompatActivity
             }
             //If time value is valid, then it adds successfully.
             else {
-                addBeginTimeButton.setText("Event activates at: " + hour + ":" + minutes);
+                addBeginTimeButton.setText(/*"Event activates at: " + */hour + ":" + minutes);
                 beginHour = hour;
                 beginMinute = minutes;
                 addEndTimeButton.setEnabled(true);
@@ -288,7 +288,7 @@ public class TimeSelectorActivity extends AppCompatActivity
                 flag = false;
             }
             if (flag) {
-                addEndTimeButton.setText("Event ends at: " + hour + ":" + minutes);
+                addEndTimeButton.setText(/*"Event ends at: " + */hour + ":" + minutes);
                 endHour = hour;
                 endMinute = minutes;
             }
