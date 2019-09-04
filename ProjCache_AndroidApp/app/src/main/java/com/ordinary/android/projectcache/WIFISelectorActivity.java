@@ -43,8 +43,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         wifi_picker_context = WIFISelectorActivity.this;
         selectedWIFIRV = (RecyclerView) findViewById(R.id.wifi_rv);
         selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
-
         selectedWIFIRVAdap = new RecyclerView.Adapter() {
+
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -109,10 +109,14 @@ public class WIFISelectorActivity extends AppCompatActivity {
           wifi object, check WIFIInfoModel for more information. Insert wifi objects
           into the List then return to the listView for viewing use.
         */
-        //TODO: Fix this similar to AppInfo
         @Override
         protected List<TypeObjectModel> doInBackground(Integer... params) {
             //List<TypeObjectModel> wifi_list = new ArrayList<>(); //Create InstalledAppinfo List for listview use
+
+            //if wifiInfoList is not empty then delete contents
+            if (!wifiInfoList.isEmpty()) {
+                wifiInfoList.clear();
+            }
 
             //PREVIOUSLY SAVED WIFI Connections
             List<WifiConfiguration> currentNetworks = wifiManager.getConfiguredNetworks();
