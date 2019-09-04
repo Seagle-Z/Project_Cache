@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	3. Fixed the bug in "Recyclerview No adapter attached; skipping layout" in 'onCreate()' in WIFISelectorActivity.java
 	4. Adjusted the WIFI UI page in the SetupEventConditionWifiActivity.java to be more modern
 	5. Added Long Press delete feature on cardView for a wifi object
+	6. Fixed bug where the WIFI list was duplicating after every swipedown refresh
+	7. Removed Redundant code
 
 #09/01/2019
     #[b_jx]
