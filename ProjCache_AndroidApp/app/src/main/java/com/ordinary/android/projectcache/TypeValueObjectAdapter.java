@@ -1,6 +1,10 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,10 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
 import java.util.Map;
-
 public class TypeValueObjectAdapter
         extends RecyclerView.Adapter<TypeValueObjectAdapter.ViewHolder> {
 
@@ -53,7 +55,8 @@ public class TypeValueObjectAdapter
         return typeValueObjectModelList.size();
     }
 
-    public interface intentResultCollectingInterface {
+    public interface intentResultCollectingInterface
+    {
         void getIntent(int position);
     }
 
@@ -75,23 +78,36 @@ public class TypeValueObjectAdapter
             removeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    conditions.remove(typeValueObjectModelList.get(
-                            getAdapterPosition()).getTypename().toUpperCase());
-                    typeValueObjectModelList.remove(getAdapterPosition());
-                    notifyDataSetChanged();
-                    Toast.makeText(
-                            context,
-                            "Deleted",
-                            Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(context, "Delete", Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder adb = new AlertDialog.Builder(context);
+                    adb.setTitle("Delete");
+                    adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context,
+                                    "Cancelled",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            conditions.remove(typeValueObjectModelList.get(
+                                    getAdapterPosition()).getTypename().toUpperCase());
+                            typeValueObjectModelList.remove(getAdapterPosition());
+                            notifyDataSetChanged();
+                            Toast.makeText(
+                                    context,
+                                    "Deleted",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    adb.show();
                 }
             });
 
             RelativeLayout layout = (RelativeLayout) itemView.findViewById(R.id.typeValue_Relative);
             layout.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View v) {
             mInter.getIntent(getAdapterPosition());
