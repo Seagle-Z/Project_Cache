@@ -68,7 +68,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         completeButton = findViewById(R.id.date_time_picker_activity_complete_button);
 
 
-        timeListView = findViewById(R.id.date_time_list);
+        timeListView = findViewById(R.id.dateTime_RV);
         timeListView.setTextFilterEnabled(true);
 
         //Initialize an adapter to inflate the ListView later
