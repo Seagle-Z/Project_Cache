@@ -65,13 +65,6 @@ public class WIFISelectorActivity extends AppCompatActivity {
         selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshWifi);
 
-        Intent intent = getIntent();
-        try {
-            if (intent.hasExtra("RETRIEVE")) {
-                editMode = true;
-            }
-        } catch (NullPointerException e) {
-        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -105,7 +98,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
     }
 
 
-    class LoadWIFIInfoTask extends AsyncTask<Integer, Integer, List<TypeObjectModel>> implements TypeObjectAdapter.mOnItemClickListener  {
+    class LoadWIFIInfoTask extends AsyncTask<Integer, Integer, List<TypeObjectModel>> implements EventSetupSelectionListAdapter.mOnItemClickListener  {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -142,7 +135,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
         protected void onPostExecute(List<TypeObjectModel> wifiInfos) {
             super.onPostExecute(wifiInfos);
 
-            selectedWIFIRVAdap = new TypeObjectAdapter(wifi_picker_context, wifiInfos,this);
+            selectedWIFIRVAdap = new EventSetupSelectionListAdapter(wifi_picker_context, wifiInfos,this);
             selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
             swipeRefreshLayout.setRefreshing(false);
             Snackbar.make(selectedWIFIRV, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();

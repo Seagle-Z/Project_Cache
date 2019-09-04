@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SetupEventConditionsSelectionActivity
-        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
+        extends AppCompatActivity implements EventSetupSelectionListAdapter.mOnItemClickListener {
 
     private final int REQUEST_INFORMATION_CODE = 1001;
     private final String GPS = "Device Location";
@@ -78,7 +78,7 @@ public class SetupEventConditionsSelectionActivity
         }
 
         Collections.sort(conditionsList, TF.getComparator());
-        adapterForconditionOptionRV = new TypeObjectAdapter(
+        adapterForconditionOptionRV = new EventSetupSelectionListAdapter(
                 context,
                 conditionsList,
                 this);

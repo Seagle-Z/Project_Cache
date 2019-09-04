@@ -30,7 +30,7 @@ import java.util.List;
 //import java.util.Collections;
 //import java.net.NetworkInterface;
 
-public class SetupEventConditionWifiActivity extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener{
+public class SetupEventConditionWifiActivity extends AppCompatActivity implements TypeObjectAdapter.intentResultCollectingInterface{
 
     //Code for WIFISelectorActivity result request only
     private final int WIFI_PICKING_CODE = 1014;
@@ -185,9 +185,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                     selectedWIFITList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi)));
                 }
 
-                //wifiLISTAdapterView.notifyDataSetChanged();
                 selectedWIFIAdap.notifyDataSetChanged();
-                //TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
             }
         } catch (NullPointerException e) {
         }
@@ -200,27 +198,15 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
             if (requestCode == WIFI_PICKING_CODE && resultCode == Activity.RESULT_OK) {
                 if (data.hasExtra("wifi")) {
                     returnedWifi = data.getStringExtra("wifi");
-
                     if (returnedWifi != null) {
                         if (!checkDuplicate(returnedWifi, selectedWIFITList)) {
                             if (!editMode) {
                                 //selectedWifiArrList.add(returnedWifi);                //Places the data from the WifiSelectorActivity.java into the arraylist
                                 selectedWIFITList.add(new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)));
                             } else {
-                                //selectedWifiArrList.set(
-                                //        selectedEditPosition,
-                                //        returnedWifi);
-
                                 selectedWIFITList.set(selectedEditPosition, new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)) );
                             }
-                            //wifiLISTAdapterView.notifyDataSetChanged();
-
                             selectedWIFIAdap.notifyDataSetChanged();
-
-                            //TF.setListViewHeightBasedOnChildren(
-                            //        wifiLISTAdapterView,
-                            //        selectedWIFIListView);
-
                         } else
                             Toast.makeText(
                                     wifi_picker_context,
@@ -253,57 +239,10 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onItemClick(int position) {
-
+    public void getIntent(int position) {
+        selectedEditPosition = position;
+        editMode = true;
+        Intent intent = new Intent(wifi_picker_context, WIFISelectorActivity.class);
+        startActivityForResult(intent, WIFI_PICKING_CODE);
     }
-
-//    private void scanWifi() {
-//        StoredWifi.clear();
-//        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//        wifiManager.startScan();
-//        Toast.makeText(wifi_picker_context, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
-//    }
-
-//    public String getMacAddr() {
-//        try {
-//            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-//            for (NetworkInterface nif : all) {
-//                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
-//
-//                byte[] macBytes = nif.getHardwareAddress();
-//                if (macBytes == null) {
-//                    return "";
-//                }
-//
-//                StringBuilder res1 = new StringBuilder();
-//                for (byte b : macBytes) {
-//                    //res1.append(Integer.toHexString(b & 0xFF) + ":");
-//                    res1.append(String.format("%02X:", b));
-//                }
-//
-//                if (res1.length() > 0) {
-//                    res1.deleteCharAt(res1.length() - 1);
-//                }
-//                return res1.toString();
-//            }
-//        } catch (Exception ex) {
-//        }
-//        return "";
-//    }
-
-//    Used for Scanning WIFIs on device
-//    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            results = wifiManager.getScanResults();
-//            unregisterReceiver(wifiReceiver);
-//
-//            for (ScanResult scanResult : results) {
-//                StoredWifi.add(scanResult.SSID);             //Saves into Scan Results
-//                System.out.println("SSID: " + scanResult.SSID + "       MAC: " + scanResult.BSSID);
-//                wifiLISTAdapterView.notifyDataSetChanged();
-//                TF.setListViewHeightBasedOnChildren(wifiLISTAdapterView, selectedWIFIListView);
-//            }
-//        }
-//    };
 }

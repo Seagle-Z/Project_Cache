@@ -1,6 +1,8 @@
 package com.ordinary.android.projectcache;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,9 +19,9 @@ public class TypeObjectAdapter
 
     private Context context;
     private List<TypeObjectModel> typeObjectModelList;
-    private mOnItemClickListener listener;
+    private intentResultCollectingInterface listener;
 
-    public TypeObjectAdapter(Context context, List<TypeObjectModel> modelList, mOnItemClickListener listener) {
+    public TypeObjectAdapter(Context context, List<TypeObjectModel> modelList, intentResultCollectingInterface listener) {
         this.context = context;
         this.typeObjectModelList = modelList;
         this.listener = listener;
@@ -45,29 +48,59 @@ public class TypeObjectAdapter
         return typeObjectModelList.size();
     }
 
-    public interface mOnItemClickListener {
-        void onItemClick(int position);
+    public interface intentResultCollectingInterface
+    {
+        void getIntent(int position);
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView typeNameTextView;
         private ImageView objectImageView;
-        private mOnItemClickListener mOnItemClickListener;
+        private ImageView removeImageView;
+        private intentResultCollectingInterface mInter;
 
-        public ViewHolder(@NonNull View itemView, Context context, mOnItemClickListener mOnItemClickListener) {
+        public ViewHolder(@NonNull View itemView, final Context context, intentResultCollectingInterface inter) {
             super(itemView);
 
             typeNameTextView = itemView.findViewById(R.id.selected_type);
             objectImageView = itemView.findViewById(R.id.iconImage);
-            this.mOnItemClickListener = mOnItemClickListener;
+            removeImageView = itemView.findViewById(R.id.typeModel_remove);
+            this.mInter = inter;
 
+            removeImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Delete", Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder adb = new AlertDialog.Builder(context);
+                    adb.setTitle("Delete");
+                    adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context,
+                                    "Cancelled",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            typeObjectModelList.remove(getAdapterPosition());
+                            notifyDataSetChanged();
+                            Toast.makeText(
+                                    context,
+                                    "Deleted",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    adb.show();
+                }
+            });
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            mOnItemClickListener.onItemClick(getAdapterPosition());
+            mInter.getIntent(getAdapterPosition());
         }
     }
 }

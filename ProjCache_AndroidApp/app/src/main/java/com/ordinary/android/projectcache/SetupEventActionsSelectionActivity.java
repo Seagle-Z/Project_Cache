@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SetupEventActionsSelectionActivity
-        extends AppCompatActivity implements TypeObjectAdapter.mOnItemClickListener {
+        extends AppCompatActivity implements EventSetupSelectionListAdapter.mOnItemClickListener {
 
     private final int REQUEST_SELECTION_LIST_CODE = 1001;
     private final String LAUNCH_APP = "Launch An App";
@@ -63,7 +63,7 @@ public class SetupEventActionsSelectionActivity
 
         Collections.sort(actionArrList, TF.getComparator());
 
-        adapterForActionListView = new TypeObjectAdapter(
+        adapterForActionListView = new EventSetupSelectionListAdapter(
                 action_selection_context,
                 actionArrList,
                 this);
@@ -120,7 +120,8 @@ public class SetupEventActionsSelectionActivity
             default:
                 Log.d("", "No Item Selected");
         }
-        startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
+        if(intent != null)
+            startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
     }
 
     private void showAlertMessage() {
