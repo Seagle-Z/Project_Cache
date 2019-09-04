@@ -10,11 +10,17 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
+    <string name="title_event_setup_activity">Setup event</string>
+
     <string name="title_activity_setup_event_conditions_selection">Select condition type</string>
     <string name="title_activity_setup_event_condition_time">Time condition</string>
     <string name="title_activity_time_selector_activity">Time picker</string>
     <string name="title_activity_setup_event_condition_wifi">Wi-Fi condition</string>
+
     <string name="title_activity_setup_event_actions_selection">Select action type</string>
+    <string name="title_activity_setup_event_action_browse_url">Web link action</string>
+    <string name="title_activity_setup_event_action_screen_brightness">Screen brightness action</string>
+    <string name="title_setup_event_action_volume_activity">Volume change action</string>
 
     <string name="title_activity_events_management">Events Management</string>
 

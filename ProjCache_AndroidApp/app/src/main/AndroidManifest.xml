@@ -35,6 +35,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".EventSetupActivity"
+            android:label="@string/title_event_setup_activity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -63,6 +64,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventActionScreenBrightness"
+            android:label="@string/title_activity_setup_event_action_screen_brightness"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -74,11 +76,14 @@
             android:name=".SetupEventActionBarCodeActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".SetupEventActionBrowseUrlActivity"
+        <activity
+            android:name=".SetupEventActionBrowseUrlActivity"
+            android:label="@string/title_activity_setup_event_action_browse_url"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
-        <activity android:name=".SetupEventActionVolumeActivity"
+        <activity
+            android:name=".SetupEventActionVolumeActivity"
+            android:label="@string/title_setup_event_action_volume_activity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
 
