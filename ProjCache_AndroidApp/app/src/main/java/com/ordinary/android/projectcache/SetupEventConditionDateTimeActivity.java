@@ -8,16 +8,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextMenu;
-import android.view.MenuItem;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 public class SetupEventConditionDateTimeActivity extends AppCompatActivity
-        implements DatePickerDialog.OnDateSetListener {
+        implements DatePickerDialog.OnDateSetListener, TypeObjectAdapter.intentResultCollectingInterface {
 
     //Code for TimeSelectorActivity result request only
     private final int TIME_PICKING_CODE = 1013;
@@ -39,15 +36,15 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
     private Button timeButton, dateButton, completeButton;
 
     private Context date_time_picker_Context; //Current activity's context
-    private ListView timeListView; //ListView for viewing selected time
+    private RecyclerView timeListView; //ListView for viewing selected time
+    private RecyclerView.Adapter timeListAdapter;
 
     //Store selected time for ListView use
-    private ArrayList<String> selectedTimeArrList = new ArrayList<>();
+    private ArrayList<TypeObjectModel> selectedTimeArrList = new ArrayList<>();
     //To store the actual return value that later will pass back to EventSetupPage1Fragment.
     private ArrayList<String> selectedTimeValue = new ArrayList<>();
     //Used to activated time based on the time calculation
     private List<Boolean> activatedHours = new ArrayList<Boolean>(Arrays.asList(new Boolean[1440]));
-    private ArrayAdapter<String> adapterForTimeListView; //Adapter for ListView use only
 
     private int Year, Month, day, selectedEditPosition; //Variable for date information
     private String returnedTime = null; //Variable to store return result from TimeSelectorActivity
@@ -69,18 +66,15 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
 
 
         timeListView = findViewById(R.id.dateTime_RV);
-        timeListView.setTextFilterEnabled(true);
-
+        timeListView.setLayoutManager(new LinearLayoutManager(date_time_picker_Context));
         //Initialize an adapter to inflate the ListView later
-        adapterForTimeListView =
-                new ArrayAdapter<String>(
-                        date_time_picker_Context,
-                        R.layout.layout_general_list,
-                        R.id.general_list_textview_text,
-                        selectedTimeArrList
-                );
+        timeListAdapter = new TypeObjectAdapter(
+                date_time_picker_Context,
+                selectedTimeArrList,
+                this
+        );
 
-        timeListView.setAdapter(adapterForTimeListView);
+        timeListView.setAdapter(timeListAdapter);
         registerForContextMenu(timeListView);
         Collections.fill(activatedHours, Boolean.FALSE);
 
@@ -170,8 +164,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
 
                     //refresh the time list
                     rebuildSelectedTimeArray();
-                    adapterForTimeListView.notifyDataSetChanged();
-                    TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
+                    timeListAdapter.notifyDataSetChanged();
                 }
             }
         } catch (NullPointerException e) {
@@ -188,98 +181,95 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         dateButton.setText("Tigger Date: " + Month + "/" + day + "/" + Year);
     }
 
-    //For small long press popup window.
-    @Override
-    public void onCreateContextMenu(
-            ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        this.getMenuInflater().inflate(R.menu.popup_menu, menu);
-    }
+//    //For small long press popup window.
+//    @Override
+//    public void onCreateContextMenu(
+//            ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        this.getMenuInflater().inflate(R.menu.popup_menu, menu);
+//    }
+//
+//    //Popup menu clicking listener.
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//
+//        final AdapterView.AdapterContextMenuInfo info =
+//                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//
+//        switch (item.getItemId()) {
+//
+//            case R.id.edit:
+//                Toast.makeText(
+//                        date_time_picker_Context,
+//                        "Edit",
+//                        Toast.LENGTH_LONG).show();
+//                Intent intent =
+//                        new Intent(
+//                                SetupEventConditionDateTimeActivity.this,
+//                                TimeSelectorActivity.class
+//                        );
+//
+//                //Pack the value that selected from the list and send to TimeSelectorActivity
+//                intent.putExtra("RETRIEVE", selectedTimeValue.get(info.position));
+//                selectedEditPosition = info.position;
+//                startActivityForResult(intent, TIME_PICKING_CODE);
+//                editMode = true;
+//                return true;
+//
+//            case R.id.delete:
+//                AlertDialog.Builder deleter = new AlertDialog.Builder(date_time_picker_Context);
+//                deleter.setTitle("Delete");
+//                deleter.setNegativeButton("No no", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(
+//                                date_time_picker_Context,
+//                                "Cancelled",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                //Delete what the user selected
+//                deleter.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        Toast.makeText(
+//                                date_time_picker_Context,
+//                                "Deleting",
+//                                Toast.LENGTH_SHORT).show();
+//
+//                        updateActivatedHourList(selectedTimeValue.get(info.position), false);
+//                        rebuildSelectedTimeArray();
+//                        adapterForTimeListView.notifyDataSetChanged();
+//                        TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
+//                        Toast.makeText(
+//                                date_time_picker_Context,
+//                                "Deleted",
+//                                Toast.LENGTH_SHORT).show();
+//                        dialog.dismiss();
+//                    }
+//                });
+//                warning.show();
+//                return true;
+//            default:
+//                return super.onContextItemSelected(item);
+//        }
+//    }
 
-    //Popup menu clicking listener.
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
 
-        final AdapterView.AdapterContextMenuInfo info =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-        switch (item.getItemId()) {
-
-            case R.id.edit:
-                Toast.makeText(
-                        date_time_picker_Context,
-                        "Edit",
-                        Toast.LENGTH_LONG).show();
-                Intent intent =
-                        new Intent(
-                                SetupEventConditionDateTimeActivity.this,
-                                TimeSelectorActivity.class
-                        );
-
-                //Pack the value that selected from the list and send to TimeSelectorActivity
-                intent.putExtra("RETRIEVE", selectedTimeValue.get(info.position));
-                selectedEditPosition = info.position;
-                startActivityForResult(intent, TIME_PICKING_CODE);
-                editMode = true;
-                return true;
-
-            case R.id.delete:
-                AlertDialog.Builder deleter = new AlertDialog.Builder(date_time_picker_Context);
-                deleter.setTitle("Delete");
-                deleter.setNegativeButton("No no", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(
-                                date_time_picker_Context,
-                                "Cancelled",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-                //Delete what the user selected
-                deleter.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(
-                                date_time_picker_Context,
-                                "Deleting",
-                                Toast.LENGTH_SHORT).show();
-
-                        updateActivatedHourList(selectedTimeValue.get(info.position), false);
-                        rebuildSelectedTimeArray();
-                        adapterForTimeListView.notifyDataSetChanged();
-                        TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
-                        Toast.makeText(
-                                date_time_picker_Context,
-                                "Deleted",
-                                Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
-                warning.show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-
-    public void parseRetrievalData(Intent intent)
-    {
+    public void parseRetrievalData(Intent intent) {
         retrieveTime = intent.getStringExtra("RETRIEVE");
         editMode = true;
         String[] timeRangeDivider = retrieveTime.split("#");
-        for(String s : timeRangeDivider)
-        {
+        for (String s : timeRangeDivider) {
             updateActivatedHourList(s, true);
             selectedTimeValue.add(s);
         }
         rebuildSelectedTimeArray();
-        adapterForTimeListView.notifyDataSetChanged();
-        TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
+        timeListAdapter.notifyDataSetChanged();
     }
+
     //Auto-detect if the new selected hour can be merge in any time slot
     public boolean isTimeInRange(String s, List<Boolean> activatedHours) {
-        if(editMode)
-        {
+        if (editMode) {
             selectedTimeArrList.remove(selectedEditPosition);
             updateActivatedHourList(selectedTimeValue.get(selectedEditPosition), false);
             selectedTimeValue.remove(selectedEditPosition);
@@ -437,7 +427,12 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                     hour = checkHour(i);
                     min = checkMin(i);
 
-                    selectedTimeArrList.add(/*"- Event activates at: " + */hour + ":" + min);
+                    selectedTimeArrList.add(
+                            new TypeObjectModel(
+                                    hour + ":" + min,
+                                    getDrawable(R.drawable.icon_condition_time)
+                            )
+                    );
                     selectedTimeValue.add(i / 60 + ":" + i % 60);
                     i = j; //Update the "pointer" to the last check position
                     break;
@@ -461,11 +456,10 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                         endMin = checkMin(endTime);
 
                         selectedTimeArrList.add(
-                                /*"- Event activates between: " +*/
-                                        beginHr + ":" +
-                                        beginMin + " - " +
-                                        endHr + ":" +
-                                        endMin
+                                new TypeObjectModel(
+                                        beginHr + ":" + beginMin + " - " + endHr + ":" + endMin,
+                                        getDrawable(R.drawable.icon_condition_time)
+                                )
                         );
                         selectedTimeValue.add(startTime / 60 + ":" +
                                 startTime % 60 + " - " +
@@ -530,4 +524,22 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         return min;
     }
 
+    @Override
+    public void getIntent(int position) {
+        Toast.makeText(
+                        date_time_picker_Context,
+                        "Edit",
+                        Toast.LENGTH_LONG).show();
+                Intent intent =
+                        new Intent(
+                                SetupEventConditionDateTimeActivity.this,
+                                TimeSelectorActivity.class
+                        );
+
+                //Pack the value that selected from the list and send to TimeSelectorActivity
+                intent.putExtra("RETRIEVE", selectedTimeValue.get(position));
+                selectedEditPosition = position;
+                startActivityForResult(intent, TIME_PICKING_CODE);
+                editMode = true;
+    }
 }

@@ -116,15 +116,24 @@ public class TimeSelectorActivity extends AppCompatActivity
                     addEndTimeButton.setVisibility(View.VISIBLE);
                     EndTimeTextView.setVisibility(View.VISIBLE);
                     addBeginTimeButton.setText(
-                            "Event activate at: " +
-                                    beginHour + ":" + beginMinute
+                                    checkHour(Integer.parseInt(beginHour)) +
+                                    ":" +
+                                    checkMin(Integer.parseInt(beginMinute))
                     );
-                    addEndTimeButton.setText("Event stops at: " + endHour + ":" + endMinute);
+                    addEndTimeButton.setText(
+                                    checkHour(Integer.parseInt(endHour)) +
+                                    ":" +
+                                    checkMin(Integer.parseInt(endMinute))
+                    );
                 } else {
-                    addBeginTimeButton.setText("Event activate at: " + retrieveTime);
                     String[] tempTime = retrieveTime.split(":");
                     beginHour = tempTime[0].trim();
                     beginMinute = tempTime[1].trim();
+                    addBeginTimeButton.setText(
+                            checkHour(Integer.parseInt(beginHour)) +
+                            ":" +
+                            checkMin(Integer.parseInt(beginMinute))
+                    );
                 }
             }
         } catch (NullPointerException e) {
@@ -252,7 +261,7 @@ public class TimeSelectorActivity extends AppCompatActivity
             }
             //If time value is valid, then it adds successfully.
             else {
-                addBeginTimeButton.setText(/*"Event activates at: " + */hour + ":" + minutes);
+                addBeginTimeButton.setText(hour + ":" + minutes);
                 beginHour = hour;
                 beginMinute = minutes;
                 addEndTimeButton.setEnabled(true);
@@ -288,7 +297,7 @@ public class TimeSelectorActivity extends AppCompatActivity
                 flag = false;
             }
             if (flag) {
-                addEndTimeButton.setText(/*"Event ends at: " + */hour + ":" + minutes);
+                addEndTimeButton.setText(hour + ":" + minutes);
                 endHour = hour;
                 endMinute = minutes;
             }
@@ -403,6 +412,29 @@ public class TimeSelectorActivity extends AppCompatActivity
                 }
             }
         }
+    }
+
+    public String checkHour(int timeValue) {
+        String hour = null;
+        if (timeValue % 60 < 10)
+            hour = "0" + timeValue % 60;
+        else
+            hour = Integer.toString(timeValue);
+
+        return hour;
+    }
+
+    /*Check if the selected minute value is less than 10, if so, then display a 0 before
+      the min. E.g 10:1 -> 10:01
+     */
+    public String checkMin(int timeValue) {
+        String min = null;
+        if (timeValue % 60 < 10)
+            min = "0" + timeValue % 60;
+        else
+            min = Integer.toString(timeValue);
+
+        return min;
     }
 
     //Create an return intent with required value

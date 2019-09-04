@@ -34,15 +34,6 @@ public class AppListActivity extends AppCompatActivity {
         list.setTextFilterEnabled(true);
         //pull down can refresh the app list
 
-        Intent intent = getIntent();
-        try {
-            if (intent.hasExtra("RETRIEVE")) {
-                editMode = true;
-            }
-        } catch (NullPointerException e) {
-        }
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
