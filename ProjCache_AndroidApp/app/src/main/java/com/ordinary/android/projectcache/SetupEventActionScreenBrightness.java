@@ -74,7 +74,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                     android.provider.Settings.System.SCREEN_BRIGHTNESS);
             curBrightnessValue = (int) (curBrightnessValue / 255.0 * 100);
             brightnessValue.setText(
-                    "Brightness Value: " + curBrightnessValue + "/" + 100);
+                    /*"Brightness Value: " + */curBrightnessValue + " %");
             brightnessSeekbar.setProgress(curBrightnessValue);
         } catch (Settings.SettingNotFoundException e) {
         }
@@ -84,7 +84,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 seekBarvalue = progress;
                 brightnessValue.setText(
-                        "Brightness Value: " + seekBarvalue + "/" + 100);
+                        /*"Brightness Value: " + */seekBarvalue + " %");
                 Settings.System.putInt(
                         getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS,
@@ -98,7 +98,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 brightnessValue.setText(
-                        "Brightness Value: " + seekBarvalue + "/" + 100);
+                        /*"Brightness Value: " + */seekBarvalue + " %");
                 Settings.System.putInt(
                         getContentResolver(),
                         Settings.System.SCREEN_BRIGHTNESS,

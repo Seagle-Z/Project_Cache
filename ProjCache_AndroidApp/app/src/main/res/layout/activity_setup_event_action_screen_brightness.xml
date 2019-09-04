@@ -10,10 +10,10 @@
     <TextView
         android:id="@+id/screen_brightness_title"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="1dp"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:text="Setup Screen Brightness"
+        android:text=""
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
 
@@ -28,14 +28,15 @@
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="Change screen brightness when condition match"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:text="Set Screen brightness"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/seekBar_value"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="25dp"
             android:textAlignment="center"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
@@ -46,6 +47,9 @@
         <SeekBar
             android:id="@+id/brightness_seekbar"
             android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:layout_width="match_parent"
@@ -53,10 +57,15 @@
 
         <Button
             android:id="@+id/screen_brightness_activity_complete_button"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="right"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_marginRight="15dp"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:textSize="20sp"
             android:text="Complete" />
 
     </LinearLayout>

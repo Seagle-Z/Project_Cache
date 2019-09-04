@@ -68,13 +68,13 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
 
         //- Declare checkBoxes --------------------------------------------------------------------*
         streamCheckBox = findViewById(R.id.streamVolume_checkBox);
-        streamCheckBox.setText("Change Media Volume?");
+        streamCheckBox.setText("Change Media Volume");
 
         ringtoneCheckBox = findViewById(R.id.ringtoneVolume_checkBox);
-        ringtoneCheckBox.setText("Change Ringtone Volume?");
+        ringtoneCheckBox.setText("Change Ringtone Volume");
 
         alarmsCheckBox = findViewById(R.id.alarmsVolume_checkBox);
-        alarmsCheckBox.setText("Change Alarms Volume?");
+        alarmsCheckBox.setText("Change Alarms Volume");
 
 
         //- Declare seekBars ----------------------------------------------------------------------*
@@ -117,10 +117,10 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (streamCheckBox.isChecked()) {
                     changeStream = true;
-                    streamCheckBox.setText("Stream Volume: " + streamSeekBarValue + "%");
+                    streamCheckBox.setText("Media Volume  " + streamSeekBarValue + " %");
                 } else {
                     changeStream = false;
-                    streamCheckBox.setText("Change Media Volume?");
+                    streamCheckBox.setText("Change Media Volume");
                 }
                 streamSeekBar.setEnabled(changeStream);
             }
@@ -131,10 +131,10 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (ringtoneCheckBox.isChecked()) {
                     changeRingtone = true;
-                    ringtoneCheckBox.setText("Ringtone Volume: " + ringtoneSeekBarValue + '%');
+                    ringtoneCheckBox.setText("Ringtone Volume  " + ringtoneSeekBarValue + " %");
                 } else {
                     changeRingtone = false;
-                    ringtoneCheckBox.setText("Change Ringtone Volume?");
+                    ringtoneCheckBox.setText("Change Ringtone Volume");
                 }
                 ringtoneSeekBar.setEnabled(changeRingtone);
             }
@@ -145,9 +145,10 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (alarmsCheckBox.isChecked()) {
                     changeAlarms = true;
+                    alarmsCheckBox.setText("Alarms Volume  " + alarmsSeekBarValue + " %");
                 } else {
                     changeAlarms = false;
-                    alarmsCheckBox.setText("Change Alarms Volume?");
+                    alarmsCheckBox.setText("Change Alarms Volume");
                 }
                 alarmsSeekBar.setEnabled(changeAlarms);
             }
@@ -159,7 +160,7 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 streamSeekBarValue = progress;
-                streamCheckBox.setText("Stream Volume: " + streamSeekBarValue + "%");
+                streamCheckBox.setText("Stream Volume  " + streamSeekBarValue + "%");
             }
 
             @Override
@@ -181,7 +182,7 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 ringtoneSeekBarValue = progress;
-                ringtoneCheckBox.setText("Ringtone Volume: " + ringtoneSeekBarValue + "%");
+                ringtoneCheckBox.setText("Ringtone Volume  " + ringtoneSeekBarValue + "%");
             }
 
             @Override

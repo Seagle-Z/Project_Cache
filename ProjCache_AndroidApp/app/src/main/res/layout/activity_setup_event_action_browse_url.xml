@@ -10,33 +10,47 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="1dp"
+        android:text="" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Input the URL you want to browse: " />
+            android:layout_marginLeft="10dp"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"
+            android:text="Input the URL: " />
 
         <EditText
             android:id="@+id/inputUrl_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:ems="10"
+            android:textSize="20sp"
             android:inputType="textPersonName"
-            android:text="" />
+            android:text="https://" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/complete_button"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="right"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="#ffffff"
+        android:textAllCaps="false"
+        android:textSize="20sp"
         android:text="Complete" />
 </LinearLayout>
