@@ -12,8 +12,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -60,6 +64,12 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
     //private int size = 0;
     //private List<ScanResult> results;
 
+    //Interface for Interacting with CardView
+    public static interface ClickListener{
+        public void onLongClick(View view,int position);
+        public void onClick(View view,int position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +97,40 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
         //selectedWIFIListView.setAdapter(wifiLISTAdapterView);
 
         selectedWIFIAdap = new TypeObjectAdapter(wifi_picker_context, selectedWIFITList,this);
+
+        //Touch Gesture for either Long-Press / One Click (Functionality works only for LongPress only)
+        selectedWIFIRV.addOnItemTouchListener(new RecyclerTouchListener(this,
+                selectedWIFIRV, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                //Values are passing to activity & to fragment as well
+                // Toast.makeText(MainActivity.this, "Single Click on position        :"+position,
+                //        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+                final int localPos = position;
+
+                warning.setTitle("Delete");
+                warning.setNegativeButton("No no", null);
+                warning.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(wifi_picker_context, "Deleting", Toast.LENGTH_SHORT).show();
+                        //selectedAppArrList.remove(info.position);
+                        selectedWIFITList.remove(localPos);
+                        //appListAdapterView.notifyDataSetChanged();
+                        selectedWIFIAdap.notifyDataSetChanged();
+                        //TF.setListViewHeightBasedOnChildren(appListAdapterView, selectedAppListView);
+                        Toast.makeText(wifi_picker_context, "Deleted", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                warning.show();
+
+            }
+        }));
+
 
         selectedWIFIRV.setAdapter(selectedWIFIAdap);
 
@@ -244,5 +288,50 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
         editMode = true;
         Intent intent = new Intent(wifi_picker_context, WIFISelectorActivity.class);
         startActivityForResult(intent, WIFI_PICKING_CODE);
+    }
+
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener{
+
+        private ClickListener clicklistener;
+        private GestureDetector gestureDetector;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recycleView, final ClickListener clicklistener){
+
+            this.clicklistener=clicklistener;
+            gestureDetector=new GestureDetector(context,new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child=recycleView.findChildViewUnder(e.getX(),e.getY());
+                    if(child!=null && clicklistener!=null){
+                        clicklistener.onLongClick(child,recycleView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child=rv.findChildViewUnder(e.getX(),e.getY());
+            if(child!=null && clicklistener!=null && gestureDetector.onTouchEvent(e)){
+                clicklistener.onClick(child,rv.getChildAdapterPosition(child));
+            }
+
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 }
