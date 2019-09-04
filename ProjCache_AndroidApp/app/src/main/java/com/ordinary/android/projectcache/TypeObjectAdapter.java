@@ -1,8 +1,6 @@
 package com.ordinary.android.projectcache;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,8 +46,7 @@ public class TypeObjectAdapter
         return typeObjectModelList.size();
     }
 
-    public interface intentResultCollectingInterface
-    {
+    public interface intentResultCollectingInterface {
         void getIntent(int position);
     }
 
@@ -71,28 +68,14 @@ public class TypeObjectAdapter
             removeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Delete", Toast.LENGTH_LONG).show();
-                    AlertDialog.Builder adb = new AlertDialog.Builder(context);
-                    adb.setTitle("Delete");
-                    adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context,
-                                    "Cancelled",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            typeObjectModelList.remove(getAdapterPosition());
-                            notifyDataSetChanged();
-                            Toast.makeText(
-                                    context,
-                                    "Deleted",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    adb.show();
+
+                    typeObjectModelList.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                    Toast.makeText(
+                            context,
+                            "Deleted",
+                            Toast.LENGTH_SHORT).show();
+
                 }
             });
             itemView.setOnClickListener(this);
