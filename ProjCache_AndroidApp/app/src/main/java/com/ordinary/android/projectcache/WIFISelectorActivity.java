@@ -111,9 +111,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         */
         @Override
         protected List<TypeObjectModel> doInBackground(Integer... params) {
-            //List<TypeObjectModel> wifi_list = new ArrayList<>(); //Create InstalledAppinfo List for listview use
 
-            //if wifiInfoList is not empty then delete contents
+            //Empty List if not empty
             if (!wifiInfoList.isEmpty()) {
                 wifiInfoList.clear();
             }
@@ -134,7 +133,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
             return wifiInfoList;
         }
 
-        //After executing the loading process, show the user how many app is loaded.
+        //After executing the loading process, show the user how many wifis is loaded.
         @Override
         protected void onPostExecute(List<TypeObjectModel> wifiInfos) {
             super.onPostExecute(wifiInfos);

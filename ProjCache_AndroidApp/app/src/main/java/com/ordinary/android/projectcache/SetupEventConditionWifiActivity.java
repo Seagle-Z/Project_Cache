@@ -141,7 +141,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
 
                 for (int i = 0; i < wifiStringDivider.length; i++) {
                     String selectedEncodedString = wifiStringDivider[i];
-                    String[] tempNumArray = selectedEncodedString.split("-"); // splitting string by '-'
+                    String[] tempNumArray = selectedEncodedString.split("-");           // splitting string by '-'
 
                     int tempNumSize = tempNumArray.length;
                     int tempNum[] = new int[tempNumSize];
@@ -151,8 +151,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                         tempNum[z] = Integer.parseInt(tempNumArray[z]);
                     }
 
-                    //selectedWifiArrList.add(TF.textDecoder(tempNum)); //Add Decoded String onto the wifiList
-                    selectedWIFITList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi)));
+                    selectedWIFITList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi))); //Add Decoded String onto the wifiList
                 }
 
                 selectedWIFIAdap.notifyDataSetChanged();
