@@ -54,6 +54,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SetupEventConditionDateTimeActivity"
+            android:label="@string/title_activity_setup_event_condition_time"
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
         <activity

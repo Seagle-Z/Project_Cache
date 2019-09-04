@@ -17,10 +17,10 @@
             <TextView
                 android:id="@+id/date_time_picker_activity"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="1dp"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
-                android:text="Time Picker"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
-                android:text="Please select one more more time to trigger the event"
-                android:textColor="@android:color/black"
+                android:text="Select one or more time/time range"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
             <ListView
