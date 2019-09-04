@@ -71,7 +71,8 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         timeListAdapter = new TypeObjectAdapter(
                 date_time_picker_Context,
                 selectedTimeArrList,
-                this
+                this,
+                activatedHours
         );
 
         timeListView.setAdapter(timeListAdapter);

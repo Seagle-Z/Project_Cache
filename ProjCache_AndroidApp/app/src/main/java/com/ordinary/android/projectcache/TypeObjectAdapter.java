@@ -18,6 +18,7 @@ public class TypeObjectAdapter
     private Context context;
     private List<TypeObjectModel> typeObjectModelList;
     private intentResultCollectingInterface listener;
+    private List<Boolean> booleanList;
 
     public TypeObjectAdapter(Context context, List<TypeObjectModel> modelList, intentResultCollectingInterface listener) {
         this.context = context;
@@ -25,13 +26,26 @@ public class TypeObjectAdapter
         this.listener = listener;
     }
 
+    public TypeObjectAdapter(Context context, List<TypeObjectModel> modelList, intentResultCollectingInterface listener, List<Boolean> booleanList)
+    {
+        this.context = context;
+        this.typeObjectModelList = modelList;
+        this.listener = listener;
+        this.booleanList = booleanList;
+
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.layout_type_model, viewGroup, false);
-        ViewHolder typeValueViewHolder = new ViewHolder(v, context, listener);
-        return typeValueViewHolder;
+        ViewHolder typeViewHolder;
+        if(booleanList != null)
+             typeViewHolder = new ViewHolder(v, context, listener);
+        else
+             typeViewHolder = new ViewHolder(v, context, listener, true);
+        return typeViewHolder;
     }
 
     @Override
@@ -80,9 +94,62 @@ public class TypeObjectAdapter
             itemView.setOnClickListener(this);
         }
 
+        public ViewHolder(@NonNull View itemView, final Context context, intentResultCollectingInterface inter, Boolean bool) {
+            super(itemView);
+
+            typeNameTextView = itemView.findViewById(R.id.selected_type);
+            objectImageView = itemView.findViewById(R.id.iconImage);
+            removeImageView = itemView.findViewById(R.id.typeModel_remove);
+            this.mInter = inter;
+
+            removeImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateActivatedHourList(typeObjectModelList.get(getAdapterPosition()).getTypename(), false);
+                    typeObjectModelList.remove(getAdapterPosition());
+                    notifyDataSetChanged();
+                    Toast.makeText(
+                            context,
+                            "Deleted",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            itemView.setOnClickListener(this);
+        }
+
         @Override
         public void onClick(View v) {
             mInter.getIntent(getAdapterPosition());
+        }
+
+        public void updateActivatedHourList(String s, boolean flag) {
+
+            if (s.contains("-")) {
+                String[] timeRangeDivider = s.split("-");
+                String tempBeginTime = timeRangeDivider[0].trim();
+                String tempEndTime = timeRangeDivider[1].trim();
+                String[] _tempBeginHour = tempBeginTime.split(":");
+                String[] _tempEndhour = tempEndTime.split(":");
+                int beginHour = Integer.parseInt(_tempBeginHour[0].trim());
+                int beginMinute = Integer.parseInt(_tempBeginHour[1].trim());
+                int timeSlot1 = beginHour * 60 + beginMinute;
+                int endHour = Integer.parseInt(_tempEndhour[0].trim());
+                int endMinute = Integer.parseInt(_tempEndhour[1].trim());
+                int timeSlot2 = endHour * 60 + endMinute;
+
+                setTimeRangeBoolean(timeSlot1, timeSlot2, flag);
+            } else {
+                String[] time = s.split(":");
+                int timeslot = Integer.parseInt(time[0]) * 60 + Integer.parseInt(time[1]) % 60;
+                booleanList.set(timeslot, flag);
+            }
+        }
+
+        public void setTimeRangeBoolean(int timeSlot1, int timeSlot2, boolean flag) {
+            for (int i = timeSlot1; i <= timeSlot2; i++) {
+                booleanList.set(i, flag);
+            }
         }
     }
 }
