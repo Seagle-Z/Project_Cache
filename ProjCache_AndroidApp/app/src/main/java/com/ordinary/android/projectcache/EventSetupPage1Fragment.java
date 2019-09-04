@@ -63,7 +63,8 @@ public class EventSetupPage1Fragment
         conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);
         conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //conditionRecyclerView.setTextFilterEnabled(true);
-        adapterForRecyclerView = new TypeValueObjectAdapter(getContext(), conditionsArrList, conditions, this);
+        adapterForRecyclerView = new TypeValueObjectAdapter(
+                getContext(), conditionsArrList, conditions, this);
 
         conditionRecyclerView.setAdapter(adapterForRecyclerView);
 

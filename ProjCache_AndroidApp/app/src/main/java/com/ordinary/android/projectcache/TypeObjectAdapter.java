@@ -68,7 +68,6 @@ public class TypeObjectAdapter
             removeImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     typeObjectModelList.remove(getAdapterPosition());
                     notifyDataSetChanged();
                     Toast.makeText(
