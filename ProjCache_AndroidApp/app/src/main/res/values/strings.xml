@@ -10,9 +10,12 @@
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 
-    <string name="title_activity_setup_event_condition_selection">Select condition type</string>
+    <string name="title_activity_setup_event_conditions_selection">Select condition type</string>
     <string name="title_activity_setup_event_condition_time">Time condition</string>
+    <string name="title_activity_time_selector_activity">Time picker</string>
     <string name="title_activity_setup_event_condition_wifi">Wi-Fi condition</string>
+    <string name="title_activity_setup_event_actions_selection">Select action type</string>
+
     <string name="title_activity_events_management">Events Management</string>
 
     <string name="floating_add_event">new event</string>

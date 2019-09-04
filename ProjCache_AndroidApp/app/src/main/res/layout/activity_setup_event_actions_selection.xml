@@ -10,10 +10,10 @@
     <TextView
         android:id="@+id/action_option_layout_title"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="1dp"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:text="Select an action"
+        android:text=""
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
 

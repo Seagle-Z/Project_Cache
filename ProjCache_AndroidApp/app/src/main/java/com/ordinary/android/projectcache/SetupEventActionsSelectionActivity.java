@@ -22,7 +22,7 @@ public class SetupEventActionsSelectionActivity
     private final String LAUNCH_APP = "Launch An App";
     private final String QR_CODE = "Show a QR Code";
     private final String BROWSE_URL = "Open a Web Link";
-    private final String CHANGE_VOLUME = "Change Volume";
+    private final String CHANGE_VOLUME = "Volume Change";
     private final String BRIGHTNESS = "Screen Brightness";
     public ToolFunctions TF = new ToolFunctions();
     private Context action_selection_context;
@@ -42,10 +42,7 @@ public class SetupEventActionsSelectionActivity
                 new TypeObjectModel(
                         LAUNCH_APP,
                         getDrawable(R.drawable.icon_action_app)));
-        actionArrList.add(
-                new TypeObjectModel(
-                        QR_CODE,
-                        getDrawable(R.drawable.testing_qrcode)));
+
         actionArrList.add(
                 new TypeObjectModel(
                         BRIGHTNESS,
@@ -53,8 +50,13 @@ public class SetupEventActionsSelectionActivity
 
         actionArrList.add(
                 new TypeObjectModel(
+                        QR_CODE,
+                        getDrawable(R.drawable.icon_action_qrcode)));
+
+        actionArrList.add(
+                new TypeObjectModel(
                         BROWSE_URL,
-                        getDrawable(R.drawable.icon_action_brower)));
+                        getDrawable(R.drawable.icon_action_broswer)));
 
         actionArrList.add(
                 new TypeObjectModel(

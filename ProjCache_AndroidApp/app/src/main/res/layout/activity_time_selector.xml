@@ -10,10 +10,10 @@
     <TextView
         android:id="@+id/date_time_picker_activity"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="1dp"
         android:paddingLeft="5dp"
         android:paddingTop="5dp"
-        android:text="Time Picker"
+        android:text=""
         android:textColor="@color/colorAccent"
         android:textSize="20sp" />
 
@@ -28,14 +28,17 @@
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="Time Range Required?"
-            android:textColor="@android:color/black"
-            android:textSize="15sp" />
+            android:layout_marginTop="10dp"
+            android:text="Time Range Required"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
 
         <Switch
             android:id="@+id/time_range_switch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:paddingTop="10dp"
             android:paddingBottom="10dp" />
@@ -46,10 +49,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
-        android:paddingTop="30dp"
-        android:text="Choose a start time"
-        android:textColor="@android:color/black"
-        android:textSize="15sp" />
+        android:paddingTop="15dp"
+        android:text="Start time"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/pick_start_time"
@@ -57,7 +60,9 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:paddingLeft="20dp"
-        android:text="+ Add starting time"
+        android:text="+  choose starting time"
+        android:textColor="@color/colorAddNew"
+        android:textSize="17sp"
         android:textAlignment="textStart"
         android:textAllCaps="false" />
 
@@ -67,9 +72,9 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingTop="20dp"
-        android:text="Choose an end time"
-        android:textColor="@android:color/black"
-        android:textSize="15sp" />
+        android:text="End time"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/pick_end_time"
@@ -77,14 +82,22 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackground"
         android:paddingLeft="20dp"
-        android:text="+ Add ending time"
+        android:text="+  choose ending time"
+        android:textColor="@color/colorAddNew"
+        android:textSize="17sp"
         android:textAlignment="textStart"
         android:textAllCaps="false" />
 
     <Button
         android:id="@+id/time_selector_activity_layout_complete_button"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:background="?selectableItemBackground"
         android:text="Add To List" />
 
 </LinearLayout>
