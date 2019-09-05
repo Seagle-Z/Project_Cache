@@ -70,6 +70,7 @@ public class EventSetupPage2Fragment extends Fragment {
         ongoingActionListView = (ListView) view.findViewById(R.id.ongoing_action_listview);
         endActionListView = (ListView) view.findViewById(R.id.end_action_listview);
 
+
         adapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p1 = (EventSetupPage1Fragment) adapter.getItem(0);
         p3 = (EventSetupPage3Fragment) adapter.getItem(2);
