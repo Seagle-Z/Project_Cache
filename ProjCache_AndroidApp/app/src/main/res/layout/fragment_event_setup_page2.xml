@@ -6,7 +6,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="500dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,12 +33,16 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
-
-            <ListView
-                android:id="@+id/start_action_listview"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/start_action_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textStart"/>
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:padding="4dp"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
 
             <Button
                 android:id="@+id/add_startAction"
@@ -63,12 +67,16 @@
                 android:textColor="@color/colorUnableButton"
                 android:textSize="20sp" />
 
-
-            <ListView
-                android:id="@+id/ongoing_action_listview"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ongoing_action_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textStart"/>
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:padding="4dp"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
 
             <Button
                 android:id="@+id/add_ongoingAction"
@@ -93,11 +101,16 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp" />
 
-            <ListView
-                android:id="@+id/end_action_listview"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/end_action_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textStart"/>
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp"
+                android:padding="4dp"
+                android:scrollbars="vertical">
+
+            </android.support.v7.widget.RecyclerView>
 
             <Button
                 android:id="@+id/add_endAction"

@@ -8,26 +8,22 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-public class EventSetupPage2Fragment extends Fragment {
+public class EventSetupPage2Fragment extends Fragment implements
+        TypeValueObjectAdapter.mOnItemClickListener {
 
     private static final String TAG = "EventSetupPage2Fragment";
     private final int ADD_TASK_ACTION_CODE = 1001;
@@ -36,14 +32,14 @@ public class EventSetupPage2Fragment extends Fragment {
     private CustomEventSetupViewPager viewPager;
     private Button startActionButton, ongoingActionButton, endActionButton;
     private Button forward, previous;
-    private ListView startActionListView, ongoingActionListView, endActionListView;
-    private ArrayAdapter<String> adapterForStartActionListView, adapterForOngoingActionListview,
-            adapterForEndActionListView, selectedListViewAdapter;
-    private List<String> startActionList = new ArrayList<>();
+    private RecyclerView startActionRecyclerView, ongoingActionRecyclerView, endActionRecyclerView;
+    private RecyclerView.Adapter adapterForStartActionRecyclerView, adapterForOngoingActionRecyclerView,
+            adapterForEndActionRecyclerView;
+    private List<TypeValueObjectModel> startActionList = new ArrayList<>();
     private Map<String, String> startActionKeyValue = new Hashtable<>();
-    private List<String> ongoingActionList = new ArrayList<>();
+    private List<TypeValueObjectModel> ongoingActionList = new ArrayList<>();
     private Map<String, String> ongoingActionKeyValue = new Hashtable<>();
-    private List<String> endActionList = new ArrayList<>();
+    private List<TypeValueObjectModel> endActionList = new ArrayList<>();
     private Map<String, String> endActionKeyValue = new Hashtable<>();
     private ToolFunctions TF = new ToolFunctions();
     private PackageManager pm;
@@ -66,44 +62,39 @@ public class EventSetupPage2Fragment extends Fragment {
         ongoingActionButton = (Button) view.findViewById(R.id.add_ongoingAction);
         endActionButton = (Button) view.findViewById(R.id.add_endAction);
 
-        startActionListView = (ListView) view.findViewById(R.id.start_action_listview);
-        ongoingActionListView = (ListView) view.findViewById(R.id.ongoing_action_listview);
-        endActionListView = (ListView) view.findViewById(R.id.end_action_listview);
+        startActionRecyclerView = (RecyclerView) view.findViewById(R.id.start_action_rv);
+        ongoingActionRecyclerView = (RecyclerView) view.findViewById(R.id.ongoing_action_rv);
+        endActionRecyclerView = (RecyclerView) view.findViewById(R.id.end_action_rv);
 
+        startActionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ongoingActionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        endActionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p1 = (EventSetupPage1Fragment) adapter.getItem(0);
         p3 = (EventSetupPage3Fragment) adapter.getItem(2);
 
-        adapterForStartActionListView = new ArrayAdapter<String>(
+        adapterForStartActionRecyclerView = new TypeValueObjectAdapter(
                 getContext(),
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                startActionList);
+                startActionList,
+                startActionKeyValue,
+                this, 1);
 
-        adapterForOngoingActionListview = new ArrayAdapter<String>(
+        adapterForOngoingActionRecyclerView = new TypeValueObjectAdapter(
                 getContext(),
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                ongoingActionList);
+                ongoingActionList,
+                ongoingActionKeyValue,
+                this, 2);
 
-        adapterForEndActionListView = new ArrayAdapter<String>(
+        adapterForEndActionRecyclerView = new TypeValueObjectAdapter(
                 getContext(),
-                R.layout.layout_general_list,
-                R.id.general_list_textview_text,
-                endActionList);
+                endActionList,
+                endActionKeyValue,
+                this, 3);
 
-        startActionListView.setAdapter(adapterForStartActionListView);
-        startActionListView.setTextFilterEnabled(true);
-        registerForContextMenu(startActionListView);
-
-        ongoingActionListView.setAdapter(adapterForOngoingActionListview);
-        ongoingActionListView.setTextFilterEnabled(true);
-        registerForContextMenu(ongoingActionListView);
-
-        endActionListView.setAdapter(adapterForEndActionListView);
-        endActionListView.setTextFilterEnabled(true);
-        registerForContextMenu(endActionListView);
+        startActionRecyclerView.setAdapter(adapterForStartActionRecyclerView);
+        ongoingActionRecyclerView.setAdapter(adapterForOngoingActionRecyclerView);
+        endActionRecyclerView.setAdapter(adapterForEndActionRecyclerView);
 
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,6 +114,15 @@ public class EventSetupPage2Fragment extends Fragment {
             public void onClick(View v) {
                 buttonPressCode = 1;
                 Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
+                if (!startActionKeyValue.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    for (Map.Entry m : startActionKeyValue.entrySet()) {
+                        String[] key = m.getKey().toString().split("#");
+                        bundle.putString(key[0], "");
+                    }
+                    intent.putExtras(bundle);
+                }
+
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -132,6 +132,15 @@ public class EventSetupPage2Fragment extends Fragment {
             public void onClick(View v) {
 //                buttonPressCode = 2;
 //                Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
+                Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
+                if (!ongoingActionKeyValue.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    for (Map.Entry m : ongoingActionKeyValue.entrySet()) {
+                        String[] key = m.getKey().toString().split("#");
+                        bundle.putString(key[0], "");
+                    }
+                    intent.putExtras(bundle);
+                }
 //                startActivityForResult(intent, ADD_TASK_ACTION_CODE);
                 AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
                 alert.setTitle("Sorry");
@@ -151,6 +160,14 @@ public class EventSetupPage2Fragment extends Fragment {
             public void onClick(View v) {
                 buttonPressCode = 3;
                 Intent intent = new Intent(getContext(), SetupEventActionsSelectionActivity.class);
+                if (!endActionKeyValue.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    for (Map.Entry m : endActionKeyValue.entrySet()) {
+                        String[] key = m.getKey().toString().split("#");
+                        bundle.putString(key[0], "");
+                    }
+                    intent.putExtras(bundle);
+                }
                 startActivityForResult(intent, ADD_TASK_ACTION_CODE);
             }
         });
@@ -162,183 +179,230 @@ public class EventSetupPage2Fragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ADD_TASK_ACTION_CODE && resultCode == Activity.RESULT_OK) {
             try {
-//                if (data.hasExtra("Application")) {
-//                    AppInfoModel app = (AppInfoModel) data.getSerializableExtra("App");
-//                    PackageManager pm = getActivity().getPackageManager();
-//                    updateArrayForListView(app,buttonPressCode);
-//                    //ToolFunctions.ButtonIconProcessing(getContext(), pm, app);
-//                    //startActionButton.setText("Open Application: " + app.getLabel());
-//                    AppPackageName = app.getPackageName();
-//                } else if (data.hasExtra("QR")) {
-//                    //Waiting for implementation
-//                }
                 updateArrayForListView(data, buttonPressCode);
             } catch (NullPointerException e) {
             }
         }
     }
 
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        getActivity().getMenuInflater().inflate(R.menu.popup_menu, menu);
-        try {
-            ListView selectedListView = (ListView) v;
-            selectedListViewAdapter = (ArrayAdapter<String>) selectedListView.getAdapter();
-        }catch(ClassCastException e){}
-    }
-
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//
-//        switch (item.getItemId()) {
-//            case R.id.edit:
-//                Toast.makeText(
-//                        getContext(),
-//                        "Edit",
-//                        Toast.LENGTH_LONG).show();
-//
-//                Intent intent = getIntent(selectedListViewAdapter.getItem(info.position));
-//                startActivityForResult(intent, ADD_TASK_ACTION_CODE);
-//                editMode = true;
-//                return true;
-//            case R.id.delete:
-//                Toast.makeText(getContext(), "Delete", Toast.LENGTH_LONG).show();
-//                AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
-//                adb.setTitle("Delete");
-//                adb.setNegativeButton("No no", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(getContext(),
-//                                "Cancelled",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        conditions.remove(selectedConditionTypes.get(info.position));
-//                        conditionsArrList.remove(info.position);
-//                        selectedConditionTypes.remove(info.position);
-//                        adapter.notifyDataSetChanged();
-//                        TF.setListViewHeightBasedOnChildren(adapter, conditionListView);
-//                        Toast.makeText(
-//                                getContext(),
-//                                "Deleted",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                adb.show();
-//                return true;
-//            default:
-//                return super.onContextItemSelected(item);
-//        }
-//    }
-//
-//    private Intent getIntent(int position) {
-//        Intent intent = null;
-//        if (selectedConditionTypes.get(position).equals("Time")) {
-//            intent = new Intent(
-//                    getContext(),
-//                    SetupEventConditionDateTimeActivity.class
-//            );
-//            //Pack the value that selected from the list and send to TimeSelectorActivity
-//            intent.putExtra("RETRIEVE", conditions.get("TIME"));
-//        } else if (selectedConditionTypes.get(position).equals("App")) {
-//            intent = new Intent(
-//                    getContext(),
-//                    SetupEventConditionOnScreenAppActivity.class
-//            );
-//            //Pack the value that selected from the list and send to TimeSelectorActivity
-//            intent.putExtra("RETRIEVE", conditions.get("ON_SCREEN_APP"));
-//        } else if (selectedConditionTypes.get(position).equals("WIFI")) {
-//            intent = new Intent(
-//                    getContext(),
-//                    SetupEventConditionWifiActivity.class
-//            );
-//            intent.putExtra("RETRIEVE", conditions.get("WIFI"));
-//        }
-//        return intent;
-//    }
-
-
-
     //Update the related list based on the case input
     private void updateArrayForListView(Intent intent, int buttonCode) {
         if (buttonCode == 1) {
             addToRelatedList(
                     startActionList, startActionKeyValue,
-                    adapterForStartActionListView, intent,
-                    startActionListView);
+                    adapterForStartActionRecyclerView, intent);
         } else if (buttonCode == 2) {
             addToRelatedList(
                     ongoingActionList, ongoingActionKeyValue,
-                    adapterForOngoingActionListview, intent,
-                    ongoingActionListView);
+                    adapterForOngoingActionRecyclerView, intent);
 
         } else if (buttonCode == 3) {
             addToRelatedList(
                     endActionList, endActionKeyValue,
-                    adapterForEndActionListView, intent,
-                    endActionListView);
+                    adapterForEndActionRecyclerView, intent);
         } else {
             //Should never happened
             Log.d("", "No Button Pressed");
         }
     }
 
-    private void addToRelatedList(List<String> editingList, Map<String, String> editingHashtable,
-                                  ArrayAdapter<?> adapter, Intent intent,
-                                  ListView editingListView) {
+    private void addToRelatedList(List<TypeValueObjectModel> editingList, Map<String, String> editingHashtable,
+                                  RecyclerView.Adapter adapter, Intent intent) {
 
         if (intent.hasExtra("app")) {
             AppInfoModel app = (AppInfoModel) intent.getSerializableExtra("app");
             if (!editMode)
-                editingList.add("Open Application: " + app.getLabel());
-            else
-                editingList.set(selectedEditedPosition, "Open Application: " + app.getLabel());
-            editingHashtable.put("LAUNCH_APP", app.getPackageName());
-        }
-        if (intent.hasExtra("BRIGHTNESS")) {
-            if (!editMode)
-                editingList.add("Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
+                editingList.add(
+                        new TypeValueObjectModel(
+                                "Launch An App",
+                                app.getLabel(),
+                                getResources().getDrawable(R.drawable.icon_action_app)
+                        )
+                );
             else
                 editingList.set(
                         selectedEditedPosition,
-                        "Set Brightness to: " + intent.getStringExtra("BRIGHTNESS"));
-            editingHashtable.put("SCREEN_BRIGHTNESS", intent.getStringExtra("BRIGHTNESS"));
+                        new TypeValueObjectModel(
+                                "Launch An App",
+                                app.getLabel(),
+                                getResources().getDrawable(R.drawable.icon_action_app)
+                        )
+                );
+
+            editingHashtable.put("LAUNCH_APP#Launch An App", app.getPackageName());
+        }
+        if (intent.hasExtra("BRIGHTNESS")) {
+            if (!editMode)
+                editingList.add(
+                        new TypeValueObjectModel(
+                                "Screen Brightness",
+                                intent.getStringExtra("BRIGHTNESS"),
+                                getResources().getDrawable(R.drawable.icon_action_brightness)
+                        )
+                );
+            else
+                editingList.set(
+                        selectedEditedPosition,
+                        new TypeValueObjectModel(
+                                "Screen Brightness", //typename
+                                intent.getStringExtra("BRIGHTNESS"),
+                                getResources().getDrawable(R.drawable.icon_action_brightness)
+                        )
+                );
+
+            editingHashtable.put("SCREEN_BRIGHTNESS#Screen Brightness", intent.getStringExtra("BRIGHTNESS"));
         }
 
-        if(intent.hasExtra("VOLUME"))
-        {
-            if(!editMode)
-                editingList.add("Added Volume Control");
+        if (intent.hasExtra("VOLUME")) {
+            String result = parseVolume(intent.getStringExtra("VOLUME"));
+            if (!editMode)
+                editingList.add(
+                        new TypeValueObjectModel(
+                                "Volume Change",
+                                result,
+                                getResources().getDrawable(R.drawable.icon_action_volume)
+                        )
+                );
             else
-                editingList.set(selectedEditedPosition, "Added Volume Control");
-            editingHashtable.put("VOLUME", intent.getStringExtra("VOLUME"));
+                editingList.set(
+                        selectedEditedPosition,
+                        new TypeValueObjectModel(
+                                "Volume Change",
+                                result,
+                                getResources().getDrawable(R.drawable.icon_action_volume)
+                        )
+                );
+            editingHashtable.put("CHANGE_VOLUME#Volume Change", intent.getStringExtra("VOLUME"));
         }
 
-        if(intent.hasExtra("BROWSE_URL"))
-        {
-            if(!editMode)
-                editingList.add("Browse URL Link");
+        if (intent.hasExtra("BROWSE_URL")) {
+            String result = parseURL(intent.getStringExtra("BROWSE_URL"));
+            if (!editMode)
+                editingList.add(
+                        new TypeValueObjectModel(
+                                "Open a Web Link",
+                                result,
+                                getResources().getDrawable(R.drawable.icon_action_broswer)
+                        )
+                );
             else
-                editingList.set(selectedEditedPosition, "Browse URL Link");
-            editingHashtable.put("BROWSE_URL", intent.getStringExtra("BROWSE_URL"));
+                editingList.set(
+                        selectedEditedPosition,
+                        new TypeValueObjectModel(
+                                "Open a Web Link",
+                                result,
+                                getResources().getDrawable(R.drawable.icon_action_broswer)
+                        )
+                );
+            editingHashtable.put("BROWSE_URL#Open a Web Link", intent.getStringExtra("BROWSE_URL"));
         }
+
+        editMode = false;
         updateEventObj();
         adapter.notifyDataSetChanged();
-        TF.setListViewHeightBasedOnChildren(adapter, editingListView);
     }
+
+    @Override
+    public void onItemClick(int position, int key) {
+        Intent intent = null;
+        if (key == 1) {
+            intent = editRecycleViewItem(startActionList, startActionKeyValue, position);
+        } else if (key == 2) {
+            intent = editRecycleViewItem(ongoingActionList, ongoingActionKeyValue, position);
+        } else {
+            intent = editRecycleViewItem(endActionList, endActionKeyValue, position);
+        }
+        startActivityForResult(intent, ADD_TASK_ACTION_CODE);
+        editMode = true;
+        selectedEditedPosition = position;
+    }
+
+    private Intent editRecycleViewItem(List<TypeValueObjectModel> list, Map<String, String> map, int position) {
+        Intent intent = null;
+        if (list.get(position).getTypename().equalsIgnoreCase(("Launch An App"))) {
+            intent = new Intent(
+                    getContext(),
+                    AppListActivity.class
+            );
+            //Pack the value that selected from the list and send to TimeSelectorActivity
+            intent.putExtra("RETRIEVE", map.get("LAUNCH_APP#Launch An App"));
+        } else if (list.get(position).getTypename().equalsIgnoreCase(("Screen Brightness"))) {
+            intent = new Intent(
+                    getContext(),
+                    SetupEventActionScreenBrightness.class
+            );
+            //Pack the value that selected from the list and send to TimeSelectorActivity
+            intent.putExtra("RETRIEVE", map.get("SCREEN_BRIGHTNESS#Screen Brightness"));
+        } else if (list.get(position).getTypename().equalsIgnoreCase(("Volume Change"))) {
+            intent = new Intent(
+                    getContext(),
+                    SetupEventActionVolumeActivity.class
+            );
+            intent.putExtra("RETRIEVE", map.get("CHANGE_VOLUME#Volume Change"));
+        } else if (list.get(position).getTypename().equalsIgnoreCase("Open a Web Link")) {
+            intent = new Intent(
+                    getContext(),
+                    SetupEventActionBrowseUrlActivity.class
+            );
+            intent.putExtra("RETRIEVE", map.get("BROWSE_URL#Open a Web Link"));
+        }
+        return intent;
+    }
+
+    private String parseURL(String s) {
+        String result = TF.textDecoder(s);
+
+        if (result.length() > 33) {
+            result = result.substring(0, 30);
+            result = result + "...";
+        }
+        return result;
+    }
+
+    private String parseVolume(String s) {
+        String volumes[] = s.split("-");
+        StringBuilder result = new StringBuilder();
+        String SEPERATOR = "";
+        for (int i = 0; i < volumes.length; i++) {
+            if (i == 0) {
+                if (volumes[i].equals("N")) {
+                    result.append(SEPERATOR);
+                    result.append("Media: -");
+                    SEPERATOR = ", ";
+                } else {
+                    result.append(SEPERATOR);
+                    result.append("Media: " + volumes[i]);
+                    SEPERATOR = ", ";
+                }
+            } else if (i == 1) {
+                if (volumes[i].equals("N")) {
+                    result.append(SEPERATOR);
+                    result.append("RingTone: -");
+                } else {
+                    result.append(SEPERATOR);
+                    result.append("Ringtone: " + volumes[i]);
+                }
+            } else {
+                if (volumes[i].equals("N")) {
+                    result.append(SEPERATOR);
+                    result.append("Alarm: -");
+                } else {
+                    result.append(SEPERATOR);
+                    result.append("Alarm: " + volumes[i]);
+                }
+            }
+        }
+        return result.toString();
+    }
+
 
     private void updateEventObj() {
         String[] taskTypeStart = getActionKeyValueStrArr(startActionKeyValue, 1);
-        String[] taskStartValue = getActionKeyValueStrArr(startActionKeyValue,2);
-        String[] taskTypeOngoing = getActionKeyValueStrArr(ongoingActionKeyValue,1);
-        String[] taskValueOngoing = getActionKeyValueStrArr(ongoingActionKeyValue,2);
-        String[] taskTypeEnd = getActionKeyValueStrArr(endActionKeyValue,1);
-        String[] taskValueEnd = getActionKeyValueStrArr(endActionKeyValue,2);
+        String[] taskStartValue = getActionKeyValueStrArr(startActionKeyValue, 2);
+        String[] taskTypeOngoing = getActionKeyValueStrArr(ongoingActionKeyValue, 1);
+        String[] taskValueOngoing = getActionKeyValueStrArr(ongoingActionKeyValue, 2);
+        String[] taskTypeEnd = getActionKeyValueStrArr(endActionKeyValue, 1);
+        String[] taskValueEnd = getActionKeyValueStrArr(endActionKeyValue, 2);
 
         event.tasksTypeStart = taskTypeStart;
         event.tasksValueStart = taskStartValue;
@@ -354,23 +418,18 @@ public class EventSetupPage2Fragment extends Fragment {
     private String[] getActionKeyValueStrArr(Map<String, String> ActionKeyValue, int keyOrValue) {
         String[] arr = new String[ActionKeyValue.size()];
         int i = 0;
-        if (keyOrValue == 1)
-        {
-            for(Map.Entry m : ActionKeyValue.entrySet())
-            {
-                arr[i] = m.getKey().toString();
+        if (keyOrValue == 1) {
+            for (Map.Entry m : ActionKeyValue.entrySet()) {
+                String[] key = m.getKey().toString().split("#");
+                arr[i] = key[0];
                 i++;
             }
-        }
-        else
-        {
-            for(Map.Entry m : ActionKeyValue.entrySet())
-            {
+        } else {
+            for (Map.Entry m : ActionKeyValue.entrySet()) {
                 arr[i] = m.getValue().toString();
                 i++;
             }
         }
         return arr;
     }
-
 }

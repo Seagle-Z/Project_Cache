@@ -76,6 +76,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             brightnessValue.setText(
                     /*"Brightness Value: " + */curBrightnessValue + " %");
             brightnessSeekbar.setProgress(curBrightnessValue);
+            seekBarvalue = curBrightnessValue;
         } catch (Settings.SettingNotFoundException e) {
         }
 
@@ -110,22 +111,10 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                if (seekBarvalue == curBrightnessValue) {
-                    AlertDialog.Builder Warning = new AlertDialog.Builder(screen_brightness_context);
-                    Warning.setTitle("Reminder");
-                    Warning.setMessage("The value did not change.");
-                    Warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    Warning.show();
-                } else {
                     intent.putExtra("BRIGHTNESS", Integer.toString(seekBarvalue));
                     setResult(Activity.RESULT_OK, intent);
                     finish();
-                }
+                //}
             }
         });
     }

@@ -64,11 +64,10 @@ public class EventSetupPage1Fragment
         conditionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //conditionRecyclerView.setTextFilterEnabled(true);
         adapterForRecyclerView = new TypeValueObjectAdapter(
-                getContext(), conditionsArrList, conditions, this);
+                getContext(), conditionsArrList, conditions, this, 0);
 
         conditionRecyclerView.setAdapter(adapterForRecyclerView);
 
-        registerForContextMenu(conditionRecyclerView);
         addConditionButton = (Button) view.findViewById(R.id.add_condition);
         eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
@@ -147,7 +146,7 @@ public class EventSetupPage1Fragment
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, int key) {
         Intent intent = null;
         if (conditionsArrList.get(position).getTypename().equalsIgnoreCase(("Time"))) {
             intent = new Intent(

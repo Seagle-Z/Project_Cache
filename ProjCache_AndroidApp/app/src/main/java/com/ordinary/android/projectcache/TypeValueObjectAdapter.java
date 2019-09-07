@@ -1,10 +1,8 @@
 package com.ordinary.android.projectcache;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,22 +12,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
 public class TypeValueObjectAdapter
         extends RecyclerView.Adapter<TypeValueObjectAdapter.ViewHolder> {
 
     private Context context;
     private List<TypeValueObjectModel> typeValueObjectModelList;
-    private Map<String, String> conditions;
+    private Map<String, String> typeValues;
     private mOnItemClickListener inter;
+    private int key = 0;
 
     public TypeValueObjectAdapter(Context context, List<TypeValueObjectModel> modelList,
-                                  Map<String, String> c, mOnItemClickListener inter) {
+                                  Map<String, String> c, mOnItemClickListener inter, int key) {
         this.context = context;
         typeValueObjectModelList = modelList;
-        conditions = c;
+        typeValues = c;
         this.inter = inter;
+        this.key = key;
     }
 
     @NonNull
@@ -49,15 +52,13 @@ public class TypeValueObjectAdapter
         viewHolder.objectImageView.setImageDrawable(curItem.getIcon());
     }
 
-
     @Override
     public int getItemCount() {
         return typeValueObjectModelList.size();
     }
 
-    public interface mOnItemClickListener
-    {
-        void onItemClick(int position);
+    public interface mOnItemClickListener {
+        void onItemClick(int position, int key);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -91,9 +92,25 @@ public class TypeValueObjectAdapter
                     });
                     adb.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            conditions.remove(typeValueObjectModelList.get(
-                                    getAdapterPosition()).getTypename().toUpperCase());
-                            typeValueObjectModelList.remove(getAdapterPosition());
+                            if(key == 0) {
+                                typeValues.remove(typeValueObjectModelList.get(
+                                        getAdapterPosition()).getTypename().toUpperCase());
+                                typeValueObjectModelList.remove(getAdapterPosition());
+                            }
+                            else
+                            {
+                                for (Map.Entry m : typeValues.entrySet()) {
+                                    String[] key = m.getKey().toString().split("#");
+                                    if(key[1].equalsIgnoreCase(
+                                            typeValueObjectModelList.get(
+                                                    getAdapterPosition()).getTypename()))
+                                    {
+                                        typeValues.remove(m.getKey());
+                                        break;
+                                    }
+                                }
+                                typeValueObjectModelList.remove(getAdapterPosition());
+                            }
                             notifyDataSetChanged();
                             Toast.makeText(
                                     context,
@@ -108,9 +125,10 @@ public class TypeValueObjectAdapter
             RelativeLayout layout = (RelativeLayout) itemView.findViewById(R.id.typeValue_Relative);
             layout.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View v) {
-            mInter.onItemClick(getAdapterPosition());
+            mInter.onItemClick(getAdapterPosition(), key);
         }
     }
 }

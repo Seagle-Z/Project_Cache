@@ -13,7 +13,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class SetupEventActionsSelectionActivity
         extends AppCompatActivity implements EventSetupSelectionListAdapter.mOnItemClickListener {
@@ -26,7 +28,8 @@ public class SetupEventActionsSelectionActivity
     private final String BRIGHTNESS = "Screen Brightness";
     public ToolFunctions TF = new ToolFunctions();
     private Context action_selection_context;
-    private RecyclerView actionRV;
+    private RecyclerView actionRecyclerView;
+    private Map<String, String> actions = new Hashtable<>();
     private List<TypeObjectModel> actionArrList = new ArrayList<>();
     private RecyclerView.Adapter adapterForActionListView;
 
@@ -36,41 +39,61 @@ public class SetupEventActionsSelectionActivity
         setContentView(R.layout.activity_setup_event_actions_selection);
         action_selection_context = SetupEventActionsSelectionActivity.this;
 
-        actionRV = (RecyclerView) findViewById(R.id.action_types);
-        actionRV.setLayoutManager(new LinearLayoutManager(action_selection_context));
+        actions.put("LAUNCH_APP", LAUNCH_APP);
+        actions.put("QR_CODE" , QR_CODE);
+        actions.put("BROWSE_URL", BROWSE_URL);
+        actions.put("CHANGE_VOLUME" , CHANGE_VOLUME);
+        actions.put("SCREEN_BRIGHTNESS", BRIGHTNESS);
+
+        actionRecyclerView = (RecyclerView) findViewById(R.id.action_types);
+        actionRecyclerView.setLayoutManager(new LinearLayoutManager(action_selection_context));
         actionArrList.add(
                 new TypeObjectModel(
-                        LAUNCH_APP,
+                        actions.get("LAUNCH_APP"),
                         getDrawable(R.drawable.icon_action_app)));
 
         actionArrList.add(
                 new TypeObjectModel(
-                        BRIGHTNESS,
+                        actions.get("SCREEN_BRIGHTNESS"),
                         getDrawable(R.drawable.icon_action_brightness)));
 
         actionArrList.add(
                 new TypeObjectModel(
-                        QR_CODE,
+                        actions.get("QR_CODE"),
                         getDrawable(R.drawable.icon_action_qrcode)));
 
         actionArrList.add(
                 new TypeObjectModel(
-                        BROWSE_URL,
+                        actions.get("BROWSE_URL"),
                         getDrawable(R.drawable.icon_action_broswer)));
 
         actionArrList.add(
                 new TypeObjectModel(
-                        CHANGE_VOLUME,
+                        actions.get("CHANGE_VOLUME"),
                         getDrawable(R.drawable.icon_action_volume)));
 
-        Collections.sort(actionArrList, TF.getComparator());
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            Bundle extras = intent.getExtras();
+            for (String key : extras.keySet()) {
+                for (int i = 0; i < actionArrList.size(); i++) {
+                    if (actions.get(key).equalsIgnoreCase(actionArrList.get(i).getTypename())) {
+                        actionArrList.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+
+        //Collections.sort(actionArrList, TF.getComparator());
+
 
         adapterForActionListView = new EventSetupSelectionListAdapter(
                 action_selection_context,
                 actionArrList,
                 this);
 
-        actionRV.setAdapter(adapterForActionListView);
+        actionRecyclerView.setAdapter(adapterForActionListView);
 
     }
 
