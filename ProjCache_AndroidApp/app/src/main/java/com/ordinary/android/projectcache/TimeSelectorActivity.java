@@ -391,7 +391,7 @@ public class TimeSelectorActivity extends AppCompatActivity
             //If there is no time range required
             if (!timeRangeOn) {
                 //If there is no time value when click complete, then a warning message popup
-                if (addBeginTimeButton.getText().toString().contains("Add")) {
+                if (addBeginTimeButton.getText().toString().contains("choose")) {
                     unchangedWarningWindow(WarningDialog, 4);
                 } else {
                     getIntent(hour + ":" + minutes);
@@ -401,11 +401,11 @@ public class TimeSelectorActivity extends AppCompatActivity
 
             //if time range is on, check if input is empty, if not return, if empty show warning
             if (timeRangeOn) {
-                if (addBeginTimeButton.getText().toString().contains("Add") ||
-                        addEndTimeButton.getText().toString().contains("Add")) {
+                if (addBeginTimeButton.getText().toString().contains("choose") ||
+                        addEndTimeButton.getText().toString().contains("choose")) {
                     unchangedWarningWindow(WarningDialog, 3);
-                } else if (!addBeginTimeButton.getText().toString().contains("Add") &&
-                        !addEndTimeButton.getText().toString().contains("Add")) {
+                } else if (!addBeginTimeButton.getText().toString().contains("choose") &&
+                        !addEndTimeButton.getText().toString().contains("choose")) {
                     getIntent(beginHour + ":" +
                             beginMinute + "-" + endHour + ":" + endMinute);
                     finish();

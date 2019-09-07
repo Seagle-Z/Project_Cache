@@ -22,10 +22,10 @@ public class TypeValueObjectAdapter
     private Context context;
     private List<TypeValueObjectModel> typeValueObjectModelList;
     private Map<String, String> conditions;
-    private intentResultCollectingInterface inter;
+    private mOnItemClickListener inter;
 
     public TypeValueObjectAdapter(Context context, List<TypeValueObjectModel> modelList,
-                                  Map<String, String> c, intentResultCollectingInterface inter) {
+                                  Map<String, String> c, mOnItemClickListener inter) {
         this.context = context;
         typeValueObjectModelList = modelList;
         conditions = c;
@@ -55,9 +55,9 @@ public class TypeValueObjectAdapter
         return typeValueObjectModelList.size();
     }
 
-    public interface intentResultCollectingInterface
+    public interface mOnItemClickListener
     {
-        void getIntent(int position);
+        void onItemClick(int position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -65,9 +65,9 @@ public class TypeValueObjectAdapter
         private TextView typeNameTextView, typeValueTextView;
         private ImageView objectImageView;
         private ImageView removeImageView;
-        private intentResultCollectingInterface mInter;
+        private mOnItemClickListener mInter;
 
-        public ViewHolder(@NonNull View itemView, final Context contextm, intentResultCollectingInterface inter) {
+        public ViewHolder(@NonNull View itemView, final Context contextm, mOnItemClickListener inter) {
             super(itemView);
             typeNameTextView = itemView.findViewById(R.id.selected_type);
             typeValueTextView = itemView.findViewById(R.id.selected_value);
@@ -110,7 +110,7 @@ public class TypeValueObjectAdapter
         }
         @Override
         public void onClick(View v) {
-            mInter.getIntent(getAdapterPosition());
+            mInter.onItemClick(getAdapterPosition());
         }
     }
 }

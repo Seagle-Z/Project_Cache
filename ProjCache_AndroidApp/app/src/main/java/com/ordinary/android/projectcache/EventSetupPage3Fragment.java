@@ -54,7 +54,7 @@ public class EventSetupPage3Fragment extends Fragment {
         p1 = (EventSetupPage1Fragment) adapter.getItem(0);
         p2 = (EventSetupPage2Fragment) adapter.getItem(1);
 
-        complete.setEnabled(true);
+        //complete.setEnabled(true);
 
         eventName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -63,10 +63,14 @@ public class EventSetupPage3Fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() == 0)
+                if (s.toString().trim().length() == 0) {
                     complete.setEnabled(false);
-                else
+                    complete.setTextColor(getResources().getColor(R.color.colorUnableButton));
+                }
+                else {
                     complete.setEnabled(true);
+                    complete.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
             }
 
             @Override

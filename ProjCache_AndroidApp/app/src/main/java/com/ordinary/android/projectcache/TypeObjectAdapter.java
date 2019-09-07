@@ -41,7 +41,7 @@ public class TypeObjectAdapter
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.layout_type_model, viewGroup, false);
         ViewHolder typeViewHolder;
-        if(booleanList != null)
+        if(booleanList == null)
              typeViewHolder = new ViewHolder(v, context, listener);
         else
              typeViewHolder = new ViewHolder(v, context, listener, true);
@@ -112,7 +112,6 @@ public class TypeObjectAdapter
                             context,
                             "Deleted",
                             Toast.LENGTH_SHORT).show();
-
                 }
             });
             itemView.setOnClickListener(this);

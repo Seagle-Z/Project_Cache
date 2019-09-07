@@ -118,6 +118,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
             public void onClick(View v) {
                 try {
                     //check if there any time value
+                    rebuildSelectedTimeArray();
                     if (!selectedTimeValue.isEmpty()) {
                         StringJoiner intentResult = new StringJoiner("#");
                         for (int i = 0; i < selectedTimeValue.size(); i++) {

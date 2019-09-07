@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 public class EventSetupPage1Fragment
-        extends Fragment implements TypeValueObjectAdapter.intentResultCollectingInterface {
+        extends Fragment implements TypeValueObjectAdapter.mOnItemClickListener{
     private final String TAG = "EventSetupPage1Fragment";
     private final int REQUEST_CONDITION_CODE = 1001;
     Event event;
@@ -147,7 +147,7 @@ public class EventSetupPage1Fragment
     }
 
     @Override
-    public void getIntent(int position) {
+    public void onItemClick(int position) {
         Intent intent = null;
         if (conditionsArrList.get(position).getTypename().equalsIgnoreCase(("Time"))) {
             intent = new Intent(
