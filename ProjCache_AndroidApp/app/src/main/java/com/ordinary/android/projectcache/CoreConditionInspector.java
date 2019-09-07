@@ -40,11 +40,6 @@ public class CoreConditionInspector {
             }
         }
 
-//        System.out.print("Triggerable List: ");
-//        for (Integer i : triggerableEventID) {
-//            System.out.print(i);
-//        }
-
         return triggerableEventID;
     }
 
