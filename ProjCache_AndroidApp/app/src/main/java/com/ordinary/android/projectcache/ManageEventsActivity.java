@@ -69,8 +69,8 @@ public class ManageEventsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == REQUEST_SETUP_CODE && resultCode == Activity.RESULT_OK) {
+                events.updateEventsList();
                 eventsList = events.getEventsList();
-                eventsManagementAdapter.notifyDataSetChanged();
 
                 eventsManagementRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(this);
@@ -78,6 +78,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
+                eventsManagementAdapter.notifyDataSetChanged();
             }
 
 
