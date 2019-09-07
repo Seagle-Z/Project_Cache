@@ -32,10 +32,11 @@ public class CoreConditionInspector {
 
     public List<Integer> getTriggerableEventsID() {
         List<Integer> triggerableEventID = new ArrayList<>();
+        List<Integer> activatedEventsIDList = events.getActivatedEventsIDList();
 
-        for (Event e : events.getEventsList()) {
-            if (conditionsMatch(e)) {
-                triggerableEventID.add(e.eventID);
+        for (Integer id : activatedEventsIDList) {
+            if (conditionsMatch(events.getEventByID(id))) {
+                triggerableEventID.add(id);
             }
         }
 
@@ -63,9 +64,6 @@ public class CoreConditionInspector {
     private boolean inspectCondition(String method, String value) {
         switch (method) {
 
-            case "ON_SCREEN_APP":
-                return inspectON_SCREEN_APP(value);
-
             case "TIME":
                 return inspectTIME(value);
 
@@ -80,21 +78,6 @@ public class CoreConditionInspector {
         return false;
     }
 
-    private boolean inspectON_SCREEN_APP(String value) {
-        ActivityManager am =(ActivityManager)context.getSystemService(ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        ActivityManager.RunningTaskInfo task = tasks.get(0); // current task
-        ComponentName rootActivity = task.baseActivity;
-
-
-        String currentPackageName = rootActivity.getPackageName();
-        if(currentPackageName.equals(value)) {
-            //Do whatever here
-            System.out.println("------------------------" + currentPackageName);
-            return true;
-        }
-        return false;
-    }
 
     private boolean inspectTIME(String value) {
         boolean[] minutesInDay = new boolean[1440];

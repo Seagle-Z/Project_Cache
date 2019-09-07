@@ -90,7 +90,6 @@ public class ManageEventsAdapter
                 if (!selectedList.contains(item.getEventName())) {
                     selectedList.add(item.getEventName());
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_check);
-                    System.out.println("图片改好了，但是为什么没出来呢");
                 } else {
                     selectedList.remove(item.getEventName());
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);

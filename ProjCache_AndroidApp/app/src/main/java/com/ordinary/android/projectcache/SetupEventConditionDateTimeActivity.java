@@ -459,12 +459,12 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
 
                         selectedTimeArrList.add(
                                 new TypeObjectModel(
-                                        beginHr + ":" + beginMin + " - " + endHr + ":" + endMin,
+                                        beginHr + ":" + beginMin + "-" + endHr + ":" + endMin,
                                         getDrawable(R.drawable.icon_condition_time)
                                 )
                         );
                         selectedTimeValue.add(startTime / 60 + ":" +
-                                startTime % 60 + " - " +
+                                startTime % 60 + "-" +
                                 endTime / 60 + ":" +
                                 endTime % 60);
                         i = j; //Update the "pointer" to the last check position

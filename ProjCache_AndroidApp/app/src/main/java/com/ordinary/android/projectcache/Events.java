@@ -171,7 +171,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByID(Integer seekingEventID) {
-        updateEventsList();
+        //updateEventsList();
         if (seekingEventID > eventsList.size()) {
             return null;
         }
@@ -180,7 +180,7 @@ public class Events extends AppCompatActivity {
     }
 
     public Event getEventByName(String seekingEventName) {
-        updateEventsList();
+        //updateEventsList();
         for (Event e : eventsList) {
             if (e.eventName.equals(seekingEventName)) {
                 return e;
@@ -191,19 +191,19 @@ public class Events extends AppCompatActivity {
     }
 
     public List<Event> getEventsList() {
-        updateEventsList();
+        //updateEventsList();
         return eventsList;
     }
 
     public boolean updateEventActivationStatus(String eventName, boolean status) {
-        updateEventsList();
+        //updateEventsList();
         int eventID = getEventByName(eventName).eventID;
         eventsList.get(eventID).isActivated = status;
         return refreshEvents();
     }
 
     public boolean updateEventActivationStatus(int eventID, boolean status) {
-        updateEventsList();
+        //updateEventsList();
         eventsList.get(eventID).isActivated = status;
         return refreshEvents();
     }
