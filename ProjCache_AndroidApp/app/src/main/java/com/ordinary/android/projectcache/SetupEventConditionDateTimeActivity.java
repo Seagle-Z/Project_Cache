@@ -399,7 +399,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         return false;
     }
 
-    //update the activatedHour boolean list for new time
+    //updateByEventsCSV the activatedHour boolean list for new time
     public void setTimeRangeBoolean(int timeSlot1, int timeSlot2, boolean flag) {
         for (int i = timeSlot1; i <= timeSlot2; i++) {
             activatedHours.set(i, flag);
