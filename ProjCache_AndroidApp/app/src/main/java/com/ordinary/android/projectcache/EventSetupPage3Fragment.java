@@ -30,6 +30,7 @@ public class EventSetupPage3Fragment extends Fragment {
     private boolean autoTrigger, oneTimeEvent = false;
     private EventSetupPage1Fragment p1;
     private EventSetupPage2Fragment p2;
+    private ToolFunctions TF = new ToolFunctions();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class EventSetupPage3Fragment extends Fragment {
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
 
         //complete.setEnabled(true);
-        event = eventSetupPageAdapter.getEvent();
+        event = p1.event;
         if (event != null) {
             eventName.setText(event.eventName);
             if(!event.autoTrigger)
@@ -143,6 +144,7 @@ public class EventSetupPage3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                TF.textEncoder(s.toString());
                 event.eventDescription = s.toString();
             }
         });
@@ -153,11 +155,15 @@ public class EventSetupPage3Fragment extends Fragment {
                 Events events = new Events(eventSetupPageAdapter.getContext());
                 if(!p1.eventModify) {
                     events.addEvent(event);
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
+                    Toast.makeText(getContext(),"Event Created", Toast.LENGTH_SHORT).show();
                 }
-                else
+                else {
                     events.modifyEventByID(event.eventID, event);
+                    Toast.makeText(getContext(), "Event Updated", Toast.LENGTH_SHORT).show();
+                }
+
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
             }
         });
 

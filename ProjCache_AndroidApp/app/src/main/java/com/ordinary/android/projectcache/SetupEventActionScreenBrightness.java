@@ -72,11 +72,10 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             curBrightnessValue = android.provider.Settings.System.getInt(
                     getContentResolver(),
                     android.provider.Settings.System.SCREEN_BRIGHTNESS);
-            curBrightnessValue = (int) (curBrightnessValue / 255.0 * 100);
+            seekBarvalue = (int) (curBrightnessValue / 255.0 * 100);
             brightnessValue.setText(
-                    /*"Brightness Value: " + */curBrightnessValue + " %");
-            brightnessSeekbar.setProgress(curBrightnessValue);
-            seekBarvalue = curBrightnessValue;
+                    /*"Brightness Value: " + */seekBarvalue + " %");
+            brightnessSeekbar.setProgress(seekBarvalue);
         } catch (Settings.SettingNotFoundException e) {
         }
 

@@ -27,7 +27,7 @@ public class EventSetupPage2Fragment extends Fragment implements
 
     private static final String TAG = "EventSetupPage2Fragment";
     private final int ADD_TASK_ACTION_CODE = 1001;
-    Event event = null;
+    Event event;
     private String AppPackageName = "";
     private CustomEventSetupViewPager viewPager;
     private Button startActionButton, ongoingActionButton, endActionButton;
@@ -74,17 +74,19 @@ public class EventSetupPage2Fragment extends Fragment implements
         p1 = (EventSetupPage1Fragment) eventSetupPageAdapter.getItem(0);
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
 
-        event = eventSetupPageAdapter.getEvent();
+        event = p1.event;
         if (event != null) {
             parsing = true;
-            if(event.tasksTypeStart.length != 0) {
+
+            if(event.tasksTypeStart != null) {
                 parseEventObj(event.tasksTypeStart, event.tasksValueStart, 1);
             }
-            if(event.tasksTypeOngoing.length != 0)
+            if(event.tasksTypeOngoing != null)
             {
                 parseEventObj(event.tasksTypeOngoing, event.tasksValueOngoing, 2);
             }
-            if(event.tasksTypeEnd.length != 0)
+
+            if(event.tasksTypeEnd != null)
             {
                 parseEventObj(event.tasksTypeEnd, event.tasksValueEnd, 3);
             }
@@ -218,6 +220,7 @@ public class EventSetupPage2Fragment extends Fragment implements
 
     private void parseEventObj(String[] eventTasksType, String[] eventTaskValue, int code)
     {
+        System.out.println("checking point");
         for (int i = 0; i < eventTasksType.length; i++) {
             Intent data = new Intent();
             data.putExtra(eventTasksType[i], eventTaskValue[i]);
@@ -242,7 +245,8 @@ public class EventSetupPage2Fragment extends Fragment implements
             //Should never happened
             Log.d("", "No Button Pressed");
         }
-        updateEventObj();
+        if(!parsing)
+            updateEventObj();
     }
 
     private void addToRelatedList(List<TypeValueObjectModel> editingList, Map<String, String> editingHashtable,
@@ -450,6 +454,7 @@ public class EventSetupPage2Fragment extends Fragment implements
         String[] taskTypeEnd = getActionKeyValueStrArr(endActionKeyValue, 1);
         String[] taskValueEnd = getActionKeyValueStrArr(endActionKeyValue, 2);
 
+
         event.tasksTypeStart = taskTypeStart;
         event.tasksValueStart = taskStartValue;
         event.tasksTypeOngoing = taskTypeOngoing;
@@ -457,6 +462,10 @@ public class EventSetupPage2Fragment extends Fragment implements
         event.tasksTypeEnd = taskTypeEnd;
         event.tasksValueEnd = taskValueEnd;
 
+        for(String s : taskTypeEnd)
+        {
+            System.out.println(s);
+        }
         p1.event = event;
         p3.event = event;
     }
