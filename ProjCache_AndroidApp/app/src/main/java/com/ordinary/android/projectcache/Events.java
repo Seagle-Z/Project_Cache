@@ -2,7 +2,6 @@ package com.ordinary.android.projectcache;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,8 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -25,231 +22,56 @@ public class Events extends AppCompatActivity {
     File eventsFile;
     private static final String EVENTS_FILE_NAME = "events.csv";
 
-    private List<Event> eventsList;     // store all the events information
     private Event defaultEvent;
-    public List<Integer> activatedEventsList;   // store all eventID of activated events (switch is on)
+    private List<Event> eventsList;                 // store all the events information
+    private List<Integer> activatedEventsIDList;     // store all eventID of activated events
 
 
+    //- Constructor -------------------------------------------------------------------------------*
     public Events(Context context) {
         File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
         this.context = context;
         this.eventsFile = eventsFile;
-        createEvents(context, eventsFile);
+        constructorHelper(context, eventsFile);
     }
+
 
     public Events(Context inputContext, File inputEventsFile) {
         this.context = inputContext;
         this.eventsFile = inputEventsFile;
-        createEvents(inputContext, inputEventsFile);
+        constructorHelper(inputContext, inputEventsFile);
     }
 
 
-    public void createEvents(Context inputContext, File inputEventsFile) {
+    //- constructor helper ------------------------------------------------------------------------*
+    public void constructorHelper(Context inputContext, File inputEventsFile) {
 
         eventsList = new ArrayList<>();
-        activatedEventsList = new ArrayList<>();
-        for (Event e : eventsList) {
-            if (e.isActivated) {
-                activatedEventsList.add(e.eventID);
-            }
-        }
-
+        activatedEventsIDList = new ArrayList<>();
 
         // if the eventsList.csv file does not exists, create one
         if (!eventsFile.exists() || eventsFile.isDirectory()) {
-            eventsCSVConstruct();
+            constructEventsCSV();
             // initialize the demo default event, put it into csv
             defaultEvent = firstTimeInitializeDemoDefaultEvent();
             //defaultEvent.eventID = 0;
             addEventToCSV(defaultEvent);
-
-            //** Hard code some event for development **************************************** START
-            createTestingEvents();
-            //** Hard code some event for development *************************************** FINISH
         }
 
         // input events to the events object form events.csv file
-        updateEventsList();
+        updateByEventsCSV();
 
-        //** Hard code modify event for development ****************************************** START
-        modifyTestingEvents();
-        //** Hard code modify event for development ***************************************** FINISH
-
-    }
-
-    public void updateEventsList() {
-        eventsList = new ArrayList<>();
-        FileInputStream fis = null;
-        try {
-            fis = context.openFileInput(eventsFile.getName());
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            String line;
-
-            // ignore the first line which is title
-            line = br.readLine();
-            //Log.d(" ", line);
-
-            // parse defaultEvent
-            line = br.readLine();
-            //Log.d(" ", line);
-            defaultEvent = parseEventData(line);
-
-            // parse events to eventsList
-            while ((line = br.readLine()) != null) {
-                //Log.d(" ", line);
-                eventsList.add(parseEventData(line));
-            }
-
-            fis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean addEvent(Event newEvent) {
-        for (Event e : eventsList) {
-            if (e.eventName.equals(newEvent.eventName)) {
-                return false;
-            }
-        }
-
-        newEvent.eventID = eventsList.size();
-        eventsList.add(newEvent);
-
-        return refreshEvents();
-    }
-
-    public boolean deleteEventByID(int inputEventID) {
-        if (inputEventID > eventsList.size()) {
-            return false;
-        }
-
-        eventsList.remove(inputEventID);
-
-        for (int i = 0; i < eventsList.size(); i++) {
-            eventsList.get(i).eventID = i;
-        }
-
-        return refreshEvents();
-    }
-
-    public boolean deleteEventByName(String inputEventName) {
-        for (Event event : eventsList) {
-            if (event.eventName.equals(inputEventName)) {
-                return deleteEventByID(event.eventID);
-            }
-        }
-        return false;
-    }
-
-    public boolean modifyEventByID(Integer eventID, Event newEvent) {
-        deleteEventByID(eventID);
-        addEvent(newEvent);
-        return true;
-    }
-
-    public boolean modifyEventByName(String eventName, Event newEvent) {
-        deleteEventByName(eventName);
-        addEvent(newEvent);
-        return true;
-    }
-
-    public boolean resetDefaultEvent(Event e) {
-        if (e.eventID != -1) {
-            return false;
-        }
-
-        this.defaultEvent = e;
-        return true;
-    }
-
-    public Event getDefaultEvent() {
-        return defaultEvent;
-    }
-
-    public Event getEventByID(Integer seekingEventID) {
-        //updateEventsList();
-        if (seekingEventID > eventsList.size()) {
-            return null;
-        }
-
-        return eventsList.get(seekingEventID);
-    }
-
-    public Event getEventByName(String seekingEventName) {
-        //updateEventsList();
-        for (Event e : eventsList) {
-            if (e.eventName.equals(seekingEventName)) {
-                return e;
-            }
-        }
-
-        return null;
-    }
-
-    public List<Event> getEventsList() {
-        //updateEventsList();
-        return eventsList;
-    }
-
-    public boolean updateEventActivationStatus(String eventName, boolean status) {
-        //updateEventsList();
-        int eventID = getEventByName(eventName).eventID;
-        eventsList.get(eventID).isActivated = status;
-        return refreshEvents();
-    }
-
-    public boolean updateEventActivationStatus(int eventID, boolean status) {
-        //updateEventsList();
-        eventsList.get(eventID).isActivated = status;
-        return refreshEvents();
-    }
-
-    public List<Integer> getActivatedEventsIDList() {
-        activatedEventsList = new ArrayList<>();
         for (Event e : eventsList) {
             if (e.isActivated) {
-                activatedEventsList.add(e.eventID);
+                activatedEventsIDList.add(e.eventID);
             }
         }
-        return activatedEventsList;
+
     }
 
-    private boolean refreshEvents() {
-        // sort eventsList by eventName in ascending order
-        Collections.sort(eventsList, new Comparator<Event>() {
-            @Override
-            public int compare(Event e1, Event e2) {
-                return e1.eventName.compareTo(e2.eventName);
-            }
-        });
-        for (int i = 0; i < eventsList.size(); i++) {
-            eventsList.get(i).eventID = i;
-        }
-        return refreshEventsCSV();
-    }
 
-    private boolean refreshEventsCSV() {
-        boolean deleted = eventsFile.delete();
-        if (!deleted) {
-            return false;
-        }
-
-        // construct csv and put the default event
-        eventsCSVConstruct();
-        // put default into csv
-        addEventToCSV(defaultEvent);
-        // put others event
-        for (Event e : eventsList) {
-            addEventToCSV(e);
-        }
-        return true;
-    }
-
-    private void eventsCSVConstruct() {
+    //- events.csv constructor --------------------------------------------------------------------*
+    private void constructEventsCSV() {
         try {
             FileOutputStream fos = null;
             fos = context.openFileOutput(eventsFile.getName(), context.MODE_PRIVATE);
@@ -263,11 +85,6 @@ public class Events extends AppCompatActivity {
                     "eventDescription, eventImage, eventColor, eventCategory, executedTimes\n";
             fos.write(csvTitle.getBytes());
             fos.close();
-
-            //** for debugging *************************************************************** START
-//            Toast.makeText(context, "csv created, and Title saved to " +
-//                    context.getFilesDir() + "/" + eventsFile, Toast.LENGTH_LONG).show();
-            //** for debugging ************************************************************** FINISH
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -275,6 +92,28 @@ public class Events extends AppCompatActivity {
         }
     }
 
+
+    //- Initialize defaultEvent and put it into events.csv ----------------------------------------*
+    private Event firstTimeInitializeDemoDefaultEvent() {
+        String[] tasksType = {"LAUNCH_APP"};
+        String[] tasksValue = {"com.google.android.youtube"};
+
+        return new Event(-1, "Default", "2019-08-09",
+                "21:46", -1,
+                null, null,
+                null, null,
+                tasksType, tasksValue,
+                null, null,
+                null, null, null,
+                true, false,
+                false, true,
+                "This is Default event",
+                "" + R.drawable.ic_menu_send, null,
+                "DEFAULT", 0);
+    }
+
+
+    //- Add an Event to events.csv ----------------------------------------------------------------*
     private void addEventToCSV(Event newEvent) {
 
         try {
@@ -305,6 +144,22 @@ public class Events extends AppCompatActivity {
         }
     }
 
+    private String strArrJoiner(String[] arr) {
+        if (arr == null) {
+            return "NULL";
+        }
+        if (arr.length == 0) {
+            return "NULL";
+        }
+
+        StringJoiner joiner = new StringJoiner("|");
+        for (int i = 0; i < arr.length; i++) {
+            joiner.add(arr[i]);
+        }
+
+        return joiner.toString();
+    }
+
     private String nullOrString(String str) {
         if (str == null) {
             return "NULL";
@@ -333,6 +188,269 @@ public class Events extends AppCompatActivity {
         }
     }
 
+
+    //- Update eventsList and activatedEventsIDList by rescan events.csv --------------------------*
+    public void updateByEventsCSV() {
+        eventsList = new ArrayList<>();
+        activatedEventsIDList = new ArrayList<>();
+
+        FileInputStream fis = null;
+        try {
+            fis = context.openFileInput(eventsFile.getName());
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String line;
+
+            // ignore the first line which is title
+            line = br.readLine();
+            //Log.d(" ", line);
+
+            // parse defaultEvent
+            line = br.readLine();
+            //Log.d(" ", line);
+            defaultEvent = parseEventData(line);
+
+            // parse events to eventsList
+            while ((line = br.readLine()) != null) {
+                //Log.d(" ", line);
+                eventsList.add(parseEventData(line));
+            }
+
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+    }
+
+
+    //- Refresh events.csv file by eventsList -----------------------------------------------------*
+    private boolean refreshEventsCSV() {
+        boolean deleted = eventsFile.delete();
+        if (!deleted) {
+            return false;
+        }
+
+        constructEventsCSV();
+        addEventToCSV(defaultEvent);
+        for (Event e : eventsList) {
+            addEventToCSV(e);
+        }
+
+        return true;
+    }
+
+
+    //- Get Event methods -------------------------------------------------------------------------*
+    public Event getEventByID(Integer eventID) {
+        for (Event e : eventsList) {
+            if (e.eventID == eventID) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public Event getEventByName(String eventName) {
+        for (Event e : eventsList) {
+            if (e.eventName.equals(eventName)) {
+                return e;
+            }
+        }
+
+        return null;
+    }
+
+    public Event getDefaultEvent() {
+        return defaultEvent;
+    }
+
+    public List<Event> getEventsList() {
+        return eventsList;
+    }
+
+    public List<Integer> getActivatedEventsIDList() {
+        return activatedEventsIDList;
+    }
+
+
+    //- Add Event methods -------------------------------------------------------------------------*
+    // Attention！ Add method will force to update events info by events.csv
+    public boolean addEvent(Event newEvent) {
+        updateByEventsCSV();
+
+        for (Event e : eventsList) {
+            if (e.eventName.equals(newEvent.eventName)) {
+                return false;
+            }
+        }
+
+        boolean inserted = false;
+        for (int i = 0; i < eventsList.size(); i++) {
+            if (eventsList.get(i).eventID != i) {
+                newEvent.eventID = i;
+                eventsList.add(i, newEvent);
+                inserted = true;
+                break;
+            }
+        }
+        if (!inserted) {
+            newEvent.eventID = eventsList.size();
+            eventsList.add(newEvent);
+        }
+
+        if (newEvent.isActivated) {
+            activatedEventsIDList.add(newEvent.eventID);
+        }
+
+        return refreshEventsCSV();
+    }
+
+
+    //- Delete Event methods ----------------------------------------------------------------------*
+    // Attention！ Delete method will force to update events info by events.csv
+    public boolean deleteEventByID(Integer eventID) {
+        updateByEventsCSV();
+
+        boolean found = false;
+        for (int i = 0; i < eventsList.size(); i++) {
+            if (eventsList.get(i).eventID == eventID) {
+                eventsList.remove(i);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+    public boolean deleteEventByName(String eventName) {
+        updateByEventsCSV();
+
+        Integer eventID = -999;
+        boolean found = false;
+        for (int i = 0; i < eventsList.size(); i++) {
+            if (eventsList.get(i).eventName.equals(eventName)) {
+                eventID = eventsList.get(i).eventID;
+                eventsList.remove(i);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            return false;
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+
+    //- Modify Event methods ----------------------------------------------------------------------*
+    // Attention！ Modify method will force to update events info by events.csv
+    public boolean modifyEventByID(Integer eventID, Event event) {
+        updateByEventsCSV();
+        for (int i = 0; i < eventsList.size(); i++) {
+            if (eventsList.get(i).eventID == eventID) {
+                eventsList.set(i, event);
+                break;
+            }
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+    public boolean modifyEventByName(String eventName, Event event) {
+        updateByEventsCSV();
+        for (int i = 0; i < eventsList.size(); i++) {
+            if (eventsList.get(i).eventName.equals(eventName)) {
+                eventsList.set(i, event);
+                break;
+            }
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+
+    //- Update Event Activation Status methods ----------------------------------------------------*
+    // Attention！ Update Event Activation Status will force to update events info by events.csv
+    public boolean updateEventActivationStatus(Integer eventID, boolean status) {
+        for (Event e : eventsList) {
+            if (e.eventID == eventID) {
+                e.isActivated = status;
+                break;
+            }
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+    public boolean updateEventActivationStatus(String eventName, boolean status) {
+        for (Event e : eventsList) {
+            if (e.eventName.equals(eventName)) {
+                e.isActivated = status;
+                break;
+            }
+        }
+
+        activatedEventsIDList = new ArrayList<>();
+        for (Event e : eventsList) {
+            if (e.isActivated) {
+                activatedEventsIDList.add(e.eventID);
+            }
+        }
+
+        return refreshEventsCSV();
+    }
+
+
+    //- Parsing method ----------------------------------------------------------------------------*
     private Event parseEventData(String line) {
         // take the whole line
         String[] data = line.split(", ");
@@ -420,192 +538,4 @@ public class Events extends AppCompatActivity {
         }
     }
 
-    private String strArrJoiner(String[] arr) {
-        if (arr == null) {
-            return "NULL";
-        }
-        if (arr.length == 0) {
-            return "NULL";
-        }
-
-        StringJoiner joiner = new StringJoiner("|");
-        for (int i = 0; i < arr.length; i++) {
-            joiner.add(arr[i]);
-        }
-
-        return joiner.toString();
-    }
-
-    private Event firstTimeInitializeDemoDefaultEvent() {
-        String[] tasksType = {"LAUNCH_APP"};
-        String[] tasksValue = {"com.google.android.youtube"};
-
-        return new Event(-1, "Default", "2019-08-09",
-                "21:46", -1,
-                null, null,
-                null, null,
-                tasksType, tasksValue,
-                null, null,
-                null, null, null,
-                true, false,
-                false, true,
-                "This is Default event",
-                "" + R.drawable.ic_menu_send, null,
-                "DEFAULT", 0);
-    }
-
-
-
-    //** Hard code some event for development ************************************************ START
-    public void createTestingEvents() {
-
-        String[] triggerMethod1 = null, triggerValues1 = null;
-        String[] tasksTypeStart1 = null, tasksValueStart1 = null;
-        Event testEvent1 = new Event(
-                2345, "test event 1", "2019-08-03",
-                "19:15", 0,
-                null, null,
-                triggerMethod1, triggerValues1,
-                tasksTypeStart1, tasksValueStart1,
-                null, null,
-                null, null, null,
-                false, false,
-                true, true,
-                "This is the test event 1",
-                "" + R.drawable.ic_menu_share, 0x000000,
-                "NULL", 0);
-
-
-        String[] triggerMethod2 = {"TIME"}, triggerValues2 = {"14:39#14:41"};
-        String[] tasksTypeStart2 = {"VOLUME_STREAM"}, tasksValueStart2 = {"80"};
-        Event testEvent2 = new Event(
-                1234, "test event 2", "2019-08-02",
-                "19:31", 0,
-                null, null,
-                triggerMethod2, triggerValues2,
-                tasksTypeStart2, tasksValueStart2,
-                null, null,
-                null, null, null,
-                false, false,
-                true, true,
-                "This is the test event 2",
-                "" + R.drawable.ic_menu_gallery, 0xffffff,
-                "NULL", 0);
-
-        String[] triggerMethod3 = {"TIME"}, triggerValues3 = {"14:39#14:41"};
-        String[] tasksTypeStart3 = {"VOLUME_STREAM"}, tasksValueStart3 = {"80"};
-        Event testEvent3 = new Event(
-                1234, "test event 3", "2019-08-02",
-                "19:31", 0,
-                null, null,
-                triggerMethod3, triggerValues3,
-                tasksTypeStart3, tasksValueStart3,
-                null, null,
-                null, null, null,
-                false, false,
-                true, true,
-                "This is the test event 3",
-                "" + R.drawable.ic_menu_gallery, 0xffffff,
-                "NULL", 0);
-
-        addEvent(testEvent1);
-//        addEvent(testEvent2);
-//        addEvent(testEvent3);
-
-    }
-
-    // modify testing events here
-    public void modifyTestingEvents() {
-
-        String[] triggerMethodM1 = null;//{"TIME"};
-        String[] triggerValuesM1 = null;//{"8:08-23:10"};
-
-        String[] tasksTypeStartM1 = null;//{"BROWSE_URL"};
-        String[] tasksValueStartM1 = null;//{"104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109"};
-
-        String[] tasksTypeEndM1 = null;
-        String[] tasksValueEndM1 = null;
-
-        String[] tasksTypeOngoingM1 = null;
-        String[] tasksValueOngoingM1 = null;
-        String[] tasksOngoingRepeatPeriodM1 = null;
-
-        Event testEventM1 = new Event(
-                2345, "test event 1", "2019-08-03",
-                "19:15", 0,
-                null, null,
-                triggerMethodM1, triggerValuesM1,
-                tasksTypeStartM1, tasksValueStartM1,
-                tasksTypeEndM1, tasksValueEndM1,
-                tasksTypeOngoingM1, tasksValueOngoingM1, tasksOngoingRepeatPeriodM1,
-                false, false,
-                true, true,
-                "This is the test event 1",
-                null, 0x000000,
-                "NULL", 0);
-
-
-        // test event 2
-        String[] triggerMethodM2 = null; //{"TIME"};
-        String[] triggerValuesM2 = null; //{"19:25"};
-
-        String[] tasksTypeStartM2 = null; //{"VOLUME_STREAM"};
-        String[] tasksValueStartM2 = null; //{"20"};
-
-        String[] tasksTypeEndM2 = null;
-        String[] tasksValueEndM2 = null;
-
-        String[] tasksTypeOngoingM2 = null;
-        String[] tasksValueOngoingM2 = null;
-        String[] tasksOngoingRepeatPeriodM2 = null;
-
-        Event testEventM2 = new Event(
-                1234,"test event 2", "2019-08-02",
-                "19:31", 0,
-                null, null,
-                triggerMethodM2, triggerValuesM2,
-                tasksTypeStartM2, tasksValueStartM2,
-                tasksTypeEndM2, tasksValueEndM2,
-                tasksTypeOngoingM2, tasksValueOngoingM2, tasksOngoingRepeatPeriodM2,
-                false, false,
-                true, true,
-                "This is the test event 2, this is long description. Can it display?",
-                "" + R.drawable.ic_menu_gallery, 0xffffff,
-                "NULL", 0);
-
-
-        // test event 3
-        String[] triggerMethodM3 = null; //{"TIME"};
-        String[] triggerValuesM3 = null; //{"14:39#14:41"};
-
-        String[] tasksTypeStartM3 = null; //{"VOLUME_STREAM"};
-        String[] tasksValueStartM3 = null; //{"50"};
-
-        String[] tasksTypeEndM3 = null;
-        String[] tasksValueEndM3 = null;
-
-        String[] tasksTypeOngoingM3 = null;
-        String[] tasksValueOngoingM3 = null;
-        String[] tasksOngoingRepeatPeriodM3 = null;
-
-        Event testEventM3 = new Event(
-                1234, "test event 3", "2019-08-02",
-                "19:31", 0,
-                null, null,
-                triggerMethodM3, triggerValuesM3,
-                tasksTypeStartM3, tasksValueStartM3,
-                tasksTypeEndM3, tasksValueEndM3,
-                tasksTypeOngoingM3, tasksValueOngoingM3, tasksOngoingRepeatPeriodM3,
-                false, false,
-                true, true,
-                "This is the test event 3",
-                "" + R.drawable.ic_menu_gallery, 0xffffff,
-                "NULL", 0);
-
-//        modifyEventByName("test event 1", testEventM1);
-//        modifyEventByName("test event 2", testEventM2);
-//        modifyEventByName("test event 3", testEventM3);
-
-    }
-    //** Hard code some event for development FINISH **************************************** FINISH
 }

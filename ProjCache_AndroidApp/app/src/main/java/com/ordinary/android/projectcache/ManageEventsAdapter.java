@@ -105,7 +105,7 @@ public class ManageEventsAdapter
                 Intent startEventSetup =
                         new Intent(context, EventSetupActivity.class);
                 startEventSetup.putExtra(
-                        "MODIFY_EVENT", viewHolder.nameTextView.getText().toString());
+                        "MODIFY_EVENT", viewHolder.nameTextView.getText().toString());  // TODO: 2019-09-07 换成发evnetID
                 ((Activity)context).startActivity(
                         startEventSetup);
                 notifyDataSetChanged();
@@ -121,3 +121,14 @@ public class ManageEventsAdapter
 
 
 }
+
+
+
+
+// sort eventsList by eventName in ascending order
+//        Collections.sort(eventsList, new Comparator<Event>() {
+//@Override
+//public int compare(Event e1, Event e2) {
+//        return e1.eventName.compareTo(e2.eventName);
+//        }
+//        });

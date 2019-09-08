@@ -69,7 +69,7 @@ public class ManageEventsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == REQUEST_SETUP_CODE && resultCode == Activity.RESULT_OK) {
-                events.updateEventsList();
+                events.updateByEventsCSV();
                 eventsList = events.getEventsList();
 
                 eventsManagementRecyclerView.setHasFixedSize(true);

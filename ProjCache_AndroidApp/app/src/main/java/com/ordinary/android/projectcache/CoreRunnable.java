@@ -2,7 +2,6 @@ package com.ordinary.android.projectcache;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.view.ViewPager;
 
 import java.io.File;
@@ -56,7 +55,7 @@ public class CoreRunnable implements Runnable {
              */
 
             if (true /* eventsListChanged */) {
-                events.updateEventsList();
+                events.updateByEventsCSV();
                 activatedEventsID = events.getActivatedEventsIDList();
 
                 // Check if there is any running events is turned off by user from management activity
