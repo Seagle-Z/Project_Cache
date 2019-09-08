@@ -57,11 +57,21 @@ public class CoreRunnable implements Runnable {
 
             if (true /* eventsListChanged */) {
                 events.updateEventsList();
+                activatedEventsID = events.getActivatedEventsIDList();
+
+                // Check if there is any running events is turned off by user from management activity
+                // 用ID还是name？
             }
 
-            activatedEventsID = events.getActivatedEventsIDList();
+
+
+
             CoreConditionInspector cci = new CoreConditionInspector(context, events);
             triggerableEventsID = cci.getTriggerableEventsID();
+
+            for (Integer i : runningEventsID) {
+                // 停止condition不再符合的event
+            }
 
             for (Integer i : triggerableEventsID) {
                 Event event = events.getEventByID(i);

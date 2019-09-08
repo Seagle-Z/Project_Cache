@@ -78,7 +78,6 @@ public class ManageEventsActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
-                eventsManagementAdapter.notifyDataSetChanged();
             }
 
 
