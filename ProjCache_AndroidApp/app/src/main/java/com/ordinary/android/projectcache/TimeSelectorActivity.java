@@ -440,7 +440,7 @@ public class TimeSelectorActivity extends AppCompatActivity
     //Create an return intent with required value
     public Intent getIntent(String result) {
         Intent intent = new Intent();
-        intent.putExtra("Time", result);
+        intent.putExtra("TIME", result);
         setResult(Activity.RESULT_OK, intent);
         return intent;
     }

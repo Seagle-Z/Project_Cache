@@ -1,5 +1,9 @@
 package com.ordinary.android.projectcache;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
@@ -18,6 +22,18 @@ public class AppInfoModel implements Serializable {
         packageName = pName;
         label = pLabel;
         packageIcon = pIcon;
+    }
+
+    public AppInfoModel(String pName, Context context)
+    {
+        final PackageManager pm = context.getPackageManager();
+        ApplicationInfo ai;
+        try{
+            ai = pm.getApplicationInfo(pName,0);
+            this.packageName = pName;
+            this.label = pm.getApplicationLabel(ai).toString();
+            this.packageIcon = pm.getApplicationIcon(pName);
+        }catch (final PackageManager.NameNotFoundException e) {}
     }
 
     public void setLabel(String s)

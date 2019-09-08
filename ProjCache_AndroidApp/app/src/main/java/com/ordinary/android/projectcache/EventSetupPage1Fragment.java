@@ -40,6 +40,7 @@ public class EventSetupPage1Fragment
     private Map<String, String> conditions = new Hashtable<>();
     private List<TypeValueObjectModel> conditionsArrList = new ArrayList<>();
     private boolean editMode;
+    Boolean eventModify = false;
     private EventSetupPageAdapter eventSetupPageAdapter;
     private EventSetupPage2Fragment p2;
     private EventSetupPage3Fragment p3;
@@ -74,8 +75,20 @@ public class EventSetupPage1Fragment
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
 
         event = eventSetupPageAdapter.getEvent();
-        if (event != null)
-            System.out.println(event.eventName);
+        if (event != null) {
+            eventModify = true;
+            for(int i = 0; i < event.triggerMethods.length; i++)
+            {
+                Intent data = new Intent();
+                data.putExtra(event.triggerMethods[i], event.triggerValues[i]);
+//                System.out.println(event.triggerMethods[i]);
+//                System.out.println(data.getStringExtra(event.triggerMethods[i]));
+//                System.out.println("Index: " + i);
+                updateConditionList(data);
+
+            }
+            adapterForRecyclerView.notifyDataSetChanged();
+        }
 
         if (event == null) {
             event = new Event(
@@ -139,6 +152,8 @@ public class EventSetupPage1Fragment
         try {
             if (requestCode == REQUEST_CONDITION_CODE && resultCode == Activity.RESULT_OK) {
                 updateConditionList(data);
+                updateEventObj();
+                adapterForRecyclerView.notifyDataSetChanged();
             }
         } catch (NullPointerException e) {
             editMode = false;
@@ -175,9 +190,9 @@ public class EventSetupPage1Fragment
     }
 
     private void updateConditionList(Intent data) {
-        if (data.hasExtra("Time")) {
+        if (data.hasExtra("TIME")) {
 
-            String s = data.getStringExtra("Time");
+            String s = data.getStringExtra("TIME");
             String time[] = s.split("#");
             StringJoiner newTimeString = parseTimeData(time);
             String result = "";
@@ -198,20 +213,12 @@ public class EventSetupPage1Fragment
                 conditionsArrList.get(selectedPosition).setValues(result);
             }
             editMode = false;
-            conditions.put("TIME", data.getStringExtra("Time"));
+            conditions.put("TIME", data.getStringExtra("TIME"));
         }
-//        if (data.hasExtra("Apps")) {
-//            if (!editMode) {
-//                conditionsArrList.add("- Added trigger method: When app show on screen");
-//                selectedConditionTypes.add("App");
-//            }
-//            editMode = false;
-//            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
-//        }
-//
+
         //Setup for WIFIPage
-        if (data.hasExtra("Wifi")) {
-            String s = data.getStringExtra("Wifi");
+        if (data.hasExtra("WIFI")) {
+            String s = data.getStringExtra("WIFI");
             String wifinames[] = s.split("#");
             StringJoiner newWifiString = new StringJoiner(", ");
             for (int i = 0; i < wifinames.length; i++) {
@@ -235,11 +242,18 @@ public class EventSetupPage1Fragment
                 conditionsArrList.get(selectedPosition).setValues(result);
             }
             editMode = false;
-            conditions.put("WIFI", data.getStringExtra("Wifi"));
+            conditions.put("WIFI", data.getStringExtra("WIFI"));
         }
 
-        updateEventObj();
-        adapterForRecyclerView.notifyDataSetChanged();
+        //        if (data.hasExtra("Apps")) {
+//            if (!editMode) {
+//                conditionsArrList.add("- Added trigger method: When app show on screen");
+//                selectedConditionTypes.add("App");
+//            }
+//            editMode = false;
+//            conditions.put("ON_SCREEN_APP", data.getStringExtra("Apps"));
+//        }
+//
     }
 
     private void updateEventObj() {
