@@ -26,7 +26,7 @@ public class CoreTasksExecutor {
         }
     }
 
-    public void endThisEvent() {
+    public void finishThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeEnd, event.tasksValueEnd);
         for (Intent i : intents) {
             if (i != null) {

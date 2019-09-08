@@ -22,7 +22,8 @@ public class CoreRunnable implements Runnable {
     private Events events;
     private List<Event> eventsList;
     private List<Integer> activatedEventsID;
-    private List<Integer> triggerableEventsID;
+    private List<Integer> conditionMatchedEventsID;
+    private List<Integer> coreWaitingListEventsID;
     private List<Integer> runningEventsID;
 
     private CoreModel coreModelDefaultEvent;
@@ -32,15 +33,18 @@ public class CoreRunnable implements Runnable {
 
     CoreRunnable(Context context, File eventsFile, ViewPager coreViewPager) {
 
-        this.coreViewPager = coreViewPager;
-        this.mainHandler = new Handler(context.getMainLooper());
-
         this.context = context;
         this.eventsFile = eventsFile;
 
+        this.coreViewPager = coreViewPager;
+        this.mainHandler = new Handler(context.getMainLooper());
+
         this.events = new Events(context);
 
-        this.triggerableEventsID = new ArrayList<>();
+        this.eventsList = new ArrayList<>();
+        this.activatedEventsID = new ArrayList<>();
+        this.conditionMatchedEventsID = new ArrayList<>();
+        this.coreWaitingListEventsID = new ArrayList<>();
         this.runningEventsID = new ArrayList<>();
     }
 
@@ -56,34 +60,58 @@ public class CoreRunnable implements Runnable {
 
             if (true /* eventsListChanged */) {
                 events.updateByEventsCSV();
+                eventsList = events.getEventsList();
                 activatedEventsID = events.getActivatedEventsIDList();
 
                 // Check if there is any running events is turned off by user from management activity
-                // 用ID还是name？
-            }
-
-
-
-
-            CoreConditionInspector cci = new CoreConditionInspector(context, events);
-            triggerableEventsID = cci.getTriggerableEventsID();
-
-            for (Integer i : runningEventsID) {
-                // 停止condition不再符合的event
-            }
-
-            for (Integer i : triggerableEventsID) {
-                Event event = events.getEventByID(i);
-                CoreTasksExecutor coreTasksExecutor = new CoreTasksExecutor(context, event);
-
-                if (!runningEventsID.contains(event.eventID) && event.autoTrigger == true) {
-                    runningEventsID.add(event.eventID);
-                    coreTasksExecutor.startThisEvent();
+                // 用ID
+                List<Integer> deleteFromRunning = new ArrayList<>();
+                for (Integer i : runningEventsID) {
+                    if (!activatedEventsID.contains(i)) {
+                        deleteFromRunning.add(i);
+                    }
+                }
+                for (Integer i : deleteFromRunning) {
+                    runningEventsID.remove(Integer.valueOf(i));
                 }
 
             }
 
+            CoreConditionInspector inspector = new CoreConditionInspector(context, events);
+            conditionMatchedEventsID = inspector.getTriggerableEventsID();
 
+
+            //- finish events that are not match condition any more -------------------------------*
+            List<Integer> deleteFromRunning = new ArrayList<>();
+            for (Integer i : runningEventsID) {
+                if (!conditionMatchedEventsID.contains(i)) {
+                    Event event = events.getEventByID(i);
+                    deleteFromRunning.add(i);
+                    CoreTasksExecutor executor = new CoreTasksExecutor(context, event);
+                    executor.finishThisEvent();
+                }// TODO: 2019-09-08 检查为什么Event结束的时候不会发生结束的action
+            }
+            for (Integer i : deleteFromRunning) {
+                runningEventsID.remove(Integer.valueOf(i));
+            }
+
+
+            //- start events that are start to match condition ------------------------------------*
+            for (Integer i : conditionMatchedEventsID) {
+                Event event = events.getEventByID(i);
+                if (!runningEventsID.contains(i)) {
+                    if (event.autoTrigger) {
+                        runningEventsID.add(i);
+                        CoreTasksExecutor executor = new CoreTasksExecutor(context, event);
+                        executor.startThisEvent();
+                    } else {
+                        coreWaitingListEventsID.add(i);
+                    }
+                }
+            }
+
+
+            //- Change UI base on current status --------------------------------------------------*
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -8,6 +8,10 @@ public class ManageEventModel {
         this.event = event;
     }
 
+    public int getEventID() {
+        return event.eventID;
+    }
+
     public String getEventName() {
         return event.eventName;
     }
