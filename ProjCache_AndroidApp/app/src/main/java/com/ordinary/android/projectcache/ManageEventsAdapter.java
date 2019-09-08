@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ManageEventsAdapter
@@ -21,7 +22,7 @@ public class ManageEventsAdapter
 
     Context context;
     private List<Event> eventsManagementList;
-    private List<String> selectedList;
+    private List<Integer> selectedList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -58,10 +59,11 @@ public class ManageEventsAdapter
                 }
             });
 
+
         }
     }
 
-    public ManageEventsAdapter(Context context, List<Event> EventsManagementList, List<String> selectedList) {
+    public ManageEventsAdapter(Context context, List<Event> EventsManagementList, List<Integer> selectedList) {
         this.context = context;
         this.eventsManagementList = EventsManagementList;
         this.selectedList = selectedList;
@@ -70,7 +72,8 @@ public class ManageEventsAdapter
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.event_management_item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(
+                R.layout.event_management_item, viewGroup, false);
         ViewHolder emvh = new ViewHolder(v, context);
         return emvh;
     }
@@ -87,15 +90,15 @@ public class ManageEventsAdapter
         viewHolder.eventImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!selectedList.contains(item.getEventName())) {
-                    selectedList.add(item.getEventName());
+                if (!selectedList.contains(item.getEventID())) {
+                    selectedList.add(item.getEventID());
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_check);
                 } else {
-                    selectedList.remove(item.getEventName());
+                    selectedList.remove(Integer.valueOf(item.getEventID()));
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);
                 }
-                viewHolder.itemView.setBackgroundColor(selectedList.contains(item.getEventName()) ? 0xffb3e5fc : Color.WHITE);
-                //notifyDataSetChanged();
+                viewHolder.itemView.setBackgroundColor(
+                        selectedList.contains(item.getEventName()) ? 0xffb3e5fc : Color.WHITE);
             }
         });
 

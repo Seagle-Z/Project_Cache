@@ -27,7 +27,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
     Events events;
     List<Event> eventsList;
-    List<String> selectedList;
+    List<Integer> selectedList;
 
     private static final String EVENTS_FILE_NAME = "events.csv";
     private final int REQUEST_SETUP_CODE = 1002;
@@ -103,10 +103,12 @@ public class ManageEventsActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     deleteEvents();
+                    events.updateByEventsCSV();
+                    eventsManagementAdapter.notifyDataSetChanged();
                     eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
-                    for (String s : selectedList) {
-                        System.out.println("selectList 还有: " + s);
+                    for (Integer i : selectedList) {
+                        System.out.println("selectList 还有: " + i);
                     }
                     Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
@@ -116,8 +118,8 @@ public class ManageEventsActivity extends AppCompatActivity {
     }
 
     public void deleteEvents() {
-        for (String s : selectedList) {
-            events.deleteEventByName(s);
+        for (Integer i : selectedList) {
+            events.deleteEventByID(i);
         }
         selectedList = new ArrayList<>();
     }

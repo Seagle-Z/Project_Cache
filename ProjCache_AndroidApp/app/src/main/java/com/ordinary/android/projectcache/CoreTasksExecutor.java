@@ -26,7 +26,7 @@ public class CoreTasksExecutor {
         }
     }
 
-    public void endThisEvent() {
+    public void finishThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeEnd, event.tasksValueEnd);
         for (Intent i : intents) {
             if (i != null) {
@@ -36,6 +36,9 @@ public class CoreTasksExecutor {
     }
 
     public Intent[] createTasksIntent(String[] tasksType, String[] tasksValue) {
+        if (tasksType == null) {
+            return null;
+        }
         int tasksNum = tasksType.length;
         Intent[] intents = new Intent[tasksNum];
         for (int i = 0; i < tasksNum; i++) {
