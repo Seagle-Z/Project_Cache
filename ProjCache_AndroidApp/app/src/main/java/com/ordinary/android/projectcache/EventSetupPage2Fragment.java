@@ -230,17 +230,14 @@ public class EventSetupPage2Fragment extends Fragment implements
             addToRelatedList(
                     startActionList, startActionKeyValue,
                     adapterForStartActionRecyclerView, intent);
-            //adapterForStartActionRecyclerView.notifyDataSetChanged();
         } else if (buttonCode == 2) {
             addToRelatedList(
                     ongoingActionList, ongoingActionKeyValue,
                     adapterForOngoingActionRecyclerView, intent);
-            //adapterForOngoingActionRecyclerView.notifyDataSetChanged();
         } else if (buttonCode == 3) {
             addToRelatedList(
                     endActionList, endActionKeyValue,
                     adapterForEndActionRecyclerView, intent);
-            //adapterForEndActionRecyclerView.notifyDataSetChanged();
         } else {
             //Should never happened
             Log.d("", "No Button Pressed");
@@ -320,7 +317,7 @@ public class EventSetupPage2Fragment extends Fragment implements
                                 getResources().getDrawable(R.drawable.icon_action_volume)
                         )
                 );
-            editingHashtable.put("CHANGE_VOLUME#Volume Change", intent.getStringExtra("VOLUME"));
+            editingHashtable.put("CHANGE_VOLUME#Volume Change", intent.getStringExtra("CHANGE_VOLUME"));
         }
 
         if (intent.hasExtra("BROWSE_URL")) {
@@ -346,6 +343,8 @@ public class EventSetupPage2Fragment extends Fragment implements
         }
 
         editMode = false;
+        if(!parsing)
+            adapter.notifyDataSetChanged();
     }
 
     @Override
