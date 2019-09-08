@@ -26,7 +26,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
     private Context wifi_picker_context;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RecyclerView selectedWIFIRV;
+    private RecyclerView selectedWIFIRecycleView;
     private RecyclerView.Adapter selectedWIFIRVAdap;
 
     //Local Variables
@@ -41,8 +41,8 @@ public class WIFISelectorActivity extends AppCompatActivity {
         setContentView(R.layout.layout_wifilist_swiperefresh);
 
         wifi_picker_context = WIFISelectorActivity.this;
-        selectedWIFIRV = (RecyclerView) findViewById(R.id.wifi_rv);
-        selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
+        selectedWIFIRecycleView = (RecyclerView) findViewById(R.id.wifi_rv);
+        selectedWIFIRecycleView.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
         selectedWIFIRVAdap = new RecyclerView.Adapter() {
 
             @NonNull
@@ -62,7 +62,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
             }
         };
 
-        selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
+        selectedWIFIRecycleView.setAdapter(selectedWIFIRVAdap);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshWifi);
 
 
@@ -139,9 +139,9 @@ public class WIFISelectorActivity extends AppCompatActivity {
             super.onPostExecute(wifiInfos);
 
             selectedWIFIRVAdap = new EventSetupSelectionListAdapter(wifi_picker_context, wifiInfos,this);
-            selectedWIFIRV.setAdapter(selectedWIFIRVAdap);
+            selectedWIFIRecycleView.setAdapter(selectedWIFIRVAdap);
             swipeRefreshLayout.setRefreshing(false);
-            Snackbar.make(selectedWIFIRV, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(selectedWIFIRecycleView, wifiInfos.size() + " WIFI List loaded", Snackbar.LENGTH_LONG).show();
         }
 
         @Override

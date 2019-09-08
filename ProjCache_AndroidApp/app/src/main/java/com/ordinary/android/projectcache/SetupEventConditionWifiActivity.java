@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SetupEventConditionWifiActivity extends AppCompatActivity implements TypeObjectAdapter.intentResultCollectingInterface{
+public class SetupEventConditionWifiActivity extends AppCompatActivity implements TypeObjectAdapter.intentResultCollectingInterface {
 
     //Code for WIFISelectorActivity result request only
     private final int WIFI_PICKING_CODE = 1014;
@@ -28,10 +28,9 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
     Button addWifiButton, completeButton;
     Context wifi_picker_context;
 
-    RecyclerView selectedWIFIRV;
+    RecyclerView selectedWIFIRecycleView;
     RecyclerView.Adapter selectedWIFIAdap;
-    private List<TypeObjectModel> selectedWIFITList = new ArrayList<TypeObjectModel>();
-
+    private List<TypeObjectModel> selectedWIFITypeObjectModelList = new ArrayList<TypeObjectModel>();
 
     //Local Variables
     private ToolFunctions TF = new ToolFunctions();
@@ -52,15 +51,15 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
         wifi_picker_context = SetupEventConditionWifiActivity.this;
         addWifiButton = findViewById(R.id.add_wifi);
         completeButton = findViewById(R.id.wifi_picker_activity_complete_button);
-        //selectedWIFIListView = findViewById(R.id.selected_wifi_list);
 
-        selectedWIFIRV = (RecyclerView) findViewById(R.id.selectedWIFIListRV);
-        selectedWIFIRV.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
+        //View Format
+        selectedWIFIRecycleView = (RecyclerView) findViewById(R.id.selectedWIFIListRecycleView);
+        selectedWIFIRecycleView.setLayoutManager(new LinearLayoutManager(wifi_picker_context));
 
         warning = new AlertDialog.Builder(wifi_picker_context);
 
-        selectedWIFIAdap = new TypeObjectAdapter(wifi_picker_context, selectedWIFITList,this);
-        selectedWIFIRV.setAdapter(selectedWIFIAdap);
+        selectedWIFIAdap = new TypeObjectAdapter(wifi_picker_context, selectedWIFITypeObjectModelList, this);
+        selectedWIFIRecycleView.setAdapter(selectedWIFIAdap);
 
         wifiManager = (WifiManager) wifi_picker_context.getSystemService(Context.WIFI_SERVICE);
 
@@ -81,13 +80,13 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
             @Override
             public void onClick(View view) {
                 try {
-                    if (!selectedWIFITList.isEmpty()) {
+                    if (!selectedWIFITypeObjectModelList.isEmpty()) {
                         String intentResult = "";
 
-                        for (int i = 0; i < selectedWIFITList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
+                        for (int i = 0; i < selectedWIFITypeObjectModelList.size(); i++) {                               //Unencoded List   Ex) selectedAppArrList = {UIC, Guest, DeVilla, ..}
 
                             // Encoding the String
-                            int tempEncoded[] = TF.textEncoder(selectedWIFITList.get(i).getTypename());
+                            int tempEncoded[] = TF.textEncoder(selectedWIFITypeObjectModelList.get(i).getTypename());
                             String tempString = "";
 
                             //Padding the string with '-' between each number
@@ -151,7 +150,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                         tempNum[z] = Integer.parseInt(tempNumArray[z]);
                     }
 
-                    selectedWIFITList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi))); //Add Decoded String onto the wifiList
+                    selectedWIFITypeObjectModelList.add(new TypeObjectModel(TF.textDecoder(tempNum), getDrawable(R.drawable.icon_condition_wifi))); //Add Decoded String onto the wifiList
                 }
 
                 selectedWIFIAdap.notifyDataSetChanged();
@@ -168,12 +167,12 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                 if (data.hasExtra("WIFI")) {
                     returnedWifi = data.getStringExtra("WIFI");
                     if (returnedWifi != null) {
-                        if (!checkDuplicate(returnedWifi, selectedWIFITList)) {
+                        if (!checkDuplicate(returnedWifi, selectedWIFITypeObjectModelList)) {
                             if (!editMode) {
                                 //selectedWifiArrList.add(returnedWifi);                //Places the data from the WifiSelectorActivity.java into the arraylist
-                                selectedWIFITList.add(new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)));
+                                selectedWIFITypeObjectModelList.add(new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)));
                             } else {
-                                selectedWIFITList.set(selectedEditPosition, new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)) );
+                                selectedWIFITypeObjectModelList.set(selectedEditPosition, new TypeObjectModel(returnedWifi, getDrawable(R.drawable.icon_condition_wifi)));
                             }
                             selectedWIFIAdap.notifyDataSetChanged();
                         } else
@@ -186,6 +185,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
             }
         } catch (NullPointerException e) {
         }
+
     }
 
     public boolean checkDuplicate(String wifi, List<TypeObjectModel> wifilist) {
@@ -206,6 +206,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
         }
         return false;
     }
+
 
     @Override
     public void getIntent(int position) {
