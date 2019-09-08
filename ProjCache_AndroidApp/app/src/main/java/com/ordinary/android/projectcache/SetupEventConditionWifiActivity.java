@@ -109,7 +109,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                         }
 
                         Intent intent = new Intent();
-                        intent.putExtra("Wifi", intentResult);
+                        intent.putExtra("WIFI", intentResult);
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     } else {
@@ -165,8 +165,8 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == WIFI_PICKING_CODE && resultCode == Activity.RESULT_OK) {
-                if (data.hasExtra("wifi")) {
-                    returnedWifi = data.getStringExtra("wifi");
+                if (data.hasExtra("WIFI")) {
+                    returnedWifi = data.getStringExtra("WIFI");
                     if (returnedWifi != null) {
                         if (!checkDuplicate(returnedWifi, selectedWIFITList)) {
                             if (!editMode) {

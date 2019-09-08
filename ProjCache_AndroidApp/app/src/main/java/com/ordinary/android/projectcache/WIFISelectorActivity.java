@@ -147,7 +147,7 @@ public class WIFISelectorActivity extends AppCompatActivity {
         @Override
         public void onItemClick(int position) {
             Intent intent = new Intent();
-            intent.putExtra("wifi", wifiInfoList.get(position).getTypename());
+            intent.putExtra("WIFI", wifiInfoList.get(position).getTypename());
             setResult(Activity.RESULT_OK, intent);
             finish();
         }

@@ -44,10 +44,10 @@ public class EventSetupPage2Fragment extends Fragment implements
     private ToolFunctions TF = new ToolFunctions();
     private PackageManager pm;
     private int buttonPressCode = -999, selectedEditedPosition;
-    private boolean editMode;
+    private boolean editMode, parsing;
     private EventSetupPage1Fragment p1;
     private EventSetupPage3Fragment p3;
-    private EventSetupPageAdapter adapter;
+    private EventSetupPageAdapter eventSetupPageAdapter;
 
     @Nullable
     @Override
@@ -70,9 +70,26 @@ public class EventSetupPage2Fragment extends Fragment implements
         ongoingActionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         endActionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = (EventSetupPageAdapter) viewPager.getAdapter();
-        p1 = (EventSetupPage1Fragment) adapter.getItem(0);
-        p3 = (EventSetupPage3Fragment) adapter.getItem(2);
+        eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
+        p1 = (EventSetupPage1Fragment) eventSetupPageAdapter.getItem(0);
+        p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
+
+        event = eventSetupPageAdapter.getEvent();
+        if (event != null) {
+            parsing = true;
+            if(event.tasksTypeStart.length != 0) {
+                parseEventObj(event.tasksTypeStart, event.tasksValueStart, 1);
+            }
+            if(event.tasksTypeOngoing.length != 0)
+            {
+                parseEventObj(event.tasksTypeOngoing, event.tasksValueOngoing, 2);
+            }
+            if(event.tasksTypeEnd.length != 0)
+            {
+                parseEventObj(event.tasksTypeEnd, event.tasksValueEnd, 3);
+            }
+            parsing = false;
+        }
 
         adapterForStartActionRecyclerView = new TypeValueObjectAdapter(
                 getContext(),
@@ -99,7 +116,21 @@ public class EventSetupPage2Fragment extends Fragment implements
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(2);
+                if(startActionList.size() != 0 || ongoingActionList.size() != 0 || endActionList.size() != 0)
+                    viewPager.setCurrentItem(2);
+                else
+                {
+                    AlertDialog.Builder warning = new AlertDialog.Builder(getContext());
+                    warning.setTitle("Warning");
+                    warning.setMessage("Please selected at least one action first in any section.");
+                    warning.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    warning.show();
+                }
             }
         });
         previous.setOnClickListener(new View.OnClickListener() {
@@ -185,32 +216,49 @@ public class EventSetupPage2Fragment extends Fragment implements
         }
     }
 
+    private void parseEventObj(String[] eventTasksType, String[] eventTaskValue, int code)
+    {
+        for (int i = 0; i < eventTasksType.length; i++) {
+            Intent data = new Intent();
+            data.putExtra(eventTasksType[i], eventTaskValue[i]);
+            updateArrayForListView(data, code);
+        }
+    }
     //Update the related list based on the case input
     private void updateArrayForListView(Intent intent, int buttonCode) {
         if (buttonCode == 1) {
             addToRelatedList(
                     startActionList, startActionKeyValue,
                     adapterForStartActionRecyclerView, intent);
+            //adapterForStartActionRecyclerView.notifyDataSetChanged();
         } else if (buttonCode == 2) {
             addToRelatedList(
                     ongoingActionList, ongoingActionKeyValue,
                     adapterForOngoingActionRecyclerView, intent);
-
+            //adapterForOngoingActionRecyclerView.notifyDataSetChanged();
         } else if (buttonCode == 3) {
             addToRelatedList(
                     endActionList, endActionKeyValue,
                     adapterForEndActionRecyclerView, intent);
+            //adapterForEndActionRecyclerView.notifyDataSetChanged();
         } else {
             //Should never happened
             Log.d("", "No Button Pressed");
         }
+        updateEventObj();
     }
 
     private void addToRelatedList(List<TypeValueObjectModel> editingList, Map<String, String> editingHashtable,
                                   RecyclerView.Adapter adapter, Intent intent) {
 
-        if (intent.hasExtra("app")) {
-            AppInfoModel app = (AppInfoModel) intent.getSerializableExtra("app");
+        if (intent.hasExtra("LAUNCH_APP")) {
+            AppInfoModel app;
+            if(parsing)
+            {
+                app = new AppInfoModel(intent.getStringExtra("LAUNCH_APP"), getContext());
+            }
+            else
+                app = (AppInfoModel) intent.getSerializableExtra("LAUNCH_APP");
             if (!editMode)
                 editingList.add(
                         new TypeValueObjectModel(
@@ -298,8 +346,6 @@ public class EventSetupPage2Fragment extends Fragment implements
         }
 
         editMode = false;
-        updateEventObj();
-        adapter.notifyDataSetChanged();
     }
 
     @Override

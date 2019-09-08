@@ -49,7 +49,7 @@ public class AppListActivity extends AppCompatActivity {
                 //Check where does the user click on
                 AppInfoModel app = (AppInfoModel) parent.getItemAtPosition(position);
                 Intent intent = new Intent(); //Create a new intent object to for data returning use.
-                intent.putExtra("app", app);
+                intent.putExtra("LAUNCH_APP", app);
                 setResult(Activity.RESULT_OK, intent);
                 finish(); //End of Activity.
             }

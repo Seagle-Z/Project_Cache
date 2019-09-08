@@ -25,7 +25,7 @@ public class EventSetupPage3Fragment extends Fragment {
     private Button previous;
     private EditText eventName, eventDescription;
     private Button complete;
-    private EventSetupPageAdapter adapter;
+    private EventSetupPageAdapter eventSetupPageAdapter;
     private Switch AutoTriggerSwitch, OneTimeEventSwitch;
     private boolean autoTrigger, oneTimeEvent = false;
     private EventSetupPage1Fragment p1;
@@ -35,7 +35,7 @@ public class EventSetupPage3Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_setup_page3, container, false);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
-        adapter = (EventSetupPageAdapter) viewPager.getAdapter();
+        eventSetupPageAdapter = (EventSetupPageAdapter) viewPager.getAdapter();
         previous = (Button) view.findViewById(R.id.page3Previous);
         eventName = (EditText) view.findViewById(R.id.event_name);
         eventDescription = (EditText) view.findViewById(R.id.event_description);
@@ -51,10 +51,28 @@ public class EventSetupPage3Fragment extends Fragment {
             }
         });
 
-        p1 = (EventSetupPage1Fragment) adapter.getItem(0);
-        p2 = (EventSetupPage2Fragment) adapter.getItem(1);
+        p1 = (EventSetupPage1Fragment) eventSetupPageAdapter.getItem(0);
+        p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
 
         //complete.setEnabled(true);
+        event = eventSetupPageAdapter.getEvent();
+        if (event != null) {
+            eventName.setText(event.eventName);
+            if(!event.autoTrigger)
+            {
+                autoTrigger = false;
+                AutoTriggerSwitch.setChecked(false);
+            }
+            if(!event.oneTimeEvent)
+            {
+                oneTimeEvent = false;
+                OneTimeEventSwitch.setChecked(false);
+            }
+            if(event.eventDescription != null)
+            {
+                eventDescription.setText(event.eventDescription);
+            }
+        }
 
         eventName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -132,35 +150,14 @@ public class EventSetupPage3Fragment extends Fragment {
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                event.eventID = 1;
-                //PagerAdapter p1 = viewPager.getAdapter().getCount();
-//                EventSetupPage1Fragment p1 = (EventSetupPage1Fragment) adapter.getItem(0);
-//                EventSetupPage2Fragment p2 = (EventSetupPage2Fragment) adapter.getItem(1);
-//                EventSetupPage3Fragment p3 = (EventSetupPage3Fragment) adapter.getItem(2);
-                //Log.d("",f1.getTriggerCondition());
-//                Log.d("", p2.getAppPackageName());
-//
-//                String[] test = {"lkajsldkfj", "kjashdkjahsdkalsjdfklasjkfj"};
-//                String[] test2 = {"lkajsldkfj", "kjashdkjahsdkfj"};
-
-
-                //TODO: Check all input if it's valid
-                // TODO: 2019-08-06 要检查intent时候是null后才能返回，把event的constructor更是改正成正确的样子
-//                Event event = new Event("ABC", "EFG",
-//                        "jshdfkjashd", 101,
-//                        test, test2,
-//                        null, null,
-//                        null, null,
-//                        null, null,
-//                        autoTrigger, oneTimeEvent,
-//                        Boolean.TRUE, Boolean.TRUE,
-//                        "ASDFASDF", 10101);
-//                Intent intent = new Intent();
-//                intent.putExtra("Event", event);
-                Events events = new Events(adapter.getContext());
-                events.addEvent(event);
-                getActivity().setResult(Activity.RESULT_OK);
-                getActivity().finish();
+                Events events = new Events(eventSetupPageAdapter.getContext());
+                if(!p1.eventModify) {
+                    events.addEvent(event);
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                }
+                else
+                    events.modifyEventByID(event.eventID, event);
             }
         });
 

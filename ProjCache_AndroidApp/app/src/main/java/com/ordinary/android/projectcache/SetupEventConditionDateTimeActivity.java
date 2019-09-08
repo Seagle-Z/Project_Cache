@@ -125,7 +125,7 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
                             intentResult.add(selectedTimeValue.get(i));
                         }
                         Intent intent = new Intent();
-                        intent.putExtra("Time", intentResult.toString());
+                        intent.putExtra("TIME", intentResult.toString());
                         setResult(Activity.RESULT_OK, intent);
                         finish();
                     }
@@ -156,9 +156,9 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         try {
             if (requestCode == TIME_PICKING_CODE && resultCode == Activity.RESULT_OK) {
-                if (data.hasExtra("Time")) {
+                if (data.hasExtra("TIME")) {
                     //Store ReturnTime in a local string variable
-                    returnedTime = data.getStringExtra("Time");
+                    returnedTime = data.getStringExtra("TIME");
                     /*check if there is any existing time range that the current selected time can
                      can be merged in. For instance, 9:45am can be merge in 9:30am-10:00am.
                     */
@@ -182,80 +182,6 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
         day = dayOfMonth;
         dateButton.setText("Tigger Date: " + Month + "/" + day + "/" + Year);
     }
-
-//    //For small long press popup window.
-//    @Override
-//    public void onCreateContextMenu(
-//            ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//        this.getMenuInflater().inflate(R.menu.popup_menu, menu);
-//    }
-//
-//    //Popup menu clicking listener.
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//
-//        final AdapterView.AdapterContextMenuInfo info =
-//                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//
-//        switch (item.getItemId()) {
-//
-//            case R.id.edit:
-//                Toast.makeText(
-//                        date_time_picker_Context,
-//                        "Edit",
-//                        Toast.LENGTH_LONG).show();
-//                Intent intent =
-//                        new Intent(
-//                                SetupEventConditionDateTimeActivity.this,
-//                                TimeSelectorActivity.class
-//                        );
-//
-//                //Pack the value that selected from the list and send to TimeSelectorActivity
-//                intent.putExtra("RETRIEVE", selectedTimeValue.get(info.position));
-//                selectedEditPosition = info.position;
-//                startActivityForResult(intent, TIME_PICKING_CODE);
-//                editMode = true;
-//                return true;
-//
-//            case R.id.delete:
-//                AlertDialog.Builder deleter = new AlertDialog.Builder(date_time_picker_Context);
-//                deleter.setTitle("Delete");
-//                deleter.setNegativeButton("No no", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(
-//                                date_time_picker_Context,
-//                                "Cancelled",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                //Delete what the user selected
-//                deleter.setPositiveButton("Sure", new AlertDialog.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(
-//                                date_time_picker_Context,
-//                                "Deleting",
-//                                Toast.LENGTH_SHORT).show();
-//
-//                        updateActivatedHourList(selectedTimeValue.get(info.position), false);
-//                        rebuildSelectedTimeArray();
-//                        adapterForTimeListView.notifyDataSetChanged();
-//                        TF.setListViewHeightBasedOnChildren(adapterForTimeListView, timeListView);
-//                        Toast.makeText(
-//                                date_time_picker_Context,
-//                                "Deleted",
-//                                Toast.LENGTH_SHORT).show();
-//                        dialog.dismiss();
-//                    }
-//                });
-//                warning.show();
-//                return true;
-//            default:
-//                return super.onContextItemSelected(item);
-//        }
-//    }
-
 
     public void parseRetrievalData(Intent intent) {
         retrieveTime = intent.getStringExtra("RETRIEVE");
