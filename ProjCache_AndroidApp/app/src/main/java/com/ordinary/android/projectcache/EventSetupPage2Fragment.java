@@ -350,6 +350,7 @@ public class EventSetupPage2Fragment extends Fragment implements
     @Override
     public void onItemClick(int position, int key) {
         Intent intent = null;
+        buttonPressCode = key;
         if (key == 1) {
             intent = editRecycleViewItem(startActionList, startActionKeyValue, position);
         } else if (key == 2) {
