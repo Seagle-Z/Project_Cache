@@ -5,14 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+#09/07/2019
+	#[b_ysl]
+		1. Implement RecyclerView in all event setup pages
+		2. Implement event object parsing and recover for setup / edited process
+		3. Add polymorphism method to TypeObjectAdapter for RecyclerView.
+		4. Fixed many bugs
+		
 #09/03/2019
     #[b_bdev]
-	1. Adjusted WIFI UI page when selecting from a wifi list in WIFISelectorActivity.java to be more modern
-	2. Adjusted the small bug on EventSetupPage1 not displaying only 33 char string
-	3. Fixed the bug in "Recyclerview No adapter attached; skipping layout" in 'onCreate()' in WIFISelectorActivity.java
-	4. Adjusted the WIFI UI page in the SetupEventConditionWifiActivity.java to be more modern
-	5. Fixed bug where the WIFI list was duplicating after every swipedown refresh
-	6. Removed Redundant code
+		1. Adjusted WIFI UI page when selecting from a wifi list in WIFISelectorActivity.java to be more modern
+		2. Adjusted the small bug on EventSetupPage1 not displaying only 33 char string
+		3. Fixed the bug in "Recyclerview No adapter attached; skipping layout" in 'onCreate()' in WIFISelectorActivity.java
+		4. Adjusted the WIFI UI page in the SetupEventConditionWifiActivity.java to be more modern
+		5. Fixed bug where the WIFI list was duplicating after every swipedown refresh
+		6. Removed Redundant code
 
 #09/01/2019
     #[b_jx]
