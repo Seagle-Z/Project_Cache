@@ -279,12 +279,12 @@ public class EventSetupPage2Fragment extends Fragment implements
 
             editingHashtable.put("LAUNCH_APP#Launch An App", app.getPackageName());
         }
-        if (intent.hasExtra("BRIGHTNESS")) {
+        if (intent.hasExtra("SCREEN_BRIGHTNESS")) {
             if (!editMode)
                 editingList.add(
                         new TypeValueObjectModel(
                                 "Screen Brightness",
-                                intent.getStringExtra("BRIGHTNESS"),
+                                intent.getStringExtra("SCREEN_BRIGHTNESS"),
                                 getResources().getDrawable(R.drawable.icon_action_brightness)
                         )
                 );
@@ -293,7 +293,7 @@ public class EventSetupPage2Fragment extends Fragment implements
                         selectedEditedPosition,
                         new TypeValueObjectModel(
                                 "Screen Brightness", //typename
-                                intent.getStringExtra("BRIGHTNESS"),
+                                intent.getStringExtra("SCREEN_BRIGHTNESS"),
                                 getResources().getDrawable(R.drawable.icon_action_brightness)
                         )
                 );
@@ -301,8 +301,8 @@ public class EventSetupPage2Fragment extends Fragment implements
             editingHashtable.put("SCREEN_BRIGHTNESS#Screen Brightness", intent.getStringExtra("BRIGHTNESS"));
         }
 
-        if (intent.hasExtra("VOLUME")) {
-            String result = parseVolume(intent.getStringExtra("VOLUME"));
+        if (intent.hasExtra("CHANGE_VOLUME")) {
+            String result = parseVolume(intent.getStringExtra("CHANGE_VOLUME"));
             if (!editMode)
                 editingList.add(
                         new TypeValueObjectModel(

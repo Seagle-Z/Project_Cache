@@ -111,7 +111,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                    intent.putExtra("BRIGHTNESS", Integer.toString(seekBarvalue));
+                    intent.putExtra("SCREEN_BRIGHTNESS", Integer.toString(seekBarvalue));
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 //}
