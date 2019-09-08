@@ -298,7 +298,7 @@ public class EventSetupPage2Fragment extends Fragment implements
                         )
                 );
 
-            editingHashtable.put("SCREEN_BRIGHTNESS#Screen Brightness", intent.getStringExtra("BRIGHTNESS"));
+            editingHashtable.put("SCREEN_BRIGHTNESS#Screen Brightness", intent.getStringExtra("SCREEN_BRIGHTNESS"));
         }
 
         if (intent.hasExtra("CHANGE_VOLUME")) {

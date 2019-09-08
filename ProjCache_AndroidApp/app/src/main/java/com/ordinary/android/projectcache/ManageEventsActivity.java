@@ -103,6 +103,8 @@ public class ManageEventsActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     deleteEvents();
+                    events.updateByEventsCSV();
+                    eventsManagementAdapter.notifyDataSetChanged();
                     eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
                     for (String s : selectedList) {

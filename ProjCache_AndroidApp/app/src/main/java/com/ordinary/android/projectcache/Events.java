@@ -23,7 +23,7 @@ public class Events extends AppCompatActivity {
     private static final String EVENTS_FILE_NAME = "events.csv";
 
     private Event defaultEvent;
-    private List<Event> eventsList;                 // store all the events information
+    private List<Event> eventsList;                  // store all the events information
     private List<Integer> activatedEventsIDList;     // store all eventID of activated events
 
 
