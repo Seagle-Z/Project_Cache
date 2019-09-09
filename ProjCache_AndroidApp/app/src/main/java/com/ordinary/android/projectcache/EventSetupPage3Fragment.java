@@ -56,9 +56,9 @@ public class EventSetupPage3Fragment extends Fragment {
         p2 = (EventSetupPage2Fragment) eventSetupPageAdapter.getItem(1);
 
         //complete.setEnabled(true);
-        event = p1.event;
+        event = eventSetupPageAdapter.getEvent();
         if (event != null) {
-            eventName.setText(event.eventName);
+            eventName.setText(TF.textDecoder(event.eventName)); //65-66-67 -> A-B-C
             if(!event.autoTrigger)
             {
                 autoTrigger = false;
@@ -71,7 +71,7 @@ public class EventSetupPage3Fragment extends Fragment {
             }
             if(event.eventDescription != null)
             {
-                eventDescription.setText(event.eventDescription);
+                eventDescription.setText(TF.textDecoder(event.eventDescription));
             }
         }
 
@@ -94,7 +94,8 @@ public class EventSetupPage3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                event.eventName = s.toString();
+                //ABC-> [65,66,67] -> "65-66-67"
+                event.eventName = TF.encodedArrayToString(TF.textEncoder(s.toString()));
             }
         });
 
@@ -144,8 +145,7 @@ public class EventSetupPage3Fragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                TF.textEncoder(s.toString());
-                event.eventDescription = s.toString();
+                event.eventDescription = TF.encodedArrayToString(TF.textEncoder(s.toString()));
             }
         });
 

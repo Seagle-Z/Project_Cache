@@ -74,7 +74,7 @@ public class EventSetupPage2Fragment extends Fragment implements
         p1 = (EventSetupPage1Fragment) eventSetupPageAdapter.getItem(0);
         p3 = (EventSetupPage3Fragment) eventSetupPageAdapter.getItem(2);
 
-        event = p1.event;
+        event = eventSetupPageAdapter.getEvent();
         if (event != null) {
             parsing = true;
 
