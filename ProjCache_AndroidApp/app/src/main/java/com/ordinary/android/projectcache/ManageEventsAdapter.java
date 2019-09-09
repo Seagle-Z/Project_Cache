@@ -105,10 +105,9 @@ public class ManageEventsAdapter
         viewHolder.infoLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startEventSetup =
-                        new Intent(context, EventSetupActivity.class);
+                Intent startEventSetup = new Intent(context, EventSetupActivity.class);
                 startEventSetup.putExtra(
-                        "MODIFY_EVENT", viewHolder.nameTextView.getText().toString());  // TODO: 2019-09-07 换成发evnetID
+                        "MODIFY_EVENT", item.getEventID()/*viewHolder.nameTextView.getText().toString()*/);  // TODO: 2019-09-07 换成发evnetID
                 ((Activity)context).startActivity(
                         startEventSetup);
                 notifyDataSetChanged();

@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.app_setting) {
 
         } else if (id == R.id.nav_about) {
-            //** put our link here "https://www.ordinary.com
+            //** put our link here "https://www.ordinarytech.xyz ????
         } else if (id == R.id.nav_account) {
             //** for login account
         }
