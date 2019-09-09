@@ -19,6 +19,10 @@
     <item android:title="Communicate">
         <menu>
             <item
+                android:id="@+id/app_setting"
+                android:icon="@drawable/icon_app_setting"
+                android:title="Setting" />
+            <item
                 android:id="@+id/nav_account"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Account" />
