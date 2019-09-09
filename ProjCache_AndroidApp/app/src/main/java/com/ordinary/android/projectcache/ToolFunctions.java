@@ -152,7 +152,9 @@ public class ToolFunctions {
     // This can only decode string with "-" to separate each string integer
     // This function assume clean input
     public String textDecoder(String inputIntArrayString) {
-
+        if (inputIntArrayString == null) {
+            return "";
+        }
         String[] stringList = inputIntArrayString.split("-");
         StringBuilder stringBuilder = new StringBuilder();
         for (String s : stringList) {

@@ -87,6 +87,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
+                eventsManagementAdapter.notifyDataSetChanged();
             }
 
 
@@ -113,9 +114,9 @@ public class ManageEventsActivity extends AppCompatActivity {
                 } else {
                     deleteEvents();
                     events.updateByEventsCSV();
-                    eventsManagementAdapter.notifyDataSetChanged();
                     eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
+                    eventsManagementAdapter.notifyDataSetChanged();
                     for (Integer i : selectedList) {
                         System.out.println("selectList 还有: " + i);
                     }
