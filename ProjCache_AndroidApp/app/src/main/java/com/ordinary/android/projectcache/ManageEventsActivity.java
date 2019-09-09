@@ -115,12 +115,13 @@ public class ManageEventsActivity
                 } else {
                     deleteEvents();
                     events.updateByEventsCSV();
+                    eventsList = events.getEventsList();
                     eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
                     eventsManagementAdapter.notifyDataSetChanged();
-                    for (Integer i : selectedList) {
-                        System.out.println("selectList 还有: " + i);
-                    }
+//                    for (Integer i : selectedList) {
+//                        System.out.println("selectList 还有: " + i);
+//                    }
                     Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
                 break;
