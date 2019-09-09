@@ -81,9 +81,11 @@ public class ManageEventsAdapter
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
+        ToolFunctions TF = new ToolFunctions();
+
         final ManageEventModel item = new ManageEventModel(eventsManagementList.get(i));
-        viewHolder.nameTextView.setText(item.getEventName());
-        viewHolder.descriptionTextView.setText(item.getEventDescription());
+        viewHolder.nameTextView.setText(TF.textDecoder(item.getEventName()));
+        viewHolder.descriptionTextView.setText(TF.textDecoder(item.getEventDescription()));
         viewHolder.activationSwitch.setChecked(item.eventIsActivated());
         viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default/*item.getEventImage()*/);
 
