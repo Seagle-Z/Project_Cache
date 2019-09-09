@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.app_setting) {
 
         } else if (id == R.id.nav_about) {
-            //** put our link here "https://www.ordinary.com
+            //** put our link here "https://www.ordinarytech.xyz ????
         } else if (id == R.id.nav_account) {
             //** for login account
         }
@@ -167,12 +167,12 @@ public class MainActivity extends AppCompatActivity
 
     private void checkPermissionStatus() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            Toast.makeText(
-                    MainActivity.this,
-                    "You have already granted this permission!",
-                    Toast.LENGTH_LONG
-            ).show();
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){}
+//            Toast.makeText(
+//                    MainActivity.this,
+//                    "You have already granted this permission!",
+//                    Toast.LENGTH_LONG
+//            ).show();
         else {
             requestStoragePermission();
         }
