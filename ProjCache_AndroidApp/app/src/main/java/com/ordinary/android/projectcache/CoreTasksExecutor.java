@@ -19,6 +19,9 @@ public class CoreTasksExecutor {
 
     public void startThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeStart, event.tasksValueStart);
+        if (intents == null) {
+            return;
+        }
         for (Intent i : intents) {
             if (i != null) {    // Due to some task do not need intent
                 context.startActivity(i);
@@ -28,6 +31,9 @@ public class CoreTasksExecutor {
 
     public void finishThisEvent() {
         Intent[] intents = createTasksIntent(event.tasksTypeEnd, event.tasksValueEnd);
+        if (intents == null) {
+            return;
+        }
         for (Intent i : intents) {
             if (i != null) {
                 context.startActivity(i);
