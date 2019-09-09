@@ -28,9 +28,8 @@ public class EventSetupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra("MODIFY_EVENT")) {
             Events events = new Events(context);
-            String result = intent.getStringExtra("MODIFY_EVENT");
-            event = events.getEventByName(result);
-            //event = events.getEventByID();
+            int result = intent.getIntExtra("MODIFY_EVENT", 0);
+            event = events.getEventByID(result);
         }
 
         mEventSetupPageAdapter = new EventSetupPageAdapter(getSupportFragmentManager());
