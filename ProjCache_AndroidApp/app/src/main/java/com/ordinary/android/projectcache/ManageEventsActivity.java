@@ -14,26 +14,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.view.Window;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageEventsActivity extends AppCompatActivity {
-
-    private RecyclerView eventsManagementRecyclerView;
-    private RecyclerView.Adapter eventsManagementAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-    Events events;
-    List<Event> eventsList;
-    List<Integer> selectedList;
+public class ManageEventsActivity
+        extends AppCompatActivity implements ManageEventsAdapter.mOnItemClickListener {
 
     private static final String EVENTS_FILE_NAME = "events.csv";
     private final int REQUEST_SETUP_CODE = 1002;
+    Events events;
+    List<Event> eventsList;
+    List<Integer> selectedList;
+    private RecyclerView eventsManagementRecyclerView;
+    private RecyclerView.Adapter eventsManagementAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class ManageEventsActivity extends AppCompatActivity {
         eventsManagementRecyclerView = findViewById(R.id.eventsManagement_RecyclerView);
         eventsManagementRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
+        eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
 
         eventsManagementRecyclerView.setLayoutManager(layoutManager);
         eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
@@ -76,6 +75,7 @@ public class ManageEventsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        System.out.println("check 1");
         try {
             if (requestCode == REQUEST_SETUP_CODE && resultCode == Activity.RESULT_OK) {
                 events.updateByEventsCSV();
@@ -83,11 +83,12 @@ public class ManageEventsActivity extends AppCompatActivity {
 
                 eventsManagementRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(this);
-                eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
+                eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
-                eventsManagementAdapter.notifyDataSetChanged();
+                System.out.println("check 2");
+                //eventsManagementAdapter.notifyDataSetChanged();
             }
 
 
@@ -114,7 +115,7 @@ public class ManageEventsActivity extends AppCompatActivity {
                 } else {
                     deleteEvents();
                     events.updateByEventsCSV();
-                    eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList);
+                    eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
                     eventsManagementAdapter.notifyDataSetChanged();
                     for (Integer i : selectedList) {
@@ -132,5 +133,12 @@ public class ManageEventsActivity extends AppCompatActivity {
             events.deleteEventByID(i);
         }
         selectedList = new ArrayList<>();
+    }
+
+    @Override
+    public void onItemClick(int position, int key) {
+        Intent startEventSetup = new Intent(ManageEventsActivity.this, EventSetupActivity.class);
+        startEventSetup.putExtra("MODIFY_EVENT", key/*viewHolder.nameTextView.getText().toString()*/);
+        startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
     }
 }

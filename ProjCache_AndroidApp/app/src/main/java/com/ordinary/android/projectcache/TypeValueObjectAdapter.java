@@ -68,7 +68,7 @@ public class TypeValueObjectAdapter
         private ImageView removeImageView;
         private mOnItemClickListener mInter;
 
-        public ViewHolder(@NonNull View itemView, final Context contextm, mOnItemClickListener inter) {
+        public ViewHolder(@NonNull View itemView, final Context context, mOnItemClickListener inter) {
             super(itemView);
             typeNameTextView = itemView.findViewById(R.id.selected_type);
             typeValueTextView = itemView.findViewById(R.id.selected_value);

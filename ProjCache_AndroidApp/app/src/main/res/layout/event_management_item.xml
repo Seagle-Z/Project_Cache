@@ -11,6 +11,7 @@
     android:layout_margin="4dp">
 
     <RelativeLayout
+        android:id="@+id/eventInfo_relativeLayout"
         android:padding="1dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,7 +32,6 @@
 
             <LinearLayout
                 android:id="@+id/eventInfo_linearLayout"
-                android:clickable="true"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

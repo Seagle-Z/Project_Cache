@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -20,29 +21,33 @@ import java.util.List;
 public class ManageEventsAdapter
         extends RecyclerView.Adapter<ManageEventsAdapter.ViewHolder> {
 
-    Context context;
+    private Context context;
     private List<Event> eventsManagementList;
     private List<Integer> selectedList;
+    private mOnItemClickListener OnItemClickListener;
+    private ManageEventModel item;
+    private int eventID;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView nameTextView;
         public TextView descriptionTextView;
         public Switch activationSwitch;
         public ImageView eventImageView;
 
-        public LinearLayout infoLayout;
-
+        public RelativeLayout infoLayout;
+        private mOnItemClickListener mListener;
         private final int MODIFY_REUQEST_CODE = 1010;
 
-        public ViewHolder(@NonNull View itemView, final Context context) {
+        public ViewHolder(@NonNull View itemView, final Context context, mOnItemClickListener listener) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.eventName_textView);
             descriptionTextView = itemView.findViewById(R.id.eventDescription_TextView);
             activationSwitch = itemView.findViewById(R.id.eventActivation_switch);
             eventImageView = itemView.findViewById(R.id.eventImage_imageView);
+            this.mListener = listener;
 
-            infoLayout = itemView.findViewById(R.id.eventInfo_linearLayout);
+            infoLayout = itemView.findViewById(R.id.eventInfo_relativeLayout);
 
             final Context contextConstant = context;
 
@@ -59,14 +64,27 @@ public class ManageEventsAdapter
                 }
             });
 
+            infoLayout.setOnClickListener(this);
 
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onItemClick(getAdapterPosition(), item.getEventID());
         }
     }
 
-    public ManageEventsAdapter(Context context, List<Event> EventsManagementList, List<Integer> selectedList) {
+    public ManageEventsAdapter(Context context, List<Event> EventsManagementList, List<Integer> selectedList, mOnItemClickListener clickListener) {
         this.context = context;
         this.eventsManagementList = EventsManagementList;
         this.selectedList = selectedList;
+        this.OnItemClickListener = clickListener;
+    }
+
+    public interface mOnItemClickListener
+    {
+        void onItemClick(int position, int key);
     }
 
     @NonNull
@@ -74,7 +92,7 @@ public class ManageEventsAdapter
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(
                 R.layout.event_management_item, viewGroup, false);
-        ViewHolder emvh = new ViewHolder(v, context);
+        ViewHolder emvh = new ViewHolder(v, context, OnItemClickListener);
         return emvh;
     }
 
@@ -83,7 +101,7 @@ public class ManageEventsAdapter
 
         ToolFunctions TF = new ToolFunctions();
 
-        final ManageEventModel item = new ManageEventModel(eventsManagementList.get(i));
+        item = new ManageEventModel(eventsManagementList.get(i));
         viewHolder.nameTextView.setText(TF.textDecoder(item.getEventName()));
         viewHolder.descriptionTextView.setText(TF.textDecoder(item.getEventDescription()));
         viewHolder.activationSwitch.setChecked(item.eventIsActivated());
@@ -104,17 +122,18 @@ public class ManageEventsAdapter
             }
         });
 
-        viewHolder.infoLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent startEventSetup = new Intent(context, EventSetupActivity.class);
-                startEventSetup.putExtra(
-                        "MODIFY_EVENT", item.getEventID()/*viewHolder.nameTextView.getText().toString()*/);
-                ((Activity)context).startActivity(
-                        startEventSetup);
-                notifyDataSetChanged();
-            }
-        });
+
+//        viewHolder.infoLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Intent startEventSetup = new Intent(context, EventSetupActivity.class);
+////                startEventSetup.putExtra(
+////                        "MODIFY_EVENT", item.getEventID()/*viewHolder.nameTextView.getText().toString()*/);
+////                ((Activity)context).startActivity(
+////                        startEventSetup);
+////                notifyDataSetChanged();
+//            }
+//        });
 
     }
 
