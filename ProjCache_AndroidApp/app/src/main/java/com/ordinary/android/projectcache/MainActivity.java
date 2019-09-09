@@ -148,8 +148,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_createEvent) {
             Intent startEventSetup =
                     new Intent(MainActivity.this, EventSetupActivity.class);
-            startEventSetup.putExtra("EVENT_FILE",eventsFile);
+            startEventSetup.putExtra("EVENT_FILE", eventsFile);
             startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
+        } else if (id == R.id.app_setting) {
+
         } else if (id == R.id.nav_about) {
             //** put our link here "https://www.ordinary.com
         } else if (id == R.id.nav_account) {

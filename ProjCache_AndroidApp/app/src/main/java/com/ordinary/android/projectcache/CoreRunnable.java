@@ -89,7 +89,7 @@ public class CoreRunnable implements Runnable {
                     deleteFromRunning.add(i);
                     CoreTasksExecutor executor = new CoreTasksExecutor(context, event);
                     executor.finishThisEvent();
-                }// TODO: 2019-09-08 检查为什么Event结束的时候不会发生结束的action
+                }
             }
             for (Integer i : deleteFromRunning) {
                 runningEventsID.remove(Integer.valueOf(i));
