@@ -202,7 +202,6 @@ public class EventSetupPage1Fragment
             } else
                 result = newTimeString.toString();
 
-
             if (!editMode) {
                 conditionsArrList.add(new TypeValueObjectModel(
                         "Time",
