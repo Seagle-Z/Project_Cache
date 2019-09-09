@@ -120,6 +120,17 @@ public class ToolFunctions {
         listView.requestLayout();
     }
 
+    public String encodedArrayToString(int[] arr) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            stringBuilder.append(Integer.toString(arr[i]));
+            if (i != arr.length - 1) {
+                stringBuilder.append("-");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     public int[] textEncoder(String inputString) {
         int[] asciiIntArray = new int[inputString.length()];
         for (int i = 0; i < inputString.length(); i++) {
