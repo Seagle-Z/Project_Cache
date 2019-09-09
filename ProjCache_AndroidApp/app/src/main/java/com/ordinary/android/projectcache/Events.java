@@ -98,7 +98,7 @@ public class Events extends AppCompatActivity {
         String[] tasksType = {"LAUNCH_APP"};
         String[] tasksValue = {"com.google.android.youtube"};
 
-        return new Event(-1, "Default", "2019-08-09",
+        return new Event(-1, "68-101-102-97-117-108-116", "2019-08-09",
                 "21:46", -1,
                 null, null,
                 null, null,
@@ -107,7 +107,7 @@ public class Events extends AppCompatActivity {
                 null, null, null,
                 true, false,
                 false, true,
-                "This is Default event",
+                "84-104-105-115-32-105-115-32-68-101-102-97-117-108-116-32-101-118-101-110-116",
                 "" + R.drawable.ic_menu_send, null,
                 "DEFAULT", 0);
     }
