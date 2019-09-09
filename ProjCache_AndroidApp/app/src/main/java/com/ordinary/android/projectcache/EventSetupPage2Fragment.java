@@ -220,7 +220,6 @@ public class EventSetupPage2Fragment extends Fragment implements
 
     private void parseEventObj(String[] eventTasksType, String[] eventTaskValue, int code)
     {
-        System.out.println("checking point");
         for (int i = 0; i < eventTasksType.length; i++) {
             Intent data = new Intent();
             data.putExtra(eventTasksType[i], eventTaskValue[i]);
