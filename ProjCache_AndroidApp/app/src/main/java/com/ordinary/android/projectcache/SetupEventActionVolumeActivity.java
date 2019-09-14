@@ -258,7 +258,7 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
 
                 // return value
                 Intent intent = new Intent();
-                intent.putExtra("CHANGE_VOLUME", retValue);
+                intent.putExtra("VOLUME_CHANGE", retValue);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
             }
