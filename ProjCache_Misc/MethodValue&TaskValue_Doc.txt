@@ -116,7 +116,7 @@ tasksTypeStart                      tasksValueStart
 SCREEN_BRIGHTNESS|BROSE_URL         80|104-116-116-112-115-58-47-47-119-119-119-46-98-105-108-105-98-105-108-105-46-99-111-109
 
 
-VOLUME
+VOLUME_CHANGE
 Use "-" to separate stream(media), Ringtone, and Alarms
 From 0% to 100%
 Use only integer number without "%". Use "N" to indicate keep it without change.
