@@ -66,7 +66,8 @@ public class ManageEventsActivity
         eventsManagementRecyclerView = findViewById(R.id.eventsManagement_RecyclerView);
         eventsManagementRecyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
+        eventsManagementAdapter =
+                new ManageEventsAdapter(this, eventsList, selectedList, this);
 
         eventsManagementRecyclerView.setLayoutManager(layoutManager);
         eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
@@ -83,7 +84,13 @@ public class ManageEventsActivity
 
                 eventsManagementRecyclerView.setHasFixedSize(true);
                 layoutManager = new LinearLayoutManager(this);
-                eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
+                eventsManagementAdapter =
+                        new ManageEventsAdapter(
+                                this,
+                                eventsList,
+                                selectedList,
+                                this
+                        );
 
                 eventsManagementRecyclerView.setLayoutManager(layoutManager);
                 eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
@@ -116,12 +123,15 @@ public class ManageEventsActivity
                     deleteEvents();
                     events.updateByEventsCSV();
                     eventsList = events.getEventsList();
-                    eventsManagementAdapter = new ManageEventsAdapter(this, eventsList, selectedList, this);
+                    eventsManagementAdapter =
+                            new ManageEventsAdapter(
+                                    this,
+                                    eventsList,
+                                    selectedList,
+                                    this
+                            );
                     eventsManagementRecyclerView.setAdapter(eventsManagementAdapter);
                     eventsManagementAdapter.notifyDataSetChanged();
-//                    for (Integer i : selectedList) {
-//                        System.out.println("selectList 还有: " + i);
-//                    }
                     Toast.makeText(this, "Deleted", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -138,7 +148,8 @@ public class ManageEventsActivity
 
     @Override
     public void onItemClick(int position, int key) {
-        Intent startEventSetup = new Intent(ManageEventsActivity.this, EventSetupActivity.class);
+        Intent startEventSetup =
+                new Intent(ManageEventsActivity.this, EventSetupActivity.class);
         startEventSetup.putExtra("MODIFY_EVENT", key/*viewHolder.nameTextView.getText().toString()*/);
         startActivityForResult(startEventSetup, REQUEST_SETUP_CODE);
     }

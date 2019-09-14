@@ -27,7 +27,7 @@ public class Events extends AppCompatActivity {
     private List<Integer> activatedEventsIDList;     // store all eventID of activated events
 
 
-    //- Constructor -------------------------------------------------------------------------------*
+    //- Constructor --------------------------------------------------------------------------------*
     public Events(Context context) {
         File eventsFile = new File(context.getFilesDir(), EVENTS_FILE_NAME);
         this.context = context;
@@ -43,7 +43,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- constructor helper ------------------------------------------------------------------------*
+    //- constructor helper -------------------------------------------------------------------------*
     public void constructorHelper(Context inputContext, File inputEventsFile) {
 
         eventsList = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- events.csv constructor --------------------------------------------------------------------*
+    //- events.csv constructor ---------------------------------------------------------------------*
     private void constructEventsCSV() {
         try {
             FileOutputStream fos = null;
@@ -93,7 +93,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Initialize defaultEvent and put it into events.csv ----------------------------------------*
+    //- Initialize defaultEvent and put it into events.csv -----------------------------------------*
     private Event firstTimeInitializeDemoDefaultEvent() {
         String[] tasksType = {"LAUNCH_APP"};
         String[] tasksValue = {"com.google.android.youtube"};
@@ -107,33 +107,45 @@ public class Events extends AppCompatActivity {
                 null, null, null,
                 true, false,
                 false, true,
-                "84-104-105-115-32-105-115-32-68-101-102-97-117-108-116-32-101-118-101-110-116",
+                "84-104-105-115-32-105-115-32-68-101-102-97-" +
+                        "117-108-116-32-101-118-101-110-116",
                 "" + R.drawable.ic_menu_send, null,
                 "DEFAULT", 0);
     }
 
 
-    //- Add an Event to events.csv ----------------------------------------------------------------*
+    //- Add an Event to events.csv -----------------------------------------------------------------*
     private void addEventToCSV(Event newEvent) {
 
         try {
             FileOutputStream fos = null;
             fos = context.openFileOutput(eventsFile.getName(), context.MODE_APPEND);
 
-            String eventText = newEvent.eventID.toString() + ", " + nullOrString(newEvent.eventName) + ", " +
-                    nullOrString(newEvent.createDate) + ", " + nullOrString(newEvent.createTime) + ", " +
+            String eventText = newEvent.eventID.toString() + ", " +
+                    nullOrString(newEvent.eventName) + ", " +
+                    nullOrString(newEvent.createDate) + ", " +
+                    nullOrString(newEvent.createTime) + ", " +
                     nullOrString(newEvent.priorityLevel) + ", " +
-                    strArrJoiner(newEvent.triggerableDay) + ", " + strArrJoiner(newEvent.triggerableTime) + ", " +
-                    strArrJoiner(newEvent.triggerMethods) + ", " + strArrJoiner(newEvent.triggerValues) + ", " +
-                    strArrJoiner(newEvent.tasksTypeStart) + ", " + strArrJoiner(newEvent.tasksValueStart) + ", " +
-                    strArrJoiner(newEvent.tasksTypeEnd) + ", " + strArrJoiner(newEvent.tasksValueEnd) + ", " +
-                    strArrJoiner(newEvent.tasksTypeOngoing) + ", " + strArrJoiner(newEvent.tasksValueOngoing) + ", " +
+                    strArrJoiner(newEvent.triggerableDay) + ", " +
+                    strArrJoiner(newEvent.triggerableTime) + ", " +
+                    strArrJoiner(newEvent.triggerMethods) + ", " +
+                    strArrJoiner(newEvent.triggerValues) + ", " +
+                    strArrJoiner(newEvent.tasksTypeStart) + ", " +
+                    strArrJoiner(newEvent.tasksValueStart) + ", " +
+                    strArrJoiner(newEvent.tasksTypeEnd) + ", " +
+                    strArrJoiner(newEvent.tasksValueEnd) + ", " +
+                    strArrJoiner(newEvent.tasksTypeOngoing) + ", " +
+                    strArrJoiner(newEvent.tasksValueOngoing) + ", " +
                     strArrJoiner(newEvent.tasksOngoingRepeatPeriod) + ", " +
-                    nullOrString(newEvent.instantEvent) + ", " + nullOrString(newEvent.oneTimeEvent) + ", " +
-                    nullOrString(newEvent.autoTrigger) + ", " + nullOrString(newEvent.isActivated) + ", " +
+                    nullOrString(newEvent.instantEvent) + ", " +
+                    nullOrString(newEvent.oneTimeEvent) + ", " +
+                    nullOrString(newEvent.autoTrigger) + ", " +
+                    nullOrString(newEvent.isActivated) + ", " +
                     nullOrString(newEvent.eventDescription) + ", " +
-                    nullOrString(newEvent.eventImage) + ", " + nullOrString(newEvent.eventColor) + ", " +
-                    nullOrString(newEvent.eventCategory) + ", " + nullOrString(newEvent.executedTimes) + "\n";
+                    nullOrString(newEvent.eventImage) + ", " +
+                    nullOrString(newEvent.eventColor) + ", " +
+                    nullOrString(newEvent.eventCategory) + ", " +
+                    nullOrString(newEvent.executedTimes) + "\n";
 
             fos.write(eventText.getBytes());
             fos.close();
@@ -189,7 +201,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Update eventsList and activatedEventsIDList by rescan events.csv --------------------------*
+    //- Update eventsList and activatedEventsIDList by rescan events.csv ---------------------------*
     public void updateByEventsCSV() {
         eventsList = new ArrayList<>();
         activatedEventsIDList = new ArrayList<>();
@@ -231,7 +243,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Refresh events.csv file by eventsList -----------------------------------------------------*
+    //- Refresh events.csv file by eventsList ------------------------------------------------------*
     private boolean refreshEventsCSV() {
         boolean deleted = eventsFile.delete();
         if (!deleted) {
@@ -248,7 +260,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Get Event methods -------------------------------------------------------------------------*
+    //- Get Event methods --------------------------------------------------------------------------*
     public Event getEventByID(Integer eventID) {
         for (Event e : eventsList) {
             if (e.eventID == eventID) {
@@ -282,7 +294,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Add Event methods -------------------------------------------------------------------------*
+    //- Add Event methods --------------------------------------------------------------------------*
     // Attention！ Add method will force to update events info by events.csv
     public boolean addEvent(Event newEvent) {
         updateByEventsCSV();
@@ -315,15 +327,16 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Delete Event methods ----------------------------------------------------------------------*
+    //- Delete Event methods -----------------------------------------------------------------------*
     // Attention！ Delete method will force to update events info by events.csv
     public boolean deleteEventByID(Integer eventID) {
         updateByEventsCSV();
 
         boolean found = false;
+        int deleteIndex = -1;
         for (int i = 0; i < eventsList.size(); i++) {
             if (eventsList.get(i).eventID == eventID) {
-                eventsList.remove(i);
+                deleteIndex = i;
                 found = true;
                 break;
             }
@@ -331,6 +344,7 @@ public class Events extends AppCompatActivity {
         if (!found) {
             return false;
         }
+        eventsList.remove(deleteIndex);
 
         activatedEventsIDList = new ArrayList<>();
         for (Event e : eventsList) {
@@ -345,12 +359,11 @@ public class Events extends AppCompatActivity {
     public boolean deleteEventByName(String eventName) {
         updateByEventsCSV();
 
-        Integer eventID = -999;
         boolean found = false;
+        int deleteIndex = -1;
         for (int i = 0; i < eventsList.size(); i++) {
             if (eventsList.get(i).eventName.equals(eventName)) {
-                eventID = eventsList.get(i).eventID;
-                eventsList.remove(i);
+                deleteIndex = i;
                 found = true;
                 break;
             }
@@ -358,6 +371,7 @@ public class Events extends AppCompatActivity {
         if (!found) {
             return false;
         }
+        eventsList.remove(deleteIndex);
 
         activatedEventsIDList = new ArrayList<>();
         for (Event e : eventsList) {
@@ -370,7 +384,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Modify Event methods ----------------------------------------------------------------------*
+    //- Modify Event methods -----------------------------------------------------------------------*
     // Attention！ Modify method will force to update events info by events.csv
     public boolean modifyEventByID(Integer eventID, Event event) {
         updateByEventsCSV();
@@ -411,7 +425,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Update Event Activation Status methods ----------------------------------------------------*
+    //- Update Event Activation Status methods -----------------------------------------------------*
     // Attention！ Update Event Activation Status will force to update events info by events.csv
     public boolean updateEventActivationStatus(Integer eventID, boolean status) {
         for (Event e : eventsList) {
@@ -450,7 +464,7 @@ public class Events extends AppCompatActivity {
     }
 
 
-    //- Parsing method ----------------------------------------------------------------------------*
+    //- Parsing method -----------------------------------------------------------------------------*
     private Event parseEventData(String line) {
         // take the whole line
         String[] data = line.split(", ");

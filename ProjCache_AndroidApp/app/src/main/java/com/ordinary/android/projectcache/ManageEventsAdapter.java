@@ -26,10 +26,10 @@ public class ManageEventsAdapter
     private List<Integer> selectedList;
     private mOnItemClickListener OnItemClickListener;
     private ManageEventModel item;
-    private int eventID;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        public Integer curEventID;
         public TextView nameTextView;
         public TextView descriptionTextView;
         public Switch activationSwitch;
@@ -80,6 +80,7 @@ public class ManageEventsAdapter
         this.eventsManagementList = EventsManagementList;
         this.selectedList = selectedList;
         this.OnItemClickListener = clickListener;
+
     }
 
     public interface mOnItemClickListener
@@ -102,38 +103,32 @@ public class ManageEventsAdapter
         ToolFunctions TF = new ToolFunctions();
 
         item = new ManageEventModel(eventsManagementList.get(i));
+        viewHolder.curEventID = item.getEventID();
         viewHolder.nameTextView.setText(TF.textDecoder(item.getEventName()));
         viewHolder.descriptionTextView.setText(TF.textDecoder(item.getEventDescription()));
         viewHolder.activationSwitch.setChecked(item.eventIsActivated());
-        viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default/*item.getEventImage()*/);
+        if (!selectedList.contains(item.getEventID())) {
+            viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default/*item.getEventImage()*/);
+        } else {
+            viewHolder.eventImageView.setImageResource(R.drawable.icon_selected);
+        }
+        viewHolder.itemView.setBackgroundColor(
+                selectedList.contains(item.getEventID()) ? 0xffb3e5fc : Color.WHITE);
 
         viewHolder.eventImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!selectedList.contains(item.getEventID())) {
-                    selectedList.add(item.getEventID());
-                    viewHolder.eventImageView.setImageResource(R.drawable.icon_check);
+                if (!selectedList.contains(viewHolder.curEventID)) {
+                    selectedList.add(viewHolder.curEventID);
+                    viewHolder.eventImageView.setImageResource(R.drawable.icon_selected);
                 } else {
-                    selectedList.remove(Integer.valueOf(item.getEventID()));
+                    selectedList.remove(Integer.valueOf(viewHolder.curEventID));
                     viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);
                 }
                 viewHolder.itemView.setBackgroundColor(
-                        selectedList.contains(item.getEventName()) ? 0xffb3e5fc : Color.WHITE);
+                        selectedList.contains(viewHolder.curEventID) ? 0xffb3e5fc : Color.WHITE);
             }
         });
-
-
-//        viewHolder.infoLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                Intent startEventSetup = new Intent(context, EventSetupActivity.class);
-////                startEventSetup.putExtra(
-////                        "MODIFY_EVENT", item.getEventID()/*viewHolder.nameTextView.getText().toString()*/);
-////                ((Activity)context).startActivity(
-////                        startEventSetup);
-////                notifyDataSetChanged();
-//            }
-//        });
 
     }
 

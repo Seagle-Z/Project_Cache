@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 2019-08-30 检测程序有bug，有时候即使isActivated是true也不触发，有时候是false也会触发。
+// TODO: 2019-08-30 检测程序有bug，有时候即使isActivated是true也不触发，有时候是false也会触发。ch
 //  估计是runningEvengsID和activatedEventsID还有triggerableEventsID之间的问题
 
 public class CoreRunnable implements Runnable {
@@ -58,13 +58,13 @@ public class CoreRunnable implements Runnable {
              * 这样CoreRunnable就不需要一直读取csv文件了
              */
 
+
+            //- Update events list and info -------------------------------------------------------*
             if (true /* eventsListChanged */) {
                 events.updateByEventsCSV();
                 eventsList = events.getEventsList();
                 activatedEventsID = events.getActivatedEventsIDList();
 
-                // Check if there is any running events is turned off by user from management activity
-                // 用ID
                 List<Integer> deleteFromRunning = new ArrayList<>();
                 for (Integer i : runningEventsID) {
                     if (!activatedEventsID.contains(i)) {
@@ -77,6 +77,7 @@ public class CoreRunnable implements Runnable {
 
             }
 
+            //- Inspect conditions ----------------------------------------------------------------*
             CoreConditionInspector inspector = new CoreConditionInspector(context, events);
             conditionMatchedEventsID = inspector.getTriggerableEventsID();
 
@@ -115,8 +116,6 @@ public class CoreRunnable implements Runnable {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-
 
                     // In case needed, change the OnPageChangeListener
                     coreViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
