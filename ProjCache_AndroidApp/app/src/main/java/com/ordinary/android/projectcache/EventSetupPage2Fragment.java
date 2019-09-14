@@ -301,8 +301,8 @@ public class EventSetupPage2Fragment extends Fragment implements
             editingHashtable.put("SCREEN_BRIGHTNESS#Screen Brightness", intent.getStringExtra("SCREEN_BRIGHTNESS"));
         }
 
-        if (intent.hasExtra("CHANGE_VOLUME")) {
-            String result = parseVolume(intent.getStringExtra("CHANGE_VOLUME"));
+        if (intent.hasExtra("VOLUME_CHANGE")) {
+            String result = parseVolume(intent.getStringExtra("VOLUME_CHANGE"));
             if (!editMode)
                 editingList.add(
                         new TypeValueObjectModel(
@@ -320,7 +320,7 @@ public class EventSetupPage2Fragment extends Fragment implements
                                 getResources().getDrawable(R.drawable.icon_action_volume)
                         )
                 );
-            editingHashtable.put("CHANGE_VOLUME#Volume Change", intent.getStringExtra("CHANGE_VOLUME"));
+            editingHashtable.put("VOLUME_CHANGE#Volume Change", intent.getStringExtra("VOLUME_CHANGE"));
         }
 
         if (intent.hasExtra("BROWSE_URL")) {
@@ -387,7 +387,7 @@ public class EventSetupPage2Fragment extends Fragment implements
                     getContext(),
                     SetupEventActionVolumeActivity.class
             );
-            intent.putExtra("RETRIEVE", map.get("CHANGE_VOLUME#Volume Change"));
+            intent.putExtra("RETRIEVE", map.get("VOLUME_CHANGE#Volume Change"));
         } else if (list.get(position).getTypename().equalsIgnoreCase("Open a Web Link")) {
             intent = new Intent(
                     getContext(),

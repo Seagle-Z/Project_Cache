@@ -70,7 +70,7 @@ public class CoreTasksExecutor {
                 taskCaseSCREEN_BRIGHTNESS(taskValue);
                 break;
 
-            case "VOLUME":
+            case "VOLUME_CHANGE":
                 taskCaseVOLUME_STREAM(taskValue);
                 break;
 
