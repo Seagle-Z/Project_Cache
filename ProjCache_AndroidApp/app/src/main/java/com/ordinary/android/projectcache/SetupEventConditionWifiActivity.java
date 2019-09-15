@@ -164,6 +164,13 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
 
                 selectedWIFIAdap.notifyDataSetChanged();
             }
+            else
+            {
+                editMode = false;
+
+                intent = new Intent(wifi_picker_context, WIFISelectorActivity.class);
+                startActivityForResult(intent, WIFI_PICKING_CODE);
+            }
         } catch (NullPointerException e) {
         }
 
@@ -236,7 +243,7 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                 this, Manifest.permission.ACCESS_FINE_LOCATION) ) {
             new AlertDialog.Builder(this)
                     .setTitle("Permission needed")
-                    .setMessage("This Permission is needed")
+                    .setMessage("This Permission is for application to WIFI connection")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -251,8 +258,10 @@ public class SetupEventConditionWifiActivity extends AppCompatActivity implement
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            finish();
                         }
                     })
+                    .setCancelable(false)
                     .create().show();
         } else {
             ActivityCompat.requestPermissions(

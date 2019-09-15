@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -88,9 +87,14 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
             if (intent.hasExtra("RETRIEVE")) {
                 parseRetrievalData(intent);
             }
+            else
+            {
+                intent = new Intent(date_time_picker_Context, TimeSelectorActivity.class);
+                startActivityForResult(intent, TIME_PICKING_CODE);
+                editMode = false;
+            }
         } catch (NullPointerException e) {
         }
-
 
         //Calls the TimeSelectorActivity class to pick time
         timeButton.setOnClickListener(new View.OnClickListener() {
@@ -455,19 +459,19 @@ public class SetupEventConditionDateTimeActivity extends AppCompatActivity
     @Override
     public void getIntent(int position) {
         Toast.makeText(
-                        date_time_picker_Context,
-                        "Edit",
-                        Toast.LENGTH_LONG).show();
-                Intent intent =
-                        new Intent(
-                                SetupEventConditionDateTimeActivity.this,
-                                TimeSelectorActivity.class
-                        );
+                date_time_picker_Context,
+                "Edit",
+                Toast.LENGTH_LONG).show();
+        Intent intent =
+                new Intent(
+                        SetupEventConditionDateTimeActivity.this,
+                        TimeSelectorActivity.class
+                );
 
-                //Pack the value that selected from the list and send to TimeSelectorActivity
-                intent.putExtra("RETRIEVE", selectedTimeValue.get(position));
-                selectedEditPosition = position;
-                startActivityForResult(intent, TIME_PICKING_CODE);
-                editMode = true;
+        //Pack the value that selected from the list and send to TimeSelectorActivity
+        intent.putExtra("RETRIEVE", selectedTimeValue.get(position));
+        selectedEditPosition = position;
+        startActivityForResult(intent, TIME_PICKING_CODE);
+        editMode = true;
     }
 }

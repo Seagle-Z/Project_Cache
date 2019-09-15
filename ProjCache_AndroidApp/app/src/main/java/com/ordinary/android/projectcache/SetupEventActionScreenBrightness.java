@@ -2,6 +2,7 @@ package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,7 +66,10 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                             finish();
                         }
                     });
-            RequestPermissionDialog.show();
+            RequestPermissionDialog.setCancelable(false);
+            Dialog dialog = RequestPermissionDialog.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         }
 
         try {
@@ -145,7 +149,10 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                     finish();
                 }
             });
-            Error.show();
+
+            Dialog dialog = Error.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         }
     }
 }
