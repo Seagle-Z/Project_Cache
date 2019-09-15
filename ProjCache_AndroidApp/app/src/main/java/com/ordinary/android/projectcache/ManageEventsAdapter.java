@@ -71,7 +71,7 @@ public class ManageEventsAdapter
 
         @Override
         public void onClick(View v) {
-            mListener.onItemClick(getAdapterPosition(), item.getEventID());
+            mListener.onItemClick(getAdapterPosition(), curEventID);
         }
     }
 
