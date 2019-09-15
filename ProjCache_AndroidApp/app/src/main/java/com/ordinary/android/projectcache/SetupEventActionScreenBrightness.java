@@ -149,7 +149,7 @@ public class SetupEventActionScreenBrightness extends AppCompatActivity {
                     finish();
                 }
             });
-
+            Error.setCancelable(false);
             Dialog dialog = Error.create();
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

@@ -383,7 +383,10 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
                     finish();
                 }
             });
-            Error.show();
+            Error.setCancelable(false);
+            Dialog dialog = Error.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         }
     }
 
