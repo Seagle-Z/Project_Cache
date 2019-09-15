@@ -118,8 +118,10 @@ public class EventSetupPage2Fragment extends Fragment implements
         forward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(startActionList.size() != 0 || ongoingActionList.size() != 0 || endActionList.size() != 0)
+                if(startActionList.size() != 0 || ongoingActionList.size() != 0 || endActionList.size() != 0) {
                     viewPager.setCurrentItem(2);
+                    updateEventObj();
+                }
                 else
                 {
                     AlertDialog.Builder warning = new AlertDialog.Builder(getContext());
@@ -216,6 +218,8 @@ public class EventSetupPage2Fragment extends Fragment implements
             } catch (NullPointerException e) {
             }
         }
+        else
+            editMode = false;
     }
 
     private void parseEventObj(String[] eventTasksType, String[] eventTaskValue, int code)

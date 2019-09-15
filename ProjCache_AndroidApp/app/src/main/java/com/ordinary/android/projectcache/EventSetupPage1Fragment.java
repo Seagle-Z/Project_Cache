@@ -130,6 +130,7 @@ public class EventSetupPage1Fragment
             public void onClick(View v) {
                 if (!conditionsArrList.isEmpty()) {
                     viewPager.setCurrentItem(1);
+                    updateEventObj();
                 } else {
                     AlertDialog.Builder warning = new AlertDialog.Builder(getContext());
                     warning.setTitle("Warning");
@@ -155,6 +156,8 @@ public class EventSetupPage1Fragment
                 updateEventObj();
                 adapterForRecyclerView.notifyDataSetChanged();
             }
+            else
+                editMode = false;
         } catch (NullPointerException e) {
             editMode = false;
         }

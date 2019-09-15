@@ -42,7 +42,7 @@ public class SetupEventActionsSelectionActivity
         actions.put("LAUNCH_APP", LAUNCH_APP);
         actions.put("QR_CODE" , QR_CODE);
         actions.put("BROWSE_URL", BROWSE_URL);
-        actions.put("CHANGE_VOLUME" , CHANGE_VOLUME);
+        actions.put("VOLUME_CHANGE" , CHANGE_VOLUME);
         actions.put("SCREEN_BRIGHTNESS", BRIGHTNESS);
 
         actionRecyclerView = (RecyclerView) findViewById(R.id.action_types);
@@ -69,7 +69,7 @@ public class SetupEventActionsSelectionActivity
 
         actionArrList.add(
                 new TypeObjectModel(
-                        actions.get("CHANGE_VOLUME"),
+                        actions.get("VOLUME_CHANGE"),
                         getDrawable(R.drawable.icon_action_volume)));
 
         Intent intent = getIntent();
