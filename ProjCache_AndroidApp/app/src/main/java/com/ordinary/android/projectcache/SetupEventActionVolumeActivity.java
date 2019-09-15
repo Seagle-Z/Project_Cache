@@ -2,6 +2,7 @@ package com.ordinary.android.projectcache;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -109,35 +110,7 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
 
 
         //- Ask permission if needed --------------------------------------------------------------*
-        boolean settingsCanWrite = hasWriteSettingsPermission(currentContext);
-        // If do not have then open the Can modify system settings panel.
-        if (!settingsCanWrite) {
-            AlertDialog.Builder RequestPermissionDialog =
-                    new AlertDialog.Builder(currentContext);
-            RequestPermissionDialog.setTitle("Permission needed");
-            RequestPermissionDialog.setMessage(
-                    "To change volume, please allow app to modify system setting");
-            RequestPermissionDialog.setPositiveButton(
-                    "Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            changeWriteSettingsPermission(currentContext);
-                        }
-                    });
-            RequestPermissionDialog.setNegativeButton(
-                    "Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(
-                                    currentContext,
-                                    "Permission Denied",
-                                    Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-            RequestPermissionDialog.show();
-        }
+        checkPermission();
 
 
         //- Set Play Test switch listener ---------------------------------------------------------*
@@ -269,6 +242,8 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
         completeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Make sure the permission is granted
+                checkPermission();
 
                 // make sure the volume reset to original
                 resetVolume(audioManager);
@@ -342,6 +317,45 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
                 AudioManager.STREAM_MUSIC, originalVolumeValue, AudioManager.FLAG_SHOW_UI);
     }
 
+
+    //- Permission --------------------------------------------------------------------------------*
+    private boolean checkPermission() {
+        boolean settingsCanWrite = hasWriteSettingsPermission(currentContext);
+        // If do not have then open the Can modify system settings panel.
+        if (!settingsCanWrite) {
+            AlertDialog.Builder RequestPermissionDialog =
+                    new AlertDialog.Builder(currentContext);
+            RequestPermissionDialog.setTitle("Permission needed");
+            RequestPermissionDialog.setMessage(
+                    "To change volume, please allow app to modify system setting");
+            RequestPermissionDialog.setPositiveButton(
+                    "Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            changeWriteSettingsPermission(currentContext);
+                        }
+                    });
+            RequestPermissionDialog.setNegativeButton(
+                    "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(
+                                    currentContext,
+                                    "Permission Denied",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            //RequestPermissionDialog.show();
+            RequestPermissionDialog.setCancelable(false);
+            Dialog dialog = RequestPermissionDialog.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        }
+        return hasWriteSettingsPermission(currentContext);
+    }
+
     private boolean hasWriteSettingsPermission(Context context) {
         boolean ret = true;
         // Get the result from below code.
@@ -374,6 +388,7 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
     }
 
 
+    //- Testing sound thread ----------------------------------------------------------------------*
     class PlayShortSoundRunnable implements Runnable {
 
         int testVolume;
