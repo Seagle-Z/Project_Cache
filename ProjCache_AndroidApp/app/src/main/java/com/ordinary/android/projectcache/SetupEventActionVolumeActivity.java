@@ -1,13 +1,18 @@
 package com.ordinary.android.projectcache;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.Toast;
 
 public class SetupEventActionVolumeActivity extends AppCompatActivity {
 
@@ -44,10 +50,14 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
     private boolean changeRingtone;
     private boolean changeAlarms;
 
+    Context currentContext;
+    private final int REQUEST_PERMISSION_CODE = 1010;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_event_action_volume);
+        currentContext = SetupEventActionVolumeActivity.this;
 
         final AudioManager audioManager = (AudioManager)getSystemService(this.AUDIO_SERVICE);
         originalVolumeValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -96,6 +106,38 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
 
         //- Declare Complete button ---------------------------------------------------------------*
         completeButton = findViewById(R.id.complete_button);
+
+
+        //- Ask permission if needed --------------------------------------------------------------*
+        boolean settingsCanWrite = hasWriteSettingsPermission(currentContext);
+        // If do not have then open the Can modify system settings panel.
+        if (!settingsCanWrite) {
+            AlertDialog.Builder RequestPermissionDialog =
+                    new AlertDialog.Builder(currentContext);
+            RequestPermissionDialog.setTitle("Permission needed");
+            RequestPermissionDialog.setMessage(
+                    "To change volume, please allow app to modify system setting");
+            RequestPermissionDialog.setPositiveButton(
+                    "Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            changeWriteSettingsPermission(currentContext);
+                        }
+                    });
+            RequestPermissionDialog.setNegativeButton(
+                    "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(
+                                    currentContext,
+                                    "Permission Denied",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            RequestPermissionDialog.show();
+        }
 
 
         //- Set Play Test switch listener ---------------------------------------------------------*
@@ -300,6 +342,38 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
                 AudioManager.STREAM_MUSIC, originalVolumeValue, AudioManager.FLAG_SHOW_UI);
     }
 
+    private boolean hasWriteSettingsPermission(Context context) {
+        boolean ret = true;
+        // Get the result from below code.
+        ret = Settings.System.canWrite(context);
+        return ret;
+    }
+
+    private void changeWriteSettingsPermission(Context context) {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+        ((Activity)context).startActivityForResult(intent, REQUEST_PERMISSION_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(!Settings.System.canWrite(currentContext))
+        {
+            AlertDialog.Builder Error = new AlertDialog.Builder(currentContext);
+            Error.setTitle("Error");
+            Error.setMessage("User permission is not granted");
+            Error.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            Error.show();
+        }
+    }
+
+
     class PlayShortSoundRunnable implements Runnable {
 
         int testVolume;
@@ -313,6 +387,8 @@ public class SetupEventActionVolumeActivity extends AppCompatActivity {
             playTestingSound(testVolume);
         }
     }
+
+
 }
 
 
