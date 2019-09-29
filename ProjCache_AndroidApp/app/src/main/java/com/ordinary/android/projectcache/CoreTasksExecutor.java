@@ -107,12 +107,26 @@ public class CoreTasksExecutor {
 
     private void taskCaseVOLUME_STREAM(String taskValue) {
         String[] volumes = taskValue.split("-");
-        AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
-        double maxVolume = (double)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        double inputVolume = (double)Integer.parseInt(volumes[0]);
-        int toVolume = (int) (inputVolume / 100.00 * maxVolume);
-        System.out.println("toVolume: " + toVolume);
-        audioManager.setStreamVolume(
-                AudioManager.STREAM_MUSIC, toVolume, AudioManager.FLAG_SHOW_UI);
+
+        // Change Media Stream volume
+        if (volumes[0] != "N") {
+            AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+            double maxVolume = (double)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            double inputVolume = (double)Integer.parseInt(volumes[0]);
+            int toVolume = (int) (inputVolume / 100.00 * maxVolume);
+            System.out.println("toVolume: " + toVolume);
+            audioManager.setStreamVolume(
+                    AudioManager.STREAM_MUSIC, toVolume, AudioManager.FLAG_SHOW_UI);
+        }
+
+        // Change Ringtone volume
+        if (volumes[1] != "N") {
+
+        }
+
+        // Change Alarm volume
+        if (volumes[2] != "N") {
+
+        }
     }
 }

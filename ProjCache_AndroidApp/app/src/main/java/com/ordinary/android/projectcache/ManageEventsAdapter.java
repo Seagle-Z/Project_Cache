@@ -130,6 +130,23 @@ public class ManageEventsAdapter
             }
         });
 
+        viewHolder.infoLayout.setLongClickable(true);
+        viewHolder.infoLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!selectedList.contains(viewHolder.curEventID)) {
+                    selectedList.add(viewHolder.curEventID);
+                    viewHolder.eventImageView.setImageResource(R.drawable.icon_selected);
+                } else {
+                    selectedList.remove(Integer.valueOf(viewHolder.curEventID));
+                    viewHolder.eventImageView.setImageResource(R.drawable.icon_event_default);
+                }
+                viewHolder.itemView.setBackgroundColor(
+                        selectedList.contains(viewHolder.curEventID) ? 0xffb3e5fc : Color.WHITE);
+                return true;
+            }
+        });
+
     }
 
     @Override

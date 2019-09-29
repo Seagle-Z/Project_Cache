@@ -5,10 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+#09/28/2019
+    #[b_jx]
+        1. Added long click to select event in ManegeEvent activity.
+        2. Fixed bug about volume change executor.
+
+#09/22/2019
+    #[b_jx]
+        1. The first inernal test version(version code 2) published on Google Play internal test
+        2. ProjectCache_Release floder added. Used for store release APK and related file. 
+
 #09/14/2019
     #[b_jx]
          1. Volume action setup permission added
-         2. Event modify not match the event choose bug fixed 
+         2. Event modify not match the event choose bug fixed
 
 #09/13/2019
     #[b_jx]
