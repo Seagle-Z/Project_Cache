@@ -129,9 +129,7 @@ public class ManageEventsAdapter
                         selectedList.contains(viewHolder.curEventID) ? 0xffb3e5fc : Color.WHITE);
             }
         });
-
-<<<<<<< HEAD
-=======
+        
         viewHolder.infoLayout.setLongClickable(true);
         viewHolder.infoLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -148,8 +146,6 @@ public class ManageEventsAdapter
                 return true;
             }
         });
-
->>>>>>> develop
     }
 
     @Override
