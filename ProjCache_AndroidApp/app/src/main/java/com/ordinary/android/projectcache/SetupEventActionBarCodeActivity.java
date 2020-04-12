@@ -8,25 +8,31 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+
+import com.google.zxing.*;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcodeDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 
 public class SetupEventActionBarCodeActivity extends AppCompatActivity {
-
     private Button albumButton, cameraScannerButton, completeButton;
     private Context display_barcode_context;
     private ImageView barcodeImage;
@@ -50,7 +56,6 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
         cameraScannerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 
@@ -60,7 +65,10 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), BARCODE_IMAGE_REQUEST_CODE);
+                startActivityForResult(
+                        Intent.createChooser(
+                                intent, "Select Picture"), BARCODE_IMAGE_REQUEST_CODE
+                );
             }
         });
 
@@ -83,36 +91,94 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
         }
     }
 
-    private void barcodeChecking(InputStream is)
-    {
+    private void barcodeChecking(InputStream is) {
+
         final Bitmap barcode = BitmapFactory.decodeStream(is);
-        //final Bitmap barcode = TF.imageCompression(display_barcode_context,is);
-        final FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(barcode);
-        FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance().getVisionBarcodeDetector();
-        detector.detectInImage(image).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
-            @Override
-            public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
-                if(firebaseVisionBarcodes.size() < 1)
-                {
-                    final AlertDialog.Builder failure = new AlertDialog.Builder(display_barcode_context);
-                    failure.setTitle("Scan Failure");
-                    failure.setMessage(
-                            "No barcode detected in this image. " +
-                                    "Barcode might not be presented or clear");
-                    failure.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    failure.show();
+        int[] intArray = new int[barcode.getWidth() * barcode.getHeight()];
+        barcode.getPixels(intArray, 0, barcode.getWidth(), 0, 0, barcode.getWidth(), barcode.getHeight());
+        LuminanceSource source = new RGBLuminanceSource(barcode.getWidth(), barcode.getHeight(), intArray);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+        Reader reader = new MultiFormatReader();
+        try {
+            Result result = reader.decode(bitmap);
+            System.out.println(result.getText());
+            barcodeImage.setImageBitmap(barcode);
+            completeButton.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            Log.d("QRtest", "Can't detect");
+            final AlertDialog.Builder failure = new AlertDialog.Builder(display_barcode_context);
+            failure.setTitle("Scan Failure");
+            failure.setMessage(
+                    "No barcode detected in this image. " +
+                            "Barcode might not be presented or clear");
+            failure.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    barcodeImage.setImageBitmap(null);
                     completeButton.setVisibility(View.INVISIBLE);
                 }
-                else {
-                    barcodeImage.setImageBitmap(barcode);
-                    completeButton.setVisibility(View.VISIBLE);
-                };
-            }
-        });
+            });
+            failure.show();
+        }
+//        final Bitmap barcode = TF.imageCompression(display_barcode_context,is);
+//        final FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(barcode);
+//        FirebaseVisionBarcodeDetector detector = FirebaseVision.getInstance().getVisionBarcodeDetector();
+//        detector.detectInImage(image).addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
+//            @Override
+//            public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
+//                if(firebaseVisionBarcodes.size() < 1)
+//                {
+//                    final AlertDialog.Builder failure = new AlertDialog.Builder(display_barcode_context);
+//                    failure.setTitle("Scan Failure");
+//                    failure.setMessage(
+//                            "No barcode detected in this image. " +
+//                                    "Barcode might not be presented or clear");
+//                    failure.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//                    failure.show();
+//                    completeButton.setVisibility(View.INVISIBLE);
+//                }
+//                else {
+//                    barcodeImage.setImageBitmap(barcode);
+//                    completeButton.setVisibility(View.VISIBLE);
+//                };
+//            }
+//        });
+
     }
+
+//    private void barcodeChecking(Bitmap barcode) {
+//        int[] intArray = new int[barcode.getWidth() * barcode.getHeight()];
+//        barcode.getPixels(intArray, 0, barcode.getWidth(), 0, 0, barcode.getWidth(), barcode.getHeight());
+//        LuminanceSource source = new RGBLuminanceSource(barcode.getWidth(), barcode.getHeight(), intArray);
+//        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+//        Reader reader = new MultiFormatReader();
+//        try {
+//            Result result = reader.decode(bitmap);
+//            System.out.println(result.getText());
+//            barcodeImage.setImageBitmap(barcode);
+//            completeButton.setVisibility(View.VISIBLE);
+//        } catch (Exception e) {
+//            Log.d("QRtest", "Can't detect");
+//            final AlertDialog.Builder failure = new AlertDialog.Builder(display_barcode_context);
+//            failure.setTitle("Scan Failure");
+//            failure.setMessage(
+//                    "No barcode detected in this image. " +
+//                            "Barcode might not be presented or clear");
+//            failure.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                    barcodeImage.setImageBitmap(null);
+//                    completeButton.setVisibility(View.INVISIBLE);
+//                }
+//            });
+//            failure.show();
+//        }
+//    }
 }

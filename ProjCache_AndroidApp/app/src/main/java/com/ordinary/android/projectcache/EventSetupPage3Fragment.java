@@ -95,7 +95,8 @@ public class EventSetupPage3Fragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 //ABC-> [65,66,67] -> "65-66-67"
-                event.eventName = TF.encodedArrayToString(TF.textEncoder(s.toString()));
+                if(s.toString().trim().length() != 0)
+                    event.eventName = TF.encodedArrayToString(TF.textEncoder(s.toString()));
             }
         });
 
@@ -137,10 +138,10 @@ public class EventSetupPage3Fragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().trim().length() == 0)
-                    complete.setEnabled(false);
-                else
-                    complete.setEnabled(true);
+//                if (s.toString().trim().length() == 0)
+//                    complete.setEnabled(false);
+//                else
+//                    complete.setEnabled(true);
             }
 
             @Override
@@ -152,18 +153,25 @@ public class EventSetupPage3Fragment extends Fragment {
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Events events = new Events(eventSetupPageAdapter.getContext());
-                if(!p1.eventModify) {
-                    events.addEvent(event);
-                    Toast.makeText(getContext(),"Event Created", Toast.LENGTH_SHORT).show();
+                if(event.eventName != null) {
+                    Events events = new Events(eventSetupPageAdapter.getContext());
+                    if (!p1.eventModify) {
+                        events.addEvent(event);
+                        Toast.makeText(getContext(), "Event Created", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        events.modifyEventByID(event.eventID, event);
+                        Toast.makeText(getContext(), "Event Updated", Toast.LENGTH_SHORT).show();
+                    }
+
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
                 }
-                else {
-                    events.modifyEventByID(event.eventID, event);
-                    Toast.makeText(getContext(), "Event Updated", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    Toast.makeText(getContext(), "Please add name", Toast.LENGTH_SHORT).show();
                 }
 
-                getActivity().setResult(Activity.RESULT_OK);
-                getActivity().finish();
             }
         });
 
