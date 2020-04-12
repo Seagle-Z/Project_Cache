@@ -44,7 +44,7 @@ public class SetupEventActionBarCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_event_action_show_bar_code);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         display_barcode_context = SetupEventActionBarCodeActivity.this;
 
         cameraScannerButton = (Button) findViewById(R.id.scanner_barcode_with_camera);

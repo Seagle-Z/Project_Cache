@@ -58,6 +58,7 @@ public class EventSetupPage1Fragment
                 container,
                 false
         );
+
         forward = (Button) view.findViewById(R.id.page1Foward);
         viewPager = (CustomEventSetupViewPager) getActivity().findViewById(R.id.setup_viewPager);
         conditionRecyclerView = (RecyclerView) view.findViewById(R.id.typeValueObj_RecyclerView);

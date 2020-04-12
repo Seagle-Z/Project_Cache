@@ -40,9 +40,15 @@ public class SetupEventActionsSelectionActivity
         action_selection_context = SetupEventActionsSelectionActivity.this;
 
         actions.put("LAUNCH_APP", LAUNCH_APP);
+<<<<<<< HEAD
         actions.put("QR_CODE", QR_CODE);
         actions.put("BROWSE_URL", BROWSE_URL);
         actions.put("VOLUME_CHANGE", CHANGE_VOLUME);
+=======
+        actions.put("QR_CODE" , QR_CODE);
+        actions.put("BROWSE_URL", BROWSE_URL);
+        actions.put("VOLUME_CHANGE" , CHANGE_VOLUME);
+>>>>>>> develop
         actions.put("SCREEN_BRIGHTNESS", BRIGHTNESS);
 
         actionRecyclerView = (RecyclerView) findViewById(R.id.action_types);
@@ -118,10 +124,17 @@ public class SetupEventActionsSelectionActivity
                 break;
 
             case QR_CODE:
+<<<<<<< HEAD
                 intent = new Intent(
                         action_selection_context,
                         SetupEventActionBarCodeActivity.class);
                 //showAlertMessage();
+=======
+//                intent = new Intent(
+//                        action_selection_context,
+//                        SetupEventActionBarCodeActivity.class);
+                showAlertMessage();
+>>>>>>> develop
                 break;
 
             case BRIGHTNESS:
@@ -145,7 +158,11 @@ public class SetupEventActionsSelectionActivity
             default:
                 Log.d("", "No Item Selected");
         }
+<<<<<<< HEAD
         if (intent != null)
+=======
+        if(intent != null)
+>>>>>>> develop
             startActivityForResult(intent, REQUEST_SELECTION_LIST_CODE);
     }
 
